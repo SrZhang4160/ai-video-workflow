@@ -1,6 +1,6 @@
 # 碎片时间学 AI 工程 · 课程表
 
-One lesson = one 1-minute video. The Sunday batch takes the next 7 unchecked lessons in order.
+One lesson = one 1-minute video. The Friday batch takes the next 7 unchecked lessons in order.
 Mark `[x]` when a lesson has been drafted (the batch does this). Reorder or add lines freely; the batch only reads this file.
 If `notes/` has a fresh study note (last 7 days, not yet used), the batch may swap one lesson for a video on that note.
 
