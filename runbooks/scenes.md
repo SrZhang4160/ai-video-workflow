@@ -33,7 +33,7 @@ window.EPISODE = {
 
 - **Captions**: each page ≤ 18 Chinese characters and ≤ 70 English characters. The pair must say the same thing. The voice reads the pages back to back, so they must flow as speech.
 - `say_zh` / `say_en` (optional): what the voice should read when it differs from the caption, e.g. `C++` → `C加加`, `2015` → `二零一五`, `uv` → `U V`. The cloud AI voice mispronounces symbols, so spell them out here.
-- **One scene = one voice clip.** The voice file for scene k is `voice/<zh|en>/sKK.wav`.
+- **One caption page = one voice clip.** Pages are voiced separately (`voice/<lang>/sNN.ogg`, numbered across the episode), so the caption lands exactly on the voice and there is a pause between pages. English is paced slower on purpose (longer pauses and a 1.6 s hold after each scene, voice at 0.92× speed): keep English pages short and plain so viewers can read the visuals.
 
 ## Visuals: the stage
 `build()` draws into a 960 × 900 px stage (dark theme). Position with `class="r"` + `left/top/width/height` in px. Every top-level element you add with `H()` fades in, in the order added, so add things in the order the voice talks about them.
@@ -47,6 +47,16 @@ Helpers:
 | `code(src)` | syntax-highlighted code; `// comment` or `# comment` at end of line is dimmed. Put it in a `.card.mono` box |
 | `esc(s)` | escape `<` `>` `&` |
 | `LANG` | `'zh'` or `'en'` |
+
+**Make it lively: sync visuals to the voice.** Put attributes on the top-level element:
+| attribute | effect |
+|---|---|
+| `data-cap="k"` | appears when caption page k of this scene starts (0-based). Use this on almost everything. |
+| `data-delay="0.6"` | extra seconds after that |
+| `data-in="pop / left / right / drop / zoom / stamp / fade"` | entrance style (default: rises up). `stamp` for ✓ / ✗ / ×2 verdicts, `pop` for key items |
+| `data-move="dx,dy,dur"` | after entering, travel (e.g. a job card sliding into a queue) |
+| `data-shake="1"` | shake after entering (crash, error) |
+Extra helpers: `icon(name, size, color)` with check, cross, boom, gear, key, clock, rocket, box, retry, db, shield, card, user; `badge(text, color)`; `num(n)` (solution number); `src(name)` (small "from · AWS" source tag). Set `tag: ['', 'Backend · Reliability']` on the episode to replace the "Lesson N" tag (empty hides it). `episodes/li-deploy-background-jobs/episode.js` is the reference for an animated English explainer.
 
 Classes: `.card` (panel), `.mono`, `.h` (40px bold), `.s` (28px quiet), `.chip`, `.center` (flex center), colors `.acc` (orange accent) `.ok` (mint) `.blue` `.red` `.yel` `.q` (quiet); code tokens `.kw .ty .st .cm .nu`.
 CSS vars: `--bg --panel --line --ink --quiet --acc --acc2 --blue --red --yel`.

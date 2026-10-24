@@ -2,7 +2,7 @@
 
   python3 engine/export.py episodes/2026-10-26
 
-Writes  episodes/<id>/voice/zh.txt, en.txt   one line per scene (what to say) → for recording or CosyVoice
+Writes  episodes/<id>/voice/zh.txt, en.txt   one line per caption page (what to say) → for recording or CosyVoice
         build/<id>/doc.json                   the review-board document (merge with media fields before writing)
 """
 import json, os, sys
@@ -25,17 +25,20 @@ def main():
     meta = json.load(open(os.path.join(ep_dir, "meta.json")))
     ep = info(ep_dir)
     vdir = os.path.join(ep_dir, "voice"); os.makedirs(vdir, exist_ok=True)
-    for lang in ("zh", "en"):
-        sep = "" if lang == "zh" else " "
-        with open(os.path.join(vdir, f"{lang}.txt"), "w") as f:
-            for s in ep["scenes"]:
-                f.write(sep.join(c["say_" + lang] for c in s["caps"]).strip() + "\n")
+    for lang in ("zh", "en"):               # one line per caption page = one voice clip
+        lines = [(c.get("say_" + lang) or "").strip().replace("\n", " ") for s in ep["scenes"] for c in s["caps"]]
+        path = os.path.join(vdir, f"{lang}.txt")
+        if not any(lines):                   # e.g. an English-only LinkedIn episode
+            if os.path.exists(path): os.remove(path)
+            continue
+        open(path, "w").write("\n".join(lines) + "\n")
     doc = {
         "date": meta["date"], "lesson": ep["n"],
         "topic_zh": meta.get("topic_zh", ""), "topic_en": meta.get("topic_en", ""),
-        "title_zh": meta["captions"]["xhs"].get("title", meta.get("topic_zh", "")),
-        "title_en": meta["captions"]["linkedin"].get("title", meta.get("topic_en", "")),
-        "script": [{"zh": c["zh"], "en": c["en"]} for s in ep["scenes"] for c in s["caps"]],
+        "title_zh": meta["captions"].get("xhs", {}).get("title", meta.get("topic_zh", "")),
+        "title_en": meta["captions"].get("linkedin", {}).get("title", meta.get("topic_en", "")),
+        "platforms": meta.get("platforms", ["xhs", "douyin", "tiktok", "linkedin"]),
+        "script": [{"zh": c.get("zh") or "", "en": c["en"]} for s in ep["scenes"] for c in s["caps"]],
         "captions": meta["captions"],
     }
     out = os.path.join(ROOT, "build", eid); os.makedirs(out, exist_ok=True)

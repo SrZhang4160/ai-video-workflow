@@ -1,0 +1,12 @@
+{
+  "date": "TBD",
+  "platforms": ["linkedin"],
+  "topic_en": "Why deploys lose or repeat background jobs (and 4 fixes)",
+  "captions": {
+    "linkedin": {
+      "title": "Why deploys lose or repeat background jobs (and 4 fixes)",
+      "body": "Two things go wrong with background jobs during a deploy:\n1) Mixed versions: new code sends a job an old worker can't read.\n2) Duplicate effects: a worker charges a card, crashes before recording \"done\", and the retry charges again.\n\nGraceful shutdown helps planned deploys, but it doesn't fix either.\n\nWhat the public playbooks (AWS, GitLab, Sidekiq, Temporal) converge on:\n• Deploy support before behavior: workers that read old + new first, producers second\n• Put a version on every job; route incompatible ones to separate queues\n• Give every operation a stable ID, and skip it on retry if it's already done\n• Assume at-least-once, and keep old workers until old jobs drain\n\nVersioning stops incompatible execution. Idempotency stops repeated effects. You need both.\n\nHow does your team deploy workers?",
+      "tags": ["SoftwareEngineering", "DistributedSystems", "Backend", "Reliability"]
+    }
+  }
+}

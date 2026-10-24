@@ -79,28 +79,100 @@ function code(src) {
 const EP = window.EPISODE;
 const pick = (c) => Array.isArray(c) ? { zh: c[0], en: c[1] } : c;
 window.EP_INFO = () => EP.scenes.map(s => ({
-  title: s.title, caps: s.cap.map(pick).map(c => ({ zh: c.zh, en: c.en, say_zh: c.say_zh || c.zh, say_en: c.say_en || c.en }))
+  title: s.title, caps: s.cap.map(pick).map(c => ({ zh: c.zh || '', en: c.en, say_zh: c.say_zh || c.zh || '', say_en: c.say_en || c.en }))
 }));
 window.showScene = (i) => {
   st.innerHTML = '';
   const s = EP.scenes[i];
-  document.getElementById('tag').textContent = LANG === 'zh' ? `第 ${EP.n} 课` : `Lesson ${EP.n}`;
+  const tag = EP.tag ? T(EP.tag[0], EP.tag[1]) : (LANG === 'zh' ? `第 ${EP.n} 课` : `Lesson ${EP.n}`);
+  const tg = document.getElementById('tag'); tg.textContent = tag; tg.style.display = tag ? '' : 'none';
   document.getElementById('ttl').innerHTML = LANG === 'zh' ? `${s.title[0]}<small>${s.title[1]}</small>` : s.title[1];
   s.build();
   return st.children.length;
 };
-// element i starts fading in at schedule(D)[i]; each fade lasts FADE seconds
-window.FADE = 0.4;
-window.schedule = (D, N) => { const gap = Math.min(0.7, 0.6 * D / Math.max(N, 1)); return [...Array(N)].map((_, i) => 0.15 + i * gap); };
-window.setFrame = (t, D) => {
-  const els = [...st.children], sc = window.schedule(D, els.length);
+
+/* ---- timing & motion ----
+   Each top-level stage element animates in. Attributes on that element:
+     data-cap="k"        appear when caption page k (0-based, this scene) starts; default: spread evenly
+     data-delay="0.4"    extra seconds after that
+     data-in="fade|up|pop|left|right|zoom|stamp|drop"   entrance style (default up)
+     data-move="dx,dy,dur"  after entering, travel by (dx,dy) px over dur s (e.g. a job card sliding into a queue)
+     data-shake="1"      shake for 0.5 s after entering (crash, error)
+*/
+window.FADE = 0.45;
+const ease = l => 1 - Math.pow(1 - l, 3);
+const back = l => { const c = 1.9; return 1 + (c + 1) * Math.pow(l - 1, 3) + c * Math.pow(l - 1, 2); };
+function plan(D, capTimes) {
+  const els = [...st.children], N = els.length;
+  const gap = Math.min(0.9, 0.7 * D / Math.max(N, 1));
+  return els.map((e, i) => {
+    const d = e.dataset;
+    let t0 = d.cap !== undefined && capTimes && capTimes[+d.cap] !== undefined ? capTimes[+d.cap] + 0.1 : 0.15 + i * gap;
+    t0 += +(d.delay || 0);
+    let t1 = t0 + window.FADE;
+    if (d.move) t1 += +(d.move.split(',')[2] || 0.8);
+    if (d.shake) t1 += 0.5;
+    return [t0, t1];
+  });
+}
+window.schedule = (D, N, capTimes) => plan(D, capTimes);
+window.setFrame = (t, D, capTimes) => {
+  const els = [...st.children], P = plan(D, capTimes);
   els.forEach((e, i) => {
-    if (e.dataset.op === undefined) e.dataset.op = getComputedStyle(e).opacity;
-    const l = Math.min(1, Math.max(0, (t - sc[i]) / window.FADE)), k = 1 - Math.pow(1 - l, 3);
-    e.style.opacity = k * (+e.dataset.op);
-    e.style.transform = `translateY(${(1 - k) * 24}px)`;
+    const d = e.dataset;
+    if (d.op === undefined) d.op = getComputedStyle(e).opacity;
+    if (d.tf === undefined) d.tf = getComputedStyle(e).transform === 'none' ? '' : getComputedStyle(e).transform;
+    const t0 = P[i][0], l = Math.min(1, Math.max(0, (t - t0) / window.FADE)), k = ease(l);
+    let op = k, tf = '';
+    switch (d.in || 'up') {
+      case 'fade': break;
+      case 'pop': tf = `scale(${0.4 + 0.6 * back(l)})`; break;
+      case 'zoom': tf = `scale(${0.85 + 0.15 * k})`; break;
+      case 'left': tf = `translateX(${(1 - k) * -140}px)`; break;
+      case 'right': tf = `translateX(${(1 - k) * 140}px)`; break;
+      case 'drop': tf = `translateY(${(1 - k) * -90}px)`; break;
+      case 'stamp': tf = `scale(${1 + 1.2 * (1 - k)}) rotate(${(1 - k) * -18}deg)`; op = Math.min(1, l * 2); break;
+      default: tf = `translateY(${(1 - k) * 26}px)`;
+    }
+    let after = t - t0 - window.FADE;
+    if (d.move && after > 0) {
+      const [dx, dy, dur] = d.move.split(',').map(Number), m = ease(Math.min(1, after / (dur || 0.8)));
+      tf += ` translate(${dx * m}px, ${dy * m}px)`; after -= (dur || 0.8);
+    } else if (d.move && after <= 0) { /* not moved yet */ }
+    if (d.shake && after > 0 && after < 0.5) tf += ` translateX(${Math.sin(after * 60) * 10 * (1 - after / 0.5)}px)`;
+    e.style.opacity = op * (+d.op);
+    e.style.transform = (d.tf + ' ' + tf).trim();
   });
 };
+
+/* ---- lively building blocks ---- */
+const ICONS = {
+  check: '<path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>',
+  cross: '<path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>',
+  boom: '<path d="M12 2l2.2 5.6 5.8-2.4-2.6 5.6L22 13l-5.8 1.4 1.6 6-5-3.6L8 20.4l.6-6L2.8 13l5.4-2.2L5.6 5.2l5.6 2.4z" fill="currentColor"/>',
+  gear: '<path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zm8.5 4.6v-2.2l-2.3-.5a6.6 6.6 0 0 0-.7-1.6l1.3-2-1.6-1.6-2 1.3a6.6 6.6 0 0 0-1.6-.7L13.1 3.5h-2.2l-.5 2.3a6.6 6.6 0 0 0-1.6.7l-2-1.3-1.6 1.6 1.3 2a6.6 6.6 0 0 0-.7 1.6l-2.3.5v2.2l2.3.5c.2.6.4 1.1.7 1.6l-1.3 2 1.6 1.6 2-1.3c.5.3 1 .5 1.6.7l.5 2.3h2.2l.5-2.3c.6-.2 1.1-.4 1.6-.7l2 1.3 1.6-1.6-1.3-2c.3-.5.5-1 .7-1.6z" fill="currentColor"/>',
+  key: '<circle cx="8" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 12h9M18 12v3.5M21 12v2.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>',
+  clock: '<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>',
+  rocket: '<path d="M12 2.5c3.5 2 5 5.8 4.2 10l2.3 3.2-3 1.3-1.2-1.8h-4.6l-1.2 1.8-3-1.3 2.3-3.2C7 8.3 8.5 4.5 12 2.5z" fill="currentColor"/><circle cx="12" cy="9" r="1.8" fill="var(--bg)"/><path d="M10.5 18.5L12 22l1.5-3.5z" fill="var(--acc)"/>',
+  box: '<path d="M3.5 7.5L12 3l8.5 4.5v9L12 21l-8.5-4.5z M3.5 7.5L12 12l8.5-4.5 M12 12v9" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>',
+  retry: '<path d="M19 8a8 8 0 1 0 1 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M20 3v5.5h-5.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>',
+  db: '<ellipse cx="12" cy="6" rx="7.5" ry="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M4.5 6v12c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3V6M4.5 12c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3" fill="none" stroke="currentColor" stroke-width="2.2"/>',
+  shield: '<path d="M12 2.5l8 3v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10v-6z" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"/><path d="M8.5 12l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>',
+  card: '<rect x="2.5" y="5.5" width="19" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M2.5 10h19" stroke="currentColor" stroke-width="2.6"/>',
+  user: '<circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M4 21c0-4.4 3.6-7.5 8-7.5s8 3.1 8 7.5z" fill="currentColor"/>',
+};
+// icon(name, size px, color css)
+const icon = (n, size = 48, color = 'currentColor') =>
+  `<svg width="${size}" height="${size}" viewBox="0 0 24 24" style="color:${color};display:inline-block;vertical-align:middle">${ICONS[n] || ''}</svg>`;
+// pill badge, e.g. badge('v2', 'var(--blue)')
+const badge = (text, color = 'var(--acc)', size = 26) =>
+  `<span style="display:inline-block;font-family:JBM;font-weight:800;font-size:${size}px;color:var(--bg);background:${color};border-radius:10px;padding:2px 12px">${text}</span>`;
+// numbered step marker for solutions: num(1)
+const num = (n, color = 'var(--acc)') =>
+  `<span style="display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:${color};color:var(--bg);font-weight:900;font-size:32px;font-family:JBM">${n}</span>`;
+// small "source" tag for public references, e.g. src('AWS')
+const src = (name) => `<span style="font-size:22px;color:var(--quiet);border:1.5px solid var(--line);border-radius:999px;padding:3px 14px">${T('参考', 'from')} · ${name}</span>`;
+
 // caption: zh → Chinese line + English line; en → English line only. Shrinks to fit the caption box.
 window.setCap = (c) => {
   const A = document.getElementById('ca'), Bn = document.getElementById('cb'), box = document.getElementById('cap');

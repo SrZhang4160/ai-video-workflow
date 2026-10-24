@@ -5,7 +5,7 @@ Run with the CosyVoice environment's Python (local/voice_job.sh does this):
 
 Voice samples: ~/cosyvoice3/my_voice_<lang>.wav + .txt (exact transcript), falling back to my_voice.wav/.txt.
 Changing a sample re-voices that language for upcoming episodes.
-For each episodes/<date>/voice/{zh,en}.txt (one line per scene), writes voice/<lang>/sNN.ogg and records the
+For each episodes/<date>/voice/{zh,en}.txt (one line per caption page), writes voice/<lang>/sNN.ogg and records the
 line's hash in voice/<lang>/manifest.json. A clip is redone only when its line changed. Nearest air dates first;
 past episodes are skipped. A hand-recorded voice/<lang>/sNN.wav with no manifest entry is left alone.
 Loads the model only when there is work. Prints one line per clip.
@@ -15,6 +15,7 @@ import datetime, hashlib, json, os, sys, time
 REPO = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(__file__), ".."))
 CV = os.environ.get("COSYVOICE_DIR", os.path.expanduser("~/cosyvoice3"))
 LANGS = os.environ.get("VOICE_LANGS", "zh,en").split(",")
+SPEED = {"en": 0.92}          # English a little slower so viewers can follow
 
 
 def key(lang, line):
@@ -84,7 +85,8 @@ def main():
         t = time.time()
         voice, vtext, sig = sample(lang)
         wav = np.concatenate([c["tts_speech"].squeeze(0).cpu().numpy()
-                              for c in m.inference_zero_shot(line, say.PREFIX + vtext, voice, stream=False)])
+                              for c in m.inference_zero_shot(line, say.PREFIX + vtext, voice, stream=False,
+                                                             speed=SPEED.get(lang, 1.0))])
         os.makedirs(vdir, exist_ok=True)
         sf.write(os.path.join(vdir, sid + ".ogg"), wav, m.sample_rate, format="OGG", subtype="VORBIS")
         man = json.load(open(mpath)) if os.path.exists(mpath) else {}

@@ -30,7 +30,7 @@ def _model(lang):
             data_dir=f"{m}/espeak-ng-data", lang="en-us")
         tts = sherpa_onnx.OfflineTts(sherpa_onnx.OfflineTtsConfig(
             model=sherpa_onnx.OfflineTtsModelConfig(kokoro=cfg, num_threads=4), max_num_sentences=1))
-        out = (tts, 3, 1.0)
+        out = (tts, 3, 0.92)   # English a little slower
     _cache[lang] = out
     return out
 

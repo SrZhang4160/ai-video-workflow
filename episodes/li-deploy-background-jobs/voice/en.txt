@@ -1,0 +1,25 @@
+You ship a new release.
+A background job runs twice.
+Your customer gets charged twice.
+Problem one: during a deploy,
+old and new code run at the same time.
+New code sends a job that an old worker can't understand.
+Problem two: a worker finishes the work,
+crashes before it records "done",
+and the retry does it again.
+Graceful shutdown helps planned deploys.
+It can't stop crashes, or fix version mismatches.
+Fix one: deploy support before behavior.
+First, workers that understand old and new jobs.
+Then, let producers send the new format.
+Fix two: put a version on every job.
+Keep handlers for older versions,
+or route them to separate queues.
+Fix three: give each operation a stable ID.
+On retry, check the ID, and skip work that's already done.
+Fix four: assume every job can run twice.
+And keep old workers until the old jobs are gone.
+Versioning stops incompatible execution.
+Idempotency stops repeated effects.
+You need both.
+How does your team deploy workers?
