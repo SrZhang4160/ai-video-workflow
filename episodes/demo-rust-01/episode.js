@@ -89,7 +89,8 @@ for i in 0..3 { ... }`)}</div>`);
 
     { title: ['⑤ 进阶', '⑤ Advanced'],
       cap: [['最上面是进阶：', 'At the top: advanced topics.'],
-            ['迭代器、闭包、智能指针，还有并发和异步。', 'Iterators, closures, smart pointers, concurrency and async.']],
+            ['迭代器、闭包、智能指针，', 'Iterators, closures, smart pointers,'],
+            ['还有并发和异步。', 'concurrency and async.']],
       build() {
         [['迭代器', 'Iterators', 'v.iter().map(..)'], ['闭包', 'Closures', '|x| x + 1'], ['智能指针', 'Smart pointers', 'Box<T> · Rc<T>'], ['并发 · 异步', 'Concurrency · async', 'thread · async']]
           .forEach(([z, e, c], i) => H(`<div class="r card" style="left:${(i % 2) * 490}px;top:${20 + Math.floor(i / 2) * 370}px;width:470px;height:340px;padding:34px 30px;text-align:center">
