@@ -68,7 +68,7 @@ Layout rules: keep everything inside 0–960 × 0–900; minimum text 24px; don'
   "date": "2026-10-26",
   "topic_zh": "变量：let 和 mut", "topic_en": "Rust variables: let and mut",
   "captions": {
-    "xhs":      {"title": "≤20字，有钩子", "body": "3–5 行口语正文 + 一句互动提问", "tags": ["Rust", "编程入门", "AI工程师", "碎片时间学AI工程"]},
+    "xhs":      {"title": "≤20字，有钩子", "body": "3–5 行口语正文 + 一句互动提问", "tags": ["Rust", "编程入门", "AI工程师", "碎片时间学AI工程师"]},
     "douyin":   {"title": "≤30字", "body": "1–2 行", "tags": ["Rust", "编程", "程序员"]},
     "tiktok":   {"body": "1–2 short lines, hook first", "tags": ["rust", "coding", "learntocode", "programming"]},
     "linkedin": {"title": "short hook line", "body": "3–6 short lines: the idea, why it matters, one question to the reader", "tags": ["Rust", "SoftwareEngineering", "AIEngineering"]}

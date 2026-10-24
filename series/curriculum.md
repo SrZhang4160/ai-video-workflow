@@ -1,4 +1,4 @@
-# 碎片时间学 AI 工程 · 课程表
+# 每天1分钟，碎片时间学AI工程师 · 课程表
 
 One lesson = one 1-minute video. The Friday batch takes the next 7 unchecked lessons in order.
 Mark `[x]` when a lesson has been drafted (the batch does this). Reorder or add lines freely; the batch only reads this file.

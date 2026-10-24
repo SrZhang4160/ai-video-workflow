@@ -1,4 +1,6 @@
-# 碎片时间学 AI 工程：视频工作流
+# 每天1分钟，碎片时间学AI工程师：视频工作流
+
+Series name (use exactly): **每天1分钟，碎片时间学AI工程师**. Hashtag form: #碎片时间学AI工程师. It is the account/series name, not an on-screen label.
 
 A daily 1-minute teaching series. Same content on four platforms:
 
