@@ -1,0 +1,26 @@
+{
+  "date": "demo",
+  "topic_zh": "Rust 知识全景：五块知识怎么搭",
+  "topic_en": "The big picture of Rust in 5 blocks",
+  "captions": {
+    "xhs": {
+      "title": "学 Rust 不知道从哪开始？先看这张图",
+      "body": "Rust 其实就五块知识，一层一层往上搭：\n基础语法 → 所有权 → 数据建模 → 工程化 → 进阶\n最难也最重要的是所有权，基础可以快速过。\n你现在卡在哪一层？评论区告诉我～",
+      "tags": ["Rust", "编程入门", "程序员", "AI工程师", "碎片时间学AI工程"]
+    },
+    "douyin": {
+      "title": "一分钟看懂 Rust 学习路线",
+      "body": "五块知识，一层层往上搭，重点吃透所有权。",
+      "tags": ["Rust", "编程", "程序员"]
+    },
+    "tiktok": {
+      "body": "Learning Rust? It's really just 5 blocks. Master ownership, move fast on the rest.",
+      "tags": ["rust", "rustlang", "coding", "learntocode", "programming"]
+    },
+    "linkedin": {
+      "title": "Rust looks huge. It's really five blocks.",
+      "body": "Basics → ownership → data modeling → engineering → advanced.\nOwnership is the hardest and the most important; the basics go fast if you know Python.\nWhich block are you on right now?",
+      "tags": ["Rust", "SoftwareEngineering", "LearningInPublic"]
+    }
+  }
+}

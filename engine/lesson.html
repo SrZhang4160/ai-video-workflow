@@ -1,0 +1,114 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="node_modules/@fontsource/noto-sans-sc/500.css">
+<link rel="stylesheet" href="node_modules/@fontsource/noto-sans-sc/800.css">
+<style>
+@font-face{font-family:JBM;font-weight:500;src:url(node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2)}
+@font-face{font-family:JBM;font-weight:800;src:url(node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-800-normal.woff2)}
+:root{--bg:#0E1015;--panel:#181B22;--line:#2A2F3A;--ink:#ECEEF3;--quiet:#8B93A3;--acc:#FF8A4C;--acc2:#5BE7C4;--blue:#6EA8FF;--red:#FF6B6B;--yel:#FFD166}
+*{margin:0;box-sizing:border-box}
+html,body{background:var(--bg)}
+body{font-family:"Noto Sans SC";color:var(--ink);position:relative;overflow:hidden}
+.top{position:absolute;display:flex;align-items:center;gap:18px}
+.tag{font-size:26px;font-weight:800;color:var(--bg);background:var(--acc);border-radius:10px;padding:4px 14px;white-space:nowrap}
+.ttl{font-size:44px;font-weight:800;line-height:1.15}
+.ttl small{display:block;font-size:24px;font-weight:500;color:var(--quiet);margin-top:4px}
+#stage{position:absolute;width:960px;height:900px;transform-origin:0 0}
+.cap{position:absolute;text-align:center;display:flex;flex-direction:column;justify-content:flex-start}
+.cap .a{font-weight:800;line-height:1.3}
+.cap .b{font-weight:500;color:var(--quiet);margin-top:10px;line-height:1.3}
+/* layout per aspect ratio */
+body.r3x4{width:1080px;height:1440px}
+body.r3x4 .top{left:64px;right:64px;top:56px}
+body.r3x4 #stage{left:60px;top:200px}
+body.r3x4 .cap{left:50px;right:50px;top:1140px;height:270px}
+body.r9x16{width:1080px;height:1920px}
+body.r9x16 .top{left:64px;right:150px;top:220px}
+body.r9x16 #stage{left:60px;top:390px;transform:scale(.9)}
+body.r9x16 .cap{left:60px;right:150px;top:1235px;height:270px}
+body.r4x5{width:1080px;height:1350px}
+body.r4x5 .top{left:64px;right:64px;top:44px}
+body.r4x5 #stage{left:132px;top:175px;transform:scale(.85)}
+body.r4x5 .cap{left:50px;right:50px;top:985px;height:290px}
+/* building blocks for scenes */
+.mono{font-family:JBM,"Noto Sans SC"}
+.card{background:var(--panel);border:2px solid var(--line);border-radius:22px}
+.r{position:absolute}
+.h{font-size:40px;font-weight:800}.s{font-size:28px;color:var(--quiet);font-weight:500}
+.chip{display:inline-block;border:2px solid var(--line);border-radius:999px;padding:6px 18px;font-size:28px;margin:6px;color:var(--ink)}
+.acc{color:var(--acc)}.ok{color:var(--acc2)}.blue{color:var(--blue)}.red{color:var(--red)}.yel{color:var(--yel)}.q{color:var(--quiet)}
+.kw{color:#C792EA}.ty{color:#82AAFF}.st{color:#C3E88D}.cm{color:#6B7385}.nu{color:#F78C6C}.fn{color:#82AAFF}
+.center{display:flex;align-items:center;justify-content:center;text-align:center}
+</style></head><body>
+<div class="top"><span class="tag" id="tag"></span><div class="ttl" id="ttl"></div></div>
+<div id="stage"></div>
+<div class="cap" id="cap"><div class="a" id="ca"></div><div class="b" id="cb"></div></div>
+<script>
+const Q = new URLSearchParams(location.search);
+const RATIO = Q.get('ratio') || '3x4', LANG = Q.get('lang') || 'zh';
+document.body.className = 'r' + RATIO;
+const st = document.getElementById('stage');
+
+// ---- helpers available to episode scenes ----
+const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+// T: pick by language.  B: bilingual label (Chinese + small English) in zh, English only in en.
+const T = (zh, en) => LANG === 'zh' ? zh : en;
+const B = (zh, en, size) => LANG === 'zh'
+  ? `${zh} <span class="s" style="font-size:${size || 26}px">${en}</span>` : en;
+// H: add one element to the stage. Each top-level element fades in, in order.
+const H = html => { const d = document.createElement('div'); d.innerHTML = html.trim(); const e = d.firstElementChild; st.appendChild(e); return e; };
+// code: syntax-highlighted code text (Rust/Python/JS/TS/shell keywords). Comments with // or #.
+const KW = new Set('let mut fn if else for in while loop match return struct enum impl trait pub use mod self Self async await move ref const static where type def class import from as with try except raise lambda yield None True False and or not is pass function var new export interface extends'.split(' '));
+function code(src) {
+  return src.split('\n').map(line => {
+    const m = line.match(/^(.*?)(\s(\/\/|#)\s.*|^(\/\/|#)\s.*)?$/); // split trailing comment
+    let body = m ? m[1] : line, cm = m && m[2] ? m[2] : '';
+    if (/^\s*(\/\/|#)\s/.test(line)) { body = ''; cm = line; }
+    body = body.split(/("[^"]*"|'[^']*'|\b\d+(?:\.\d+)?\b|\b[A-Za-z_][A-Za-z0-9_]*\b)/).map(tok => {
+      if (!tok) return '';
+      if (/^["']/.test(tok)) return `<span class="st">${esc(tok)}</span>`;
+      if (/^\d/.test(tok)) return `<span class="nu">${tok}</span>`;
+      if (KW.has(tok)) return `<span class="kw">${tok}</span>`;
+      if (/^[A-Z][a-z0-9]/.test(tok) || /^(i32|u32|i64|u64|f64|usize|str|bool|int|float|dict|list)$/.test(tok)) return `<span class="ty">${tok}</span>`;
+      return esc(tok);
+    }).join('').replace(/^( +)/, s => '&nbsp;'.repeat(s.length));
+    return `<div>${body}${cm ? `<span class="cm">${esc(cm)}</span>` : ''}</div>`;
+  }).join('');
+}
+
+// ---- engine API used by render.py ----
+const EP = window.EPISODE;
+const pick = (c) => Array.isArray(c) ? { zh: c[0], en: c[1] } : c;
+window.EP_INFO = () => EP.scenes.map(s => ({
+  title: s.title, caps: s.cap.map(pick).map(c => ({ zh: c.zh, en: c.en, say_zh: c.say_zh || c.zh, say_en: c.say_en || c.en }))
+}));
+window.showScene = (i) => {
+  st.innerHTML = '';
+  const s = EP.scenes[i];
+  document.getElementById('tag').textContent = LANG === 'zh' ? `第 ${EP.n} 课` : `Lesson ${EP.n}`;
+  document.getElementById('ttl').innerHTML = LANG === 'zh' ? `${s.title[0]}<small>${s.title[1]}</small>` : s.title[1];
+  s.build();
+  return st.children.length;
+};
+// element i starts fading in at schedule(D)[i]; each fade lasts FADE seconds
+window.FADE = 0.4;
+window.schedule = (D, N) => { const gap = Math.min(0.7, 0.6 * D / Math.max(N, 1)); return [...Array(N)].map((_, i) => 0.15 + i * gap); };
+window.setFrame = (t, D) => {
+  const els = [...st.children], sc = window.schedule(D, els.length);
+  els.forEach((e, i) => {
+    if (e.dataset.op === undefined) e.dataset.op = getComputedStyle(e).opacity;
+    const l = Math.min(1, Math.max(0, (t - sc[i]) / window.FADE)), k = 1 - Math.pow(1 - l, 3);
+    e.style.opacity = k * (+e.dataset.op);
+    e.style.transform = `translateY(${(1 - k) * 24}px)`;
+  });
+};
+// caption: zh → Chinese line + English line; en → English line only. Shrinks to fit the caption box.
+window.setCap = (c) => {
+  const A = document.getElementById('ca'), Bn = document.getElementById('cb'), box = document.getElementById('cap');
+  if (!c) { A.textContent = ''; Bn.textContent = ''; return; }
+  A.textContent = LANG === 'zh' ? c.zh : c.en; Bn.textContent = LANG === 'zh' ? c.en : '';
+  let fa = LANG === 'zh' ? 50 : 46, fb = 31;
+  const fit = () => { A.style.fontSize = fa + 'px'; Bn.style.fontSize = fb + 'px'; return box.scrollHeight <= box.clientHeight + 1; };
+  while (!fit() && fa > 28) { fa -= 2; fb = Math.max(24, fb - 1); }
+};
+window.ready = true;
+</script></body></html>

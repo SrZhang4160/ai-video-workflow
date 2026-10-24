@@ -1,0 +1,23 @@
+rust's ɹ ˈ ʌ s t s
+that's ð ˈ æ t s
+catches k ˈ æ ʧ ᵻ z
+openai ˈ O p ᵊ n ˈ A ˌ I
+openai's ˈ O p ᵊ n ˈ A ˌ I z
+mozilla m O z ˈ ɪ l ə
+microsoft m ˈ I k ɹ O s ˌ ɔ f t
+agents ˈ A ʤ ᵊ n t s
+environments ə n v ˈ I ɹ ə n m ᵊ n t s
+evals ˈ i v æ l z
+here's h ˈ ɪ ɹ z
+optimizes ˈ ɑ p t ə m ˌ I z ᵻ z
+reports ɹ ə p ˈ ɔ ɹ t s
+requirements ɹ ə k w ˈ I ə ɹ m ᵊ n t s
+scenarios s ə n ˈ ɛ ɹ i O z
+workflows w ˈ ɜ ɹ k f l ˌ O z
+becomes b ə k ˈ ʌ m z
+regressions ɹ ə ɡ ɹ ˈ ɛ ʃ ə n z
+eval ˈ i v æ l
+struct s t ɹ ˈ ʌ k t
+structs s t ɹ ˈ ʌ k t s
+enum ˈ i n ʌ m
+enums ˈ i n ʌ m z

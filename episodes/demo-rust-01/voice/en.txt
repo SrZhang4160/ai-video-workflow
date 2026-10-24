@@ -1,0 +1,9 @@
+Want to learn Rust but not sure where to start? Let's look at the big picture first. It's really just five blocks, stacked one on another.
+At the bottom: the basics. Variables, functions, conditions, loops — if you know Python, this part goes fast.
+Layer two is ownership — the soul of Rust. Each value has one owner. To use it, borrow it. No garbage collector, and memory stays safe.
+Layer three: modeling your data. Structs describe data, enums list the possibilities, and traits define shared behavior.
+Layer four: real projects. Cargo runs the project, Result handles errors, and cargo test runs your tests.
+At the top: advanced topics. Iterators, closures, smart pointers, concurrency and async.
+If you can only go deep on one block, pick ownership. It is the hardest and the most important.
+To sum up: move fast on the basics, and really master ownership.
+Next time, we'll start from the bottom layer: Rust basics. Follow along and learn with me!

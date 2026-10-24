@@ -1,0 +1,22 @@
+{
+  "timezone": "America/New_York",
+  "note": "Posting times chosen 2026-10-24 from best-time research. Chinese audience = North American Chinese, so 小红书/抖音 post in the ET evening. 小红书 review can lag 20-90 min: hit publish ~30 min early.",
+  "slots": [
+    {"platform": "小红书", "key": "xhs", "time": "19:30", "days": "每天", "dow": [0,1,2,3,4,5,6], "note": "北美华人晚高峰，19:00 前后点发布"},
+    {"platform": "抖音", "key": "douyin", "time": "19:30", "days": "每天", "dow": [0,1,2,3,4,5,6], "note": "同小红书"},
+    {"platform": "TikTok", "key": "tiktok", "time": "19:30", "days": "每天", "dow": [0,1,2,3,4,5,6], "note": "英文版"},
+    {"platform": "LinkedIn", "key": "linkedin", "time": "10:30", "days": "周一至周五", "dow": [1,2,3,4,5], "note": "英文版 · 工作日上午高峰"}
+  ],
+  "reminders": [
+    {"time": "09:50", "dow": [1,2,3,4,5], "for": ["linkedin"]},
+    {"time": "18:40", "dow": [0,1,2,3,4,5,6], "for": ["xhs", "douyin", "tiktok"]}
+  ],
+  "generation_window": "00:00-09:00 ET (all video generation runs only in this window)",
+  "sources": [
+    "https://www.postbeam.ai/blog/best-time-to-post-on-linkedin",
+    "https://posteverywhere.ai/blog/best-time-to-post-on-linkedin",
+    "https://postsyncer.com/tips/best-time-to-post-on-linkedin",
+    "https://connectsafely.ai/articles/best-time-to-post-on-linkedin-2026-data-guide",
+    "https://www.thepaper.cn/newsDetail_forward_23565642"
+  ]
+}

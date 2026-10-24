@@ -1,0 +1,255 @@
+<title>碎片时间学 AI 工程 · 审核台</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: a broadcast rundown. One row per air date, Mon→Sun; each row is an edit bay (preview · script · decision · platform cuts). */
+:root{
+  --bg:#F3F4F6; --surface:#FFFFFF; --line:#DADDE3; --ink:#15171C; --quiet:#5F6672;
+  --accent:#D9621F; --accent-soft:#FBE7DB;
+  --ok:#11845B; --ok-soft:#DDF3EA; --warn:#B7791F; --warn-soft:#FBF0D9; --bad:#C2413B; --bad-soft:#F8E1DF; --info:#2F62C8; --info-soft:#E1EAFB;
+  --f-body:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1015; --surface:#171A21; --line:#2A2F3A; --ink:#ECEEF3; --quiet:#8B93A3;
+  --accent:#FF8A4C; --accent-soft:#3A2418;
+  --ok:#5BE7C4; --ok-soft:#123129; --warn:#FFD166; --warn-soft:#352C14; --bad:#FF6B6B; --bad-soft:#3A1C1C; --info:#6EA8FF; --info-soft:#18243A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1015; --surface:#171A21; --line:#2A2F3A; --ink:#ECEEF3; --quiet:#8B93A3;
+  --accent:#FF8A4C; --accent-soft:#3A2418;
+  --ok:#5BE7C4; --ok-soft:#123129; --warn:#FFD166; --warn-soft:#352C14; --bad:#FF6B6B; --bad-soft:#3A1C1C; --info:#6EA8FF; --info-soft:#18243A; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 60px}
+.wrap{max-width:1080px;margin:0 auto;display:grid;gap:18px}
+h1{font-size:clamp(22px,4vw,30px);font-weight:900;margin:0;text-wrap:balance;letter-spacing:.01em}
+h1 .acc{color:var(--accent)}
+.sub{color:var(--quiet);margin:2px 0 0}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+header{display:grid;gap:14px}
+.counts{display:flex;flex-wrap:wrap;gap:8px}
+.slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.slot{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:2px}
+.slot b{font-size:14px}.slot .t{font-family:var(--f-mono);font-size:20px;font-weight:700}.slot small{color:var(--quiet);font-size:12px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;letter-spacing:.04em;white-space:nowrap}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.s-draft{background:var(--info-soft);color:var(--info)}.s-changes{background:var(--bad-soft);color:var(--bad)}
+.s-approved{background:var(--warn-soft);color:var(--warn)}.s-built{background:var(--ok-soft);color:var(--ok)}.s-posted{background:var(--line);color:var(--quiet)}
+.s-revising{background:var(--warn-soft);color:var(--warn)}
+.row{background:var(--surface);border:1px solid var(--line);border-radius:14px;display:grid;grid-template-columns:92px minmax(0,1fr);overflow:hidden}
+.row.today{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.date{border-right:1px solid var(--line);padding:16px 10px;text-align:center;display:grid;align-content:start;gap:2px}
+.date .d{font-family:var(--f-mono);font-size:26px;font-weight:700;line-height:1}
+.date .w{color:var(--quiet);font-size:13px}.date .lz{margin-top:8px;font-size:12px;color:var(--accent);font-weight:700}
+.body{padding:16px;display:grid;gap:14px;min-width:0}
+.head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.head h2{font-size:18px;margin:0;font-weight:800;min-width:0}
+.head .en{color:var(--quiet);font-size:14px;width:100%;margin-top:-6px}
+.bay{display:grid;grid-template-columns:minmax(0,240px) minmax(0,1fr);gap:16px;align-items:start}
+video{width:100%;border-radius:10px;background:#000;display:block}
+.noprev{aspect-ratio:3/4;border:1px dashed var(--line);border-radius:10px;display:grid;place-items:center;color:var(--quiet);font-size:13px;text-align:center;padding:10px}
+.script{display:grid;gap:6px;max-height:300px;overflow:auto;padding-right:4px}
+.script p{margin:0;display:grid;gap:0}
+.script .z{font-weight:500}.script .e{color:var(--quiet);font-size:13px}
+.meta{color:var(--quiet);font-size:12px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+button{font:inherit;font-size:14px;font-weight:700;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:8px 14px;cursor:pointer}
+button:hover{border-color:var(--quiet)}
+button:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+button.ghost{background:transparent}
+button[disabled]{opacity:.5;cursor:not-allowed}
+textarea{font:inherit;width:100%;min-height:72px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);padding:8px 10px}
+.note{background:var(--bad-soft);color:var(--ink);border-radius:9px;padding:8px 12px;font-size:14px}
+.note b{color:var(--bad)}
+.cuts{display:grid;gap:10px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tab{font-size:13px;padding:6px 12px;border-radius:999px}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.tab .ok{color:var(--ok)}
+.cut{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:16px;align-items:start}
+.copybox{display:grid;gap:8px;min-width:0}
+.copybox pre{white-space:pre-wrap;word-break:break-word;margin:0;background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:10px 12px;font-family:var(--f-body);font-size:14px;max-height:260px;overflow:auto}
+.lbl{font-size:12px;font-weight:700;color:var(--quiet);letter-spacing:.06em;text-transform:uppercase}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:14px;padding:28px 20px;text-align:center;color:var(--quiet)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--surface);padding:8px 16px;border-radius:999px;font-size:14px;font-weight:700}
+@media (max-width:640px){
+  .row{grid-template-columns:1fr}.date{border-right:0;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:baseline;text-align:left;padding:10px 16px}
+  .date .lz{margin:0 0 0 auto}.bay,.cut{grid-template-columns:1fr}
+  .bay video,.cut video,.noprev{max-width:260px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>碎片时间学 AI 工程 <span class="acc">·</span> 审核台</h1>
+      <p class="sub" id="weekline">本周节目单 · 每周五凌晨生成下周 7 期，审核通过后夜里自动出 4 个平台版本</p>
+    </div>
+    <div class="counts" id="counts"></div>
+    <div class="slots" id="slots"></div>
+  </header>
+  <main id="list" class="wrap" style="gap:14px">
+    <div class="empty">正在连接节目单…<br>每周五凌晨会生成下周 7 期草稿，生成后出现在这里。</div>
+  </main>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const STATUS = {
+  draft:    ['待审核', 's-draft'],
+  changes:  ['要修改', 's-changes'],
+  revising: ['修改中', 's-revising'],
+  approved: ['已通过 · 等出片', 's-approved'],
+  built:    ['已出片 · 可发布', 's-built'],
+  posted:   ['已发布', 's-posted'],
+};
+const PLAT = [
+  ['xhs', '小红书', '3:4 · 中文'], ['douyin', '抖音', '9:16 · 中文'],
+  ['tiktok', 'TikTok', '9:16 · English'], ['linkedin', 'LinkedIn', '4:5 · English'],
+];
+const DEFAULT_SLOTS = [
+  {platform:'小红书', time:'19:30', days:'每天', note:'北美华人晚高峰，提前 30 分钟发'},
+  {platform:'抖音', time:'19:30', days:'每天', note:'同小红书'},
+  {platform:'TikTok', time:'19:30', days:'每天', note:'英文版'},
+  {platform:'LinkedIn', time:'10:30', days:'周一至周五', note:'英文版 · 上午高峰'},
+];
+const WD = ['周日','周一','周二','周三','周四','周五','周六'];
+let db = null, eps = [], slots = DEFAULT_SLOTS, open = {}, tabs = {}, drafts = {};
+
+const $ = (s, el=document) => el.querySelector(s);
+const h = (tag, attrs={}, ...kids) => {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v == null || v === false) continue;
+    if (k.startsWith('on')) e.addEventListener(k.slice(2), v); else if (k === 'text') e.textContent = v; else e.setAttribute(k, v === true ? '' : v);
+  }
+  kids.flat().forEach(k => k != null && e.append(k instanceof Node ? k : document.createTextNode(k)));
+  return e;
+};
+const toast = (msg) => { const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, 1800); };
+const todayISO = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,10); };
+const src = (v) => !v ? null : (v.startsWith('http') || v.startsWith('/') ? v : '/_blob/' + v);
+
+function renderHeader() {
+  const c = {}; eps.forEach(e => c[e.status] = (c[e.status] || 0) + 1);
+  $('#counts').replaceChildren(...Object.entries(STATUS).filter(([k]) => c[k]).map(([k, [label, cls]]) =>
+    h('span', {class: 'pill ' + cls}, `${label} ${c[k]}`)));
+  $('#slots').replaceChildren(...slots.map(s => h('div', {class: 'slot'},
+    h('b', {}, s.platform), h('span', {class: 't'}, s.time + ' ET'), h('small', {}, `${s.days} · ${s.note || ''}`))));
+  if (eps.length) {
+    const a = eps[0].date, b = eps[eps.length - 1].date;
+    $('#weekline').textContent = `节目单 ${a.slice(5)} → ${b.slice(5)} · 每周五凌晨生成下周 7 期，审核通过后夜里自动出 4 个平台版本`;
+  }
+}
+
+async function setStatus(e, patch, msg) {
+  if (!db) return toast('还没连上数据，稍后再试');
+  try { await db.doc('episodes/' + e.id).update({...patch, updated: new Date().toISOString()}); toast(msg); }
+  catch (err) { toast(err && err.code === 'not_granted' ? '你只有查看权限' : '保存失败，请重试'); }
+}
+
+async function copy(text, btn) {
+  try { await navigator.clipboard.writeText(text); toast('已复制'); }
+  catch { const pre = btn.closest('.copybox').querySelector('pre'); const r = document.createRange(); r.selectNodeContents(pre);
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast('已选中，按 ⌘C 复制'); }
+}
+
+async function save(url, filename) {
+  const dl = window.claude ? await window.claude.use('downloads') : null;
+  if (!dl) return toast('这个视图不能下载，长按视频保存');
+  try { const blob = await (await fetch(url)).blob(); await dl.save({filename, data: blob}); }
+  catch (err) { if (!err || err.code !== 'declined') toast('下载没有完成'); }
+}
+
+function captionText(c) {
+  if (!c) return '';
+  return [c.title, c.body, (c.tags || []).map(t => t.startsWith('#') ? t : '#' + t).join(' ')].filter(Boolean).join('\n\n');
+}
+
+function cutsView(e) {
+  const tab = tabs[e.id] || 'xhs';
+  const f = (e.finals || {})[tab] || {}, cap = (e.captions || {})[tab], posted = (e.posted || {})[tab];
+  const [, name, spec] = PLAT.find(p => p[0] === tab);
+  const vurl = src(f.video), curl = src(f.cover);
+  return h('div', {class: 'cuts'},
+    h('div', {class: 'tabs', role: 'tablist'}, PLAT.map(([k, n]) => h('button', {class: 'tab', role: 'tab', 'aria-selected': String(k === tab),
+      onclick: () => { tabs[e.id] = k; render(); }}, n, (e.posted || {})[k] ? h('span', {class: 'ok'}, ' ✓') : null))),
+    h('div', {class: 'cut'},
+      vurl ? h('video', {src: vurl, controls: true, playsinline: true, preload: 'metadata', poster: curl}) : h('div', {class: 'noprev'}, `${name} 版还没生成`),
+      h('div', {class: 'copybox'},
+        h('div', {class: 'lbl'}, `${name} · ${spec}${f.seconds ? ' · ' + f.seconds + 's' : ''}`),
+        h('pre', {}, captionText(cap) || '（这个平台的文案还没写）'),
+        h('div', {class: 'actions'},
+          h('button', {onclick: (ev) => copy(captionText(cap), ev.currentTarget), disabled: !cap}, '复制文案'),
+          h('button', {onclick: () => save(vurl, `${e.date}-${tab}.mp4`), disabled: !vurl}, '下载视频'),
+          h('button', {onclick: () => save(curl, `${e.date}-${tab}-cover.png`), disabled: !curl, class: 'ghost'}, '下载封面'),
+          h('button', {class: posted ? 'ghost' : 'primary', onclick: () => {
+            const p = {...(e.posted || {}), [tab]: !posted};
+            const all = PLAT.every(([k]) => p[k]);
+            setStatus(e, {posted: p, ...(all ? {status: 'posted'} : e.status === 'posted' ? {status: 'built'} : {})}, posted ? '已取消标记' : `已标记 ${name} 发布`);
+          }}, posted ? '取消已发布' : '标记已发布')))));
+}
+
+function row(e) {
+  const d = new Date(e.date + 'T12:00:00'), [label, cls] = STATUS[e.status] || [e.status, 's-draft'];
+  const draftV = src(e.draft && e.draft.video), isToday = e.date === todayISO();
+  const script = (e.script || []);
+  const decide = h('div', {class: 'actions'});
+  if (e.status === 'draft' || e.status === 'changes') {
+    const editing = drafts[e.id] != null;
+    decide.append(
+      h('button', {class: 'primary', onclick: () => setStatus(e, {status: 'approved', feedback: ''}, '已通过，今晚出片')}, '通过'),
+      h('button', {onclick: () => { drafts[e.id] = editing ? null : (e.feedback || ''); render(); }}, editing ? '收起' : '要修改'));
+    if (editing) {
+      const ta = h('textarea', {id: 'fb-' + e.id, placeholder: '哪里要改？比如：第 3 段太难，换个更简单的例子', oninput: (ev) => drafts[e.id] = ev.target.value});
+      ta.value = drafts[e.id];
+      decide.append(h('div', {style: 'width:100%;display:grid;gap:8px'}, ta,
+        h('div', {class: 'actions'}, h('button', {class: 'primary', onclick: () => {
+          const v = (drafts[e.id] || '').trim(); if (!v) return toast('写一下要改什么');
+          drafts[e.id] = null; setStatus(e, {status: 'changes', feedback: v}, '已记下，今晚按意见重做');
+        }}, '提交修改意见'))));
+    }
+  } else if (e.status === 'approved' || e.status === 'built' || e.status === 'revising') {
+    decide.append(h('button', {class: 'ghost', onclick: () => setStatus(e, {status: 'draft'}, '已撤回到待审核')}, '撤回审核'));
+  }
+  return h('article', {class: 'row' + (isToday ? ' today' : ''), id: 'ep-' + e.id},
+    h('div', {class: 'date'}, h('span', {class: 'd'}, e.date.slice(5).replace('-', '/')), h('span', {class: 'w'}, WD[d.getDay()] + (isToday ? ' · 今天' : '')),
+      h('span', {class: 'lz'}, e.lesson ? `第 ${e.lesson} 课` : '')),
+    h('div', {class: 'body'},
+      h('div', {class: 'head'}, h('h2', {}, e.title_zh || e.topic_zh || '（未命名）'), h('span', {class: 'pill ' + cls}, label),
+        e.voice ? h('span', {class: 'meta'}, {ai: 'AI 配音（占位）', clone: '你的声音', recorded: '你的声音', mixed: '部分是你的声音'}[e.voice] || e.voice) : null,
+        h('span', {class: 'en'}, e.title_en || e.topic_en || '')),
+      e.feedback && (e.status === 'changes' || e.status === 'revising') ? h('div', {class: 'note'}, h('b', {}, '修改意见：'), e.feedback) : null,
+      e.review_notes ? h('div', {class: 'note'}, h('b', {}, '审核员提醒：'), e.review_notes) : null,
+      h('div', {class: 'bay'},
+        draftV ? h('video', {src: draftV, controls: true, playsinline: true, preload: 'metadata', poster: src(e.draft.cover)}) : h('div', {class: 'noprev'}, '预览视频生成中'),
+        h('div', {style: 'display:grid;gap:10px;min-width:0'},
+          h('div', {class: 'lbl'}, `脚本 · ${script.length} 句${e.draft && e.draft.seconds ? ' · ' + e.draft.seconds + 's' : ''}`),
+          h('div', {class: 'script'}, script.map(s => h('p', {}, h('span', {class: 'z'}, s.zh), h('span', {class: 'e'}, s.en)))),
+          decide)),
+      (e.status === 'built' || e.status === 'posted' || e.finals) ? cutsView(e) : null));
+}
+
+function render() {
+  renderHeader();
+  const list = $('#list');
+  if (!eps.length) { list.replaceChildren(h('div', {class: 'empty'}, '还没有节目。每周五凌晨会生成下周 7 期草稿，生成后出现在这里。')); return; }
+  const y = scrollY; list.replaceChildren(...eps.map(row)); scrollTo(0, y);
+}
+
+(async () => {
+  db = window.claude ? await window.claude.use('db') : null;
+  if (!db) { $('#list').replaceChildren(h('div', {class: 'empty'}, '登录 claude.ai 后才能看到节目单。')); return; }
+  db.collection('episodes').orderBy('date').onSnapshot(snap => {
+    const t = todayISO(), weekAgo = new Date(Date.now() - 8 * 864e5).toISOString().slice(0, 10);
+    eps = snap.docs.map(d => ({id: d.id, ...d.data()})).filter(e => e.date >= weekAgo || e.status !== 'posted');
+    render();
+    if (!render.scrolled) { const el = document.getElementById('ep-' + t); if (el) { el.scrollIntoView({block: 'start'}); render.scrolled = true; } }
+  }, () => toast('节目单加载失败，刷新试试'));
+  db.doc('config/schedule').onSnapshot(s => { if (s.exists && s.data().slots) { slots = s.data().slots; renderHeader(); } });
+})();
+renderHeader();
+</script>
