@@ -7,7 +7,7 @@ If `notes/` has a fresh study note (last 7 days, not yet used), the batch may sw
 Rules for every lesson: teach the viewer (not "what I learned"), one idea per video, accurate, no company names / products / metrics.
 
 ## Rust（跟着学习计划第 1–4 周）
-- [x] 1. Rust 知识全景：五块知识怎么搭（2026-10-26；用户可换成自己的录音）
+- [x] 1. Rust 知识全景：五块知识怎么搭（2026-10-24 首发）
 - [ ] 2. 变量：let、mut 和 shadowing
 - [ ] 3. 基本类型：整数、浮点、bool、char、元组、数组
 - [ ] 4. 函数与表达式：最后一行不加分号就是返回值

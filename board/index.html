@@ -99,6 +99,7 @@ textarea{font:inherit;width:100%;min-height:72px;border:1px solid var(--line);bo
 
 <script>
 const STATUS = {
+  voicing:  ['配音中 · 可先审脚本', 's-revising'],
   draft:    ['待审核', 's-draft'],
   changes:  ['要修改', 's-changes'],
   revising: ['修改中', 's-revising'],
@@ -198,10 +199,10 @@ function row(e) {
   const draftV = src(e.draft && e.draft.video), isToday = e.date === todayISO();
   const script = (e.script || []);
   const decide = h('div', {class: 'actions'});
-  if (e.status === 'draft' || e.status === 'changes') {
+  if (e.status === 'draft' || e.status === 'changes' || e.status === 'voicing') {
     const editing = drafts[e.id] != null;
     decide.append(
-      h('button', {class: 'primary', onclick: () => setStatus(e, {status: 'approved', feedback: ''}, '已通过，今晚出片')}, '通过'),
+      h('button', {class: 'primary', onclick: () => setStatus(e, e.finals ? {status: 'built', feedback: ''} : {status: 'approved', feedback: ''}, e.finals ? '已通过，可以发布' : '已通过，夜里出片')}, '通过'),
       h('button', {onclick: () => { drafts[e.id] = editing ? null : (e.feedback || ''); render(); }}, editing ? '收起' : '要修改'));
     if (editing) {
       const ta = h('textarea', {id: 'fb-' + e.id, placeholder: '哪里要改？比如：第 3 段太难，换个更简单的例子', oninput: (ev) => drafts[e.id] = ev.target.value});
@@ -225,7 +226,7 @@ function row(e) {
       e.feedback && (e.status === 'changes' || e.status === 'revising') ? h('div', {class: 'note'}, h('b', {}, '修改意见：'), e.feedback) : null,
       e.review_notes ? h('div', {class: 'note'}, h('b', {}, '审核员提醒：'), e.review_notes) : null,
       h('div', {class: 'bay'},
-        draftV ? h('video', {src: draftV, controls: true, playsinline: true, preload: 'metadata', poster: src(e.draft.cover)}) : h('div', {class: 'noprev'}, '预览视频生成中'),
+        draftV ? h('video', {src: draftV, controls: true, playsinline: true, preload: 'metadata', poster: src(e.draft.cover)}) : h('div', {class: 'noprev'}, e.status === 'voicing' ? 'Mac 正在用你的声音配音，配好后夜里出预览' : '预览视频生成中'),
         h('div', {style: 'display:grid;gap:10px;min-width:0'},
           h('div', {class: 'lbl'}, `脚本 · ${script.length} 句${e.draft && e.draft.seconds ? ' · ' + e.draft.seconds + 's' : ''}`),
           h('div', {class: 'script'}, script.map(s => h('p', {}, h('span', {class: 'z'}, s.zh), h('span', {class: 'e'}, s.en)))),

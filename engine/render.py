@@ -2,11 +2,13 @@
 
   python3 engine/render.py episodes/2026-10-26                 # all 4 platforms
   python3 engine/render.py episodes/2026-10-26 --only xhs      # just the 小红书 draft
+  python3 engine/render.py episodes/2026-10-26 --status        # {"zh": [voiced, scenes], "en": [...]}
 
 Reads   episodes/<id>/episode.js            scenes + bilingual captions
-        episodes/<id>/voice/<zh|en>/sNN.wav  optional real voice, one file per scene
+        episodes/<id>/voice/<zh|en>/sNN.ogg  your cloned voice (Mac voice job), checked against manifest.json
+        episodes/<id>/voice/<zh|en>/sNN.wav  or a hand recording (no manifest entry)
 Writes  build/<id>/<platform>.mp4, build/<id>/<platform>-cover.png, build/<id>/report.json
-Scenes without a voice file get the Kokoro AI voice (and report.json says so).
+Scenes without a current voice clip fall back to the Kokoro AI voice (report.json says which).
 """
 import argparse, hashlib, json, os, re, shutil, subprocess, tempfile
 import numpy as np, soundfile as sf
@@ -37,23 +39,63 @@ def resample(x, r):
     return np.interp(np.linspace(0, len(x) - 1, n), np.arange(len(x)), x).astype(np.float32)
 
 
+def scene_text(caps, lang):
+    """What the voice says for one scene; must match the line export.py writes to voice/<lang>.txt."""
+    return ("" if lang == "zh" else " ").join(c["say_" + lang] for c in caps).strip()
+
+
+def vkey(lang, line):
+    return hashlib.sha1(f"{lang}|{line.strip()}".encode()).hexdigest()[:16]
+
+
+def own_voice(ep_dir, lang, i, text):
+    """Your voice for scene i if it is current: a hand recording sNN.wav (no manifest entry),
+    or a cloned sNN.ogg whose manifest hash matches the scene's current text."""
+    vdir = os.path.join(ep_dir, "voice", lang); sid = f"s{i:02d}"
+    mp = os.path.join(vdir, "manifest.json")
+    man = json.load(open(mp)) if os.path.exists(mp) else {}
+    if sid not in man and os.path.exists(os.path.join(vdir, sid + ".wav")):
+        return os.path.join(vdir, sid + ".wav"), "recorded"
+    if man.get(sid) == vkey(lang, text) and os.path.exists(os.path.join(vdir, sid + ".ogg")):
+        return os.path.join(vdir, sid + ".ogg"), "clone"
+    return None, None
+
+
+def voice_status(ep_dir):
+    """Per language: how many scenes have your (current) voice, from voice/<lang>.txt. No browser needed."""
+    out = {}
+    for lang in ("zh", "en"):
+        txt = os.path.join(ep_dir, "voice", f"{lang}.txt")
+        lines = [l for l in open(txt, encoding="utf-8").read().splitlines() if l.strip()] if os.path.exists(txt) else []
+        out[lang] = [sum(1 for i, l in enumerate(lines, 1) if own_voice(ep_dir, lang, i, l)[0]), len(lines)]
+    return out
+
+
 def scene_voices(ep_dir, info, lang, cache):
-    """One clip per scene: real voice file if present, else cached TTS. Returns clips + sources."""
+    """One clip per scene: your voice when current, else the cached AI voice. Returns clips + sources."""
     clips, sources = [], []
     for i, s in enumerate(info, 1):
-        real = os.path.join(ep_dir, "voice", lang, f"s{i:02d}.wav")
-        if os.path.exists(real):
-            clips.append(load_audio(real)); sources.append("voice")
+        text = scene_text(s["caps"], lang)
+        path, kind = own_voice(ep_dir, lang, i, text)
+        if path:
+            clips.append(trim(load_audio(path))); sources.append(kind)
             continue
-        text = "".join(c["say_" + lang] if lang == "zh" else " " + c["say_" + lang] for c in s["caps"]).strip()
-        key = hashlib.sha1(f"{lang}|{text}".encode()).hexdigest()[:12]
-        cp = os.path.join(cache, f"{lang}-{key}.wav")
+        cp = os.path.join(cache, f"{lang}-{vkey(lang, text)}.wav")
         if not os.path.exists(cp):
             import tts
             a, r = tts.synth(text, lang)
             sf.write(cp, resample(a, r), SR)
         clips.append(load_audio(cp)); sources.append("ai")
     return clips, sources
+
+
+def trim(x, thr=0.01, keep=0.08):
+    """Cut leading/trailing silence, keeping a short pad."""
+    idx = np.where(np.abs(x) > thr)[0]
+    if not len(idx):
+        return x
+    a, b = max(0, idx[0] - int(keep * SR)), min(len(x), idx[-1] + int(keep * SR))
+    return x[a:b]
 
 
 def cap_times(caps, lang, audio_len):
@@ -135,8 +177,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("episode")
     ap.add_argument("--only", help="comma list of " + ",".join(PLATFORMS))
+    ap.add_argument("--status", action="store_true", help="only print how much of the episode has your voice")
     a = ap.parse_args()
     ep_dir = os.path.abspath(a.episode)
+    if a.status:
+        print(json.dumps(voice_status(ep_dir))); return
     out_dir = os.path.join(ROOT, "build", os.path.basename(ep_dir)); os.makedirs(out_dir, exist_ok=True)
     plats = a.only.split(",") if a.only else list(PLATFORMS)
     from playwright.sync_api import sync_playwright
@@ -147,7 +192,7 @@ def main():
         for pl in plats:
             report[pl] = render(ep_dir, pl, out_dir, factory)
             v = report[pl]["voice"]
-            print(f"{pl:9s} {report[pl]['seconds']:5.1f}s  voice: {v.count('voice')}/{len(v)} real  → {report[pl]['file']}")
+            print(f"{pl:9s} {report[pl]['seconds']:5.1f}s  your voice: {len(v) - v.count('ai')}/{len(v)} scenes  → {report[pl]['file']}")
         b.close()
     rp = os.path.join(out_dir, "report.json")
     old = json.load(open(rp)) if os.path.exists(rp) else {}
