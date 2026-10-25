@@ -3,9 +3,12 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 [ -d node_modules/@fontsource/noto-sans-sc ] || npm install --silent
-python3 -c "import sherpa_onnx, soundfile" 2>/dev/null || pip install -q --break-system-packages sherpa-onnx soundfile numpy
-python3 -c "import playwright" 2>/dev/null || pip install -q --break-system-packages playwright
-command -v ffmpeg >/dev/null || (apt-get update -qq && apt-get install -y -qq ffmpeg)
+python3 -c "import sherpa_onnx, soundfile" 2>/dev/null || (pip3 install -q sherpa-onnx soundfile numpy 2>/dev/null || pip install -q --break-system-packages sherpa-onnx soundfile numpy)
+python3 -c "import playwright" 2>/dev/null || (pip3 install -q playwright 2>/dev/null || pip install -q --break-system-packages playwright)
+if ! command -v ffmpeg >/dev/null; then
+  if command -v brew >/dev/null; then brew install ffmpeg; else apt-get update -qq && apt-get install -y -qq ffmpeg; fi
+fi
+[ "$(uname)" = Darwin ] && python3 -m playwright install chromium >/dev/null 2>&1 || true
 TTSDIR="${TTSDIR:-$HOME/.cache/lesson-tts}"; mkdir -p "$TTSDIR"
 for m in kokoro-multi-lang-v1_0 kokoro-multi-lang-v1_1; do
   if [ ! -f "$TTSDIR/$m/model.onnx" ]; then

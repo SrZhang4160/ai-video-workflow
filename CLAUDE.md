@@ -1,5 +1,7 @@
 # 每天1分钟，碎片时间学AI工程师：视频工作流
 
+**New session? Read `HANDOFF.md` first** (user, rules, current state, next steps).
+
 Series name (use exactly): **每天1分钟，碎片时间学AI工程师**. Hashtag form: #碎片时间学AI工程师. It is the account/series name, not an on-screen label.
 
 A daily 1-minute teaching series. Same content on four platforms:
@@ -24,10 +26,11 @@ Times and sources: `series/schedule.json`. The user publishes by hand; nothing h
 
 ## Layout
 - `engine/`: `lesson.html` (scene engine, three ratios × two languages), `render.py` (frames + voice → mp4 + covers + contact sheets), `export.py` (voice scripts + board doc), `tts.py` (AI fallback voice), `setup.sh`.
-- `episodes/<air date>/`: `episode.js`, `meta.json`, `voice/{zh,en}.txt` (what to say, one line per scene), `voice/{zh,en}/sNN.ogg` + `manifest.json` (cloned voice, valid only while the line's hash matches) or a hand-recorded `sNN.wav`.
+- `episodes/<air date>/`: `episode.js`, `meta.json`, `voice/{zh,en}.txt` (what to say, one line per caption page), `voice/{zh,en}/sNN.ogg` + `manifest.json` (cloned voice, valid only while the line's hash matches) or a hand-recorded `sNN.wav`.
 - `runbooks/`: `scenes.md` (how to write an episode; read before writing one), `weekly.md`, `nightly.md`.
 - `agents/reviewer.md`: reviewer checklist. `series/`: curriculum and schedule.
 - `local/`: Mac only. `install_voice_job.sh` (one-time), `voice_job.sh` (launchd job), `voice_daemon.py` (CosyVoice3 + `~/cosyvoice3/my_voice.wav`).
+- `styles/whiteboard/`: hand-drawn (rough.js + Caveat) style for LinkedIn deep dives. `episodes/li-*`: deep dives (English only, `platforms` in meta.json).
 - `build/`: render output, never committed.
 
 ## Rules
@@ -35,6 +38,10 @@ Times and sources: `series/schedule.json`. The user publishes by hand; nothing h
 - Never mention the user's employer (RELAI), its products, customers or numbers. Only general tech and the user's own practice.
 - No "AI voice / made with AI" labels, no series slogans, no progress bars on screen.
 - Never overwrite an episode the user approved without a reason in the board doc.
+
+## Running on the user's Mac (local Claude Code)
+CosyVoice runs here (`~/cosyvoice3/.venv/bin/python local/voice_daemon.py .`), so the session can voice, render and `git push`
+directly. Scheduled tasks should require this computer. Setup notes are in `HANDOFF.md`.
 
 ## Manual commands
 - "做下周的草稿" → run `runbooks/weekly.md` now (ignore the time guard; the user asked).

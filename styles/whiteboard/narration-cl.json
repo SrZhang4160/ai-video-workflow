@@ -1,0 +1,18 @@
+[
+ {"text": "People get better on the job. Most AI agents don't.",
+  "say":  "People get better on the job. Most A I agents don't."},
+ {"text": "That's the idea behind continual learning: keep learning from new experience, without forgetting what you already know.",
+  "say":  "That's the idea behind continual learning, keep learning from new experience, without forgetting what you already know."},
+ {"text": "The hard part is forgetting. You fix one failure, and something that used to work quietly breaks.",
+  "say":  "The hard part is forgetting. You fix one failure, and something that used to work quietly breaks."},
+ {"text": "Why? Your tasks share one prompt and one set of tools, so a fix for one task changes all of them.",
+  "say":  "Why? Your tasks share one prompt and one set of tools, so a fix for one task changes all of them."},
+ {"text": "So save each failure as a replayable eval, a test you can run again. Then improve the prompts, tools or memory.",
+  "say":  "So save each failure as a replayable eval, a test you can run again. Then improve the prompts, tools, or memory."},
+ {"text": "Check every new fix against all your past evals. If they all pass, ship it. If one fails, back to the drawing board.",
+  "say":  "Check every new fix against all your past evals. If they all pass, ship it. If one fails, back to the drawing board."},
+ {"text": "Continual learning in three rules. Agents don't learn on the job by default. A fix can quietly break an old skill. So save every failure as a test, and rerun them all before shipping.",
+  "say":  "Continual learning in three rules. Agents don't learn on the job by default. A fix can quietly break an old skill. So save every failure as a test, and rerun them all before shipping."},
+ {"text": "Next time you fix an agent, rerun every old test. Follow for more AI engineering in one minute.",
+  "say":  "Next time you fix an agent, rerun every old test. Follow for more A I engineering in one minute."}
+]

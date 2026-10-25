@@ -1,0 +1,134 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Caveat;font-weight:700;src:url(node_modules/@fontsource/caveat/files/caveat-latin-700-normal.woff2)}
+@font-face{font-family:Caveat;font-weight:500;src:url(node_modules/@fontsource/caveat/files/caveat-latin-500-normal.woff2)}
+*{margin:0;box-sizing:border-box}
+body{width:1080px;height:1350px;background:#FBF8F1;font-family:Caveat;color:#222;position:relative;overflow:hidden;
+ background-image:radial-gradient(#d9d3c4 1.6px,transparent 1.6px);background-size:36px 36px}
+svg{position:absolute;left:0;top:0}
+.cap{position:absolute;left:70px;right:70px;bottom:100px;text-align:center;font-size:60px;font-weight:500;line-height:1.15}
+.bar{position:absolute;left:0;bottom:0;height:12px;background:#E8553E}
+</style><script src="node_modules/roughjs/bundled/rough.js"></script></head><body>
+<svg id="s" width="1080" height="1350"></svg>
+<div id="hdr" style="display:none;position:absolute;left:0;right:0;top:70px;text-align:center"><span style="display:inline-block;background:#FFE38A;border:4px solid #222;border-radius:6px;padding:6px 30px;font-size:52px;font-weight:700">&#9201; AI engineering in 1 minute</span></div>
+<div class="cap" id="cap"></div>
+<div class="bar" id="bar"></div>
+<script>
+const INK='#222',RED='#E8553E',DRED='#B8321D',GRN='#1E9E5A',BLU='#1F6FEB',YEL='#FFE38A',GRY='#666';
+const s=document.getElementById('s'),rc=rough.svg(s);let SEED=7;
+const o=(x={})=>Object.assign({stroke:INK,strokeWidth:4,roughness:1.6,seed:SEED++},x);
+const add=e=>(s.appendChild(e),e);
+const T=(x,y,t,size=56,color=INK,w=700,anchor='middle')=>{const e=document.createElementNS('http://www.w3.org/2000/svg','text');
+ e.setAttribute('x',x);e.setAttribute('y',y);e.setAttribute('font-family','Caveat');e.setAttribute('font-weight',w);e.setAttribute('font-size',size);
+ e.setAttribute('fill',color);e.setAttribute('text-anchor',anchor);e.textContent=t;return add(e)};
+const box=(x,y,w,h,x2={})=>add(rc.rectangle(x,y,w,h,o(x2)));
+const ell=(cx,cy,w,h,x2={})=>add(rc.ellipse(cx,cy,w,h,o(x2)));
+const line=(a,b,c,d,x2={})=>add(rc.line(a,b,c,d,o(x2)));
+const arrow=(a,b,c,d,col=INK,sw=4)=>{line(a,b,c,d,{stroke:col,strokeWidth:sw});const ang=Math.atan2(d-b,c-a),L=22;
+ add(rc.linearPath([[c-L*Math.cos(ang-0.45),d-L*Math.sin(ang-0.45)],[c,d],[c-L*Math.cos(ang+0.45),d-L*Math.sin(ang+0.45)]],o({stroke:col,strokeWidth:sw})))};
+const title=(a,b)=>{T(540,150,a,92);if(b){T(540,248,b,92,RED);line(300,272,780,265,{stroke:RED,strokeWidth:5,roughness:2})}};
+
+const scenes={
+1(){ // hook
+ title('People learn on the job.','Most AI agents don’t.');
+ line(150,940,150,380);line(150,940,950,940);T(150,360,'skill',44,GRY,500);T(950,990,'time on the job →',46,GRY,500,'end');
+ add(rc.curve([[160,860],[350,800],[550,660],[750,540],[920,450]],o({stroke:GRN,strokeWidth:6})));
+ line(160,860,920,860,{stroke:RED,strokeWidth:6});
+ // person icon
+ ell(950,420,60,60,{stroke:GRN});line(950,450,950,500,{stroke:GRN});T(950,560,'people',52,GRN);
+ // robot icon
+ box(925,820,56,48,{stroke:RED});line(953,820,953,800,{stroke:RED});T(1000,920,'agents',52,RED,700,'end');
+ T(640,835,'flat…',56,RED,500);
+},
+2(){ // what is CL
+ title('Continual learning');
+ T(540,350,'keep learning — without forgetting',60,INK,500);
+ const ys=[860,740,620,500],lab=['skill 1','skill 2','skill 3','NEW skill'];
+ ys.forEach((y,i)=>{const nw=i===3;box(330,y,420,100,{fill:nw?YEL:'#CDEFD9',fillStyle:'hachure',hachureGap:12,stroke:nw?INK:GRN});
+  T(500,y+68,lab[i],60,nw?INK:GRN);T(690,y+68,'✓',64,GRN)});
+ arrow(880,450,770,540,RED,5);T(890,430,'new',56,RED,700,'start');
+ T(230,780,'old skills',52,GRY,500);T(230,830,'stay ✓',52,GRY,500);
+},
+3(){ // forgetting
+ title('Fix one failure,','break another.');
+ box(390,370,300,150,{fill:YEL,fillStyle:'hachure',hachureGap:12,roughness:1.8});T(540,465,'Agent',72);
+ box(70,380,240,130,{stroke:BLU});T(190,435,'bug #12',56,BLU);T(190,485,'reported',44,BLU,500);
+ arrow(315,445,385,445);
+ line(540,530,540,570);T(540,618,'+ patch the prompt',58,INK,500);
+ line(540,642,330,760);line(540,642,750,760);
+ ell(300,830,330,150,{stroke:GRN,strokeWidth:5});T(300,820,'bug #12',62,GRN);T(300,870,'fixed ✓',58,GRN);
+ ell(780,830,330,150,{stroke:RED,strokeWidth:5,fill:'#F8C9BF',fillStyle:'cross-hatch',hachureGap:14});T(780,820,'refunds',62,DRED);T(780,870,'broken ✗',58,DRED);
+ T(800,990,'…and nobody noticed',52,GRY,500);
+},
+4(){ // why it happens
+ title('Why it happens:','one change, many tasks.');
+ box(200,350,440,130,{fill:YEL,fillStyle:'hachure',hachureGap:12,strokeWidth:5});T(420,410,'one shared prompt',58);T(420,458,'+ tools',46,INK,500);
+ // sticky note patch
+ add(rc.rectangle(730,350,250,120,o({stroke:'#C9A227',fill:'#FFF3A6',fillStyle:'solid',roughness:1.2})));T(855,402,'patch for',46,INK,500);T(855,452,'shipping',52,BLU);arrow(725,410,650,415,BLU,4);
+ const ts=[['shipping',180,GRN,'✓'],['invoices',420,GRN,'✓'],['returns',660,GRN,'✓'],['refunds',900,DRED,'✗']];
+ ts.forEach(([t,x,c,m])=>{arrow(420,490,x,660,GRY,3);box(x-105,670,210,110,{stroke:c,strokeWidth:c===DRED?5:4,fill:c===DRED?'#F8C9BF':undefined,fillStyle:'cross-hatch',hachureGap:14});T(x,738,t,50,c);T(x,860,m,76,c)});
+ T(540,990,'the fix for one task changes all of them',52,GRY,500);
+},
+5(){ // failure -> eval -> harness
+ title('Every failure','becomes a test.');
+ box(360,330,360,110,{stroke:RED,fill:'#F8C9BF',fillStyle:'cross-hatch',hachureGap:14});T(540,402,'failure ✗',66,DRED);
+ arrow(540,450,540,520);
+ box(330,530,420,120,{stroke:BLU});T(510,608,'replayable eval',62,BLU);
+ add(rc.polygon([[690,565],[690,615],[728,590]],o({stroke:BLU,fill:BLU,fillStyle:'solid'})));
+ arrow(540,660,540,730);
+ box(330,740,420,120,{fill:YEL,fillStyle:'hachure',hachureGap:12});T(540,818,'better harness',64);
+ const p=[['prompts',140,700],['tools',940,700],['workflows',150,930],['memory',930,930]];
+ p.forEach(([t,x,y])=>{ell(x,y,230,90,{stroke:GRY,strokeWidth:3});T(x,y+16,t,48,GRY,700)});
+ line(255,710,330,770,{stroke:GRY,strokeWidth:3});line(825,710,750,770,{stroke:GRY,strokeWidth:3});
+ line(265,915,330,840,{stroke:GRY,strokeWidth:3});line(815,915,750,840,{stroke:GRY,strokeWidth:3});
+},
+6(){ // checked against past evals
+ title('Every new fix','meets every old test.');
+ box(390,340,300,110,{fill:YEL,fillStyle:'hachure',hachureGap:12});T(540,412,'new fix',66);
+ const xs=[150,306,462,618,774,930];
+ xs.forEach((x,i)=>{arrow(540,460,x,580,GRY,3);box(x-62,590,124,110,{stroke:GRN});T(x,640,'eval',42,GRN,500);T(x,688,String(i+1),44,GRN);T(x,760,'✓',72,GRN)});
+ box(300,840,480,120,{stroke:GRN,strokeWidth:5});T(540,918,'all pass → ship it',64,GRN);
+ T(540,1030,'one fails → back to the drawing board',48,DRED,500);
+},
+7(){ // recap
+ title('Continual learning','in 3 rules');
+ const items=[['Agents don’t learn on the job','by default.'],['A fix can quietly break','an old skill.'],['Save every failure as a test.','Rerun them all before shipping.']];
+ items.forEach(([a,b],i)=>{const y=420+i*230;box(110,y-50,70,70,{strokeWidth:4});add(rc.linearPath([[122,y-15],[142,y+8],[178,y-48]],o({stroke:GRN,strokeWidth:7})));
+  T(220,y,a,62,INK,700,'start');T(220,y+70,b,62,i===2?RED:INK,700,'start')});
+},
+8(){ // CTA
+ T(540,320,'Next time you fix an agent,',84);T(540,440,'rerun every old test.',96,RED);line(180,470,900,462,{stroke:RED,strokeWidth:6,roughness:2.2});
+ box(250,600,580,150,{strokeWidth:5});T(540,695,'Follow for more →',80,INK);
+ T(540,830,'AI engineering in 1 minute',58,GRY,500);
+ T(540,960,'How do you keep your agents',58,GRY,500);T(540,1025,'from regressing?',58,GRY,500);
+}};
+const caps={1:'People get better on the job. Most AI agents don’t.',2:'Keep learning from new experience, without forgetting what you already know.',
+ 3:'You fix one failure… and something that used to work breaks.',4:'Tasks share one prompt and one set of tools, so a fix for one changes all of them.',
+ 5:'Save each failure as a replayable eval, then improve the prompts, tools or memory.',6:'Every fix is checked against all your past evals.',
+ 7:'Continual learning for agents, in three rules.',8:'Next time you fix an agent, rerun every old test.'};
+const Q=new URLSearchParams(location.search),n=+Q.get('scene')||1;
+if(Q.get('tall')){document.body.style.height='1920px';s.style.top='190px';
+ const c=document.getElementById('cap');c.style.bottom='470px';
+ const br=document.getElementById('bar');br.style.bottom='auto';br.style.top='0';
+ document.getElementById('hdr').style.display='block';}
+scenes[n]();
+if(!Q.get('anim')){document.getElementById('cap').textContent=caps[n];document.getElementById('bar').style.width=(n/8*100)+'%';}
+else{
+ // draw-on animation: every top-level element is revealed in creation order
+ const NS='http://www.w3.org/2000/svg',defs=document.createElementNS(NS,'defs');s.prepend(defs);
+ const els=[...s.children].filter(e=>e!==defs);
+ els.forEach((e,i)=>{
+  if(e.tagName==='text'){const bb=e.getBBox(),cp=document.createElementNS(NS,'clipPath'),r=document.createElementNS(NS,'rect');
+   cp.id='c'+i;r.setAttribute('x',bb.x-4);r.setAttribute('y',bb.y-14);r.setAttribute('height',bb.height+28);r.setAttribute('width',0);
+   cp.appendChild(r);defs.appendChild(cp);e.setAttribute('clip-path',`url(#c${i})`);e._clip=r;e._w=bb.width+8;}
+  else e._paths=[...e.querySelectorAll('path')].map(p=>{const f=p.getAttribute('fill'),st=p.getAttribute('stroke');
+   const filled=f&&f!=='none'&&(!st||st==='none');const L=filled?0:p.getTotalLength();
+   if(!filled){p.style.strokeDasharray=L+' '+L;p.style.strokeDashoffset=L;}else p.style.opacity=0;return{p,L,filled};});
+ });
+ window.render=(dp,cap,bar)=>{const N=els.length;
+  els.forEach((e,i)=>{const st=i/N*0.8,en=st+0.2+0.8/N,l=Math.min(1,Math.max(0,(dp-st)/(en-st)));
+   if(e._clip)e._clip.setAttribute('width',e._w*l);
+   else e._paths.forEach(({p,L,filled})=>{if(filled)p.style.opacity=l;else p.style.strokeDashoffset=L*(1-l);});});
+  document.getElementById('cap').textContent=cap;document.getElementById('bar').style.width=(bar*100)+'%';};
+ window.render(0,'',0);window.ready=true;
+}
+</script></body></html>
