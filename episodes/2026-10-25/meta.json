@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-25",
+  "topic_zh": "变量：let、mut 和 shadowing",
+  "topic_en": "Rust variables: let, mut and shadowing",
+  "captions": {
+    "xhs": {
+      "title": "Rust 变量为什么默认不能改？",
+      "body": "第 2 课：let、mut 和 shadowing\n默认不可变 → 改了直接编译报错\n要改值：加 mut\n要换类型：用 shadowing 再 let 一次\n你更常用 mut 还是 shadowing？评论区聊聊～",
+      "tags": ["Rust", "编程入门", "程序员", "AI工程师", "碎片时间学AI工程师"]
+    },
+    "douyin": {
+      "title": "一分钟搞懂 Rust 的 let 和 mut",
+      "body": "默认不可变，要改加 mut，换类型用 shadowing。",
+      "tags": ["Rust", "编程", "程序员"]
+    },
+    "tiktok": {
+      "body": "Rust variables can't change by default. Add mut to change the value, use shadowing to change the type.",
+      "tags": ["rust", "rustlang", "coding", "learntocode", "programming"]
+    },
+    "linkedin": {
+      "title": "Why Rust variables can't change by default",
+      "body": "let: immutable by default, and the compiler stops any reassignment.\nlet mut: you opt in to change, so readers see which values move.\nShadowing (let x again): a new variable that can even change type.\nDo you reach for mut or shadowing more often?",
+      "tags": ["Rust", "SoftwareEngineering", "LearningInPublic"]
+    }
+  }
+}

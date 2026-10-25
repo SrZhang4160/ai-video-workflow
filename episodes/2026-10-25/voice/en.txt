@@ -1,0 +1,17 @@
+In Rust, variables can't change by default.
+That's on purpose.
+Try to change an immutable variable,
+and the compiler errors before the code even runs.
+Want to change it? Add mut.
+Now anyone reading the code sees which values change.
+Another trick is called shadowing:
+declare the same name again with let,
+and the new one hides the old one.
+And it can even change the type:
+a string becomes a number, no problem.
+With mut, the type has to stay the same.
+To recap: immutable by default,
+add mut to change the value,
+and use shadowing to change the type.
+Next time: Rust's basic types.
+Follow along and learn with me!

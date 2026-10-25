@@ -65,7 +65,7 @@ function code(src) {
     if (/^\s*(\/\/|#)\s/.test(line)) { body = ''; cm = line; }
     body = body.split(/("[^"]*"|'[^']*'|\b\d+(?:\.\d+)?\b|\b[A-Za-z_][A-Za-z0-9_]*\b)/).map(tok => {
       if (!tok) return '';
-      if (/^["']/.test(tok)) return `<span class="st">${esc(tok)}</span>`;
+      if (/^["']/.test(tok)) return `<span class="st">${esc(tok).replace(/ /g, '&nbsp;')}</span>`;
       if (/^\d/.test(tok)) return `<span class="nu">${tok}</span>`;
       if (KW.has(tok)) return `<span class="kw">${tok}</span>`;
       if (/^[A-Z][a-z0-9]/.test(tok) || /^(i32|u32|i64|u64|f64|usize|str|bool|int|float|dict|list)$/.test(tok)) return `<span class="ty">${tok}</span>`;
