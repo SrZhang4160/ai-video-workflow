@@ -8,7 +8,7 @@ Rules for every lesson: teach the viewer (not "what I learned"), one idea per vi
 
 ## Rust（跟着学习计划第 1–4 周）
 - [x] 1. Rust 知识全景：五块知识怎么搭（2026-10-24 首发）
-- [ ] 2. 变量：let、mut 和 shadowing
+- [x] 2. 变量：let、mut 和 shadowing
 - [ ] 3. 基本类型：整数、浮点、bool、char、元组、数组
 - [ ] 4. 函数与表达式：最后一行不加分号就是返回值
 - [ ] 5. 控制流：if 是表达式，loop / while / for
