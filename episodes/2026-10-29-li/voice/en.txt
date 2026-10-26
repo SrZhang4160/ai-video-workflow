@@ -1,0 +1,30 @@
+Your customer got charged twice.
+And nobody changed any code.
+Here's why:
+queues promise at least once, not exactly once.
+A worker charges the card.
+Then it's stopped before telling the queue it's done.
+The queue thinks the job never ran,
+so another worker runs it again.
+Any crash can do this, and deploys restart workers all the time.
+So the problem is: the same work can happen twice.
+Here's how big teams make that harmless.
+Fix one: idempotency keys. Stripe does this.
+Every payment request carries a unique key.
+If the same key arrives again,
+Stripe returns the first result instead of charging twice.
+Amazon uses the same idea, with client tokens in its APIs.
+The trade-off: you store a key for every operation,
+and it only protects services that accept one.
+Fix two: design jobs to run twice. GitLab requires this.
+A job must be able to run again without major side effects.
+And identical waiting jobs get deduplicated.
+The trade-off: every job needs extra thought, and tests.
+Fix three: drain workers gracefully. Kubernetes does this by default.
+Before stopping a worker, it sends a stop signal,
+and waits thirty seconds, so running jobs can finish.
+The trade-off: slower deploys,
+and it does nothing for real crashes.
+Even workflow engines like Temporal ask for idempotent steps.
+So design every job so a second run is harmless.
+How does your team handle retries?

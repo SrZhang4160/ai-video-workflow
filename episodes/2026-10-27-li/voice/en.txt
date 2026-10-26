@@ -1,0 +1,33 @@
+Here's a deploy bug your CI won't catch.
+Tests pass.
+The deploy succeeds.
+And your background jobs still break.
+Why?
+A job can wait in a queue for minutes, even hours.
+And a deploy swaps the code underneath it.
+During a rolling deploy, old and new workers run side by side.
+New code adds a field.
+An old worker picks up that job and can't read it,
+or worse, does the wrong thing.
+Rollbacks hit the same problem in reverse.
+So the problem is:
+a job can meet code that doesn't understand it.
+Here's how big teams prevent that.
+Fix one: a two-phase deploy. Amazon does this.
+First, deploy code that can read the new format.
+Only in a second deploy, start writing it.
+So even a rollback lands on code that can read the queue.
+The trade-off: one change becomes two deploys.
+Fix two: change jobs across several releases. GitLab does this.
+Add the new field with a default.
+Stop sending the old one later, and remove it last.
+New workers ship behind feature flags.
+The trade-off: a simple change takes three releases.
+Fix three: pin each job to its version. Temporal does this.
+Work that started on v1 finishes on v1.
+New work goes to v2.
+The trade-off: you run both versions until the old work drains.
+The takeaway:
+never let a job meet code that can't read it.
+Next time: why the same job can run twice.
+How does your team ship worker changes?

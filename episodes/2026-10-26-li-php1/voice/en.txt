@@ -1,0 +1,30 @@
+October 21. The Dutch cyber security agency took its own site offline.
+So did the Port of Rotterdam,
+France's Interior Ministry, and Finland's government network.
+They weren't hacked.
+They were hiding from a bug that had been there for 14 years.
+The bug was in PHP.
+About 70% of websites with a known server language run PHP.
+Anyone could run their own code on your server. No login needed.
+Japan's prime minister told site owners to check if they use PHP.
+Who found it?
+For 14 years, nobody noticed.
+Then two teams using AI found it, weeks apart.
+Calif used GPT. Wiz used Gemini and GPT.
+The fix was planned for October 22.
+But the details leaked early.
+PHP rushed the patch out a day early.
+Exploit code spread online.
+Attackers kept tweaking it to slip past Cloudflare's blocking rules.
+Here's the scary part.
+The skill that finds a bug for defenders
+can also read the patch and build the attack.
+AI makes both sides faster.
+If you run P H P, update now.
+The fixed versions are on screen.
+So what should AI companies do?
+Before this, an attacker had already tricked an AI with one sentence,
+and went after 30 organizations.
+That's next time.
+Quick quiz: can a firewall rule alone fix this bug?
+Yes or no? Tell me in the comments.
