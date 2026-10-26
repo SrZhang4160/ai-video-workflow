@@ -121,7 +121,7 @@ let first = arr[0];   // 1`)}</div>`);
 
     { title: ['考考你', 'Quick quiz'],   // comment quiz (runbooks/scenes.md growth rule 2); answer in meta.json quiz
       cap: [{"zh": "留道题，大家来答：x 是什么类型？", "en": "A quiz for everyone: what type is x?", "say_zh": "最后留道题，大家一起来答：x 是什么类型？", "say_en": "Here's a quiz for everyone: what type is x?"},
-            {"zh": "f32 还是 f64？答案留在评论区！", "en": "f32 or f64? Drop your answer in the comments.", "say_zh": "是 F 三十二，还是 F 六十四？把你的答案留在评论区！", "say_en": "Is it f thirty-two, or f sixty-four? Drop your answer in the comments."}],
+            {"zh": "f32 还是 f64？答案留在评论区！", "en": "f32 or f64? Drop your answer in the comments.", "say_zh": "是 F 三十二，还是 F 六十四？把你的答案留在评论区！", "say_en": "Is it f thirty-two, or f sixty-four? Drop your answer in the comment section."}],
       build() {
         H(`<div class="r card mono" data-cap="0" data-in="pop" style="left:0;right:0;top:40px;padding:30px 40px;font-size:38px;line-height:1.8">${code(`let x = 3.0;`)}</div>`);
         H(`<div class="r" data-cap="1" style="left:0;right:0;top:238px;display:flex;gap:48px;justify-content:center">

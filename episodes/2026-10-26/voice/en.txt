@@ -23,4 +23,4 @@ an array holds just one type.
 Next time: functions and expressions.
 Why does the last line skip the semicolon?
 Here's a quiz for everyone: what type is x?
-Is it f thirty-two, or f sixty-four? Drop your answer in the comments.
+Is it f thirty-two, or f sixty-four? Drop your answer in the comment section.
