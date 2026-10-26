@@ -12,8 +12,23 @@ The same content goes to every platform. Only the language changes: 小红书 an
 2. **Accurate.** Code must compile or run as shown. If unsure, cut it.
 3. **No company promotion.** Never mention RELAI, the user's employer, its products, customers or metrics. Public tools (Rust, Cargo, Claude Code, MCP, OpenAI…) are fine.
 4. **No meta labels.** No "AI voice", "made with AI", series slogans or progress bars on screen.
-5. **Structure 总–分–总**: hook question → 2–4 points with visuals → one-line takeaway → teaser for the next lesson.
-6. **Length**: 6–9 scenes, ~55–75 s spoken in Chinese. Chinese is spoken, conversational (咱们、其实、你看), like a person talking.
+5. **The title is a promise.** If the title or hook asks "why" (为什么), one scene must answer the why (the design reason), not only show what happens. If the video only shows how, title it as how.
+6. **Structure 总–分–总**: hook question → 2–4 points with visuals → one-line takeaway (a "一张图总结" card worth saving) → teaser for the next lesson → **comment quiz** (last scene, see below).
+7. **Length**: 6–9 scenes plus the quiz scene, ~55–80 s spoken in Chinese. Chinese is spoken, conversational (咱们、其实、你看), like a person talking.
+
+## Growth rules (小红书 pushes a note further only if people interact)
+小红书 first shows a new note to a small pool (a few hundred views) and decides from interaction whether to push it further. Commonly cited (unofficial) weights: like or save = 1, comment or share = 4, follow = 8. So a comment is worth four likes: every episode is built to make people comment and save.
+
+1. **First 3 seconds = the viewer's question.** Open with the problem or a question the viewer cares about ("面试被问到这个，你答得出吗？", "这行代码为什么编译不过？"). Never open with a self-introduction or "今天我们讲".
+2. **Comment quiz, every episode.** The last scene is 「考考你 / Quick quiz」: a tiny code snippet or situation with **one definite answer** that a viewer who watched can get (guess-the-answer, A or B, "能编译吗？"). Not an opinion question ("你被坑过吗？"): a quiz is easier to answer and makes people come back for the answer.
+   - On screen: the snippet in a code card, two option chips (A / B or 能 / 不能), and 「答案评论区见 👇 / Answer in the comments」.
+   - In the voice: two caption pages, e.g. `['考考你：x 是什么类型？', 'Quick quiz: what type is x?']`, `['f32 还是 f64？评论区告诉我。', 'f32 or f64? Tell me in the comments.']`.
+   - In the post copy: every platform's `body` ends with the same quiz.
+   - The answer + a one-line reason goes in `meta.json` → `quiz` (below). The user pins it as the first comment after posting (the evening reminder shows it).
+   - The quiz must be accurate: if it's code, it must really (not) compile for the stated reason.
+3. **Worth saving.** The takeaway scene is a one-table / one-picture summary people screenshot or save.
+4. **Cover and title say what you'll learn** in one glance (a question or a concrete payoff), same visual style every day so the profile looks like a series.
+5. **Consistency.** Daily at the scheduled time, same style; the first episodes of a series get pinned on the profile as the entry point.
 
 ## episode.js shape
 
@@ -67,7 +82,7 @@ Good visual vocabulary (use a different one each scene; at least one diagram per
 - boxes and arrows (absolute-positioned divs or a small inline `<svg>`; give SVG text `font-family="Noto Sans SC"` and fill colors)
 - stacked layers / pipeline / timeline / 2×2 matrix / terminal output card
 - a big number or keyword card for the takeaway
-- last scene: next-lesson card (`下期预告 / Next episode`)
+- second-to-last scene: next-lesson card (`下期预告 / Next episode`); last scene: the quiz card (`考考你 / Quick quiz`)
 
 Layout rules: keep everything inside 0–960 × 0–900; minimum text 24px; don't put more than ~6 elements in one scene; English strings run longer than Chinese, so size boxes for English (check the 4:5 and 9:16 renders).
 
@@ -81,10 +96,15 @@ Layout rules: keep everything inside 0–960 × 0–900; minimum text 24px; don'
     "xhs":      {"title": "≤20字，有钩子", "body": "3–5 行口语正文 + 一句互动提问", "tags": ["Rust", "编程入门", "AI工程师", "碎片时间学AI工程师"]},
     "douyin":   {"title": "≤30字", "body": "1–2 行", "tags": ["Rust", "编程", "程序员"]},
     "tiktok":   {"body": "1–2 short lines, hook first", "tags": ["rust", "coding", "learntocode", "programming"]},
-    "linkedin": {"title": "short hook line", "body": "3–6 short lines: the idea, why it matters, one question to the reader", "tags": ["Rust", "SoftwareEngineering", "AIEngineering"]}
+    "linkedin": {"title": "short hook line", "body": "3–6 short lines: the idea, why it matters, then the quiz", "tags": ["Rust", "SoftwareEngineering", "AIEngineering"]}
+  },
+  "quiz": {
+    "q_zh": "let x = 3.0; x 是 f32 还是 f64？", "q_en": "let x = 3.0; is x an f32 or an f64?",
+    "answer_zh": "答案：f64。Rust 的浮点数不写类型时默认是 f64。", "answer_en": "Answer: f64. Floats default to f64 in Rust."
   }
 }
 ```
+Every `body` ends with the quiz question (小红书 / 抖音: 「…评论区告诉我～」). `quiz.answer_zh` is the pinned first comment on 小红书 and 抖音; `answer_en` on TikTok and LinkedIn.
 No links or "follow me on other platform" lines (小红书 punishes off-site redirects). No employer mentions.
 
 ## Check your work

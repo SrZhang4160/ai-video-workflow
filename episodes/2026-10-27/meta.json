@@ -5,22 +5,48 @@
   "captions": {
     "xhs": {
       "title": "Rust 函数没写 return 也能返回？",
-      "body": "第 4 课：函数与表达式\n语句只做事，表达式会算出一个值\n最后一行不加分号 → 它就是返回值\n多加一个分号 → 返回空元组 ()，直接编译报错\n你被这个分号坑过吗？评论区聊聊～",
-      "tags": ["Rust", "编程入门", "程序员", "AI工程师", "碎片时间学AI工程师"]
+      "body": "第 4 课：函数与表达式\n语句只做事，表达式会算出一个值\n最后一行不加分号 → 它就是返回值\n多加一个分号 → 返回空元组 ()，直接编译报错\n考考你：fn five() -> i32 { 5; } 能编译吗？ 评论区告诉我～",
+      "tags": [
+        "Rust",
+        "编程入门",
+        "程序员",
+        "AI工程师",
+        "碎片时间学AI工程师"
+      ]
     },
     "douyin": {
       "title": "一个分号，决定 Rust 函数返回什么",
-      "body": "最后一行不加分号就是返回值，加了分号值就没了。",
-      "tags": ["Rust", "编程", "程序员"]
+      "body": "最后一行不加分号就是返回值，加了分号值就没了。\n考考你：fn five() -> i32 { 5; } 能编译吗？ 评论区告诉我～",
+      "tags": [
+        "Rust",
+        "编程",
+        "程序员"
+      ]
     },
     "tiktok": {
-      "body": "No return keyword, still returns a value? In Rust, the last line without a semicolon is the return value.",
-      "tags": ["rust", "rustlang", "coding", "learntocode", "programming"]
+      "body": "No return keyword, still returns a value? In Rust, the last line without a semicolon is the return value. Quick quiz: fn five() -> i32 { 5; }  Does it compile? Comment your answer.",
+      "tags": [
+        "rust",
+        "rustlang",
+        "coding",
+        "learntocode",
+        "programming"
+      ]
     },
     "linkedin": {
       "title": "In Rust, one semicolon decides what a function returns",
-      "body": "Statements do something; expressions evaluate to a value.\nThe last expression in a function body, with no semicolon, is the return value.\nAdd a semicolon and it becomes a statement that yields (), so the types no longer match.\nBlocks work the same way, which is why if can be an expression too.\nDid this semicolon ever trip you up?",
-      "tags": ["Rust", "SoftwareEngineering", "LearningInPublic"]
+      "body": "Statements do something; expressions evaluate to a value.\nThe last expression in a function body, with no semicolon, is the return value.\nAdd a semicolon and it becomes a statement that yields (), so the types no longer match.\nBlocks work the same way, which is why if can be an expression too.\nQuick quiz: fn five() -> i32 { 5; }  Does it compile? Answer in the comments.",
+      "tags": [
+        "Rust",
+        "SoftwareEngineering",
+        "LearningInPublic"
+      ]
     }
+  },
+  "quiz": {
+    "q_zh": "fn five() -> i32 { 5; } 能编译吗？",
+    "q_en": "fn five() -> i32 { 5; }  Does it compile?",
+    "answer_zh": "答案：不能。5 后面加了分号就变成语句，函数实际返回 ()，和 i32 对不上（mismatched types）。去掉分号就好了。",
+    "answer_en": "Answer: no. The semicolon turns 5 into a statement, so the function returns (), not i32 (mismatched types). Drop the semicolon."
   }
 }

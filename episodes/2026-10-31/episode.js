@@ -152,5 +152,19 @@ r2.push('!');`)}</div>`);
           <div class="s" style="font-size:40px;margin-top:20px">${T('切片是什么 · What is a slice', 'What is a slice?')}</div>
           <div class="mono acc" style="font-size:32px;margin-top:30px">&amp;s[0..2]</div></div>`);
       } },
+
+    { title: ['考考你', 'Quick quiz'],   // comment quiz (runbooks/scenes.md growth rule 2); answer in meta.json quiz
+      cap: [{"zh": "考考你：这段代码能编译吗？", "en": "Quick quiz: does this code compile?", "say_zh": "考考你：这段代码能编译吗？", "say_en": "Quick quiz: does this code compile?"},
+            {"zh": "能，还是不能？评论区告诉我。", "en": "Yes or no? Tell me in the comments.", "say_zh": "能，还是不能？评论区告诉我。", "say_en": "Yes or no? Tell me in the comments."}],
+      build() {
+        H(`<div class="r card mono" data-cap="0" data-in="pop" style="left:0;right:0;top:40px;padding:30px 40px;font-size:38px;line-height:1.8">${code(`let mut s = String::new();
+let r = &s;
+s.push('a');
+println!("{}", r);`)}</div>`);
+        H(`<div class="r" data-cap="1" style="left:0;right:0;top:442px;display:flex;gap:48px;justify-content:center">
+          <div class="card center h" style="width:380px;height:130px;font-size:46px;border-color:var(--blue)">A · ${T("能", "Yes")}</div>
+          <div class="card center h" style="width:380px;height:130px;font-size:46px;border-color:var(--acc)">B · ${T("不能", "No")}</div></div>`);
+        H(`<div class="r h acc" data-cap="1" data-delay="0.6" style="left:0;right:0;top:642px;text-align:center;font-size:52px">${T('答案评论区见 ↓', 'Answer in the comments ↓')}</div>`);
+      } },
   ],
 };

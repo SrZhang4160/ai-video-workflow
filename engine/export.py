@@ -41,6 +41,7 @@ def main():
         "script": [{"zh": c.get("zh") or "", "en": c["en"]} for s in ep["scenes"] for c in s["caps"]],
         "captions": meta["captions"],
     }
+    if meta.get("quiz"): doc["quiz"] = meta["quiz"]     # pinned-comment answer, shown on the board and in the evening reminder
     out = os.path.join(ROOT, "build", eid); os.makedirs(out, exist_ok=True)
     json.dump(doc, open(os.path.join(out, "doc.json"), "w"), ensure_ascii=False, indent=1)
     print(f"{eid}: {len(ep['scenes'])} scenes, {len(doc['script'])} caption lines → voice/zh.txt, voice/en.txt, build/{eid}/doc.json")

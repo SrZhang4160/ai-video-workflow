@@ -175,6 +175,7 @@ function cutsView(e) {
   const f = (e.finals || {})[tab] || {}, cap = (e.captions || {})[tab], posted = (e.posted || {})[tab];
   const [, name, spec] = PLAT.find(p => p[0] === tab);
   const vurl = src(f.video), curl = src(f.cover);
+  const pin = e.quiz ? (tab === 'xhs' || tab === 'douyin' ? e.quiz.answer_zh : e.quiz.answer_en) : '';
   return h('div', {class: 'cuts'},
     h('div', {class: 'tabs', role: 'tablist'}, PLAT.map(([k, n]) => h('button', {class: 'tab', role: 'tab', 'aria-selected': String(k === tab),
       onclick: () => { tabs[e.id] = k; render(); }}, n, (e.posted || {})[k] ? h('span', {class: 'ok'}, ' ✓') : null))),
@@ -183,8 +184,10 @@ function cutsView(e) {
       h('div', {class: 'copybox'},
         h('div', {class: 'lbl'}, `${name} · ${spec}${f.seconds ? ' · ' + f.seconds + 's' : ''}`),
         h('pre', {}, captionText(cap) || '（这个平台的文案还没写）'),
+        pin ? h('div', {class: 'note'}, h('b', {}, '发完置顶评论：'), pin) : null,
         h('div', {class: 'actions'},
           h('button', {onclick: (ev) => copy(captionText(cap), ev.currentTarget), disabled: !cap}, '复制文案'),
+          pin ? h('button', {onclick: (ev) => copy(pin, ev.currentTarget)}, '复制置顶评论') : null,
           h('button', {onclick: () => save(vurl, `${e.date}-${tab}.mp4`), disabled: !vurl}, '下载视频'),
           h('button', {onclick: () => save(curl, `${e.date}-${tab}-cover.png`), disabled: !curl, class: 'ghost'}, '下载封面'),
           h('button', {class: posted ? 'ghost' : 'primary', onclick: () => {

@@ -5,22 +5,48 @@
   "captions": {
     "xhs": {
       "title": "Rust 为什么有两种字符串？",
-      "body": "第 9 课：String 和 &str\nString：拥有文字，放在堆上，能改能变长\n&str：字符串切片，只借一段来看（起点 + 长度）\n切片也是借用，切片还在用，原字符串就不能改\n函数参数优先写 &str，字面量和 &String 都能传\n你第一次被这两种字符串搞晕是什么时候？评论区聊聊～",
-      "tags": ["Rust", "编程入门", "程序员", "AI工程师", "碎片时间学AI工程师"]
+      "body": "第 9 课：String 和 &str\nString：拥有文字，放在堆上，能改能变长\n&str：字符串切片，只借一段来看（起点 + 长度）\n切片也是借用，切片还在用，原字符串就不能改\n函数参数优先写 &str，字面量和 &String 都能传\n考考你：let s = \"hi\"; s.push('!'); 能编译吗？ 评论区告诉我～",
+      "tags": [
+        "Rust",
+        "编程入门",
+        "程序员",
+        "AI工程师",
+        "碎片时间学AI工程师"
+      ]
     },
     "douyin": {
       "title": "一分钟搞懂 Rust 的 String 和 &str",
-      "body": "String 拥有文字能修改，&str 只借一段来看。参数优先写 &str。",
-      "tags": ["Rust", "编程", "程序员"]
+      "body": "String 拥有文字能修改，&str 只借一段来看。参数优先写 &str。\n考考你：let s = \"hi\"; s.push('!'); 能编译吗？ 评论区告诉我～",
+      "tags": [
+        "Rust",
+        "编程",
+        "程序员"
+      ]
     },
     "tiktok": {
-      "body": "Why does Rust have two string types? String owns its text; &str just borrows a slice of it.",
-      "tags": ["rust", "rustlang", "coding", "learntocode", "programming"]
+      "body": "Why does Rust have two string types? String owns its text; &str just borrows a slice of it. Quick quiz: let s = \"hi\"; s.push('!');  Does it compile? Comment your answer.",
+      "tags": [
+        "rust",
+        "rustlang",
+        "coding",
+        "learntocode",
+        "programming"
+      ]
     },
     "linkedin": {
       "title": "Rust has two string types. Here is the difference.",
-      "body": "String owns its text on the heap, so it can grow and change.\n&str is a string slice: a borrowed view, just a pointer plus a length.\nBecause a slice is a borrow, the compiler won't let you change the String while the slice is in use.\nThat's why function parameters usually take &str: literals and &String both fit.\nWhich one do you reach for by default?",
-      "tags": ["Rust", "SoftwareEngineering", "LearningInPublic"]
+      "body": "String owns its text on the heap, so it can grow and change.\n&str is a string slice: a borrowed view, just a pointer plus a length.\nBecause a slice is a borrow, the compiler won't let you change the String while the slice is in use.\nThat's why function parameters usually take &str: literals and &String both fit.\nQuick quiz: let s = \"hi\"; s.push('!');  Does it compile? Answer in the comments.",
+      "tags": [
+        "Rust",
+        "SoftwareEngineering",
+        "LearningInPublic"
+      ]
     }
+  },
+  "quiz": {
+    "q_zh": "let s = \"hi\"; s.push('!'); 能编译吗？",
+    "q_en": "let s = \"hi\"; s.push('!');  Does it compile?",
+    "answer_zh": "答案：不能。\"hi\" 是 &str，只读的字符串切片，没有 push。要改就用 let mut s = String::from(\"hi\")。",
+    "answer_en": "Answer: no. \"hi\" is a &str, a read-only string slice with no push. Use let mut s = String::from(\"hi\") instead."
   }
 }

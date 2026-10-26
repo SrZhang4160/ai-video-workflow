@@ -118,5 +118,16 @@ let first = arr[0];   // 1`)}</div>`);
           ${LANG === 'zh' ? '<div class="s" style="font-size:36px;margin-top:10px">Functions &amp; expressions</div>' : ''}
           <div class="mono acc" style="font-size:28px;margin-top:40px">fn add(a: i32, b: i32) -&gt; i32 { a + b }</div></div>`);
       } },
+
+    { title: ['考考你', 'Quick quiz'],   // comment quiz (runbooks/scenes.md growth rule 2); answer in meta.json quiz
+      cap: [{"zh": "考考你：x 是什么类型？", "en": "Quick quiz: what type is x?", "say_zh": "考考你：x 是什么类型？", "say_en": "Quick quiz: what type is x?"},
+            {"zh": "f32 还是 f64？评论区告诉我。", "en": "f32 or f64? Tell me in the comments.", "say_zh": "f 三十二，还是 f 六十四？评论区告诉我。", "say_en": "f thirty-two, or f sixty-four? Tell me in the comments."}],
+      build() {
+        H(`<div class="r card mono" data-cap="0" data-in="pop" style="left:0;right:0;top:40px;padding:30px 40px;font-size:38px;line-height:1.8">${code(`let x = 3.0;`)}</div>`);
+        H(`<div class="r" data-cap="1" style="left:0;right:0;top:238px;display:flex;gap:48px;justify-content:center">
+          <div class="card center h" style="width:380px;height:130px;font-size:46px;border-color:var(--blue)">A · ${T("f32", "f32")}</div>
+          <div class="card center h" style="width:380px;height:130px;font-size:46px;border-color:var(--acc)">B · ${T("f64", "f64")}</div></div>`);
+        H(`<div class="r h acc" data-cap="1" data-delay="0.6" style="left:0;right:0;top:438px;text-align:center;font-size:52px">${T('答案评论区见 ↓', 'Answer in the comments ↓')}</div>`);
+      } },
   ],
 };
