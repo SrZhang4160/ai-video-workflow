@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-26",
+  "topic_zh": "基本类型：整数、浮点、bool、char、元组、数组",
+  "topic_en": "Rust basic types: integers, floats, bool, char, tuples, arrays",
+  "captions": {
+    "xhs": {
+      "title": "Rust 基本类型，一分钟理清",
+      "body": "第 3 课：Rust 的基本类型就两大类\n标量：整数 i32、浮点 f64、bool、char\n复合：元组装不同类型，数组装同一种类型、长度固定\n小心：1 + 2.0 直接编译报错，Rust 不会偷偷转换\n你觉得 char 能装下一个 emoji 吗？评论区说说～",
+      "tags": ["Rust", "编程入门", "程序员", "AI工程师", "碎片时间学AI工程师"]
+    },
+    "douyin": {
+      "title": "一分钟搞懂 Rust 的基本类型",
+      "body": "标量四种，复合两种：元组可混合，数组同类型、定长。",
+      "tags": ["Rust", "编程", "程序员"]
+    },
+    "tiktok": {
+      "body": "Rust's basic types in one minute: four scalars, plus tuples and arrays. And no, 1 + 2.0 won't compile.",
+      "tags": ["rust", "rustlang", "coding", "learntocode", "programming"]
+    },
+    "linkedin": {
+      "title": "Rust's basic types fit in one table",
+      "body": "Scalars hold one value: integers (i32 by default), floats (f64 by default), bool and char.\nTuples pack values of different types: (500, 6.4, 'z').\nArrays hold one type with a fixed length that lives in the type: [i32; 3].\nRust never converts between integers and floats for you, so 1 + 2.0 is a compile error.\nWould you rather have implicit conversions or explicit ones?",
+      "tags": ["Rust", "SoftwareEngineering", "LearningInPublic"]
+    }
+  }
+}

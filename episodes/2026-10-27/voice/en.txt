@@ -1,0 +1,24 @@
+This function has no return,
+so how does it return a value?
+The secret: the last line has no semicolon.
+First, how a function looks:
+every parameter needs a type,
+and the return type goes after the arrow.
+Inside a function, code comes in two kinds:
+statements do something but give no value;
+expressions evaluate to a value.
+Add a semicolon, and it becomes a statement.
+The value is dropped, leaving the unit type: empty parentheses.
+So in a function body, the last line,
+with no semicolon, is the return value.
+Add one semicolon by habit,
+and the function returns unit, not i 32.
+The compiler even says: remove this semicolon.
+Curly-brace blocks work the same way:
+the last line's value is the whole block's value.
+To recap: no semicolon, it is a value;
+add a semicolon, and the value is gone.
+Save return for exiting early.
+Next time: if and loops,
+and why if is an expression too.
+Follow along and learn with me!

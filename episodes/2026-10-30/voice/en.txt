@@ -1,0 +1,23 @@
+Same line: let b equals a.
+So why is a sometimes unusable afterwards?
+For heap data like a String,
+assignment moves ownership to S two.
+S one is now invalid. Using it is a compile error.
+Want both? Call clone.
+The heap data gets copied in full.
+The cost: the bigger the data, the slower.
+So why does the integer still work?
+i thirty-two lives only on the stack and implements Copy,
+so assignment copies it, and a still works.
+Under the hood, Move and Copy are the same:
+both copy the bytes on the stack.
+The only difference: is the old one still usable?
+Integers, floats, bool and char are Copy.
+String owns heap memory, so it isn't.
+Your own types can derive it too.
+Move hands over ownership; the old one is gone.
+Clone makes an explicit copy, maybe costly.
+Copy is automatic; the old one still works.
+No copy, but still need it? Borrow it.
+Next time: borrowing, ampersand and ampersand mut.
+Follow along and learn with me!

@@ -1,0 +1,22 @@
+Can an if give a value to a variable?
+Yes, because if is an expression.
+Let's clear up control flow in one minute.
+Last time: expressions produce a value.
+if works the same way: whichever branch runs,
+the whole if takes that branch's value.
+Careful: both branches must have the same type.
+A number and a string? It won't compile.
+Since if has a value, Rust needs no ternary operator.
+Now loops. loop runs forever,
+until you break out of it.
+And break can even carry a value out.
+while takes a condition:
+it keeps going while true and stops when false.
+The one you'll use most is for:
+it walks through an array or a range.
+Zero dot dot three means zero, one, two. The three is left out.
+To sum up: if is an expression, so it gives a value.
+Don't know how many rounds? Use loop.
+Have a condition? while. Walking a collection? for.
+Next time, the heart of Rust:
+the three rules of ownership. Follow along!

@@ -1,0 +1,24 @@
+In Rust, every value has a type.
+The basic types come in two groups:
+scalar and compound.
+Integers first: i means signed,
+u means unsigned, zero or more.
+The number after it is the size in bits.
+Leave the type out and you get i thirty-two.
+Numbers with a decimal point are floats: f sixty-four.
+Careful: you can't add an integer to a float,
+Rust won't convert it for you.
+A bool is just true or false.
+A char uses single quotes: one character,
+and it can hold Chinese or even an emoji.
+First compound type: the tuple.
+It packs values of different types together,
+and you read them by position: t dot zero, t dot one.
+An array needs every element to be the same type,
+and its length is fixed, written in the type.
+Read items with square brackets.
+To recap: a scalar is a single value,
+a tuple holds mixed types,
+an array holds just one type.
+Next time: functions and expressions.
+Why does the last line skip the semicolon?

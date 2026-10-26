@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-28",
+  "topic_zh": "控制流：if 是表达式，loop / while / for",
+  "topic_en": "Rust control flow: if is an expression, plus loop, while and for",
+  "captions": {
+    "xhs": {
+      "title": "Rust 的 if 居然能直接赋值？",
+      "body": "第 5 课：控制流\nif 是表达式：let x = if ok { 1 } else { 0 };\n两个分支类型必须一样，所以 Rust 没有三元运算符\nloop 一直转，break 还能带值出来\nwhile 看条件，for 遍历数组和范围（0..3 不含 3）\n你最常用哪种循环？评论区聊聊～",
+      "tags": ["Rust", "编程入门", "程序员", "AI工程师", "碎片时间学AI工程师"]
+    },
+    "douyin": {
+      "title": "一分钟搞懂 Rust 的 if 和三种循环",
+      "body": "if 是表达式能直接赋值；loop、while、for 各管一种场景。",
+      "tags": ["Rust", "编程", "程序员"]
+    },
+    "tiktok": {
+      "body": "In Rust, if is an expression, so it can give a value. Plus loop, while and for in one minute.",
+      "tags": ["rust", "rustlang", "coding", "learntocode", "programming"]
+    },
+    "linkedin": {
+      "title": "In Rust, if gives you a value",
+      "body": "if is an expression: let x = if ok { 1 } else { 0 };\nBoth branches must have the same type, so Rust needs no ternary operator.\nloop runs until break, and break can return a value.\nwhile checks a condition; for walks arrays and ranges (0..3 is 0, 1, 2).\nWhich loop do you reach for most?",
+      "tags": ["Rust", "SoftwareEngineering", "LearningInPublic"]
+    }
+  }
+}

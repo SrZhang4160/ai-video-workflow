@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-29",
+  "topic_zh": "所有权的三条规则",
+  "topic_en": "The 3 rules of Rust ownership",
+  "captions": {
+    "xhs": {
+      "title": "没有垃圾回收，Rust 内存谁来管？",
+      "body": "第 6 课：所有权的三条规则\n① 每个值都有一个主人\n② 同一时刻只有一个主人\n③ 主人离开作用域，值自动清理\n你学所有权时卡在哪一条？评论区聊聊～",
+      "tags": ["Rust", "编程入门", "程序员", "AI工程师", "碎片时间学AI工程师"]
+    },
+    "douyin": {
+      "title": "一分钟记住 Rust 所有权三条规则",
+      "body": "一个值，一个主人；主人走了，值就跟着走。",
+      "tags": ["Rust", "编程", "程序员"]
+    },
+    "tiktok": {
+      "body": "No garbage collector, no manual free. Rust manages memory with 3 ownership rules.",
+      "tags": ["rust", "rustlang", "coding", "learntocode", "programming"]
+    },
+    "linkedin": {
+      "title": "Rust has no garbage collector. Here's who frees the memory.",
+      "body": "Rule 1: every value has an owner.\nRule 2: there is only one owner at a time. Assign it away, and the old name can't be used.\nRule 3: when the owner goes out of scope, the value is dropped.\nAll checked at compile time, so there's no runtime cost.\nWhich rule tripped you up first?",
+      "tags": ["Rust", "SoftwareEngineering", "LearningInPublic"]
+    }
+  }
+}

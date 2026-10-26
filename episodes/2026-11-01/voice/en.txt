@@ -1,0 +1,17 @@
+Rust has two kinds of strings:
+String and ampersand str.
+So what's the difference?
+A String owns its text.
+The text lives on the heap and can grow.
+Ampersand str is called a string slice.
+It doesn't own text. It borrows a view of a part:
+just a start pointer plus a length.
+A slice is a borrow, so last lesson's rules apply:
+while it's in use, you can't change the String.
+A string literal is already a string slice.
+So a string slice is the most flexible parameter type:
+it takes literals and references to a String alike.
+To recap: String owns its text and can change it.
+A string slice just borrows a view of some text.
+Next time: adding methods to your own data.
+Follow along and learn with me!

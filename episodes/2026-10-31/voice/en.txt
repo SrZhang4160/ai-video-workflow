@@ -1,0 +1,23 @@
+Last time: passing a value moves it away.
+What if you just want to use it for a moment?
+The answer: borrow it.
+Put an ampersand in front, and you borrow it.
+The function gets a reference. Ownership stays.
+After the call, s still works.
+Want the function to change it? Use ampersand mut.
+The variable itself must be mut too.
+It comes back changed.
+There's one rule. At any moment,
+either many shared borrows, all read-only,
+or exactly one ampersand mut, which can write.
+Never read and write at the same time.
+Borrow to read, then try to change it,
+and the compiler refuses to build it.
+That rules out data races at compile time.
+Good news: a borrow doesn't wait for the closing brace.
+It ends right after its last use.
+Read first, then change. That compiles.
+To recap: shared borrows can be many, read-only.
+Ampersand mut is exclusive, and it can write.
+Next time: String versus ampersand str,
+and what a slice really is. Follow along!

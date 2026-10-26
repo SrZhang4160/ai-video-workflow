@@ -1,0 +1,19 @@
+Rust has no garbage collector,
+and you don't free memory by hand.
+So who cleans up? Three simple rules.
+Rule one: every value has an owner.
+Here, the owner of this string is s.
+Rule two: only one owner at a time.
+Assign s one to s two, and the owner changes.
+Use s one again, and the compiler says no.
+Rule three: when the owner goes out of scope,
+the value is dropped and its memory freed.
+The compiler inserts that cleanup for you.
+Compare: manual free is easy to forget or double up,
+a garbage collector costs time at runtime,
+ownership settles it all at compile time.
+To sum up: one value, one owner,
+and when the owner leaves, the value goes too.
+Next time, three words you'll see everywhere:
+Move, Clone and Copy.
+Follow along and learn with me!

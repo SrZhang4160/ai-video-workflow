@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-31",
+  "topic_zh": "借用：& 和 &mut 的规则",
+  "topic_en": "Rust borrowing: the rules of & and &mut",
+  "captions": {
+    "xhs": {
+      "title": "Rust 借用：一条规则就够了",
+      "body": "第 8 课：& 和 &mut\n只想用一下，不想交出所有权？加 & 借给它\n想让函数改它：变量用 mut，再借 &mut\n规则只有一条：多个只读 & 或者一个 &mut，不能同时\n借用在最后一次使用后就结束，先读完再改就能编译\n你被借用检查器拦过几次？评论区聊聊～",
+      "tags": ["Rust", "编程入门", "程序员", "AI工程师", "碎片时间学AI工程师"]
+    },
+    "douyin": {
+      "title": "一分钟搞懂 Rust 的 & 和 &mut",
+      "body": "多个只读借用，或者一个可变借用，不能同时。",
+      "tags": ["Rust", "编程", "程序员"]
+    },
+    "tiktok": {
+      "body": "Rust borrowing in one rule: many & readers OR one &mut writer, never both at once.",
+      "tags": ["rust", "rustlang", "coding", "learntocode", "programming"]
+    },
+    "linkedin": {
+      "title": "Rust's borrowing rule fits in one line",
+      "body": "&: lend a value without giving up ownership. Read-only, and you can have many.\n&mut: lend it to be changed. Only one at a time.\nMix them and the compiler refuses to build, which rules out data races.\nA borrow ends at its last use, so read first, then write.\nWhich borrow-checker error tripped you up the most?",
+      "tags": ["Rust", "SoftwareEngineering", "LearningInPublic"]
+    }
+  }
+}

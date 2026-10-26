@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-30",
+  "topic_zh": "Move、Clone、Copy 有什么区别",
+  "topic_en": "Rust: Move vs Clone vs Copy",
+  "captions": {
+    "xhs": {
+      "title": "let b = a 之后，a 为啥不能用了？",
+      "body": "第 7 课：Move、Clone、Copy\nMove：所有权搬走，旧变量作废\nClone：手动 .clone()，完整复制一份，可能很贵\nCopy：i32 这类只在栈上的类型，赋值自动复制，旧的照样能用\n你写 Rust 时最常被哪个坑到？评论区聊聊～",
+      "tags": ["Rust", "编程入门", "程序员", "AI工程师", "碎片时间学AI工程师"]
+    },
+    "douyin": {
+      "title": "一分钟搞懂 Rust 的 Move、Clone、Copy",
+      "body": "同样是 let b = a，String 会被搬走，i32 却能接着用。区别就在这三个词。",
+      "tags": ["Rust", "编程", "程序员"]
+    },
+    "tiktok": {
+      "body": "Same line, let b = a. Why does a break for a String but not for an i32? Move, Clone and Copy explained.",
+      "tags": ["rust", "rustlang", "coding", "learntocode", "programming"]
+    },
+    "linkedin": {
+      "title": "Move, Clone, Copy: three ways a Rust value gets passed on",
+      "body": "Move: ownership goes to the new variable; the old one can't be used.\nClone: an explicit .clone() that copies heap data in full, and can be costly.\nCopy: stack-only types like i32 are copied automatically, and the old variable still works.\nUnder the hood, Move and Copy both copy bytes. The difference is whether the old variable stays valid.\nWhich one tripped you up first?",
+      "tags": ["Rust", "SoftwareEngineering", "LearningInPublic"]
+    }
+  }
+}

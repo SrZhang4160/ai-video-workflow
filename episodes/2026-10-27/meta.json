@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-27",
+  "topic_zh": "函数与表达式：最后一行不加分号就是返回值",
+  "topic_en": "Rust functions and expressions: the last line is the return value",
+  "captions": {
+    "xhs": {
+      "title": "Rust 函数没写 return 也能返回？",
+      "body": "第 4 课：函数与表达式\n语句只做事，表达式会算出一个值\n最后一行不加分号 → 它就是返回值\n多加一个分号 → 返回空元组 ()，直接编译报错\n你被这个分号坑过吗？评论区聊聊～",
+      "tags": ["Rust", "编程入门", "程序员", "AI工程师", "碎片时间学AI工程师"]
+    },
+    "douyin": {
+      "title": "一个分号，决定 Rust 函数返回什么",
+      "body": "最后一行不加分号就是返回值，加了分号值就没了。",
+      "tags": ["Rust", "编程", "程序员"]
+    },
+    "tiktok": {
+      "body": "No return keyword, still returns a value? In Rust, the last line without a semicolon is the return value.",
+      "tags": ["rust", "rustlang", "coding", "learntocode", "programming"]
+    },
+    "linkedin": {
+      "title": "In Rust, one semicolon decides what a function returns",
+      "body": "Statements do something; expressions evaluate to a value.\nThe last expression in a function body, with no semicolon, is the return value.\nAdd a semicolon and it becomes a statement that yields (), so the types no longer match.\nBlocks work the same way, which is why if can be an expression too.\nDid this semicolon ever trip you up?",
+      "tags": ["Rust", "SoftwareEngineering", "LearningInPublic"]
+    }
+  }
+}

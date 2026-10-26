@@ -9,13 +9,13 @@ Rules for every lesson: teach the viewer (not "what I learned"), one idea per vi
 ## Rust（跟着学习计划第 1–4 周）
 - [x] 1. Rust 知识全景：五块知识怎么搭（2026-10-24 首发）
 - [x] 2. 变量：let、mut 和 shadowing
-- [ ] 3. 基本类型：整数、浮点、bool、char、元组、数组
-- [ ] 4. 函数与表达式：最后一行不加分号就是返回值
-- [ ] 5. 控制流：if 是表达式，loop / while / for
-- [ ] 6. 所有权的三条规则
-- [ ] 7. Move、Clone、Copy 有什么区别
-- [ ] 8. 借用：& 和 &mut 的规则
-- [ ] 9. String 和 &str：切片是什么
+- [x] 3. 基本类型：整数、浮点、bool、char、元组、数组
+- [x] 4. 函数与表达式：最后一行不加分号就是返回值
+- [x] 5. 控制流：if 是表达式，loop / while / for
+- [x] 6. 所有权的三条规则
+- [x] 7. Move、Clone、Copy 有什么区别
+- [x] 8. 借用：& 和 &mut 的规则
+- [x] 9. String 和 &str：切片是什么
 - [ ] 10. struct + impl：给数据加方法
 - [ ] 11. enum + match：穷尽所有情况
 - [ ] 12. Option：Rust 为什么没有 null
