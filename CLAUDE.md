@@ -22,7 +22,7 @@ Times and sources: `series/schedule.json`. The user publishes by hand; nothing h
 3. **Every night ~2:50 and ~6:30 AM ET**, `runbooks/nightly.md` (the approval hook): voiced → preview; approved → render all four cuts + upload; changes → revise the script; new voice → re-render. Episodes airing today/tomorrow get built regardless, so a post day is never blocked.
 4. **Reminders**: weekdays 9:50 (LinkedIn) and daily 18:40 (小红书 / 抖音 / TikTok) the user gets a push to re-check and post today's episode.
 
-**All video generation runs only between 00:00 and 09:00 ET.**
+**Scheduled generation runs between 00:00 and 09:00 ET. Exception: when the user submits a review on the board (通过 or 要修改), it is handled right away (review-watch task, every 10 min).**
 
 ## Layout
 - `engine/`: `lesson.html` (scene engine, three ratios × two languages), `render.py` (frames + voice → mp4 + covers + contact sheets), `export.py` (voice scripts + board doc), `tts.py` (AI fallback voice), `setup.sh`.

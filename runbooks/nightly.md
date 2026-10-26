@@ -5,7 +5,9 @@ Review board: https://claude.ai/artifact/C2QhJCX4jV1JNNXhyrfMdb (db collection `
 Voice: the user's Mac voices every script line in the user's cloned voice and pushes `episodes/<date>/voice/<lang>/sNN.ogg` (local/voice_job.sh, every 20 min while the Mac is awake). `python3 engine/render.py episodes/<date> --status` prints `{"zh": [voiced, scenes], "en": [...]}`. "Near" below means the air date is today or tomorrow (ET).
 
 ## 0. Guard and early exit
-- Only run 00:00–09:00 America/New_York when started by the schedule; otherwise stop with "outside generation window".
+- **Review trigger** (started by the review-watch task, any time of day): there is work only if a doc is `changes`, or `approved` with no `finals` yet. Ignore the time window for those; skip sections 2 and 4 (previews and re-renders of untouched episodes wait for the night). If nothing qualifies, stop with "nothing to do" right after the list, before `git pull` or setup.
+- **Lock**: if `build/.lock` exists and is younger than 60 min, stop with "another run is working". Otherwise write the current time to it, and delete it when the run ends (also on failure).
+- Otherwise (nightly schedule): only run 00:00–09:00 America/New_York; otherwise stop with "outside generation window".
 - `ArtifactData list episodes`, then `git pull`. There is work if any doc is `changes`; or `voicing` / `approved`; or `draft` / `built` (nothing in `posted`) whose `voice_sig` differs from `git log -1 --format=%h -- episodes/<date>/voice/` (use "none" when empty). If there is no work, stop with "nothing to build" before any setup.
 - Otherwise `bash engine/setup.sh`.
 

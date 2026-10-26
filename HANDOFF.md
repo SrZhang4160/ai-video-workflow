@@ -24,7 +24,8 @@ Plus occasional **LinkedIn deep dives** (English only) in the hand-drawn whitebo
 - All audio in **the user's own cloned voice** (CosyVoice3), Chinese and English. AI voice only as a last-resort fallback.
 - English videos: **slower** pacing so viewers can digest; state the problem clearly in the title; lively visuals.
 - Deep dives: describe the problem well first, then solutions; use the sketchy whiteboard style.
-- **All video-generation work (token-heavy) runs only 00:00–09:00 ET**, except when the user asks for something now.
+- **Video-generation work (token-heavy) runs 00:00–09:00 ET**, except when the user asks for something now, and except
+  board reviews: once the user taps 通过 or submits 要修改, act right away (changed 2026-10-26; review-watch task).
 - Weekly batch: **every Friday** draft the next Mon–Sun (7 episodes); user reviews Fri–Sun on the review board.
 - 小红书: mark AI-generated content under 高级选项 → 自主声明; no off-site links or "follow me elsewhere" lines.
 
