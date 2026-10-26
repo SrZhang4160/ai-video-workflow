@@ -20,3 +20,5 @@ Don't know how many rounds? Use loop.
 Have a condition? while. Walking a collection? for.
 Next time, the heart of Rust:
 the three rules of ownership. Follow along!
+Quick quiz: does this code compile?
+Yes or no? Tell me in the comments.

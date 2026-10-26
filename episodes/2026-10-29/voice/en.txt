@@ -17,3 +17,5 @@ and when the owner leaves, the value goes too.
 Next time, three words you'll see everywhere:
 Move, Clone and Copy.
 Follow along and learn with me!
+Quick quiz: does this code compile?
+Yes or no? Tell me in the comments.

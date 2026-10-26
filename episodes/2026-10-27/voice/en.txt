@@ -22,3 +22,5 @@ Save return for exiting early.
 Next time: if and loops,
 and why if is an expression too.
 Follow along and learn with me!
+Quick quiz: does this code compile?
+Yes or no? Tell me in the comments.

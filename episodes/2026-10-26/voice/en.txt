@@ -22,3 +22,5 @@ a tuple holds mixed types,
 an array holds just one type.
 Next time: functions and expressions.
 Why does the last line skip the semicolon?
+Quick quiz: what type is x?
+f thirty-two, or f sixty-four? Tell me in the comments.

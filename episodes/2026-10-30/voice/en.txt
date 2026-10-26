@@ -21,3 +21,5 @@ Copy is automatic; the old one still works.
 No copy, but still need it? Borrow it.
 Next time: borrowing, ampersand and ampersand mut.
 Follow along and learn with me!
+Quick quiz: does this code compile?
+Yes or no? Tell me in the comments.

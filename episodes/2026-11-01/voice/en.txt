@@ -15,3 +15,5 @@ To recap: String owns its text and can change it.
 A string slice just borrows a view of some text.
 Next time: adding methods to your own data.
 Follow along and learn with me!
+Quick quiz: does this code compile?
+Yes or no? Tell me in the comments.

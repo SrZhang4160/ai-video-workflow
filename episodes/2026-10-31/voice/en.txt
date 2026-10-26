@@ -21,3 +21,5 @@ To recap: shared borrows can be many, read-only.
 Ampersand mut is exclusive, and it can write.
 Next time: String versus ampersand str,
 and what a slice really is. Follow along!
+Quick quiz: does this code compile?
+Yes or no? Tell me in the comments.
