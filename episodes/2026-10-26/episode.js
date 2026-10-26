@@ -5,7 +5,7 @@ window.EPISODE = {
     { title: ['Rust 的基本类型', "Rust's basic types"],
       cap: [['Rust 里每个值都有类型。', 'In Rust, every value has a type.'],
             ['基本类型其实就两大类：', 'The basic types come in two groups:'],
-            ['标量，和复合。', 'scalar and compound.']],
+            {zh: '一类叫标量，一类叫复合。', en: 'scalar and compound.', say_zh: '一类叫标量，一类叫复合类型。'}],
       build() {
         H(`<div class="r card center" data-cap="0" data-in="pop" style="left:280px;width:400px;top:30px;height:130px;flex-direction:column;border-color:var(--acc)">
           <div class="h">${B('基本类型', 'Basic types')}</div></div>`);
@@ -50,7 +50,7 @@ let y: f32 = 1.0;   // f32`)}</div>`);
       } },
 
     { title: ['bool 和 char', 'bool and char'],
-      cap: [['bool：true 或 false。', 'A bool is just true or false.'],
+      cap: [{zh: 'bool 只有两个值：true 和 false。', en: 'A bool is just true or false.', say_zh: '布尔类型，只有两个值：true，和 false。', say_en: 'A bool is just true, or false.'},
             ['char 用单引号，是一个字符，', 'A char uses single quotes: one character,'],
             ['中文、emoji 都能装下。', 'and it can hold Chinese or even an emoji.']],
       build() {
@@ -120,14 +120,14 @@ let first = arr[0];   // 1`)}</div>`);
       } },
 
     { title: ['考考你', 'Quick quiz'],   // comment quiz (runbooks/scenes.md growth rule 2); answer in meta.json quiz
-      cap: [{"zh": "考考你：x 是什么类型？", "en": "Quick quiz: what type is x?", "say_zh": "考考你：x 是什么类型？", "say_en": "Quick quiz: what type is x?"},
-            {"zh": "f32 还是 f64？评论区告诉我。", "en": "f32 or f64? Tell me in the comments.", "say_zh": "f 三十二，还是 f 六十四？评论区告诉我。", "say_en": "f thirty-two, or f sixty-four? Tell me in the comments."}],
+      cap: [{"zh": "留道题，大家来答：x 是什么类型？", "en": "A quiz for everyone: what type is x?", "say_zh": "最后留道题，大家一起来答：x 是什么类型？", "say_en": "Here's a quiz for everyone: what type is x?"},
+            {"zh": "f32 还是 f64？答案留在评论区！", "en": "f32 or f64? Drop your answer in the comments.", "say_zh": "是 F 三十二，还是 F 六十四？把你的答案留在评论区！", "say_en": "Is it f thirty-two, or f sixty-four? Drop your answer in the comments."}],
       build() {
         H(`<div class="r card mono" data-cap="0" data-in="pop" style="left:0;right:0;top:40px;padding:30px 40px;font-size:38px;line-height:1.8">${code(`let x = 3.0;`)}</div>`);
         H(`<div class="r" data-cap="1" style="left:0;right:0;top:238px;display:flex;gap:48px;justify-content:center">
           <div class="card center h" style="width:380px;height:130px;font-size:46px;border-color:var(--blue)">A · ${T("f32", "f32")}</div>
           <div class="card center h" style="width:380px;height:130px;font-size:46px;border-color:var(--acc)">B · ${T("f64", "f64")}</div></div>`);
-        H(`<div class="r h acc" data-cap="1" data-delay="0.6" style="left:0;right:0;top:438px;text-align:center;font-size:52px">${T('答案评论区见 ↓', 'Answer in the comments ↓')}</div>`);
+        H(`<div class="r h acc" data-cap="1" data-delay="0.6" style="left:0;right:0;top:438px;text-align:center;font-size:52px">${T('你选哪个？评论区见 ↓', 'Your pick? Comment below ↓')}</div>`);
       } },
   ],
 };
