@@ -52,7 +52,7 @@ let kind = if n % 2 == 0 {
             ['直到你用 break 跳出来。', 'until you break out of it.'],
             ['而且 break 后面还能带一个值。', 'And break can even carry a value out.']],
       build() {
-        H(`<div class="r card mono" data-cap="0" style="left:0;right:0;top:20px;padding:26px 40px;font-size:32px;line-height:1.6">${code(`let mut count = 0;
+        H(`<div class="r card mono" data-cap="0" style="left:0;right:0;top:20px;padding:26px 40px;font-size:${T('32px', '28px')};line-height:1.6">${code(`let mut count = 0;
 let result = loop {
     count += 1;
     if count == 3 {
