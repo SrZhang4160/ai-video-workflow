@@ -3,8 +3,8 @@ window.EPISODE = {
   n: 5,
   scenes: [
     { title: ['if 也能有值？', 'Can an if have a value?'],
-      cap: [['if 能直接给变量赋值？', 'Can an if give a value to a variable?'],
-            ['能，因为 if 是表达式。', 'Yes, because if is an expression.'],
+      cap: [{zh: 'if 能直接给变量赋值？', en: 'Can an if give a value to a variable?', say_zh: '条件判断能直接给变量赋值？'},
+            {zh: '能，因为 if 是表达式。', en: 'Yes, because if is an expression.', say_zh: '能，因为条件判断是表达式。'},
             ['一分钟把控制流讲清楚。', "Let's clear up control flow in one minute."]],
       build() {
         H(`<div class="r card mono" data-cap="0" style="left:0;right:0;top:60px;padding:40px 44px;font-size:40px;line-height:1.8">${code(`let x = if ok { 1 } else { 0 };`)}</div>`);
@@ -17,8 +17,8 @@ window.EPISODE = {
 
     { title: ['if 的值 = 执行的分支', 'if takes the branch\'s value'],
       cap: [['上期说过，表达式会产生值。', 'Last time: expressions produce a value.'],
-            ['if 也一样：哪个分支执行，', 'if works the same way: whichever branch runs,'],
-            ['整个 if 就等于那个分支的值。', 'the whole if takes that branch\'s value.']],
+            {zh: 'if 也一样：哪个分支执行，', en: 'if works the same way: whichever branch runs,', say_zh: '条件判断也一样：哪个分支执行，'},
+            {zh: '整个 if 就等于那个分支的值。', en: 'the whole if takes that branch\'s value.', say_zh: '整个条件判断就等于那个分支的值。'}],
       build() {
         H(`<div class="r card mono" data-cap="0" style="left:0;width:590px;top:20px;padding:30px 30px;font-size:30px;line-height:1.75">${code(`let n = 7;
 let kind = if n % 2 == 0 {
@@ -37,7 +37,7 @@ let kind = if n % 2 == 0 {
     { title: ['两个分支，类型要一样', 'Both branches: same type'],
       cap: [['注意：两个分支类型必须一样。', 'Careful: both branches must have the same type.'],
             ['一个数字，一个字符串？编译不过。', 'A number and a string? It won\'t compile.'],
-            ['if 本身有值，不需要三元运算符。', 'Since if has a value, Rust needs no ternary operator.']],
+            {zh: 'if 本身有值，不需要三元运算符。', en: 'Since if has a value, Rust needs no ternary operator.', say_zh: '条件判断本身有值，不需要三元运算符。'}],
       build() {
         H(`<div class="r card mono" data-cap="1" data-shake="1" style="left:0;right:0;top:20px;padding:28px 38px;font-size:32px;line-height:1.7;border-color:var(--red)">
           <div class="s" style="font-family:'Noto Sans SC';margin-bottom:4px">${T('类型不一致', 'Types differ')} ${icon('cross', 34, 'var(--red)')}</div>${code(`let x = if ok { 5 } else { "five" };`)}
@@ -100,7 +100,7 @@ for i in 0..3 {
       } },
 
     { title: ['一张图记住', 'Remember it in one picture'],
-      cap: [['总结：if 是表达式，能产生值。', 'To sum up: if is an expression, so it gives a value.'],
+      cap: [{zh: '总结：if 是表达式，能产生值。', en: 'To sum up: if is an expression, so it gives a value.', say_zh: '总结：条件判断是表达式，能产生值。'},
             ['不知道转几圈，用 loop；', "Don't know how many rounds? Use loop."],
             ['条件用 while，遍历用 for。', 'Have a condition? while. Walking a collection? for.']],
       build() {
