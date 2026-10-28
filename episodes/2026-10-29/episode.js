@@ -83,7 +83,7 @@ println!("{s1}");  // ${T('不能再用 s1', 's1 is gone')}`)}</div>`);
           .forEach(([n, z, e], i) => H(`<div class="r card" data-cap="${i < 2 ? 0 : 1}" data-delay="${i === 1 ? 0.6 : 0}" style="left:0;right:0;top:${30 + i * 160}px;height:130px;display:flex;align-items:center;gap:30px;padding:0 40px">
             <div class="mono acc" style="font-size:52px;font-weight:800">${n}</div><div style="font-size:38px;font-weight:700">${T(z, e)}</div></div>`));
         H(`<div class="r center" data-cap="1" data-delay="0.8" data-in="pop" style="left:0;right:0;top:560px;height:160px">
-          <div class="card center" style="padding:24px 50px;border-color:var(--acc);font-size:44px;font-weight:800">${T('一个值 · 一个<span class="acc">主人</span>', 'One value · one <span class="acc">owner</span>')}</div></div>`);
+          <div class="card center" style="padding:24px 50px;border-color:var(--acc);font-size:44px;font-weight:800">${T('一个值 · 一个<span class="acc">主人</span>', 'One value · one&nbsp;<span class="acc">owner</span>')}</div></div>`);
       } },
 
     { title: ['下期预告', 'Next episode'],
