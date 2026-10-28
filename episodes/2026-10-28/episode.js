@@ -110,7 +110,7 @@ for i in 0..3 {
           <div>${icon(ic, 70, 'var(--acc2)')}</div>
           <div class="mono" style="font-size:44px;font-weight:800;margin-top:20px">${k}</div>
           <div class="s" style="margin-top:24px">${T(z, e)}</div></div>`);
-        card(0, 'loop', 'retry', '不知道几圈', 'unknown rounds', 1);
+        card(0, 'loop', 'retry', '靠 break 退出', 'until break', 1);
         card(1, 'while', 'clock', '看条件', 'a condition', 2);
         card(2, 'for', 'box', '遍历集合', 'each item', 2);
       } },
