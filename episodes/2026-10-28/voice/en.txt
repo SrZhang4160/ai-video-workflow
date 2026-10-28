@@ -9,7 +9,7 @@ A number and a string? It won't compile.
 Since if has a value, Rust needs no ternary operator.
 Now loops. loop runs forever,
 until you break out of it.
-And only loop's break can carry a value out.
+And only a break inside a loop can carry a value out.
 while takes a condition:
 it keeps going while true and stops when false.
 The one you'll use most is for:

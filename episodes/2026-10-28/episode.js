@@ -50,7 +50,7 @@ let kind = if n % 2 == 0 {
     { title: ['loop：一直转，break 带值出来', 'loop: spin until break'],
       cap: [['再看循环。loop 会一直转，', 'Now loops. loop runs forever,'],
             ['直到你用 break 跳出来。', 'until you break out of it.'],
-            ['而且只有 loop 的 break 能带一个值出来。', "And only loop's break can carry a value out."]],
+            {zh: '而且只有 loop 的 break 能带一个值出来。', en: "And only loop's break can carry a value out.", say_en: 'And only a break inside a loop can carry a value out.'}],
       build() {
         H(`<div class="r card mono" data-cap="0" style="left:0;right:0;top:20px;padding:26px 40px;font-size:${T('32px', '28px')};line-height:1.6">${code(`let mut count = 0;
 let result = loop {
@@ -101,7 +101,7 @@ for i in 0..3 {
 
     { title: ['一张图记住', 'Remember it in one picture'],
       cap: [{zh: '总结：if 是表达式，能产生值。', en: 'To sum up: if is an expression, so it gives a value.', say_zh: '总结：条件判断是表达式，能产生值。'},
-            ['要一直转、靠 break 退出，用 loop；', 'Loop until you break? Use loop.'],
+            {zh: '要一直转、靠 break 退出，用 loop；', en: 'Loop until you break? Use loop.', say_zh: '想一直转，靠 break 退出，就用 loop。'},
             ['条件用 while，遍历用 for。', 'Have a condition? while. Walking a collection? for.']],
       build() {
         H(`<div class="r card center" data-cap="0" data-in="pop" style="left:0;right:0;top:20px;height:150px;gap:24px;border-color:var(--acc)">
