@@ -3,7 +3,7 @@ window.EPISODE = {
   n: 5,
   scenes: [
     { title: ['if 也能有值？', 'Can an if have a value?'],
-      cap: [{zh: 'if 能直接给变量赋值？', en: 'Can an if give a value to a variable?', say_zh: '条件判断能直接给变量赋值？'},
+      cap: [{zh: 'if 的结果能直接赋给变量？', en: 'Can you assign the result of an if to a variable?', say_zh: '条件判断的结果能直接赋给变量？'},
             {zh: '能，因为 if 是表达式。', en: 'Yes, because if is an expression.', say_zh: '能，因为条件判断是表达式。'},
             ['一分钟把控制流讲清楚。', "Let's clear up control flow in one minute."]],
       build() {
@@ -50,7 +50,7 @@ let kind = if n % 2 == 0 {
     { title: ['loop：一直转，break 带值出来', 'loop: spin until break'],
       cap: [['再看循环。loop 会一直转，', 'Now loops. loop runs forever,'],
             ['直到你用 break 跳出来。', 'until you break out of it.'],
-            ['而且 break 后面还能带一个值。', 'And break can even carry a value out.']],
+            ['而且只有 loop 的 break 能带一个值出来。', "And only loop's break can carry a value out."]],
       build() {
         H(`<div class="r card mono" data-cap="0" style="left:0;right:0;top:20px;padding:26px 40px;font-size:${T('32px', '28px')};line-height:1.6">${code(`let mut count = 0;
 let result = loop {
@@ -101,7 +101,7 @@ for i in 0..3 {
 
     { title: ['一张图记住', 'Remember it in one picture'],
       cap: [{zh: '总结：if 是表达式，能产生值。', en: 'To sum up: if is an expression, so it gives a value.', say_zh: '总结：条件判断是表达式，能产生值。'},
-            ['不知道转几圈，用 loop；', "Don't know how many rounds? Use loop."],
+            ['要一直转、靠 break 退出，用 loop；', 'Loop until you break? Use loop.'],
             ['条件用 while，遍历用 for。', 'Have a condition? while. Walking a collection? for.']],
       build() {
         H(`<div class="r card center" data-cap="0" data-in="pop" style="left:0;right:0;top:20px;height:150px;gap:24px;border-color:var(--acc)">
