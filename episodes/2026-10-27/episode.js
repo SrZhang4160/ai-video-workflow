@@ -3,8 +3,8 @@ window.EPISODE = {
   n: 4,
   scenes: [
     { title: ['没写 return，也能返回？', 'No return, still returns?'],
-      cap: [['这个函数没写 return，', "This function has no return,"],
-            ['为什么也能返回值？', 'so how does it return a value?'],
+      cap: [{zh: '这个函数没写 return，', en: "This function has no return,", say_zh: '这个函[sh][ù]没写 return，'},
+            {zh: '为什么也能返回值？', en: 'so how does it return a value?', say_zh: '为什么也能返回一个值？'},
             ['秘密就在最后一行：没有分号。', 'The secret: the last line has no semicolon.']],
       build() {
         H(`<div class="r card mono" data-cap="0" style="left:0;right:0;top:40px;padding:36px 44px;font-size:42px;line-height:1.8">${code(`fn add(a: i32, b: i32) -> i32 {
@@ -16,7 +16,7 @@ window.EPISODE = {
       } },
 
     { title: ['函数怎么写', 'How a function looks'],
-      cap: [['先看函数怎么写：', "First, how a function looks:"],
+      cap: [{zh: '先看函数怎么写：', en: "First, how a function looks:", say_zh: '先看函[sh][ù]怎么写：'},
             ['参数必须标明类型，', 'every parameter needs a type,'],
             ['箭头后面写返回类型。', 'and the return type goes after the arrow.']],
       build() {
@@ -32,7 +32,7 @@ window.EPISODE = {
       } },
 
     { title: ['语句 vs 表达式', 'Statements vs expressions'],
-      cap: [['函数体里的代码分两种：', 'Inside a function, code comes in two kinds:'],
+      cap: [{zh: '函数体里的代码分两种：', en: 'Inside a function, code comes in two kinds:', say_zh: '函[sh][ù]体里的代码分两种：'},
             ['语句只做事，不产生值；', 'statements do something but give no value;'],
             ['表达式会算出一个值。', 'expressions evaluate to a value.']],
       build() {
@@ -60,7 +60,7 @@ window.EPISODE = {
       } },
 
     { title: ['最后一行 = 返回值', 'Last line = return value'],
-      cap: [['所以函数体的最后一行，', "So in a function body, the last line,"],
+      cap: [{zh: '所以函数体的最后一行，', en: "So in a function body, the last line,", say_zh: '所以函[sh][ù]体的最后一行，'},
             ['不加分号，它的值就是返回值。', 'with no semicolon, is the return value.']],
       build() {
         H(`<div class="r card mono" data-cap="0" style="left:0;right:0;top:30px;padding:34px 40px;font-size:40px;line-height:1.8;border-color:var(--acc2)">${code(`fn plus_one(x: i32) -> i32 {
@@ -71,8 +71,8 @@ window.EPISODE = {
       } },
 
     { title: ['多一个分号就报错', 'One extra semicolon breaks it'],
-      cap: [['要是手快多加了一个分号，', 'Add one semicolon by habit,'],
-            {zh: '函数就返回空元组，类型对不上。', en: 'and the function returns (), not i32.', say_en: 'and the function returns unit, not i 32.'},
+      cap: [{zh: '要是手快多加了一个分号，', en: 'Add one semicolon by habit,', say_en: 'Add one semicolon out of habit,'},
+            {zh: '函数就返回空元组，类型对不上。', en: 'and the function returns (), not i32.', say_zh: '函[sh][ù]就返回空元组，类型对不上。', say_en: 'and the function returns unit, not i 32.'},
             ['编译器会提示你：删掉这个分号。', 'The compiler even says: remove this semicolon.']],
       build() {
         H(`<div class="r card mono" data-cap="0" style="left:0;right:0;top:20px;padding:30px 40px;font-size:38px;line-height:1.75">${code(`fn plus_one(x: i32) -> i32 {
@@ -114,8 +114,8 @@ window.EPISODE = {
       } },
 
     { title: ['下期预告', 'Next episode'],
-      cap: [['下期，聊聊 if 和循环，', 'Next time: if and loops,'],
-            ['你会发现，if 也是表达式。', 'and why if is an expression too.'],
+      cap: [{zh: '下期，聊聊 if 和循环，', en: 'Next time: if and loops,', say_zh: '下期，聊聊条件判断和循环，'},
+            {zh: '你会发现，if 也是表达式。', en: 'and why if is an expression too.', say_zh: '你会发现，条件判断也是表达式。'},
             ['关注我，一起学！', 'Follow along and learn with me!']],
       build() {
         H(`<div class="r card" data-cap="0" data-in="pop" style="left:80px;right:80px;top:180px;height:440px;border-color:var(--acc);text-align:center;padding-top:70px">

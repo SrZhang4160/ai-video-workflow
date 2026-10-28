@@ -11,7 +11,7 @@ Add a semicolon, and it becomes a statement.
 The value is dropped, leaving the unit type: empty parentheses.
 So in a function body, the last line,
 with no semicolon, is the return value.
-Add one semicolon by habit,
+Add one semicolon out of habit,
 and the function returns unit, not i 32.
 The compiler even says: remove this semicolon.
 Curly-brace blocks work the same way:
