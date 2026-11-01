@@ -85,7 +85,7 @@ greet(&s);         // &String ✓`)}</div>`);
         H(`<div class="r s" data-cap="0" style="left:0;right:0;top:20px;display:grid;grid-template-columns:240px 1fr 1fr;padding:0 34px;gap:10px"><span></span><span>${T('拥有文字？', 'Owns the text?')}</span><span>${T('能修改？', 'Can change it?')}</span></div>`);
         H(row(70, 'String', `<span class="ok">✓</span> ${T('堆上', 'on the heap')}`, `<span class="ok">✓</span> ${T('要 mut', 'with mut')}`, 'var(--acc2)', 0));
         H(row(240, '&amp;str', `<span class="red">✗</span> ${T('借用', 'borrowed')}`, `<span class="red">✗</span> ${T('只读', 'read-only')}`, 'var(--blue)', 1));
-        H(`<div class="r card center" data-cap="1" data-delay="0.8" data-in="pop" style="left:0;right:0;top:450px;height:130px;border-color:var(--acc);font-size:34px;font-weight:800">${T('参数优先写 <span class="mono acc" style="margin-left:12px">&amp;str</span>', 'Parameters: prefer <span class="mono acc">&amp;str</span>')}</div>`);
+        H(`<div class="r card center" data-cap="1" data-delay="0.8" data-in="pop" style="left:0;right:0;top:450px;height:130px;border-color:var(--acc);font-size:34px;font-weight:800">${T('参数优先写 <span class="mono acc" style="margin-left:12px">&amp;str</span>', 'Parameters: prefer <span class="mono acc" style="margin-left:12px">&amp;str</span>')}</div>`);
       } },
 
     { title: ['下期预告', 'Next episode'],

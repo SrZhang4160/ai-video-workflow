@@ -138,7 +138,7 @@ r2.push('!');`)}</div>`);
           <div class="mono acc" style="font-size:80px;font-weight:800">&amp;mut</div>
           <div class="h">${T('一个写者', 'One writer')}</div><div class="s">${T('独占 · 能改', 'exclusive · can write')}</div></div>`);
         H(`<div class="r h center" data-cap="1" data-delay="0.6" data-in="pop" style="left:440px;width:80px;top:250px;font-size:36px">${T('或', 'OR')}</div>`);
-        H(`<div class="r center" data-cap="1" data-delay="1.2" style="left:0;right:0;top:580px;font-size:40px;font-weight:800">${T('多读 <span class="acc">或</span> 一写，不能同时', 'Many readers <span class="acc">or</span> one writer')}</div>`);
+        H(`<div class="r center" data-cap="1" data-delay="1.2" style="left:0;right:0;top:580px;font-size:40px;font-weight:800">${T('多读 <span class="acc">或</span> 一写，不能同时', 'Many readers <span class="acc" style="margin:0 12px">or</span> one writer')}</div>`);
       } },
 
     { title: ['下期预告', 'Next episode'],
