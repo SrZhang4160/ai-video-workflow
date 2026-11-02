@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-06",
+  "topic_zh": "Cargo：建项目、加依赖、跑测试",
+  "topic_en": "Cargo: start a project, add dependencies, run tests",
+  "captions": {
+    "xhs": {
+      "title": "Rust 建项目到跑测试，一个工具全包",
+      "body": "第 14 课：Cargo\ncargo new hello：生成 Cargo.toml 和 src/main.rs，cargo run 编译加运行\nCargo.toml 上面是项目信息，下面 [dependencies] 是依赖清单\ncargo add anyhow：自动写进依赖，编译时从 crates.io 下载\n函数上加 #[test]，用 assert_eq! 比较，cargo test 一起跑\n考考你：#[test] fn check() { assert_eq!(2 + 2, 5); } 跑 cargo test，结果是 ok 还是 FAILED？评论区告诉我～",
+      "tags": ["Rust", "Cargo", "编程入门", "程序员", "AI工程师", "碎片时间学AI工程师"]
+    },
+    "douyin": {
+      "title": "一分钟学会 Rust 的 Cargo：建项目、加依赖、跑测试",
+      "body": "cargo new / run / add / test，四条命令覆盖日常。\n考考你：#[test] fn check() { assert_eq!(2 + 2, 5); } 跑 cargo test，结果是 ok 还是 FAILED？评论区告诉我～",
+      "tags": ["Rust", "编程", "程序员"]
+    },
+    "tiktok": {
+      "body": "One tool to start a Rust project, add libraries and run tests: Cargo. Quick quiz: #[test] fn check() { assert_eq!(2 + 2, 5); }  Does cargo test say ok or FAILED? Comment your answer.",
+      "tags": ["rust", "rustlang", "coding", "learntocode", "programming"]
+    },
+    "linkedin": {
+      "title": "Four Cargo commands cover your daily Rust work",
+      "body": "cargo new hello creates Cargo.toml and src/main.rs; cargo run builds and runs.\nCargo.toml holds the project info and the [dependencies] list.\ncargo add anyhow writes the dependency for you; the next build downloads it from crates.io.\nMark a function with #[test], check with assert_eq!, and cargo test runs them all.\nQuick quiz: #[test] fn check() { assert_eq!(2 + 2, 5); }  Does cargo test say ok or FAILED? Answer in the comments.",
+      "tags": ["Rust", "SoftwareEngineering", "AIEngineering"]
+    }
+  },
+  "quiz": {
+    "q_zh": "#[test] fn check() { assert_eq!(2 + 2, 5); } 跑 cargo test，结果是 ok 还是 FAILED？",
+    "q_en": "#[test] fn check() { assert_eq!(2 + 2, 5); }  Does cargo test say ok or FAILED?",
+    "answer_zh": "答案：FAILED。2 + 2 是 4，不等于 5，assert_eq! 会 panic，测试就算失败。",
+    "answer_en": "Answer: FAILED. 2 + 2 is 4, not 5, so assert_eq! panics, and a panicking test fails."
+  }
+}

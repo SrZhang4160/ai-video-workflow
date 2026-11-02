@@ -20,7 +20,7 @@ Rules for every lesson: teach the viewer (not "what I learned"), one idea per vi
 - [x] 11. enum + match：穷尽所有情况
 - [ ] 12. Option：Rust 为什么没有 null
 - [x] 13. Result 和 ? 运算符：错误处理
-- [ ] 14. Cargo：建项目、加依赖、跑测试
+- [x] 14. Cargo：建项目、加依赖、跑测试
 - [x] 15. trait：定义共同行为
 - [x] 16. 泛型：一份代码，多种类型
 - [ ] 17. 生命周期入门：'a 到底在说什么

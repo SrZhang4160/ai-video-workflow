@@ -1,0 +1,17 @@
+Start a project, add libraries, run tests. How many tools?
+Just one: Cargo.
+Step one: cargo new creates a project.
+It creates Cargo dot toml, and main dot R S in the src folder.
+cargo run compiles and runs it in one step.
+Want someone else's library? cargo add.
+It writes the dependency into Cargo dot toml.
+When you build, Cargo downloads it from crates dot I O.
+Tests: put the test attribute above a function,
+and check the result with assert equal.
+cargo test runs all your tests.
+new starts a project, run runs it,
+add adds a library, test runs the tests.
+Next time: traits,
+shared behavior across types. Follow along!
+Quick quiz: what does cargo test report?
+A, ok, or B, failed? Tell me in the comments.
