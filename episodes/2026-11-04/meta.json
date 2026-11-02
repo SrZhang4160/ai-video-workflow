@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-04",
+  "topic_zh": "Option：Rust 为什么没有 null",
+  "topic_en": "Rust Option: why Rust has no null",
+  "captions": {
+    "xhs": {
+      "title": "Rust 为什么干脆不要 null？",
+      "body": "第 12 课：Option\n别的语言里 null 能藏进任何引用，类型上看不出来，忘了检查就运行时崩溃\nRust 用 Option 表示\"可能没有\"：Some(值) 或 None\nOption<i32> 不是 i32，不处理 None 就不能用，编译器帮你兜底\n取值：match、if let、unwrap_or；unwrap 没值会 panic，少用\n考考你：let x: Option<i32> = Some(5); match x { Some(n) => println!(\"{n}\"), } 能编译吗？ 评论区告诉我～",
+      "tags": [
+        "Rust",
+        "编程入门",
+        "程序员",
+        "AI工程师",
+        "碎片时间学AI工程师"
+      ]
+    },
+    "douyin": {
+      "title": "Rust 没有 null，那“没有值”怎么办？",
+      "body": "Option 把\"可能没有\"写进类型，编译器逼你先处理 None。\n考考你：let x: Option<i32> = Some(5); match x { Some(n) => println!(\"{n}\"), } 能编译吗？ 评论区告诉我～",
+      "tags": [
+        "Rust",
+        "编程",
+        "程序员"
+      ]
+    },
+    "tiktok": {
+      "body": "Rust has no null. Option puts \"maybe nothing\" into the type, so the compiler makes you handle it. Quick quiz: let x: Option<i32> = Some(5); match x { Some(n) => println!(\"{n}\"), }  Does it compile? Comment your answer.",
+      "tags": [
+        "rust",
+        "rustlang",
+        "coding",
+        "learntocode",
+        "programming"
+      ]
+    },
+    "linkedin": {
+      "title": "Why Rust has no null",
+      "body": "In many languages any reference can secretly be null. The type doesn't say so, and a missed check crashes at runtime.\nSafe Rust has no null references. It uses Option<T> instead: Some(value) or None.\nAn Option<i32> is not an i32, so the compiler makes you handle None before you use the value.\nGet the value with match, if let or unwrap_or. unwrap panics on None.\nQuick quiz: let x: Option<i32> = Some(5); match x { Some(n) => println!(\"{n}\"), }  Does it compile? Answer in the comments.",
+      "tags": [
+        "Rust",
+        "SoftwareEngineering",
+        "AIEngineering"
+      ]
+    }
+  },
+  "quiz": {
+    "q_zh": "let x: Option<i32> = Some(5); match x { Some(n) => println!(\"{n}\"), } 能编译吗？",
+    "q_en": "let x: Option<i32> = Some(5); match x { Some(n) => println!(\"{n}\"), }  Does it compile?",
+    "answer_zh": "答案：不能。match 必须穷尽所有情况，编译器只看类型不看值：x 的类型是 Option<i32>，漏了 None 就报错 E0004。",
+    "answer_en": "Answer: no. match must cover every case, and the compiler checks the type, not the value: x is an Option<i32>, so a missing None arm is error E0004."
+  }
+}

@@ -18,7 +18,7 @@ Rules for every lesson: teach the viewer (not "what I learned"), one idea per vi
 - [x] 9. String 和 &str：切片是什么
 - [x] 10. struct + impl：给数据加方法
 - [x] 11. enum + match：穷尽所有情况
-- [ ] 12. Option：Rust 为什么没有 null
+- [x] 12. Option：Rust 为什么没有 null
 - [x] 13. Result 和 ? 运算符：错误处理
 - [x] 14. Cargo：建项目、加依赖、跑测试
 - [x] 15. trait：定义共同行为

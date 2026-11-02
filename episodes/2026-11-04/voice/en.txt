@@ -1,0 +1,18 @@
+One of the most common crashes: a null reference.
+Rust has no null at all. Why?
+The type won't say it can be null. Miss a check, it crashes.
+Rust uses an enum from last lesson: Option.
+Either Some, holding a value, or None.
+The key: an Option of i32 is not an i32.
+Try to add it directly? It won't compile.
+The type says it, so the compiler makes you handle it.
+How do you get the value out? With match, from last time.
+Write both Some and None, or it won't compile.
+Only care about the value? Use if let.
+Want a default? Use unwrap or.
+unwrap panics on None. Use it sparingly.
+To sum up: null hides and crashes at runtime.
+Option lives in the type, so the compiler checks it.
+What about errors? Next: Result and the question mark operator. Follow along!
+Quick quiz: x is clearly Some. Does this compile?
+Yes or no? Tell me in the comments.
