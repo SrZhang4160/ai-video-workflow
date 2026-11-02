@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-08",
+  "topic_zh": "泛型：一份代码，多种类型",
+  "topic_en": "Rust generics: one function, many types",
+  "captions": {
+    "xhs": {
+      "title": "同一个函数，每种类型都抄一遍？",
+      "body": "第 16 课：泛型\n函数名后加 <T>，T 是类型参数，调用时编译器自己推出 T 是谁\nT 什么都可能是，想比大小要加约束：T: PartialOrd（上期的 trait 派上用场）\n编译时每种用到的类型各生成一份，运行时没有额外开销\nOption<T>、Vec<T> 都是泛型，自己的 struct 也能写成 Point<T>\n考考你：fn show<T>(x: T) { println!(\"{}\", x); } 能编译吗？ 评论区告诉我～",
+      "tags": ["Rust", "编程入门", "程序员", "AI工程师", "碎片时间学AI工程师"]
+    },
+    "douyin": {
+      "title": "一分钟搞懂 Rust 泛型：一份代码，多种类型",
+      "body": "<T> 声明类型参数，trait 约束规定 T 能做什么，编译时展开、没有额外开销。\n考考你：fn show<T>(x: T) { println!(\"{}\", x); } 能编译吗？ 评论区告诉我～",
+      "tags": ["Rust", "编程", "程序员"]
+    },
+    "tiktok": {
+      "body": "Stop copying the same function for every type. Rust generics in one minute. Quick quiz: fn show<T>(x: T) { println!(\"{}\", x); }  Does it compile? Comment your answer.",
+      "tags": ["rust", "rustlang", "coding", "learntocode", "programming"]
+    },
+    "linkedin": {
+      "title": "Write it once, use it for every type",
+      "body": "In Rust, <T> after a function name declares a type parameter; the compiler infers T at each call.\nT could be anything, so to compare values you add a trait bound: T: PartialOrd.\nAt compile time Rust generates a copy for each type you use, so generics add no runtime cost.\nYou've already used them: Option<T>, Vec<T>, and your own Point<T>.\nQuick quiz: fn show<T>(x: T) { println!(\"{}\", x); }  Does it compile? Answer in the comments.",
+      "tags": ["Rust", "SoftwareEngineering", "AIEngineering"]
+    }
+  },
+  "quiz": {
+    "q_zh": "fn show<T>(x: T) { println!(\"{}\", x); } 能编译吗？",
+    "q_en": "fn show<T>(x: T) { println!(\"{}\", x); }  Does it compile?",
+    "answer_zh": "答案：不能。T 没有约束，编译器不知道 T 能不能打印（error[E0277]）。改成 fn show<T: std::fmt::Display>(x: T) 就行。",
+    "answer_en": "Answer: no. T has no bound, so the compiler can't know it can be printed (error E0277). Write fn show<T: std::fmt::Display>(x: T) and it works."
+  }
+}

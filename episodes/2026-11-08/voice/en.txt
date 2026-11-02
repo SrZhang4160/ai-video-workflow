@@ -1,0 +1,21 @@
+Same logic, copied again for every type?
+With generics, one copy is enough.
+Put angle bracket T after the function name.
+T is a type parameter: it stands for "some type".
+When you call it, the compiler infers what T is.
+Back to max: can we just write a greater than b?
+It won't compile: T might not be comparable.
+Add the bound T colon PartialOrd, and it works.
+That's what last lesson's traits are for.
+Do generics slow your code down? No.
+At compile time, Rust makes a copy for each type you use.
+So it runs as fast as hand-written code.
+Option of T and Vec of T are already generic.
+Your own structs can be generic too.
+To recap: angle bracket T declares a type parameter,
+a trait bound says what T can do,
+and it expands at compile time, with no extra cost.
+Next time: angle brackets can also hold a lifetime, tick a,
+What does it mean? See you next time!
+Quick quiz: does this code compile?
+Yes or no? Tell me in the comments.

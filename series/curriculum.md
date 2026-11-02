@@ -22,7 +22,7 @@ Rules for every lesson: teach the viewer (not "what I learned"), one idea per vi
 - [ ] 13. Result 和 ? 运算符：错误处理
 - [ ] 14. Cargo：建项目、加依赖、跑测试
 - [ ] 15. trait：定义共同行为
-- [ ] 16. 泛型：一份代码，多种类型
+- [x] 16. 泛型：一份代码，多种类型
 - [ ] 17. 生命周期入门：'a 到底在说什么
 - [ ] 18. 迭代器和闭包
 - [ ] 19. 用 clap 写一个命令行工具
