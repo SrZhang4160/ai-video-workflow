@@ -1,0 +1,20 @@
+What if your code forgets one case?
+In Rust, it won't even compile.
+That's enum plus match.
+Last time's struct has all its fields;
+an enum is one of several variants,
+like a traffic light: red, yellow, or green.
+Use match to handle each case.
+match is an expression, so it gives a value.
+Leave out Yellow, and the build fails.
+That is exhaustiveness: every case must be handled.
+Add a new case to the enum later,
+and every match that misses it becomes an error.
+Don't want to list them all? An underscore catches the rest.
+But careful: it also swallows any case you add later.
+To sum up: an enum lists every possibility,
+match must handle each one, or it won't compile.
+Next time, a very common enum: Option,
+and why Rust has no null. Follow along!
+Quick quiz: does this code compile?
+Yes or no? Tell me in the comments.

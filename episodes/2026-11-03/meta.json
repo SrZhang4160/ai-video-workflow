@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-03",
+  "topic_zh": "enum + match：穷尽所有情况",
+  "topic_en": "Rust enum + match: handle every case",
+  "captions": {
+    "xhs": {
+      "title": "Rust 漏写一种情况，直接编译不过？",
+      "body": "第 11 课：enum + match\nenum 列出所有可能，一个值同一时刻只是其中一种\nmatch 每种情况一个分支，而且是表达式，能直接赋值\n漏写一种？编译器报错 E0004，这就叫穷尽\n_ 能兜底，但以后新加的情况也会被它悄悄吞掉\n考考你：enum Dir { Up, Down, Left }，match d 里只写 Dir::Up 和 _，能编译吗？ 评论区告诉我～",
+      "tags": [
+        "Rust",
+        "编程入门",
+        "程序员",
+        "AI工程师",
+        "碎片时间学AI工程师"
+      ]
+    },
+    "douyin": {
+      "title": "一分钟搞懂 Rust 的 enum 和 match",
+      "body": "match 必须处理每一种情况，漏一个就编译不过。\n考考你：enum Dir { Up, Down, Left }，match d 里只写 Dir::Up 和 _，能编译吗？ 评论区告诉我～",
+      "tags": [
+        "Rust",
+        "编程",
+        "程序员"
+      ]
+    },
+    "tiktok": {
+      "body": "Forget one case in a Rust match and it won't compile. enum + match in one minute. Quick quiz: enum Dir { Up, Down, Left }, and a match on d with only Dir::Up and _. Does it compile? Comment your answer.",
+      "tags": [
+        "rust",
+        "rustlang",
+        "coding",
+        "learntocode",
+        "programming"
+      ]
+    },
+    "linkedin": {
+      "title": "In Rust, a forgotten case is a compile error",
+      "body": "An enum lists every possibility; a value is exactly one of them.\nmatch gives one arm per case, and it is an expression, so it returns a value.\nMiss a case and the build fails (E0004). Add a new variant later, and the compiler points to every match you need to update.\nThe _ catch-all is handy, but it also hides new variants.\nQuick quiz: enum Dir { Up, Down, Left }, and a match on d with only Dir::Up and _. Does it compile? Answer in the comments.",
+      "tags": [
+        "Rust",
+        "SoftwareEngineering",
+        "AIEngineering"
+      ]
+    }
+  },
+  "quiz": {
+    "q_zh": "enum Dir { Up, Down, Left }，match d 里只写 Dir::Up 和 _，能编译吗？",
+    "q_en": "enum Dir { Up, Down, Left }, and a match on d with only Dir::Up and _. Does it compile?",
+    "answer_zh": "答案：能。_ 匹配剩下的所有情况（Down 和 Left），所以 match 是穷尽的，输出 up。",
+    "answer_en": "Answer: yes. _ matches every remaining case (Down and Left), so the match is exhaustive. It prints up."
+  }
+}
