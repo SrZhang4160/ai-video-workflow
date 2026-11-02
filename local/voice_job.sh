@@ -7,6 +7,7 @@ CV="${COSYVOICE_DIR:-$HOME/cosyvoice3}"
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 cd "$REPO" || exit 1
 echo "--- $(date '+%F %T')"
+if pgrep -f "voice_daemon.py" >/dev/null; then echo "voice_daemon already running, skipping"; exit 0; fi
 git pull --quiet --rebase --autostash || { echo "git pull failed"; exit 1; }
 out="$("$CV/.venv/bin/python" local/voice_daemon.py "$REPO" 2>&1 | grep -v -E 'Warning|warn\(|Sliding Window' )"
 echo "$out" | tail -40
