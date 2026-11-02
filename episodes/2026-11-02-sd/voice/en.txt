@@ -1,0 +1,24 @@
+The interviewer says: design a system for a million users.
+What's the first thing you draw?
+Start with just one machine.
+At launch, the app and the database share one machine.
+Simple. But if it dies, the whole site is down.
+More users? First, give the database its own machine.
+Each gets its own machine, so you can upgrade them separately.
+The cost: every query now crosses the network.
+Can't keep up? Add servers, with a load balancer in front.
+If one dies, the others keep working.
+The cost: servers must be stateless.
+The database slows down. Most apps read far more than they write.
+Put hot data in an in-memory cache like Reddis. Reads get much faster.
+The cost: cached data can be out of date.
+Notice: every step answers three questions.
+Where's the bottleneck? What do we add? What does it cost?
+System design tests whether you can explain the trade-offs.
+The whole picture: each piece fixes one bottleneck
+and each one has a cost. Save this one!
+But in a real interview, don't start drawing yet.
+Next time: functional and non-functional requirements.
+Quick quiz: one server, and it just died. What fixes that?
+A: a cache. B: a load balancer plus more servers?
+Tell me in the comments.

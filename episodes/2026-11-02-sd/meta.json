@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-02",
+  "track": "sd",
+  "topic_zh": "系统设计到底在考什么：一张图看懂从一台机器到百万用户",
+  "topic_en": "What system design tests: from one machine to a million users",
+  "captions": {
+    "xhs": {
+      "title": "系统设计考什么？一张图看懂",
+      "body": "面试被要求「设计一个百万用户的系统」，别慌，从一台机器开始画：\n一台机器 → 拆出数据库 → 负载均衡 + 多台服务器 → 缓存\n每一步都在回答三个问题：瓶颈在哪？加什么？代价是什么？\n没有标准答案，只有取舍。总结图建议收藏～\n考考你：网站只有一台服务器，挂了全站打不开。A 加缓存，B 加负载均衡和多台服务器，哪个能解决？评论区告诉我～",
+      "tags": ["系统设计", "后端", "程序员面试", "碎片时间学AI工程师"]
+    },
+    "douyin": {
+      "title": "一分钟看懂系统设计：从一台机器到百万用户",
+      "body": "瓶颈在哪、加什么、代价是什么，这就是系统设计在考的。\n考考你：只有一台服务器，挂了全站打不开，A 加缓存还是 B 加负载均衡和多台服务器？评论区告诉我～",
+      "tags": ["系统设计", "后端开发", "程序员"]
+    },
+    "tiktok": {
+      "body": "\"Design a system for a million users.\" Start with one machine, then fix one bottleneck at a time.\nQuiz: one server, it dies, the site is down. Fix it with A) a cache or B) a load balancer plus more servers?",
+      "tags": ["systemdesign", "softwareengineering", "coding", "techinterview"]
+    },
+    "linkedin": {
+      "title": "System design interviews test one habit, not a list of components.",
+      "body": "Start with one machine. Then grow it one bottleneck at a time:\nsplit out the database, add a load balancer and more servers, add a cache.\nEvery step answers three questions: where is the bottleneck, what do we add, and what does it cost?\nThere is no perfect answer, only trade-offs you can explain.\nQuick quiz: your site runs on one server and goes down when it dies. Which fixes that: A) a cache, or B) a load balancer plus more servers?",
+      "tags": ["SystemDesign", "SoftwareEngineering", "DistributedSystems", "Backend"]
+    }
+  },
+  "quiz": {
+    "q_zh": "网站只有一台服务器，它一挂全站打不开。A 加缓存，B 加负载均衡和多台服务器，哪个能解决？",
+    "q_en": "Your site runs on one server and goes down when it dies. Which fixes that: A) a cache, or B) a load balancer plus more servers?",
+    "answer_zh": "答案：B。缓存只让读更快，服务器挂了照样打不开；负载均衡会把请求转给还活着的服务器。",
+    "answer_en": "Answer: B. A cache only makes reads faster; a load balancer sends requests to the servers that are still alive."
+  }
+}

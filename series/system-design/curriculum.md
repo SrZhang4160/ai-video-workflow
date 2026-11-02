@@ -10,7 +10,7 @@ Path: the map → estimating → building blocks (network, storage, cache, scali
 AI-specific designs (客服机器人, 代码审查 agent) are in the AI series (`series/ai-engineer/curriculum.md` 90–91); this list does not repeat them.
 
 ## 0. 地图（第 1 周）
-- [ ] 1. 系统设计到底在考什么：一张图看懂从一台机器到百万用户
+- [x] 1. 系统设计到底在考什么：一张图看懂从一台机器到百万用户
 - [ ] 2. 功能需求和非功能需求：先问清楚再画图
 - [ ] 3. 估算入门：QPS 怎么算（日活 × 次数 ÷ 86400）
 - [ ] 4. 存储估算：一年要多少硬盘
