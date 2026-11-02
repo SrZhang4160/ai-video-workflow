@@ -1,0 +1,21 @@
+Rust has no classes. So where do methods go?
+A struct holds the data. An implementation block holds the methods.
+Let's sort out both in one minute.
+First, define the data with a struct:
+a rectangle with a width w and a height h.
+Use a dot to read a field.
+Then write an implementation block for Rect, and put methods inside.
+The first parameter, ampersand self, borrows the value itself.
+Call it as r dot area, and you get twelve.
+self comes in three forms, matching earlier lessons:
+ampersand self only reads, a mutable borrow of self can modify,
+and plain self takes ownership.
+Without self, it is not a method but an associated function.
+The most common one is new, which builds a value.
+Call it with two colons: Rect, colon colon, new.
+To sum up: the struct holds data, the implementation block holds methods.
+Has self? Use a dot. No self? Use two colons.
+Next time: enums and match,
+and every case must be handled. Follow along!
+Quick quiz: does this code compile?
+Yes or no? Tell me in the comments.

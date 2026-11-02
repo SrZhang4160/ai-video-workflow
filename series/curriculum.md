@@ -16,7 +16,7 @@ Rules for every lesson: teach the viewer (not "what I learned"), one idea per vi
 - [x] 7. Move、Clone、Copy 有什么区别
 - [x] 8. 借用：& 和 &mut 的规则
 - [x] 9. String 和 &str：切片是什么
-- [ ] 10. struct + impl：给数据加方法
+- [x] 10. struct + impl：给数据加方法
 - [ ] 11. enum + match：穷尽所有情况
 - [ ] 12. Option：Rust 为什么没有 null
 - [ ] 13. Result 和 ? 运算符：错误处理
