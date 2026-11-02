@@ -1,0 +1,22 @@
+One memory read vs. one request across continents:
+how many times slower is the second one?
+First, three units: nanoseconds, microseconds and milliseconds.
+Each step up is a thousand times longer.
+One memory read: about 100 nanoseconds.
+One SSD random read: about 100 microseconds.
+About three orders of magnitude: 1,000 times slower.
+A round trip inside one datacenter: about half a millisecond.
+Across continents and back: on the order of 100 milliseconds.
+That's the speed of light. More servers won't help.
+If one memory read took one second,
+an SSD read would take about seventeen minutes,
+a datacenter trip over an hour, a cross-continent one 10+ days.
+So: hot data in memory, servers close to users;
+don't wait on cross-continent calls one by one in a loop.
+The cost: memory is pricey, and multi-region is complex.
+Memory in nanoseconds, SSD in microseconds, network in milliseconds,
+Cross-continent: about a million times slower. Save this!
+Next: latency and throughput. Not the same thing.
+Quick quiz: ten cross-continent calls, one after another,
+about 100 milliseconds each. How long is the network wait?
+A or B? Tell me in the comments.

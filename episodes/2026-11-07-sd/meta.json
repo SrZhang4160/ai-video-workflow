@@ -1,0 +1,52 @@
+{
+  "track": "sd",
+  "date": "2026-11-07",
+  "topic_zh": "延迟和吞吐量：不是一回事",
+  "topic_en": "Latency vs throughput: not the same thing",
+  "captions": {
+    "xhs": {
+      "title": "系统变快了？先问是哪种快",
+      "body": "延迟：一个请求要等多久，单位是毫秒。\n吞吐量：一秒能完成多少个请求。\n就像高速公路：加车道，每小时过的车多了，但每辆车还是要开那么久。\n批量写入也一样：吞吐涨 10 倍，每条的延迟一点没少，还要多等凑批。\n考考你：1 台服务器每个请求 50 毫秒、每秒 100 个，加到 4 台一样的（平均分、不排队），每个请求延迟是 A 50 毫秒还是 B 12.5 毫秒？评论区告诉我～",
+      "tags": [
+        "系统设计",
+        "后端",
+        "程序员面试",
+        "碎片时间学AI工程师"
+      ]
+    },
+    "douyin": {
+      "title": "延迟和吞吐量，一分钟分清",
+      "body": "加车道能多过车，但每辆车不会开得更快。考考你：1 台服务器每个请求 50 毫秒、每秒 100 个，再加 3 台一样的（平均分、不排队），每个请求的延迟是 A 50 毫秒还是 B 12.5 毫秒？评论区告诉我～",
+      "tags": [
+        "系统设计",
+        "后端开发",
+        "程序员"
+      ]
+    },
+    "tiktok": {
+      "body": "More lanes = more cars per hour, not a faster trip. Quiz: 1 server, 50 ms per request. Add 3 identical servers, no queueing. Latency: A) 50 ms or B) 12.5 ms?",
+      "tags": [
+        "systemdesign",
+        "softwareengineering",
+        "coding",
+        "techinterview"
+      ]
+    },
+    "linkedin": {
+      "title": "Higher throughput does not mean lower latency.",
+      "body": "Latency: how long one request takes. Throughput: how many requests finish per second.\nAdding lanes to a highway moves more cars per hour, but each trip takes just as long.\nBatching disk writes works the same way: 10x the throughput, and each write still waits, plus the time for the batch to fill.\nBefore you optimize, say which one you need.\nQuiz: 1 server, 50 ms per request, 100 req/s. Add 3 identical servers, split evenly, no queueing. Per-request latency: A) 50 ms or B) 12.5 ms?",
+      "tags": [
+        "SystemDesign",
+        "SoftwareEngineering",
+        "DistributedSystems",
+        "Backend"
+      ]
+    }
+  },
+  "quiz": {
+    "q_zh": "1 台服务器每个请求 50 毫秒、每秒 100 个；再加 3 台一样的（平均分、不排队），每个请求的延迟是 A 50 毫秒还是 B 12.5 毫秒？",
+    "q_en": "1 server: 50 ms per request, 100 req/s. Add 3 identical servers, split evenly, no queueing. Per-request latency: A) 50 ms or B) 12.5 ms?",
+    "answer_zh": "答案：A，50 毫秒。加机器是多开车道：吞吐最多变成每秒 400 个，但每个请求还是要处理 50 毫秒。如果原来请求在排队，加机器能缩短排队等待，但处理本身的 50 毫秒不会变。",
+    "answer_en": "Answer: A, 50 ms. More servers are more lanes: throughput goes up to 400 req/s, but each request still takes 50 ms. If requests were queueing, more servers would cut the queue wait, but not the 50 ms of work."
+  }
+}

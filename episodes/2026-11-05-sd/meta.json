@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-05",
+  "track": "sd",
+  "topic_zh": "存储估算：一年要多少硬盘",
+  "topic_en": "Storage estimation: how much disk per year",
+  "captions": {
+    "xhs": {
+      "title": "面试问一年要多少硬盘？四个数一乘",
+      "body": "系统设计第 4 课：存储估算\n公式：每天新增条数 × 每条大小 × 365 × 副本数\n例子（估算）：日活 1000 万，每人每天 2 条 → 2000 万条/天；每条约 1 KB → 每天 20 GB；× 365 ≈ 7.3 TB；存 3 份 ≈ 22 TB/年\n单位每级乘 1000（KB→MB→GB→TB→PB），严格是 1024，估算用 1000 就行\n要是每条带一张 200 KB 的图，一年就是 1.5 PB：先算大头\n考考你：每天新增 100 万条，每条 2 KB，存 3 份，一年大约多少？A 2.2 TB / B 22 TB，评论区告诉我～",
+      "tags": ["系统设计", "后端", "程序员面试", "碎片时间学AI工程师"]
+    },
+    "douyin": {
+      "title": "一年要多少硬盘？条数×大小×365×副本",
+      "body": "存储估算就四个数一乘，再先算最大的那一项。\n考考你：每天新增 100 万条，每条 2 KB，存 3 份，一年大约多少？A 2.2 TB / B 22 TB，评论区告诉我～",
+      "tags": ["系统设计", "后端开发", "程序员"]
+    },
+    "tiktok": {
+      "body": "How much disk does a system need per year? Records per day × size × 365 × copies. Quick quiz: 1 million new records a day, 2 KB each, 3 copies. About how much per year? A) 2.2 TB or B) 22 TB? Comment your answer.",
+      "tags": ["systemdesign", "softwareengineering", "coding", "techinterview"]
+    },
+    "linkedin": {
+      "title": "How much disk does it need per year? Multiply four numbers.",
+      "body": "Storage estimate = new records per day × size per record × 365 × number of copies.\nExample (estimate): 10M daily users × 2 posts = 20M posts/day. At ~1 KB each that's ~20 GB/day, ~7.3 TB/year, ~22 TB with 3 copies.\nUse 1000 per unit step (KB → MB → GB → TB → PB); 1024 is exact in binary units, but 1000 is fine for estimates.\nThen find the biggest item: one 200 KB image per post is ~1.5 PB/year, and the text barely matters.\nQuick quiz: 1 million new records a day, 2 KB each, 3 copies. About how much per year? A) 2.2 TB or B) 22 TB?",
+      "tags": ["SystemDesign", "SoftwareEngineering", "DistributedSystems", "Backend"]
+    }
+  },
+  "quiz": {
+    "q_zh": "每天新增 100 万条，每条 2 KB，存 3 份，一年大约要多少硬盘？A 2.2 TB / B 22 TB",
+    "q_en": "1 million new records a day, 2 KB each, 3 copies. About how much disk per year? A) 2.2 TB or B) 22 TB",
+    "answer_zh": "答案：A，约 2.2 TB。100 万 × 2 KB = 每天 2 GB；× 365 ≈ 730 GB；× 3 份 ≈ 2190 GB ≈ 2.2 TB（估算，1 TB 按 1000 GB 算）。",
+    "answer_en": "Answer: A, about 2.2 TB. 1M × 2 KB = 2 GB a day; × 365 ≈ 730 GB; × 3 copies ≈ 2,190 GB ≈ 2.2 TB (estimate, 1 TB = 1000 GB)."
+  }
+}

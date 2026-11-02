@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-04",
+  "track": "sd",
+  "topic_zh": "估算入门：QPS 怎么算（日活 × 次数 ÷ 86400）",
+  "topic_en": "Estimating QPS: daily users × requests ÷ 86,400",
+  "captions": {
+    "xhs": {
+      "title": "一亿日活QPS多少？30秒算出来",
+      "body": "面试被问 QPS，其实就一个公式：\n平均 QPS ≈ 日活 × 每人每天次数 ÷ 86400（一天的秒数）\n心算把 86400 当 10 万：1 亿 × 10 次 ÷ 10 万 ≈ 1 万（精确约 1.2 万）\n流量不是平的，常用经验法则：峰值 ≈ 平均的 2~3 倍，机器要按峰值准备。\n考考你：1000 万日活，每人每天 20 次，平均 QPS 约 2300 还是 2.3 万？评论区告诉我～",
+      "tags": ["系统设计", "后端", "程序员面试", "碎片时间学AI工程师"]
+    },
+    "douyin": {
+      "title": "一亿日活的QPS，30秒就能估出来",
+      "body": "日活 × 次数 ÷ 86400 = 平均 QPS，峰值再乘 2~3。\n考考你：1000 万日活，每人 20 次，平均 QPS 约 2300 还是 2.3 万？评论区告诉我～",
+      "tags": ["系统设计", "后端开发", "程序员"]
+    },
+    "tiktok": {
+      "body": "100M daily users, 10 requests each: what QPS? DAU × requests ÷ 86,400 ≈ 12K average; peak is roughly 2–3× that.\nQuiz: 10M users, 20 requests each. Average QPS about 2,300 or 23,000?",
+      "tags": ["systemdesign", "softwareengineering", "coding", "techinterview"]
+    },
+    "linkedin": {
+      "title": "Estimating QPS takes one formula and 30 seconds.",
+      "body": "Average QPS ≈ daily users × requests per user per day ÷ 86,400 (seconds in a day).\n100M users × 10 requests ≈ 1B a day ÷ 86,400 ≈ 12K QPS. Round 86,400 to 100K for mental math.\nTraffic isn't flat: a common rule of thumb is peak ≈ 2–3× average, and capacity is planned for the peak. The cost is idle servers off-peak.\nQuick quiz: 10M daily users, 20 requests each. Is the average QPS about 2,300 or 23,000?",
+      "tags": ["SystemDesign", "SoftwareEngineering", "DistributedSystems", "Backend"]
+    }
+  },
+  "quiz": {
+    "q_zh": "1000 万日活，每人每天 20 次请求，平均 QPS 约 2300 还是 2.3 万？",
+    "q_en": "10M daily users, 20 requests each per day: is the average QPS about 2,300 or 23,000?",
+    "answer_zh": "答案：A，约 2300。1000 万 × 20 = 2 亿次/天，2 亿 ÷ 86400 ≈ 2315（估算）。",
+    "answer_en": "Answer: A, about 2,300. 10M × 20 = 200M requests/day; 200M ÷ 86,400 ≈ 2,315 (estimate)."
+  }
+}

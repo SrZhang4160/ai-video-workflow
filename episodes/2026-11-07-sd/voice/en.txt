@@ -1,0 +1,22 @@
+When we say a system is "fast", what do we mean?
+One request done sooner, or more requests per second?
+Latency: how long one request waits, in milliseconds.
+Throughput: requests finished per second, or Q P S.
+Picture the system as a highway.
+Latency: one car takes one hour from A to B.
+Throughput: how many cars get through each hour.
+One lane: about two thousand cars an hour.
+Four lanes: about eight thousand. Four times the throughput.
+With no traffic jam, each car still takes one hour.
+Say one disk write takes about ten milliseconds, for one record or ten.
+One record per write: one hundred records a second.
+Ten records per write: one thousand a second.
+But each record still waits at least ten milliseconds.
+Cut latency: cache, move closer, skip a hop.
+Raise throughput: more servers, parallel requests, batching.
+Sum up: latency asks how long one takes,
+throughput asks how many per second. Not the same.
+Next time: the nines of availability.
+How long can ninety-nine point nine percent be down in a year? Follow along!
+Quick quiz: with four servers, what is the latency of each request?
+A, fifty milliseconds, or B, twelve point five? Tell me in the comments.

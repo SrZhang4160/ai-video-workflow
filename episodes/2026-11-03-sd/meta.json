@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-03",
+  "track": "sd",
+  "topic_zh": "功能需求和非功能需求：先问清楚再画图",
+  "topic_en": "Functional vs non-functional requirements: ask before you draw",
+  "captions": {
+    "xhs": {
+      "title": "系统设计面试，第一步不是画图",
+      "body": "系统设计第 2 课：先问清需求再画图\n功能需求 = 系统要做什么（短链接：生成短链、点开跳转）\n非功能需求 = 做得多好：多快、多稳、多大\n这些答案决定架构：点击远多于创建就加缓存，不能挂就多放几台服务器，但每加一块都有成本\n考考你：「用户可以给短链接设置过期时间」是功能需求还是非功能需求？评论区告诉我～",
+      "tags": ["系统设计", "后端", "程序员面试", "碎片时间学AI工程师"]
+    },
+    "douyin": {
+      "title": "系统设计第一步：分清功能需求和非功能需求",
+      "body": "功能需求问做什么，非功能需求问多快、多稳、多大，问清楚再画图。\n考考你：「用户可以给短链接设置过期时间」是功能需求还是非功能需求？评论区告诉我～",
+      "tags": ["系统设计", "后端开发", "程序员"]
+    },
+    "tiktok": {
+      "body": "System design interviews: don't draw yet. Ask what it does, then how well. Quick quiz: \"Users can set an expiry time on a short link.\" Functional or non-functional? Comment your answer.",
+      "tags": ["systemdesign", "softwareengineering", "coding", "techinterview"]
+    },
+    "linkedin": {
+      "title": "In a system design interview, step one isn't the diagram",
+      "body": "Functional requirements: what the system does. For a URL shortener, create a short link and redirect to the original.\nNon-functional requirements: how well. How fast, how reliable, how big.\nThe answers shape the design: far more reads than writes suggests a cache; must stay up means several servers. Every box you add has a cost.\nQuick quiz: \"Users can set an expiry time on a short link.\" Functional or non-functional? Answer in the comments.",
+      "tags": ["SystemDesign", "SoftwareEngineering", "DistributedSystems", "Backend"]
+    }
+  },
+  "quiz": {
+    "q_zh": "「用户可以给短链接设置过期时间」是功能需求还是非功能需求？",
+    "q_en": "\"Users can set an expiry time on a short link.\" Functional or non-functional?",
+    "answer_zh": "答案：A，功能需求。它说的是用户能做什么（一个功能），不是多快、多稳、多大。",
+    "answer_en": "Answer: A, functional. It describes something users can do (a feature), not how fast, reliable or big the system is."
+  }
+}

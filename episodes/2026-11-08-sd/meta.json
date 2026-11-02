@@ -1,0 +1,33 @@
+{
+  "track": "sd",
+  "date": "2026-11-08",
+  "topic_zh": "可用性的几个 9：99.9% 一年能挂多久",
+  "topic_en": "The nines of availability: how much downtime 99.9% allows",
+  "captions": {
+    "xhs": {
+      "title": "99.9% 可用，一年能挂多久？",
+      "body": "系统设计第 7 课：可用性的几个 9\n停机时间 = (1 − 可用性) × 8760 小时（按 365 天估算）\n99% ≈ 3.65 天，99.9% ≈ 8.76 小时（每月约 43.8 分钟），99.99% ≈ 52.6 分钟，99.999% ≈ 5.26 分钟\n每多一个 9，停机缩到十分之一，但要多副本、多机房、自动切换，成本高得多\n串联的依赖要相乘：两个 99.9% 串起来 ≈ 99.8%，能挂的时间差不多翻倍\n考考你：99.95% 一年能挂多久？A 约 4.4 小时，B 约 44 分钟。评论区告诉我～",
+      "tags": ["系统设计", "后端", "程序员面试", "碎片时间学AI工程师"]
+    },
+    "douyin": {
+      "title": "一分钟算清楚：99.9% 可用性一年能挂多久",
+      "body": "99.9% 一年约 8.76 小时，每多一个 9 少十倍；串联依赖要相乘。\n考考你：99.95% 一年能挂多久？A 约 4.4 小时，B 约 44 分钟。评论区告诉我～",
+      "tags": ["系统设计", "后端开发", "程序员"]
+    },
+    "tiktok": {
+      "body": "99.9% uptime still means about 8.76 hours of downtime a year. Quick quiz: how much does 99.95% allow? A) about 4.4 hours B) about 44 minutes. Comment your answer.",
+      "tags": ["systemdesign", "softwareengineering", "coding", "techinterview"]
+    },
+    "linkedin": {
+      "title": "99.9% uptime still allows almost 9 hours of downtime a year",
+      "body": "Downtime = (1 − availability) × 8,760 hours (365-day year).\n99% ≈ 3.65 days, 99.9% ≈ 8.76 hours (≈ 43.8 min a month), 99.99% ≈ 52.6 min, 99.999% ≈ 5.26 min.\nEach extra nine cuts downtime tenfold, and costs far more: replicas, more data centers, automatic failover.\nDependencies in a chain multiply: two 99.9% parts in a row give about 99.8%, nearly double the downtime.\nQuick quiz: how much downtime does 99.95% allow a year? A) about 4.4 hours B) about 44 minutes. Answer in the comments.",
+      "tags": ["SystemDesign", "SoftwareEngineering", "DistributedSystems", "Backend"]
+    }
+  },
+  "quiz": {
+    "q_zh": "可用性 99.95%，一年（365 天）能挂多久？A 约 4.4 小时，B 约 44 分钟",
+    "q_en": "How much downtime does 99.95% availability allow in a 365-day year? A) about 4.4 hours B) about 44 minutes",
+    "answer_zh": "答案：A。8760 小时 × 0.05% = 4.38 小时，约 4.4 小时。44 分钟是 99.9% 一个月的量。",
+    "answer_en": "Answer: A. 8,760 hours × 0.05% = 4.38 hours, about 4.4 hours. 44 minutes is what 99.9% allows per month."
+  }
+}

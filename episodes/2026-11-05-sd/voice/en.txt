@@ -1,0 +1,27 @@
+The interviewer asks: how much disk for a year?
+Don't panic. Multiply four numbers and you're done.
+The whole formula is one line:
+new records per day, times size per record,
+then times three hundred sixty-five days, times the number of copies.
+Example: an app where people post.
+ten million daily users, two posts each per day,
+so twenty million new posts a day.
+One post: the text, plus author and time.
+Add indexes and headroom: about one kilobyte.
+Twenty million times one kilobyte. How much is that?
+Each unit step up is times one thousand.
+So about twenty gigabytes a day.
+Twenty gigabytes a day, times three hundred sixty-five days,
+is about seven point three terabytes a year.
+Data is commonly kept in three copies, in case a machine dies.
+Times three: about twenty-two terabytes a year.
+What if each post also has a two hundred kilobyte image?
+That is four terabytes a day, about one point five petabytes a year.
+Images dominate. The text barely matters.
+Records, times size, times three sixty-five, times copies.
+Each unit is times one thousand. Do the biggest item first.
+Next: memory, S S D, network, across continents.
+How many orders of magnitude apart? Follow along!
+Quick quiz: one million records a day, two kilobytes each,
+three copies. About how much disk per year?
+A or B? Tell me in the comments.

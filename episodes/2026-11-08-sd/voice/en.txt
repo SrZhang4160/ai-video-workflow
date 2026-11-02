@@ -1,0 +1,20 @@
+Your service is up ninety-nine point nine percent of the time. Sounds solid?
+It can still be down almost nine hours a year.
+Availability is the share of time the service works.
+The rest is your allowed downtime.
+A year is three sixty-five times twenty-four: eight thousand seven hundred sixty hours.
+Take zero point one percent of that: eight point seven six hours.
+Per month, that is about forty-three point eight minutes.
+Each extra nine cuts downtime by ten times.
+Four nines: about fifty-three minutes. Five nines: about five minutes.
+But every extra nine costs far more.
+Common fixes: replicas, more data centers, auto failover.
+Five minutes is too fast for a human fix.
+One more trap: dependencies in a chain multiply.
+Two ninety-nine point nine percent parts in a row give only ninety-nine point eight percent.
+Downtime nearly doubles.
+Downtime is one minus availability, times one year.
+One more nine: ten times less. Each chained dependency cuts it.
+Next: what happens after you type a URL?
+Quick quiz: how much downtime does ninety-nine point nine five percent allow a year?
+A or B? Tell me in the comments.

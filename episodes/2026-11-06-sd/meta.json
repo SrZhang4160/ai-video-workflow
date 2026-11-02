@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-06",
+  "track": "sd",
+  "topic_zh": "延迟数字：内存、SSD、网络、跨洲，差几个数量级",
+  "topic_en": "Latency numbers: memory, SSD, network, cross-continent",
+  "captions": {
+    "xhs": {
+      "title": "读内存和跨洲请求，差了多少倍？",
+      "body": "系统设计第 5 课：延迟数字（都是数量级，看硬件会变）\n读一次内存：约 100 纳秒\nSSD 随机读：约 100 微秒，慢约一千倍\n同机房往返：约 0.5 毫秒；跨洲往返：约 100 毫秒级\n跨洲比读内存慢约一百万倍，光速摆在那儿，加机器也没用\n考考你：顺序调 10 次跨洲服务，每次约 100 毫秒，光网络要等多久？A 约 0.1 秒 B 约 1 秒，评论区告诉我～",
+      "tags": ["系统设计", "后端", "程序员面试", "碎片时间学AI工程师"]
+    },
+    "douyin": {
+      "title": "一分钟记住延迟数字：纳秒、微秒、毫秒",
+      "body": "内存约 100 纳秒，SSD 约 100 微秒，同机房约 0.5 毫秒，跨洲约 100 毫秒级。\n考考你：顺序调 10 次跨洲服务，每次约 100 毫秒，要等多久？A 约 0.1 秒 B 约 1 秒，评论区告诉我～",
+      "tags": ["系统设计", "后端开发", "程序员"]
+    },
+    "tiktok": {
+      "body": "A memory read vs. a cross-continent request: about a million times apart. The latency numbers every engineer should know, in one minute. Quick quiz: 10 cross-continent calls in a row, ~100 ms each. Network wait: A ~0.1 s or B ~1 s? Comment your answer.",
+      "tags": ["systemdesign", "softwareengineering", "coding", "techinterview"]
+    },
+    "linkedin": {
+      "title": "A memory read and a cross-continent request are about a million times apart.",
+      "body": "Rough orders of magnitude (hardware-dependent):\nMemory read ~100 ns. SSD random read ~100 µs. Round trip in one datacenter ~0.5 ms. Cross-continent round trip: on the order of 100 ms.\nThe last one is physics: light in fiber covers ~200,000 km/s, so more servers won't shrink it.\nThat's why hot data lives in memory and services sit close to users. The cost: memory is pricey and multi-region is complex.\nQuick quiz: 10 cross-continent calls in a row, ~100 ms each. How long is the network wait? A ~0.1 s or B ~1 s?",
+      "tags": ["SystemDesign", "SoftwareEngineering", "DistributedSystems", "Backend"]
+    }
+  },
+  "quiz": {
+    "q_zh": "顺序调 10 次跨洲服务，每次往返约 100 毫秒，光网络要等多久？A 约 0.1 秒 B 约 1 秒",
+    "q_en": "10 cross-continent calls in a row, ~100 ms round trip each. How long is the network wait? A ~0.1 s or B ~1 s?",
+    "answer_zh": "答案：B，约 1 秒。顺序调用要一次次等，10 × 100 毫秒 = 1000 毫秒。能并发就并发，或者把服务放近点。",
+    "answer_en": "Answer: B, about 1 second. Sequential calls wait one after another: 10 × 100 ms = 1,000 ms. Run them in parallel or move the service closer."
+  }
+}
