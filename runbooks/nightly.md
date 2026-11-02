@@ -1,8 +1,8 @@
 # Nightly build: the approval hook
 
 Runs twice a night (~2:50 and ~6:30 AM ET), and whenever the user says 「现在出片」. Each run is idempotent.
-Review board: https://claude.ai/artifact/C2QhJCX4jV1JNNXhyrfMdb (db collection `episodes`, doc id = episode id: `<date>` for Rust, `<date>-ai` for the AI series; the doc's `date` field is the air date).
-Voice: the user's Mac voices every script line in the user's cloned voice and pushes `episodes/<id>/voice/<lang>/sNN.ogg` (local/voice_job.sh, every 20 min while the Mac is awake). `python3 engine/render.py episodes/<id> --status` prints `{"zh": [voiced, scenes], "en": [...]}`. "Near" below means the doc's `date` is today or tomorrow (ET). All series (Rust, AI, AI 快讯) go through every step the same way.
+Review board: https://claude.ai/artifact/C2QhJCX4jV1JNNXhyrfMdb (db collection `episodes`, doc id = episode id: `<date>` for Rust, `<date>-ai` for the AI series, `<date>-sd` for 系统设计; the doc's `date` field is the air date).
+Voice: the user's Mac voices every script line in the user's cloned voice and pushes `episodes/<id>/voice/<lang>/sNN.ogg` (local/voice_job.sh, every 20 min while the Mac is awake). `python3 engine/render.py episodes/<id> --status` prints `{"zh": [voiced, scenes], "en": [...]}`. "Near" below means the doc's `date` is today or tomorrow (ET). All series (Rust, AI, 系统设计, AI 快讯) go through every step the same way.
 
 ## 0. Guard and early exit
 - **Review trigger** (started by the review-watch task, any time of day): there is work only if a doc is `changes`, or `approved` with no `finals` yet, or `built` whose `saved_sig` differs from its `voice_sig` (approved but not saved to the videos folder yet; only section 5b runs for those). Ignore the time window for those; skip sections 2 and 4 (previews and re-renders of untouched episodes wait for the night). If nothing qualifies, stop with "nothing to do" right after the list, before `git pull` or setup.
@@ -29,7 +29,7 @@ For `draft` or `built` docs with nothing in `posted` whose `voice_sig` changed: 
 
 ## 5b. Save approved cuts to the videos folder
 For every doc with status `built` (or that this run just set to `built`) whose `saved_sig` differs from its `voice_sig`:
-`python3 engine/export.py episodes/<id>` (refreshes `build/<id>/doc.json`), then `python3 engine/save_finals.py episodes/<id>`. It copies the 4 cuts, covers and post text to `~/Desktop/AI/videos/<date>_第N课/` (AI: `<date>_AI第N课/`) as `<date>_<HHMM>_<平台>.mp4 / _封面.png / _文案.txt` (only platforms that post that day, at that series' times). If it reports a missing `build/<id>/<platform>.mp4`, download that platform's `finals` video and cover from the board (Artifact read, `path` = asset id) into `build/<id>/` as `<platform>.mp4` / `<platform>-cover.png`, then run it again. Then update the doc: `saved_sig` = `voice_sig` (pinned `if_version`).
+`python3 engine/export.py episodes/<id>` (refreshes `build/<id>/doc.json`), then `python3 engine/save_finals.py episodes/<id>`. It copies the 4 cuts, covers and post text to `~/Desktop/AI/videos/<date>_第N课/` (AI: `<date>_AI第N课/`, 系统设计: `<date>_系统设计第N课/`) as `<date>_<HHMM>_<平台>.mp4 / _封面.png / _文案.txt` (only platforms that post that day, at that series' times). If it reports a missing `build/<id>/<platform>.mp4`, download that platform's `finals` video and cover from the board (Artifact read, `path` = asset id) into `build/<id>/` as `<platform>.mp4` / `<platform>-cover.png`, then run it again. Then update the doc: `saved_sig` = `voice_sig` (pinned `if_version`).
 
 ## 5. Finish
 - Delete superseded assets (their ids are in the old `asset_ids`). Commit layout fixes and push. Never commit `build/`.
