@@ -1,6 +1,6 @@
 # How to write an episode
 
-An episode is one folder `episodes/<air date YYYY-MM-DD>/` with two files you write:
+An episode is one folder `episodes/<air date YYYY-MM-DD>/` (AI series: `episodes/<air date>-ai/`) with two files you write:
 
 - `episode.js`: scenes, captions and visuals. `episodes/demo-rust-01/episode.js` is the reference; copy its shape and quality.
 - `meta.json`: title and per-platform post copy.
@@ -9,12 +9,19 @@ The same content goes to every platform. Only the language changes: 小红书 an
 
 ## Content rules (the reviewer rejects on any of these)
 1. **Teach the viewer.** Never "today I learned"; explain it so a beginner gets it in one minute. One idea per video.
-2. **Accurate.** Code must compile or run as shown. If unsure, cut it.
+2. **Accurate.** Code must compile or run as shown; API facts must match the provider's current docs. If unsure, cut it.
 3. **No company promotion.** Never mention RELAI, the user's employer, its products, customers or metrics. Public tools (Rust, Cargo, Claude Code, MCP, OpenAI…) are fine.
 4. **No meta labels.** No "AI voice", "made with AI", series slogans or progress bars on screen.
 5. **The title is a promise.** If the title or hook asks "why" (为什么), one scene must answer the why (the design reason), not only show what happens. If the video only shows how, title it as how.
 6. **Structure 总–分–总**: hook question → 2–4 points with visuals → one-line takeaway (a "一张图总结" card worth saving) → teaser for the next lesson → **comment quiz** (last scene, see below).
 7. **Length**: 6–9 scenes plus the quiz scene, ~55–80 s spoken in Chinese. Chinese is spoken, conversational (咱们、其实、你看), like a person talking.
+
+## Two series
+There are two daily series (`series/schedule.json` → `series`): **Rust** (folder `episodes/<date>/`, `series/curriculum.md`) and **AI 工程师系统课** (folder `episodes/<date>-ai/`, `series/ai-engineer/curriculum.md`). Same engine, same rules. For an AI episode:
+- `meta.json` has `"track": "ai"` (Rust episodes may omit it; default `rust`). `n` in `episode.js` is the AI lesson number.
+- It teaches a concept, not a language: prefer a diagram, a request/response pair or a short Python snippet over long code. Snippets must run as shown with the current public SDKs; API facts (parameter names, limits, prices) must be checked against the provider's current docs, or cut. Never quote a price or a model ranking that may change; say "check the pricing page" instead.
+- Quiz with one definite answer: A/B about behaviour ("同样的提示词问两次，temperature=0 一定得到一样的回答吗？" only if the answer is truly definite), or "which step is missing", not "which model is best".
+- Tags: xhs `["AI工程师", "大模型", "AI应用开发", "碎片时间学AI工程师"]`, douyin `["AI", "大模型", "程序员"]`, tiktok `["aiengineering", "llm", "ai", "learntocode"]`, linkedin `["AIEngineering", "LLM", "GenerativeAI", "SoftwareEngineering"]`.
 
 ## Growth rules (小红书 pushes a note further only if people interact)
 小红书 first shows a new note to a small pool (a few hundred views) and decides from interaction whether to push it further. Commonly cited (unofficial) weights: like or save = 1, comment or share = 4, follow = 8. So a comment is worth four likes: every episode is built to make people comment and save.

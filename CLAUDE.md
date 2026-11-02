@@ -4,7 +4,11 @@
 
 Series name (use exactly): **每天1分钟，碎片时间学AI工程师**. Hashtag form: #碎片时间学AI工程师. It is the account/series name, not an on-screen label.
 
-A daily 1-minute teaching series. Same content on four platforms:
+Two daily 1-minute teaching series, same pipeline, same account:
+- **Rust**: `series/curriculum.md`, episodes `episodes/<date>/`, posts at the times below.
+- **AI 工程师系统课** (from 2026-11-09): `series/ai-engineer/curriculum.md`, episodes `episodes/<date>-ai/` (`meta.json` `"track": "ai"`, board doc id `<date>-ai`), posts daily 12:00 ET on 小红书 / 抖音 / TikTok and weekdays 08:00 on LinkedIn.
+
+Each episode goes to four platforms (Rust times shown; AI times are in `series/schedule.json`):
 
 | platform | ratio | voice | captions | posts (ET) |
 |---|---|---|---|---|
@@ -16,19 +20,19 @@ A daily 1-minute teaching series. Same content on four platforms:
 Times and sources: `series/schedule.json`. The user publishes by hand; nothing here posts anywhere.
 
 ## The loop
-1. **Friday ~1 AM ET**, `runbooks/weekly.md`: script next Monday–Sunday (7 episodes) from `series/curriculum.md`, review each with a fresh reviewer agent, push, and put the scripts on the review board (status 配音中).
+1. **Friday ~1 AM ET**, `runbooks/weekly.md`: script next Monday–Sunday (7 episodes per series, 14 total) from each series' curriculum, review each with a fresh reviewer agent, push, and put the scripts on the review board (status 配音中).
 1b. **The user's Mac** (`local/voice_job.sh`, launchd, every 20 min while awake) voices every new line in the user's cloned voice (CosyVoice3, Chinese and English) and pushes `voice/<lang>/sNN.ogg`. The AI voice is only a fallback when the Mac didn't get to it before the air date.
 2. **Fri–Sun**, the user reviews on the board (https://claude.ai/artifact/C2QhJCX4jV1JNNXhyrfMdb): 通过, or 要修改 + a note.
 3. **Every night ~2:50 and ~6:30 AM ET**, `runbooks/nightly.md` (the approval hook): voiced → preview; approved → render all four cuts + upload; changes → revise the script; new voice → re-render. Episodes airing today/tomorrow get built regardless, so a post day is never blocked.
-4. **Reminders**: weekdays 9:50 (LinkedIn) and daily 18:40 (小红书 / 抖音 / TikTok) the user gets a push to re-check and post today's episode.
+4. **Reminders**: Rust weekdays 9:50 (LinkedIn) and daily 18:40 (小红书 / 抖音 / TikTok); AI weekdays 7:20 (LinkedIn) and daily 11:20 (小红书 / 抖音 / TikTok). The user gets a push to re-check and post that series' episode.
 
 **Scheduled generation runs between 00:00 and 09:00 ET. Exception: when the user submits a review on the board (通过 or 要修改), it is handled right away (review-watch task, every 10 min).**
 
 ## Layout
 - `engine/`: `lesson.html` (scene engine, three ratios × two languages), `render.py` (frames + voice → mp4 + covers + contact sheets), `export.py` (voice scripts + board doc), `tts.py` (AI fallback voice), `setup.sh`.
 - `episodes/<air date>/`: `episode.js`, `meta.json`, `voice/{zh,en}.txt` (what to say, one line per caption page), `voice/{zh,en}/sNN.ogg` + `manifest.json` (cloned voice, valid only while the line's hash matches) or a hand-recorded `sNN.wav`.
-- `runbooks/`: `scenes.md` (how to write an episode; read before writing one), `weekly.md`, `nightly.md`.
-- `agents/reviewer.md`: reviewer checklist. `series/`: curriculum and schedule.
+- `runbooks/`: `scenes.md` (how to write an episode, incl. AI-series rules; read before writing one), `weekly.md`, `nightly.md`.
+- `agents/reviewer.md`: reviewer checklist. `series/`: curricula (`curriculum.md` Rust, `ai-engineer/curriculum.md` AI) and `schedule.json` (slots, reminders and the `series` table: id suffix, curriculum, save-folder label).
 - `local/`: Mac only. `install_voice_job.sh` (one-time), `voice_job.sh` (launchd job), `voice_daemon.py` (CosyVoice3 + `~/cosyvoice3/my_voice.wav`).
 - `styles/whiteboard/`: hand-drawn (rough.js + Caveat) style for LinkedIn deep dives. `episodes/li-*`: deep dives (English only, `platforms` in meta.json).
 - `build/`: render output, never committed.

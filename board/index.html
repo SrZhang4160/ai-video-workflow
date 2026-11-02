@@ -86,7 +86,7 @@ textarea{font:inherit;width:100%;min-height:72px;border:1px solid var(--line);bo
   <header>
     <div>
       <h1>每天1分钟，碎片时间学AI工程师 <span class="acc">·</span> 审核台</h1>
-      <p class="sub" id="weekline">本周节目单 · 每周五凌晨生成下周 7 期，审核通过后夜里自动出 4 个平台版本</p>
+      <p class="sub" id="weekline">本周节目单 · 每周五凌晨生成下周两个系列各 7 期（Rust + AI），审核通过后夜里自动出 4 个平台版本</p>
     </div>
     <div class="counts" id="counts"></div>
     <div class="slots" id="slots"></div>
@@ -116,6 +116,10 @@ const DEFAULT_SLOTS = [
   {platform:'抖音', time:'19:30', days:'每天', note:'同小红书'},
   {platform:'TikTok', time:'19:30', days:'每天', note:'英文版'},
   {platform:'LinkedIn', time:'10:30', days:'周一至周五', note:'英文版 · 上午高峰'},
+  {series:'ai', platform:'小红书', time:'12:00', days:'每天', note:'午休时段'},
+  {series:'ai', platform:'抖音', time:'12:00', days:'每天', note:'同小红书'},
+  {series:'ai', platform:'TikTok', time:'12:00', days:'每天', note:'英文版'},
+  {series:'ai', platform:'LinkedIn', time:'08:00', days:'周一至周五', note:'英文版 · 上班前'},
 ];
 const WD = ['周日','周一','周二','周三','周四','周五','周六'];
 let db = null, eps = [], slots = DEFAULT_SLOTS, open = {}, tabs = {}, drafts = {};
@@ -139,10 +143,10 @@ function renderHeader() {
   $('#counts').replaceChildren(...Object.entries(STATUS).filter(([k]) => c[k]).map(([k, [label, cls]]) =>
     h('span', {class: 'pill ' + cls}, `${label} ${c[k]}`)));
   $('#slots').replaceChildren(...slots.map(s => h('div', {class: 'slot'},
-    h('b', {}, s.platform), h('span', {class: 't'}, s.time + ' ET'), h('small', {}, `${s.days} · ${s.note || ''}`))));
+    h('b', {}, (s.series === 'ai' ? 'AI · ' : s.series === 'rust' ? 'Rust · ' : '') + s.platform), h('span', {class: 't'}, s.time + ' ET'), h('small', {}, `${s.days} · ${s.note || ''}`))));
   if (eps.length) {
     const a = eps[0].date, b = eps[eps.length - 1].date;
-    $('#weekline').textContent = `节目单 ${a.slice(5)} → ${b.slice(5)} · 每周五凌晨生成下周 7 期，审核通过后夜里自动出 4 个平台版本`;
+    $('#weekline').textContent = `节目单 ${a.slice(5)} → ${b.slice(5)} · 每周五凌晨生成下周两个系列各 7 期（Rust + AI），审核通过后夜里自动出 4 个平台版本`;
   }
 }
 
@@ -188,8 +192,8 @@ function cutsView(e) {
         h('div', {class: 'actions'},
           h('button', {onclick: (ev) => copy(captionText(cap), ev.currentTarget), disabled: !cap}, '复制文案'),
           pin ? h('button', {onclick: (ev) => copy(pin, ev.currentTarget)}, '复制置顶评论') : null,
-          h('button', {onclick: () => save(vurl, `${e.date}-${tab}.mp4`), disabled: !vurl}, '下载视频'),
-          h('button', {onclick: () => save(curl, `${e.date}-${tab}-cover.png`), disabled: !curl, class: 'ghost'}, '下载封面'),
+          h('button', {onclick: () => save(vurl, `${e.id}-${tab}.mp4`), disabled: !vurl}, '下载视频'),
+          h('button', {onclick: () => save(curl, `${e.id}-${tab}-cover.png`), disabled: !curl, class: 'ghost'}, '下载封面'),
           h('button', {class: posted ? 'ghost' : 'primary', onclick: () => {
             const p = {...(e.posted || {}), [tab]: !posted};
             const all = PLAT.every(([k]) => p[k]);
@@ -221,7 +225,7 @@ function row(e) {
   }
   return h('article', {class: 'row' + (isToday ? ' today' : ''), id: 'ep-' + e.id},
     h('div', {class: 'date'}, h('span', {class: 'd'}, e.date.slice(5).replace('-', '/')), h('span', {class: 'w'}, WD[d.getDay()] + (isToday ? ' · 今天' : '')),
-      h('span', {class: 'lz'}, e.lesson ? `第 ${e.lesson} 课` : '')),
+      h('span', {class: 'lz'}, e.lesson ? `${e.track === 'ai' ? 'AI · ' : 'Rust · '}第 ${e.lesson} 课` : '')),
     h('div', {class: 'body'},
       h('div', {class: 'head'}, h('h2', {}, e.title_zh || e.topic_zh || '（未命名）'), h('span', {class: 'pill ' + cls}, label),
         e.voice ? h('span', {class: 'meta'}, {ai: 'AI 配音（占位）', clone: '你的声音', recorded: '你的声音', mixed: '部分是你的声音'}[e.voice] || e.voice) : null,

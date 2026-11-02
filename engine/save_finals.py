@@ -2,8 +2,8 @@
 
   python3 engine/save_finals.py episodes/2026-10-26 [--out ~/Desktop/AI/videos]
 
-Copies build/<id>/<platform>.mp4 + cover into <out>/<date>_第N课/ and writes the post text, one set per platform
-that posts on that day (series/schedule.json), named <date>_<HHMM>_<platform>:
+Copies build/<id>/<platform>.mp4 + cover into <out>/<date>_第N课/ (AI series: <date>_AI第N课/) and writes the post text, one set per platform
+that posts on that day (series/schedule.json, slots of the episode's track), named <date>_<HHMM>_<platform>:
     2026-10-26_1930_小红书.mp4   2026-10-26_1930_小红书_封面.png   2026-10-26_1930_小红书_文案.txt
 Safe to re-run: files are overwritten with the current build.
 """
@@ -29,10 +29,13 @@ def main():
     ep_dir = os.path.abspath(a.ep_dir); eid = os.path.basename(ep_dir)
     meta = json.load(open(os.path.join(ep_dir, "meta.json")))
     doc = json.load(open(os.path.join(ROOT, "build", eid, "doc.json")))
-    slots = {s["key"]: s for s in json.load(open(os.path.join(ROOT, "series", "schedule.json")))["slots"]}
+    sched = json.load(open(os.path.join(ROOT, "series", "schedule.json")))
+    track = meta.get("track", "rust")
+    slots = {s["key"]: s for s in sched["slots"] if s.get("series", "rust") == track}
     dow = (datetime.date.fromisoformat(meta["date"]).weekday() + 1) % 7      # schedule.json: 0 = Sunday
     lesson = doc.get("lesson")
-    folder = os.path.join(a.out, f"{meta['date']}_第{lesson}课" if lesson else meta["date"])
+    label = sched.get("series", {}).get(track, {}).get("folder_label", "第{n}课")
+    folder = os.path.join(a.out, f"{meta['date']}_{label.format(n=lesson)}" if lesson else eid)
     os.makedirs(folder, exist_ok=True)
     quiz = meta.get("quiz") or {}
     saved, missing = [], []
