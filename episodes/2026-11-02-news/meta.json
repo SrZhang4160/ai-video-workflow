@@ -1,0 +1,74 @@
+{
+  "date": "2026-11-02",
+  "track": "news",
+  "platforms": [
+    "xhs",
+    "douyin",
+    "tiktok"
+  ],
+  "topic_zh": "DoorDash：一个季度 9.93 亿单，第三方 AI agent 至今一共可能才几百单",
+  "topic_en": "DoorDash: 993 million orders in one quarter; third-party AI agents placed maybe several hundred in total so far",
+  "sources": [
+    {
+      "title": "DoorDash said it's only received several hundred orders from AI agents",
+      "url": "https://techcrunch.com/2026/10/30/doordash-said-its-only-received-several-hundred-orders-from-ai-agents/",
+      "outlet": "TechCrunch",
+      "published": "2026-10-30"
+    },
+    {
+      "title": "DoorDash Releases Third Quarter 2026 Financial Results",
+      "url": "https://ir.doordash.com/news/news-details/2026/DoorDash-Releases-Third-Quarter-2026-Financial-Results/default.aspx",
+      "outlet": "DoorDash Investor Relations",
+      "published": "2026-10-29"
+    },
+    {
+      "title": "DoorDash ordering connector",
+      "url": "https://about.doordash.com/en-us/news/doordash-ordering-connector",
+      "outlet": "DoorDash Newsroom",
+      "published": "2026-09-30"
+    },
+    {
+      "title": "While Amazon blocks AI agents, Walmart rolls out the welcome mat",
+      "url": "https://techcrunch.com/2026/10/21/while-amazon-blocks-ai-agents-walmart-rolls-out-the-welcome-mat/",
+      "outlet": "TechCrunch",
+      "published": "2026-10-21"
+    }
+  ],
+  "captions": {
+    "xhs": {
+      "title": "9.93亿单外卖，第三方AI agent至今才几百单",
+      "body": "DoorDash 光第三季度一个季度就有 9.93 亿单。CEO 在财报会上说，第三方 AI agent 到现在一共可能也就几百单。\n其实路已经铺好了：DoorDash 推出了 MCP 连接器，沃尔玛开了 MCP 入口，亚马逊则开始拦 agent 购物。\n我的看法：卡住 agent 的不是接口，是信任。做 agent 的话，先把“人来批准”和花钱上限设计好。\n考考你：到目前为止，第三方 AI agent 一共给 DoorDash 下了大约多少单？A 几百单 B 几百万单，评论区告诉我～",
+      "tags": [
+        "AI快讯",
+        "AI新闻",
+        "AI工程师",
+        "碎片时间学AI工程师",
+        "AIAgent"
+      ]
+    },
+    "douyin": {
+      "title": "一个季度9.93亿单，第三方AI agent至今才几百单",
+      "body": "DoorDash CEO 亲口说：第三方 AI agent 到现在一共可能就几百单，而一个季度的总订单是 9.93 亿。我的看法：接口有了，卡住的是信任。\n考考你：到目前为止，第三方 AI agent 一共给 DoorDash 下了大约多少单？A 几百单 B 几百万单，评论区告诉我～",
+      "tags": [
+        "AI",
+        "AI新闻",
+        "程序员"
+      ]
+    },
+    "tiktok": {
+      "body": "993 million DoorDash orders in one quarter. Third-party AI agents? Maybe several hundred orders in total so far, says the CEO. My take: the plumbing exists; trust is the bottleneck. Quick quiz: so far, about how many orders have third-party AI agents placed on DoorDash? A hundreds B millions. Comment your answer.",
+      "tags": [
+        "AINews",
+        "AI",
+        "aiagents",
+        "tech"
+      ]
+    }
+  },
+  "quiz": {
+    "q_zh": "到目前为止，第三方 AI agent 一共给 DoorDash 下了大约多少单？A 几百单 B 几百万单",
+    "q_en": "So far, about how many orders have third-party AI agents placed on DoorDash? A hundreds B millions",
+    "answer_zh": "答案 A：CEO 在三季度财报会上说，到目前为止第三方 agent 一共可能就几百单；光第三季度一个季度，DoorDash 总订单就有 9.93 亿。",
+    "answer_en": "Answer: A. On the Q3 call the CEO said third-party agents have sent \"maybe several hundred orders in total\" so far. DoorDash handled 993 million orders in Q3 alone."
+  }
+}
