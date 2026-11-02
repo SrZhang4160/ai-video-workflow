@@ -1,30 +1,38 @@
-October 21. The Dutch cyber security agency took its own site offline.
-So did the Port of Rotterdam,
-France's Interior Ministry, and Finland's government network.
-They weren't hacked.
-They were hiding from a bug that had been there for 14 years.
-The bug was in PHP.
+October 21. Something strange happened in the Netherlands.
+The country's cyber security agency took its own website offline.
+And it wasn't alone.
+The Port of Rotterdam went dark.
+So did France's Interior Ministry, and Finland's government network.
+So what happened? Were they hacked?
+No, they weren't. They were hiding.
+Hiding from a bug that had been sitting there for 14 years.
+And this wasn't just any bug. It was in PHP.
+Why does that matter?
 About 70% of websites with a known server language run PHP.
-Anyone could run their own code on your server. No login needed.
-Japan's prime minister told site owners to check if they use PHP.
-Who found it?
+With this bug, anyone could run code on your server. No login needed.
+It was so serious that Japan's prime minister posted a warning:
+check whether your site uses PHP.
+Which raises the question: who found it?
 For 14 years, nobody noticed.
-Then two teams using AI found it, weeks apart.
+Then, this year, two teams found it within weeks of each other.
+And both had help from AI.
 Calif used GPT. Wiz used Gemini and GPT.
+Normally, that's where the story ends: find the bug, ship the fix.
 The fix was planned for October 22.
 But the details leaked early.
-PHP rushed the patch out a day early.
-Exploit code spread online.
+PHP had to rush the patch out a day ahead.
+Soon, exploit code was spreading online.
 Attackers kept tweaking it to slip past Cloudflare's blocking rules.
-Here's the scary part.
-The skill that finds a bug for defenders
+And here's the scary part.
+The same skill that finds a bug for defenders
 can also read the patch and build the attack.
-AI makes both sides faster.
-If you run P H P, update now.
+So AI makes both sides faster.
+Which means: if you run P H P, update now.
 The fixed versions are on screen.
-So what should AI companies do?
+But this raises a bigger question: what should AI companies do?
+Because this wasn't the first warning.
 Before this, an attacker had already tricked an AI with one sentence,
 and went after 30 organizations.
-That's next time.
-Quick quiz: can a firewall rule alone fix this bug?
+That story is next time.
+Before you go, a quick quiz: can a firewall rule alone fix this bug?
 Yes or no? Tell me in the comments.
