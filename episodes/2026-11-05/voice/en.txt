@@ -1,0 +1,17 @@
+What happens if you turn the text A B C into a number?
+Rust doesn't throw an exception. It returns a Result.
+Unlike Option, Result also tells you why it failed.
+Success is Ok, holding the value. Failure is Err, holding the error.
+The direct way: match, and handle both paths.
+The shortcut is unwrap, but on an error it panics.
+Fine for quick demos. Avoid it in real code.
+More common is the question mark operator.
+If it is Ok, keep the value. If it is an Err, return it to the caller.
+Watch out: to use the question mark on a Result, the function must return a Result too.
+Even main can return a Result.
+To sum up: in Rust, an error is just a value.
+match handles it here. The question mark passes it up.
+unwrap only when you're sure it can't fail.
+Next: Cargo. New projects, dependencies, tests.
+Quick quiz: does this code compile?
+Yes or no? Tell me in the comments.

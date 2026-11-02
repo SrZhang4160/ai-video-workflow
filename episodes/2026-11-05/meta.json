@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-05",
+  "topic_zh": "Result 和 ? 运算符：错误处理",
+  "topic_en": "Rust error handling: Result and the ? operator",
+  "captions": {
+    "xhs": {
+      "title": "Rust 没有异常，出错了怎么办？",
+      "body": "第 13 课：Result 和 ? 运算符\nRust 没有异常，可能失败的函数返回 Result：成功 Ok(值)，失败 Err(错误)\nmatch：成功和失败两条路都写\nunwrap：失败就 panic，正式代码少用\n? 运算符：成功取值继续走，失败把错误返回给调用者\n考考你：fn f() -> i32 { let n: i32 = \"7\".parse()?; n } 能编译吗？ 评论区告诉我～",
+      "tags": [
+        "Rust",
+        "编程入门",
+        "程序员",
+        "AI工程师",
+        "碎片时间学AI工程师"
+      ]
+    },
+    "douyin": {
+      "title": "一分钟搞懂 Rust 的 Result 和问号运算符",
+      "body": "Rust 没有异常：match 就地处理，? 把错误交给上层，unwrap 失败就崩。\n考考你：fn f() -> i32 { let n: i32 = \"7\".parse()?; n } 能编译吗？ 评论区告诉我～",
+      "tags": [
+        "Rust",
+        "编程",
+        "程序员"
+      ]
+    },
+    "tiktok": {
+      "body": "Rust has no exceptions. Errors are values: Result, match, unwrap and the ? operator in one minute. Quick quiz: fn f() -> i32 { let n: i32 = \"7\".parse()?; n }  Does it compile? Comment your answer.",
+      "tags": [
+        "rust",
+        "rustlang",
+        "coding",
+        "learntocode",
+        "programming"
+      ]
+    },
+    "linkedin": {
+      "title": "Rust has no exceptions. Errors are values.",
+      "body": "A function that can fail returns Result: Ok(value) or Err(error).\nmatch handles both paths right where you are.\nunwrap takes the value but panics on Err: fine for demos, risky in real code.\nThe ? operator takes the Ok value or returns the Err to the caller, so the function must return a Result itself.\nQuick quiz: fn f() -> i32 { let n: i32 = \"7\".parse()?; n }  Does it compile? Answer in the comments.",
+      "tags": [
+        "Rust",
+        "SoftwareEngineering",
+        "AIEngineering"
+      ]
+    }
+  },
+  "quiz": {
+    "q_zh": "fn f() -> i32 { let n: i32 = \"7\".parse()?; n } 能编译吗？",
+    "q_en": "fn f() -> i32 { let n: i32 = \"7\".parse()?; n }  Does it compile?",
+    "answer_zh": "答案：不能。? 遇到错误会把它从函数里返回出去，所以对 Result 用 ?，函数自己也得返回 Result。f 返回的是 i32。",
+    "answer_en": "Answer: no. On an error, ? returns it from the function, so the function must return a Result itself. f returns an i32."
+  }
+}
