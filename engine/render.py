@@ -24,9 +24,45 @@ PLATFORMS = {            # ratio, language
 SIZES = {"3x4": (1080, 1440), "9x16": (1080, 1920), "4x5": (1080, 1350)}
 FPS, SR = 24, 24000
 # Pacing per voice language: silence before the first line, between caption pages, and after the scene.
+# The gap between pages follows how the earlier page ends: a comma keeps the sentence going, a full stop rests.
 # English runs slower on purpose so viewers have time to read the visuals.
-PACE = {"zh": {"lead": 0.35, "gap": 0.18, "tail": 0.6},
-        "en": {"lead": 0.8, "gap": 0.6, "tail": 1.6}}
+PACE = {"zh": {"lead": 0.35, "gap": {"comma": 0.06, "colon": 0.12, "stop": 0.2}, "tail": 0.6},
+        "en": {"lead": 0.8, "gap": {"comma": 0.15, "colon": 0.3, "stop": 0.6}, "tail": 1.6}}
+SOFT_END, COLON_END = "，,、；;—-", "：:"
+FADE = 0.012    # seconds faded in/out at clip edges so cuts don't click
+
+
+def gap_after(text, gaps):
+    """Pause after a caption page, from its last character (no punctuation counts as a comma)."""
+    end = text.rstrip()[-1:]
+    if end in COLON_END:
+        return gaps["colon"]
+    if not end or end in SOFT_END or end.isalnum():
+        return gaps["comma"]
+    return gaps["stop"]
+
+
+def tone_level(clips):
+    """The clips' own background level (RMS of their quietest 20 ms frames), capped well below speech."""
+    f = int(0.02 * SR)
+    rms = [q for c in clips for k in range(0, len(c) - f, f) if (q := float(np.sqrt(np.mean(c[k:k + f] ** 2)))) > 1e-5]
+    return min(float(np.percentile(rms, 10)) if rms else 0.0, 0.0015)
+
+
+def room_tone(level, n, rng):
+    """n samples of soft noise at that level, so pauses don't drop to digital silence between clips."""
+    if n <= 0 or not level:
+        return np.zeros(max(n, 0), np.float32)
+    x = np.convolve(rng.standard_normal(n + 15).astype(np.float32), np.ones(16, np.float32), "valid")[:n]
+    return x * (level / (x.std() or 1))
+
+
+def fade(x):
+    k = min(int(FADE * SR), len(x) // 2)
+    if k:
+        r = np.linspace(0, 1, k, dtype=np.float32)
+        x = x.copy(); x[:k] *= r; x[-k:] *= r[::-1]
+    return x
 
 
 def load_audio(path):
@@ -104,7 +140,7 @@ def trim(x, thr=0.01, keep=0.08):
     if not len(idx):
         return x
     a, b = max(0, idx[0] - int(keep * SR)), min(len(x), idx[-1] + int(keep * SR))
-    return x[a:b]
+    return fade(x[a:b])
 
 
 def contact_sheet(paths, out, cols=3, w=360):
@@ -131,17 +167,20 @@ def render(ep_dir, platform, out_dir, page_factory):
     cache = os.path.join(ROOT, "build", ".tts"); os.makedirs(cache, exist_ok=True)
     scene_clips, sources = page_voices(ep_dir, info, lang, cache)
     pc = PACE[lang]
+    level, rng = tone_level([c for clips in scene_clips for c in clips]), np.random.default_rng(0)
+    pause = lambda sec: room_tone(level, int(sec * SR), rng)
 
     tmp = tempfile.mkdtemp()
     frames, audio, lasts = [], [], []
     for si, (s, clips) in enumerate(zip(info, scene_clips)):
         # scene audio: lead, page 1, gap, page 2, ..., tail. Caption k starts exactly when its clip starts.
-        ct, t, parts = [], pc["lead"], [np.zeros(int(pc["lead"] * SR), np.float32)]
+        ct, t, parts = [], pc["lead"], [pause(pc["lead"])]
         for k, c in enumerate(clips):
             if k:
-                parts.append(np.zeros(int(pc["gap"] * SR), np.float32)); t += pc["gap"]
+                g = gap_after(page_text(s["caps"][k - 1], lang), pc["gap"])
+                parts.append(pause(g)); t += g
             ct.append(t); parts.append(c); t += len(c) / SR
-        parts.append(np.zeros(int(pc["tail"] * SR), np.float32)); D = t + pc["tail"]
+        parts.append(pause(pc["tail"])); D = t + pc["tail"]
         n = page.evaluate(f"showScene({si})")
         wins = page.evaluate("([D, ct]) => schedule(D, 0, ct)", [D, ct])
         ts = {0.0, *ct}
