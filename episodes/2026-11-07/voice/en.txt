@@ -1,0 +1,22 @@
+A dog and a cat can both speak.
+How can one function take them both?
+The answer is a trait.
+A trait is a list of behaviors.
+Only the signature here, no body.
+Any type that implements it must have speak.
+Implement Speak for Dog, with its speak method.
+Same for Cat. Each makes its own sound.
+Make the parameter a reference to any Speak type.
+So both Dog and Cat can go in.
+Pass in a Rock that does not implement Speak,
+and the compiler stops you before it ever runs.
+A trait method can also have a default body.
+If a type skips it, the default is used.
+Methods with no default must be written.
+To sum up: a trait sets out shared behavior,
+you implement it for each type,
+and one function can take every type that implements it.
+That parameter is shorthand for a generic.
+Generics are next. Follow along!
+Quick quiz: does this code compile?
+Yes or no? Tell me in the comments.

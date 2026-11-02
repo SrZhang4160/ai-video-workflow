@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-07",
+  "topic_zh": "trait：定义共同行为",
+  "topic_en": "Rust traits: defining shared behavior",
+  "captions": {
+    "xhs": {
+      "title": "一个函数，狗和猫都能用？",
+      "body": "第 15 课：trait，定义共同行为\ntrait 是一份行为清单：trait Speak { fn speak(&self) -> String; }\nimpl Speak for Dog：给类型实现它\n参数写 &impl Speak，一个函数就能接收所有实现了 Speak 的类型\n方法可以带默认实现；没有默认实现的，必须自己写\n考考你：trait 里有 fn speak(&self) -> String; 写 impl Speak for Dog {} 能编译吗？ 评论区告诉我～",
+      "tags": ["Rust", "编程入门", "程序员", "AI工程师", "碎片时间学AI工程师"]
+    },
+    "douyin": {
+      "title": "一分钟搞懂 Rust 的 trait",
+      "body": "trait 定义共同行为，impl 给类型实现，&impl Trait 让一个函数通吃。\n考考你：trait 里有 fn speak(&self) -> String; 写 impl Speak for Dog {} 能编译吗？ 评论区告诉我～",
+      "tags": ["Rust", "编程", "程序员"]
+    },
+    "tiktok": {
+      "body": "One Rust function that works for both Dog and Cat? That's what traits are for. Quick quiz: the trait has fn speak(&self) -> String; and you write impl Speak for Dog {}. Does it compile? Comment your answer.",
+      "tags": ["rust", "rustlang", "coding", "learntocode", "programming"]
+    },
+    "linkedin": {
+      "title": "Rust traits: one function, many types",
+      "body": "A trait is a list of behaviors: trait Speak { fn speak(&self) -> String; }\nimpl Speak for Dog gives a type that behavior.\nA parameter of type &impl Speak accepts any type that implements Speak, checked at compile time.\nTrait methods can have default bodies; methods without one must be implemented.\nQuick quiz: the trait has fn speak(&self) -> String; and you write impl Speak for Dog {}. Does it compile? Answer in the comments.",
+      "tags": ["Rust", "SoftwareEngineering", "AIEngineering"]
+    }
+  },
+  "quiz": {
+    "q_zh": "trait Speak { fn speak(&self) -> String; } struct Dog; impl Speak for Dog {} 能编译吗？",
+    "q_en": "trait Speak { fn speak(&self) -> String; } struct Dog; impl Speak for Dog {}  Does it compile?",
+    "answer_zh": "答案：不能。speak 没有默认实现，impl Speak for Dog 必须把它写出来，否则报错 E0046：not all trait items implemented, missing: `speak`。",
+    "answer_en": "Answer: no. speak has no default body, so impl Speak for Dog must define it. Otherwise you get error E0046: not all trait items implemented, missing: `speak`."
+  }
+}
