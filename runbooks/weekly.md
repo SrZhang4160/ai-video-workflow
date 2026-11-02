@@ -8,6 +8,7 @@ Review board: https://claude.ai/artifact/C2QhJCX4jV1JNNXhyrfMdb (db collection `
 - Work in the repo root. `git pull`, then `bash engine/setup.sh`.
 
 ## 1. Pick the week
+- Skip any series with `"weekly": false` in `series/schedule.json` → `series` (AI 快讯 is scripted every night by `runbooks/news-daily.md`, never in this batch).
 - Air dates = the next Monday through Sunday after this run (ET). Run on Friday → Monday is 3 days away.
 - `ArtifactData list episodes` on the board. Per series, skip any episode id that already has a doc (never overwrite one).
 - Per series, take the next unchecked lessons from that series' `curriculum` file, one per open date, in order. If `notes/` has a study note from the last 7 days that no episode used yet, you may use it for one date instead (log the swap).

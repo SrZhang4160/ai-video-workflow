@@ -28,6 +28,9 @@ Times and sources: `series/schedule.json`. The user publishes by hand; nothing h
 
 **Scheduled generation runs between 00:00 and 09:00 ET. Exception: when the user submits a review on the board (通过 or 要修改), it is handled right away (review-watch task, every 10 min).**
 
+## AI 快讯 (third series, daily news)
+One AI-industry story a day, analyzed. Scripted every night ~00:40 ET for the same day by `runbooks/news-daily.md` (not the Friday batch), fact-checked by `agents/news-reviewer.md`, posts 16:30 ET on 小红书 / 抖音 / TikTok (no LinkedIn). Folders `episodes/<date>-news/`, `meta.json` `"track": "news"`. Rules and story picking: `series/news/README.md`; covered stories: `series/news/log.md`. Manual: 「做今天的快讯」 → run `runbooks/news-daily.md` now.
+
 ## Layout
 - `engine/`: `lesson.html` (scene engine, three ratios × two languages), `render.py` (frames + voice → mp4 + covers + contact sheets), `export.py` (voice scripts + board doc), `tts.py` (AI fallback voice), `setup.sh`.
 - `episodes/<air date>/`: `episode.js`, `meta.json`, `voice/{zh,en}.txt` (what to say, one line per caption page), `voice/{zh,en}/sNN.ogg` + `manifest.json` (cloned voice, valid only while the line's hash matches) or a hand-recorded `sNN.wav`.

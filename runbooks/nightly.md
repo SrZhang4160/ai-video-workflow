@@ -2,7 +2,7 @@
 
 Runs twice a night (~2:50 and ~6:30 AM ET), and whenever the user says 「现在出片」. Each run is idempotent.
 Review board: https://claude.ai/artifact/C2QhJCX4jV1JNNXhyrfMdb (db collection `episodes`, doc id = episode id: `<date>` for Rust, `<date>-ai` for the AI series; the doc's `date` field is the air date).
-Voice: the user's Mac voices every script line in the user's cloned voice and pushes `episodes/<id>/voice/<lang>/sNN.ogg` (local/voice_job.sh, every 20 min while the Mac is awake). `python3 engine/render.py episodes/<id> --status` prints `{"zh": [voiced, scenes], "en": [...]}`. "Near" below means the doc's `date` is today or tomorrow (ET). Both series go through every step the same way.
+Voice: the user's Mac voices every script line in the user's cloned voice and pushes `episodes/<id>/voice/<lang>/sNN.ogg` (local/voice_job.sh, every 20 min while the Mac is awake). `python3 engine/render.py episodes/<id> --status` prints `{"zh": [voiced, scenes], "en": [...]}`. "Near" below means the doc's `date` is today or tomorrow (ET). All series (Rust, AI, AI 快讯) go through every step the same way.
 
 ## 0. Guard and early exit
 - **Review trigger** (started by the review-watch task, any time of day): there is work only if a doc is `changes`, or `approved` with no `finals` yet, or `built` whose `saved_sig` differs from its `voice_sig` (approved but not saved to the videos folder yet; only section 5b runs for those). Ignore the time window for those; skip sections 2 and 4 (previews and re-renders of untouched episodes wait for the night). If nothing qualifies, stop with "nothing to do" right after the list, before `git pull` or setup.
@@ -19,7 +19,7 @@ If `--status` zh is complete, or the date is near: `render.py --only xhs`, uploa
 
 ## 3. `approved` → build all four cuts
 If `--status` is complete for both zh and en, or the date is near. Also build (keeping the status as is) any `voicing` / `draft` doc whose date is near, so a post day is never blocked; the user approves the finished cuts at the reminder:
-1. `python3 engine/render.py episodes/<id>` (xhs, douyin, tiktok, linkedin).
+1. `python3 engine/render.py episodes/<id>` (every platform in `meta.json` → `platforms`; AI 快讯 `<date>-news` episodes have no linkedin, so 3 cuts and 3 sheets).
 2. Check `build/<id>/sheet-{xhs,douyin,tiktok,linkedin}.png`. If any frame has clipped or overlapping text, fix `episode.js` (layout only, same words), re-render that platform.
 3. Upload the 4 videos + 4 covers in one call.
 4. Update the doc: `status: "built"` (only if it was `approved`), `finals: {xhs:{video,cover,seconds,asset_ids}, douyin:…, tiktok:…, linkedin:…}`, `voice`, `voice_sig`, `built_at`.
