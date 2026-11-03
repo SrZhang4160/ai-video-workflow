@@ -10,7 +10,7 @@ Across continents and back: on the order of 100 milliseconds.
 That's the speed of light. More servers won't help.
 If one memory read took one second,
 an SSD read would take about seventeen minutes,
-a datacenter trip over an hour, a cross-continent one 10+ days.
+a datacenter trip over an hour, and a cross-continent one, more than ten days.
 So: hot data in memory, servers close to users;
 don't wait on cross-continent calls one by one in a loop.
 The cost: memory is pricey, and multi-region is complex.

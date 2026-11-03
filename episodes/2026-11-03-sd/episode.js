@@ -10,7 +10,7 @@ window.EPISODE = {
   scenes: [
     { title: ['拿到题就开画？', 'Start drawing right away?'],
       cap: [['面试官：设计一个短链接服务。', 'Interviewer: design a URL shortener.'],
-            {zh: '你拿起笔就开始画框框？', en: 'Do you grab the pen and start drawing boxes?', say_zh: '你拿起笔，就开始画方框？'},
+            {zh: '你拿起笔就开始画框框？', en: 'Do you grab the pen and start drawing boxes?', say_zh: '你拿起笔，就直接开始画图？'},
             ['先别急，第一步是问清需求。', 'Wait. Step one is asking about requirements.']],
       build() {
         H(`<div class="r card" data-cap="0" style="left:0;right:0;top:20px;height:170px;display:flex;align-items:center;gap:30px;padding:0 40px">

@@ -76,7 +76,7 @@ window.EPISODE = {
     { title: ['换成人类时间', 'Scaled to human time'],
       cap: [{zh: '假如读一次内存要 1 秒，', en: 'If one memory read took 1 second,', say_zh: '假如读一次内存要一秒，', say_en: 'If one memory read took one second,'},
             {zh: 'SSD 要等十几分钟，', en: 'an SSD read would take about 17 minutes,', say_zh: 'S S D 要等十几分钟，', say_en: 'an SSD read would take about seventeen minutes,'},
-            ['同机房一个多小时，跨洲十几天。', 'a datacenter trip over an hour, a cross-continent one 10+ days.']],
+            {zh: '同机房一个多小时，跨洲十几天。', en: 'a datacenter trip over an hour, a cross-continent one 10+ days.', say_en: 'a datacenter trip over an hour, and a cross-continent one, more than ten days.'}],
       build() {
         const R = [['读内存', 'Memory read', '1 秒', '1 second', 'var(--acc2)', 0],
                    ['SSD 随机读', 'SSD random read', '约 17 分钟', '~17 minutes', 'var(--yel)', 1],
