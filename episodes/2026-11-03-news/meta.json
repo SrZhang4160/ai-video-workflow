@@ -1,0 +1,73 @@
+{
+  "date": "2026-11-03",
+  "track": "news",
+  "voice": "own",
+  "platforms": [
+    "xhs",
+    "douyin",
+    "tiktok"
+  ],
+  "topic_zh": "Claude API 消息线程公测：agent 不用每轮重发整段对话",
+  "topic_en": "Claude API message threads: agents stop resending the whole conversation",
+  "sources": [
+    {
+      "title": "Message threads (announcement)",
+      "url": "https://claude.com/resources/articles/message-threads",
+      "outlet": "Anthropic",
+      "published": "2026-11-02"
+    },
+    {
+      "title": "Message threads (docs)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/message-threads",
+      "outlet": "Claude API docs",
+      "published": "2026-11-02"
+    },
+    {
+      "title": "Anthropic's message threads let Claude agents skip resending chats",
+      "url": "https://thenextweb.com/news/anthropic-message-threads-beta-claude-api-agents",
+      "outlet": "The Next Web",
+      "published": "2026-11-02"
+    },
+    {
+      "title": "Anthropic Launches Message Threads Beta for Long-Running Agents",
+      "url": "https://www.unite.ai/anthropic-launches-message-threads-beta-for-long-running-agents/",
+      "outlet": "Unite.AI",
+      "published": "2026-11-02"
+    }
+  ],
+  "captions": {
+    "xhs": {
+      "title": "做agent注意：不用每轮重发整段对话了",
+      "body": "昨天 Anthropic 给 Claude API 推出「消息线程」（message threads）公测：第一次发完整对话开一个线程，之后只发新消息 + 上一条回复的 ID。\n官方称：在 Claude Code 里（大部分用户已默认开启），50 万到 100 万 token 的请求，首字等待中位数降了约 35%。\n快在哪：不用每轮重新上传、校验、分词整段对话。但模型还是读完整对话，token 用量、价格、限额都不变。\n规矩：5 分钟没请求就过期（返回 404，要整段重发）；只能往后加，每个回复 ID 只能接一次；流式要等 message_stop；没有列出/删除线程的接口。数据加密放内存、不落盘、最晚 1 小时删除，但不支持零数据保留和 HIPAA，也不能和批处理、token 计数、压缩等一起用。\n我的看法：长上下文 agent 最划算；对话历史还得自己存，准备好整段重发。\n你的 agent 一轮对话有多长？评论区说说～",
+      "tags": [
+        "每日AI快讯",
+        "AI新闻",
+        "AIAgent",
+        "Claude",
+        "AI工程师",
+        "碎片时间学AI工程师"
+      ]
+    },
+    "douyin": {
+      "title": "agent不用每轮重发整段对话了？",
+      "body": "Claude API 推出消息线程公测：之后每轮只发新消息。官方称 50 万 token 以上的长请求，首字等待降约 35%，但 token 和价格不变；5 分钟不用就过期。长上下文 agent 最划算。",
+      "tags": [
+        "每日AI快讯",
+        "AI新闻",
+        "AI",
+        "程序员",
+        "Claude"
+      ]
+    },
+    "tiktok": {
+      "body": "Anthropic launched message threads in public beta for the Claude API: after the first request, send only new messages plus the previous response ID. Anthropic says median time to first token fell ~35% on 500K–1M-token requests in Claude Code. Same tokens, same price. Threads expire after 5 idle minutes, so keep your own history. #AINewsEveryday",
+      "tags": [
+        "AINewsEveryday",
+        "AINews",
+        "AI",
+        "Claude",
+        "aiagents"
+      ]
+    }
+  }
+}

@@ -1,0 +1,26 @@
+Building an AI agent? Every turn, you resend the whole conversation.
+The longer it gets, the longer you wait for the first token.
+Yesterday Anthropic launched message threads: send only what is new.
+The first request sends the full conversation and opens a thread.
+After that, only the new messages and the previous response ID.
+Anthropic says: on requests of 500K to 1M tokens,
+median time to first token fell by about 35%.
+That's from Claude Code, where it's already on for most users.
+Before, every turn re-sent and re-tokenized the whole chat.
+Now the chat stays on the server; mostly just the new turn is processed.
+But the model still reads the whole conversation,
+so tokens, prices and rate limits stay the same.
+The rules: a thread expires 5 minutes after its last request,
+and continuing then returns a 404, so you resend it all.
+It's append-only, and each response ID can be continued once.
+When streaming, wait for message_stop before the next turn.
+And there's no API to list, read or delete a thread.
+Data: threads are encrypted in memory, never written to disk,
+deleted within an hour; not eligible for ZDR or HIPAA.
+And it doesn't work with batches, token counting, compaction and more.
+My take: this is built for long-running agents.
+Short chats gain little; long-context coding agents gain the most.
+But keep your own history, ready to replay when it expires.
+In one line: send less, get the first token sooner, same price.
+Watch for when it leaves beta,
+and whether an API to view and delete threads arrives.

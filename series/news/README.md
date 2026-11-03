@@ -30,7 +30,7 @@ a story from the last 7 days ("一周后再看 …") is fine.
 
 ## Look
 News analysis, not a lesson: `theme: 'news'` in `episode.js` gives a masthead with the series title (每日 AI 快讯 · AI News Everyday, issue number),
-a headline bar, and lower-third captions. Every scene has a `tag` that says what kind of content it is: 头条 TOP STORY, 新闻 NEWS (facts),
+a headline bar, and lower-third captions. Every scene has a `tag` that says what kind of content it is: 头条 TOP STORY, 新闻 NEWS (facts), 原理 HOW IT WORKS,
 分析 ANALYSIS, 观点 MY TAKE (opinion), 总结 SUMMARY. Reference: `episodes/2026-11-02-news/episode.js`.
 Clear but substantial: each line says one thing a listener gets on first hearing, and every scene adds a new fact or angle.
 
