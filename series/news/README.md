@@ -28,8 +28,16 @@ a story from the last 7 days ("一周后再看 …") is fine.
 - Benchmarks claimed by the vendor are said as claims: 「官方称…」 / "the company says…".
 - Note publish times: the run must be sure the story is really new (not a re-post of an old announcement).
 
+## Look
+News analysis, not a lesson: `theme: 'news'` in `episode.js` gives a masthead with the series title (每日 AI 快讯 · AI News Everyday, issue number),
+a headline bar, and lower-third captions. Every scene has a `tag` that says what kind of content it is: 头条 TOP STORY, 新闻 NEWS (facts),
+分析 ANALYSIS, 观点 MY TAKE (opinion), 总结 SUMMARY, 考考你 QUIZ. Reference: `episodes/2026-11-02-news/episode.js`.
+Clear and concise: 5–7 scenes, 15–18 caption pages, ~60 s in Chinese. Each line says one thing a listener gets on first hearing.
+
 ## Episode structure (replaces the lesson structure in `runbooks/scenes.md`; everything else there still applies)
-1. **Hook** (first 3 s): the viewer's question or the surprising fact. 「OpenAI 昨天把价格砍了一半，开发者该换吗？」
+1. **Hook** (first 3 s): the surprising fact as one plain sentence, with the headline (scene title) carrying the same hook.
+   「OpenAI 昨天把价格砍了一半，开发者该换吗？」 Don't make the viewer decode a comparison: state each number with what it counts
+   (「第三方 AI agent 帮人点外卖，至今才几百单。」 then 「而 DoorDash 上个季度：9.93 亿单。」). Post titles use the same hook.
 2. **What happened** (1 scene): who, what, when, in plain words, with a `src()` tag on screen.
 3. **How it works / what's actually new** (1–2 scenes): the technical substance, with a diagram (before vs after, pipeline,
    comparison table, timeline).
@@ -46,4 +54,4 @@ No next-episode teaser (tomorrow's news isn't known). 6–9 scenes plus the quiz
 - Neutral and fair: no cheering or bashing companies; give the trade-off. Company and product names are fine here (it's news).
 - Still never mention the user's employer (RELAI), its products, customers, competitors-as-ours, or numbers.
 - No financial advice (no "buy the stock"); no political opinions on policy stories, only what it changes for builders.
-- No series slogans or "AI news" labels beyond the scene tag; no progress bars.
+- The series title appears only in the masthead (`theme: 'news'`); no other slogans, no progress bars.

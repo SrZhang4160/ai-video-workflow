@@ -24,7 +24,7 @@ Series rules: `series/news/README.md` (read it first). Review board: https://cla
 ## 2. Write (one fresh subagent)
 Give it: the full text of `runbooks/scenes.md` and `series/news/README.md` (its structure replaces the lesson structure),
 `build/<id>/brief.md`, `episodes/li-deploy-background-jobs/episode.js` and `episodes/demo-rust-01/episode.js` as style
-references, and the target folder `episodes/<id>/`. It writes `episode.js` (`n`, `tag: ['AI 快讯', 'AI News']`) and
+references, and the target folder `episodes/<id>/`. It writes `episode.js` (`n`, `theme: 'news'`, `tag: ['AI 快讯', 'AI News']`, and a `tag` on every scene: 头条 / 新闻 / 分析 / 观点 / 总结 / 考考你; `episodes/2026-11-02-news/episode.js` is the news reference) and
 `meta.json` (`date` = air date, `track: "news"`, `sources`, `platforms: ["xhs", "douyin", "tiktok"]`, `captions` for those three, `quiz`; tags include `AI快讯`, `AI新闻`,
 `AI工程师`, `碎片时间学AI工程师` on 小红书, `AINews` / `AI` on TikTok), uses only facts in the brief,
 runs `engine/export.py` and `engine/render.py --only xhs`, checks `build/<id>/sheet-xhs.png`, fixes problems, and reports.
@@ -39,6 +39,7 @@ style, keep it and put the points in `review_notes`.
 ## 4. Hand off for voicing
 1. `python3 engine/export.py episodes/<id>`.
 2. Append the story to `series/news/log.md`.
+   Before committing, run the Mandarin check `~/cosyvoice3/.venv/bin/python engine/zh_check.py episodes/<id>` and fix every ERR / WARN / wrong 多音 reading (re-export after).
 3. `git add episodes/<id> series/news && git commit -m "<id>: AI 快讯 #<n> <headline>" && git push`. Only those paths; never `build/`.
 4. `ArtifactData set` collection `episodes`, doc_id `<id>`: `build/<id>/doc.json` + `status: "voicing"`, `updated` (ISO time),
    `review_notes` if any. The Mac voices it within ~20–30 min; the nightly run builds it (today's date is always "near").

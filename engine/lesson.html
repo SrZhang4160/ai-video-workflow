@@ -38,7 +38,21 @@ body.r4x5 .cap{left:50px;right:50px;top:985px;height:290px}
 .acc{color:var(--acc)}.ok{color:var(--acc2)}.blue{color:var(--blue)}.red{color:var(--red)}.yel{color:var(--yel)}.q{color:var(--quiet)}
 .kw{color:#C792EA}.ty{color:#82AAFF}.st{color:#C3E88D}.cm{color:#6B7385}.nu{color:#F78C6C}.fn{color:#82AAFF}
 .center{display:flex;align-items:center;justify-content:center;text-align:center}
+/* news theme (EPISODE.theme = 'news'): masthead with the series title, headline bar, lower-third captions */
+#mast{display:none;position:absolute;align-items:center;gap:14px}
+body.news{--bg:#0A0D16;--panel:#131A2A;--line:#26304A;--acc:#FF4D4D;--blue:#5AA9FF}
+body.news #mast{display:flex}
+#mast .mk{font-size:28px;font-weight:900;color:#fff;background:var(--acc);padding:4px 16px;border-radius:6px;letter-spacing:1px}
+#mast .mk2{font-size:24px;font-weight:800;color:var(--ink);letter-spacing:2px}
+#mast .md{margin-left:auto;font-family:JBM;font-size:22px;color:var(--quiet)}
+body.news .top{border-left:10px solid var(--acc);padding-left:22px}
+body.news .tag{background:transparent;color:var(--acc);border:2px solid var(--acc);font-size:22px;padding:2px 12px}
+body.news .cap{background:rgba(19,26,42,.92);border-left:8px solid var(--acc);border-radius:6px;padding:18px 26px;justify-content:center}
+body.news.r3x4 #mast{left:64px;right:64px;top:30px} body.news.r3x4 .top{top:96px}
+body.news.r9x16 #mast{left:64px;right:150px;top:150px}
+body.news.r4x5 #mast{left:64px;right:64px;top:14px} body.news.r4x5 .top{top:66px}
 </style></head><body>
+<div id="mast"><span class="mk" id="mk"></span><span class="mk2" id="mk2"></span><span class="md" id="md"></span></div>
 <div class="top"><span class="tag" id="tag"></span><div class="ttl" id="ttl"></div></div>
 <div id="stage"></div>
 <div class="cap" id="cap"><div class="a" id="ca"></div><div class="b" id="cb"></div></div>
@@ -84,7 +98,14 @@ window.EP_INFO = () => EP.scenes.map(s => ({
 window.showScene = (i) => {
   st.innerHTML = '';
   const s = EP.scenes[i];
-  const tag = EP.tag ? T(EP.tag[0], EP.tag[1]) : (LANG === 'zh' ? `第 ${EP.n} 课` : `Lesson ${EP.n}`);
+  const news = EP.theme === 'news';
+  document.body.classList.toggle('news', news);
+  if (news) {   // masthead: series title + issue number; the scene's own tag (新闻 / 分析 / 观点) goes next to the headline
+    document.getElementById('mk').textContent = T('每日 AI 快讯', 'AI NEWS');
+    document.getElementById('mk2').textContent = T('AI News Everyday', 'EVERYDAY');
+    document.getElementById('md').textContent = T(`第 ${EP.n} 期`, `No. ${EP.n}`);
+  }
+  const tag = s.tag ? T(s.tag[0], s.tag[1]) : news ? '' : EP.tag ? T(EP.tag[0], EP.tag[1]) : (LANG === 'zh' ? `第 ${EP.n} 课` : `Lesson ${EP.n}`);
   const tg = document.getElementById('tag'); tg.textContent = tag; tg.style.display = tag ? '' : 'none';
   document.getElementById('ttl').innerHTML = LANG === 'zh' ? `${s.title[0]}<small>${s.title[1]}</small>` : s.title[1];
   s.build();

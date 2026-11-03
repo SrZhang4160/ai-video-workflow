@@ -21,6 +21,7 @@ For each episode, start a different fresh subagent as reviewer with `agents/revi
 
 ## 4. Hand off for voicing
 1. `python3 engine/export.py episodes/<id>` for each episode (writes `voice/zh.txt`, `voice/en.txt`, `build/<id>/doc.json`).
+   Then the Mandarin check `~/cosyvoice3/.venv/bin/python engine/zh_check.py episodes/<id>`: fix every ERR and WARN in `say_zh` (bare English keywords → Chinese, digits spelled out, a comma every ≤13 syllables), confirm each 多音 reading is right (reword if not), re-export, re-run until it prints OK.
 2. Mark the used lessons `[x]` in each series' curriculum file; `git add episodes series && git commit -m "week of <monday>: 21 scripts (rust + ai + sd)" && git push`. Never commit `build/`. The Mac voice job picks the new lines up from the repo.
 3. One `ArtifactData batch` (op `set`, collection `episodes`, doc_id = episode id): each doc = `build/<id>/doc.json` + `status: "voicing"`, `updated` (ISO time), and `review_notes` if any. No video yet; the user can already read and approve the scripts.
 4. Keep `config/schedule` in sync with `series/schedule.json` (`slots`) if it differs.
