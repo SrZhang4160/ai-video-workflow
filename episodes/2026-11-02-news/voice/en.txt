@@ -1,25 +1,17 @@
-One quarter. Nine hundred ninety-three million orders.
-Third-party A I agents, in total so far?
-Maybe several hundred orders.
-Last Wednesday, on DoorDash's earnings call,
-C E O Tony Xu said third-party agents
-sent maybe several hundred orders in total.
-Never fight gravity, he said, but don't be delusional.
-Compare the total so far with one quarter's orders:
-it's under one in a million.
-Still, DoorDash already built the road:
-an M C P connector lets agents find items and order,
-once employees sign in and agree to the terms.
-Amazon began blocking agents from buying.
-Walmart opened an M C P gateway instead.
-From November, customers can require per-order approval
-or set a spending limit.
-My take: the plumbing exists. Trust is missing.
-If you build agents, design human approval
-and spending limits first.
-And watch: will agent orders become a reported metric?
-In short: the road is built, the orders are not.
-Trust wins, not the API.
-Quick quiz: so far, about how many orders
-have third-party A I agents placed on DoorDash?
-Hundreds or millions? Tell me in the comments.
+Third-party A I agents ordering food for people
+have placed maybe several hundred DoorDash orders. In total.
+DoorDash handled nine hundred ninety-three million orders last quarter alone.
+That's from DoorDash's C E O, on last Wednesday's earnings call.
+"You never want to fight gravity,"
+"but you don't want to be delusional."
+The odd part: the road is already built.
+In September DoorDash launched an M C P ordering connector,
+so agents can find items and order. Still a limited beta.
+Walmart opened a gateway too. Amazon is blocking agents.
+My take: what's missing isn't the API. It's trust.
+Would you let an agent spend your money, unchecked?
+Walmart's answer: per-order approval and spending limits.
+In short: the road is built; the orders aren't here.
+Building agents? Ship approval and spending limits first.
+Quick quiz: who is blocking A I agents from shopping?
+Amazon or Walmart? Comment below.
