@@ -37,7 +37,7 @@
   "captions": {
     "xhs": {
       "title": "AI帮你点外卖？DoorDash：至今才几百单",
-      "body": "第三方 AI agent 帮人在 DoorDash 点外卖，到现在一共可能才几百单。而 DoorDash 光第三季度就有 9.93 亿单。这是 CEO 在上周三财报会上亲口说的。\n奇怪的是路已经铺好了：DoorDash 9 月推出了 MCP 下单连接器（小范围测试），沃尔玛也开了 agent 入口，亚马逊却在拦。\n我的看法：缺的不是接口，是信任。做 agent，先做人工审批和花钱上限。\n考考你：亚马逊和沃尔玛，谁在拦 AI agent 购物？评论区告诉我～",
+      "body": "第三方 AI agent 帮人在 DoorDash 点外卖，到现在一共可能才几百单；而 DoorDash 光第三季度就有 9.93 亿单。这是 CEO 在 10 月 29 日财报会上亲口说的，点名的 agent 有 Meta 的 Muse、Instinct、Fo。\nDoorDash 自己押注的是「原子之战」：仓储、无人配送。AI 这边先做自家 agent（Ask DoorDash、短信下单、命令行下单），给外部 agent 的 MCP 连接器只面向企业订餐、小范围测试，还要员工先登录、同意条款。\n别家分成两派：亚马逊开始拦 agent 替人下单；沃尔玛开了 MCP 入口，但 agent 拿不到支付信息、每个 agent 单独身份、每单可审批或设花钱上限。\n我的看法：接口有了，缺的是信任。做 agent，先把审批和花钱上限做好。\n接下来看：沃尔玛 agent 身份 11 月上线，DoorDash 会不会公布 agent 订单数。",
       "tags": [
         "每日AI快讯",
         "AI新闻",
@@ -48,7 +48,7 @@
     },
     "douyin": {
       "title": "AI帮人点外卖，至今才几百单？",
-      "body": "DoorDash CEO 亲口说：第三方 AI agent 到现在一共可能就几百单，而上个季度总订单 9.93 亿。路已经铺好了，卡住的是信任。\n考考你：亚马逊和沃尔玛，谁在拦 AI agent 购物？评论区告诉我～",
+      "body": "DoorDash CEO 亲口说：第三方 AI agent 到现在一共可能就几百单，而上个季度总订单 9.93 亿。亚马逊在拦 agent，沃尔玛开了门但规矩很细。路通了，卡住的是信任。",
       "tags": [
         "每日AI快讯",
         "AI新闻",
@@ -57,7 +57,7 @@
       ]
     },
     "tiktok": {
-      "body": "AI agents have placed maybe several hundred DoorDash orders. In total. DoorDash did 993 million orders last quarter alone, says the CEO. The plumbing (MCP) is there. Trust is the bottleneck. Quick quiz: Amazon or Walmart, which one is blocking AI agents from shopping? #AINewsEveryday",
+      "body": "AI agents have placed maybe several hundred DoorDash orders. In total. DoorDash did 993 million orders last quarter alone, says the CEO. Amazon is blocking agents; Walmart opened an MCP gateway with approvals and spending limits. The plumbing is there. Trust is the bottleneck. #AINewsEveryday",
       "tags": [
         "AINewsEveryday",
         "AINews",
@@ -67,10 +67,5 @@
       ]
     }
   },
-  "quiz": {
-    "q_zh": "亚马逊和沃尔玛，谁在拦 AI agent 购物？A 亚马逊 B 沃尔玛",
-    "q_en": "Amazon or Walmart: which one is blocking AI agents from shopping? A Amazon B Walmart",
-    "answer_zh": "答案 A：亚马逊开始拦 agent 在站内购物；沃尔玛反而开了 MCP 入口，11 月起还支持每单审批和花钱上限。",
-    "answer_en": "Answer: A. Amazon has started blocking AI agents from buying; Walmart opened an MCP agent gateway, with per-order approval and spending limits from November."
-  }
+  "voice": "own"
 }

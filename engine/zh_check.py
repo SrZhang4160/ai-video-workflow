@@ -12,7 +12,7 @@ Reads voice/zh.txt (what the voice actually says, one line per clip) and reports
   AUDIO (--audio) Whisper transcript whose pinyin+tones differ from the script: wrong word, wrong tone, or a clipped ending
 Exit code 1 if there is any ERR or AUDIO mismatch.
 """
-import difflib, os, re, sys
+import difflib, json, os, re, sys
 
 import jieba
 from pypinyin import Style, pinyin
@@ -97,7 +97,9 @@ def audio_check(ep, lines):
     model = whisper.load_model('small')
     bad = 0
     for i, s in enumerate(lines, 1):
-        f = os.path.join(ep, 'voice', 'zh', f's{i:02d}.ogg')
+        f = os.path.join(ep, 'voice', 'zh', f's{i:02d}.wav')            # your own recording (engine/own_voice.py)
+        if not os.path.exists(f):
+            f = f[:-4] + '.ogg'
         if not os.path.exists(f):
             print(f's{i:02d} AUDIO missing {f}'); bad += 1; continue
         heard = model.transcribe(f, language='zh', initial_prompt='以下是普通话的句子。', fp16=False)['text'].strip()
@@ -117,8 +119,14 @@ def main():
     ep = sys.argv[1].rstrip('/')
     lines = [l.strip() for l in open(os.path.join(ep, 'voice', 'zh.txt'), encoding='utf-8') if l.strip()]
     errs = 0
+    meta = os.path.join(ep, 'meta.json')
+    own = os.path.exists(meta) and json.load(open(meta, encoding='utf-8')).get('voice') == 'own'
+    if own:
+        print('voice: you record this episode, so English / digit / symbol warnings are skipped')
     for i, s in enumerate(lines, 1):
         for kind, m in check_line(i, s):
+            if own and kind == 'WARN' and not m.startswith(('no pause', '多音')) and 'Chinese characters' not in m:
+                continue
             errs += kind == 'ERR'
             print(f's{i:02d} {kind:4} {m}')
     if '--audio' in sys.argv:

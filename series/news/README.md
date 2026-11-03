@@ -31,8 +31,8 @@ a story from the last 7 days ("一周后再看 …") is fine.
 ## Look
 News analysis, not a lesson: `theme: 'news'` in `episode.js` gives a masthead with the series title (每日 AI 快讯 · AI News Everyday, issue number),
 a headline bar, and lower-third captions. Every scene has a `tag` that says what kind of content it is: 头条 TOP STORY, 新闻 NEWS (facts),
-分析 ANALYSIS, 观点 MY TAKE (opinion), 总结 SUMMARY, 考考你 QUIZ. Reference: `episodes/2026-11-02-news/episode.js`.
-Clear and concise: 5–7 scenes, 15–18 caption pages, ~60 s in Chinese. Each line says one thing a listener gets on first hearing.
+分析 ANALYSIS, 观点 MY TAKE (opinion), 总结 SUMMARY. Reference: `episodes/2026-11-02-news/episode.js`.
+Clear but substantial: each line says one thing a listener gets on first hearing, and every scene adds a new fact or angle.
 
 ## Episode structure (replaces the lesson structure in `runbooks/scenes.md`; everything else there still applies)
 1. **Hook** (first 3 s): the surprising fact as one plain sentence, with the headline (scene title) carrying the same hook.
@@ -43,10 +43,14 @@ Clear and concise: 5–7 scenes, 15–18 caption pages, ~60 s in Chinese. Each l
    comparison table, timeline).
 4. **Why it matters** (1–2 scenes): the analysis. What changes for people building AI apps: cost, capability, risk, choice of
    tools. Clearly separate fact from analysis (「我的看法是… / My take:」 is fine for the analysis part, one line).
-5. **What to do / what to watch** (1 scene): one concrete action or signal to watch.
-6. **一张图总结 / One-card summary**: save-worthy.
-7. **考考你 / Quick quiz**: one question with one definite answer from facts stated in this video.
-No next-episode teaser (tomorrow's news isn't known). 6–9 scenes plus the quiz, ~55–80 s in Chinese.
+5. **总结 + 接下来看什么 / Summary and what to watch** (last scene): the story in one line, then one or two concrete signals to watch.
+No next-episode teaser (tomorrow's news isn't known). No quiz in this series. 6–8 scenes, 22–28 caption pages, ~80–95 s in Chinese: enough substance that a developer learns something beyond the headline (the company's own strategy, the concrete rules or numbers, what's missing).
+
+## Voice: the user records it
+`meta.json` has `"voice": "own"`. The board shows a preview in the cloned voice first; `review_notes` carries the reading
+script (`voice/zh.txt`, one line per caption page). The user reads it top to bottom into Voice Memos and drops the file into
+`~/Desktop/AI/recordings/<id>.m4a` (and `<id>-en.m4a` for TikTok, optional); `runbooks/nightly.md` §0b turns it into clips.
+So write lines that are natural to say: no `say_zh` spellings needed, English names stay as they are.
 
 ## Rules (on top of `CLAUDE.md`)
 - Teach the viewer: explain the news so a working developer gets it in one minute. No "today I read".

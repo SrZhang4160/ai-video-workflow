@@ -94,7 +94,9 @@ def own_voice(ep_dir, lang, i, text):
     vdir = os.path.join(ep_dir, "voice", lang); sid = f"s{i:02d}"
     mp = os.path.join(vdir, "manifest.json")
     man = json.load(open(mp)) if os.path.exists(mp) else {}
-    if sid not in man and os.path.exists(os.path.join(vdir, sid + ".wav")):
+    rp = os.path.join(vdir, "recorded.json")       # engine/own_voice.py: the text each recording was made for
+    recd = json.load(open(rp)) if os.path.exists(rp) else {}
+    if sid not in man and os.path.exists(os.path.join(vdir, sid + ".wav")) and recd.get(sid, vkey(lang, text)) == vkey(lang, text):
         return os.path.join(vdir, sid + ".wav"), "recorded"
     if man.get(sid) == vkey(lang, text) and os.path.exists(os.path.join(vdir, sid + ".ogg")):
         return os.path.join(vdir, sid + ".ogg"), "clone"

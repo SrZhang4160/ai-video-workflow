@@ -1,17 +1,27 @@
-Third-party A I agents ordering food for people
-have placed maybe several hundred DoorDash orders. In total.
-DoorDash handled nine hundred ninety-three million orders last quarter alone.
-That's from DoorDash's C E O, on last Wednesday's earnings call.
-"You never want to fight gravity,"
-"but you don't want to be delusional."
-The odd part: the road is already built.
-In September DoorDash launched an M C P ordering connector,
-so agents can find items and order. Still a limited beta.
-Walmart opened a gateway too. Amazon is blocking agents.
-My take: what's missing isn't the API. It's trust.
-Would you let an agent spend your money, unchecked?
-Walmart's answer: per-order approval and spending limits.
-In short: the road is built; the orders aren't here.
-Building agents? Ship approval and spending limits first.
-Quick quiz: who is blocking A I agents from shopping?
-Amazon or Walmart? Comment below.
+Third-party AI agents ordering food on DoorDash
+have placed maybe several hundred orders. In total.
+DoorDash handled 993 million orders last quarter alone.
+The CEO said it on the October 29 earnings call,
+naming agents like Meta's Muse, Instinct and Fo.
+"Never fight gravity," he said, "but don't be delusional."
+In its Q3 letter, DoorDash says it wants to win "the battle for atoms":
+warehousing and autonomous delivery. Real things, to your door.
+On AI, it built its own agents first:
+Ask DoorDash, Text DoorDash, and a command-line agent.
+And the CEO floated selling ads inside third-party agents someday.
+Why so few? DoorDash didn't say. Two facts help:
+One: most people still order in the DoorDash app.
+Two: the door for outside agents is narrow.
+The MCP connector is for corporate ordering, in a limited beta,
+and employees must sign in and accept the terms first.
+Retailers are split. Amazon started blocking agents from buying for shoppers.
+Walmart opened an MCP gateway instead, with tight rules:
+agents can't see your payment info;
+each agent gets its own profile, like an authorized card user;
+and you can approve every order or set a spending limit.
+My take: the plumbing is there. Trust is not.
+Platforms will let agents in, but on the platform's terms.
+If you build agents, ship approval and spending limits first.
+In one line: the road is built; the orders aren't here.
+Watch for Walmart's agent profiles rolling out,
+and whether DoorDash starts reporting agent orders.
