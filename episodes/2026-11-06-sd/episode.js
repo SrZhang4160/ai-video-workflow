@@ -8,7 +8,7 @@ window.EPISODE = {
   n: 5,
   scenes: [
     { title: ['延迟数字：差几个数量级？', 'Latency numbers: how far apart?'],
-      cap: [['读一次内存，和跨洲请求一次，', 'One memory read vs. one request across continents:'],
+      cap: [{zh: '读一次内存，和跨洲请求一次，', en: 'One memory read vs. one request across continents:', say_zh: '内存读一回，和跨洲请求一次，'},
             ['你猜，差了多少倍？', 'how many times slower is the second one?']],
       build() {
         H(box(0, 60, 400, 320, `${icon('box', 100, 'var(--acc2)')}${big(T('读内存', 'Memory read'), 44)}${quiet(T('同一台机器', 'same machine'))}`, 'var(--acc2)')).dataset.cap = 0;
@@ -131,7 +131,7 @@ window.EPISODE = {
 
     { title: ['考考你', 'Quick quiz'],   // answer in meta.json quiz
       cap: [{zh: '考考你：顺序调 10 次跨洲服务，', en: 'Quick quiz: 10 cross-continent calls, one after another,', say_zh: '考考你：顺序调十次跨洲服务，', say_en: 'Quick quiz: ten cross-continent calls, one after another,'},
-            {zh: '每次约 100 毫秒，光网络等多久？', en: 'about 100 ms each. How long is the network wait?', say_zh: '每次约一百毫秒，光网络等多久？', say_en: 'about 100 milliseconds each. How long is the network wait?'},
+            {zh: '每次约 100 毫秒，光网络等多久？', en: 'about 100 ms each. How long is the network wait?', say_zh: '每次约一百毫秒，光是网络，要等多久？', say_en: 'about 100 milliseconds each. How long is the network wait?'},
             ['A 还是 B？评论区告诉我。', 'A or B? Tell me in the comments.']],
       build() {
         H(`<div class="r card mono" data-cap="0" data-in="pop" style="left:0;right:0;top:30px;padding:30px 40px;font-size:34px;line-height:1.8">${code(

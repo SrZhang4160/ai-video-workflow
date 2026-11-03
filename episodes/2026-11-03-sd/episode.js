@@ -10,7 +10,7 @@ window.EPISODE = {
   scenes: [
     { title: ['拿到题就开画？', 'Start drawing right away?'],
       cap: [['面试官：设计一个短链接服务。', 'Interviewer: design a URL shortener.'],
-            ['你拿起笔就开始画框框？', 'Do you grab the pen and start drawing boxes?'],
+            {zh: '你拿起笔就开始画框框？', en: 'Do you grab the pen and start drawing boxes?', say_zh: '你拿起笔，就开始画方框？'},
             ['先别急，第一步是问清需求。', 'Wait. Step one is asking about requirements.']],
       build() {
         H(`<div class="r card" data-cap="0" style="left:0;right:0;top:20px;height:170px;display:flex;align-items:center;gap:30px;padding:0 40px">
@@ -42,7 +42,7 @@ window.EPISODE = {
     { title: ['功能需求：能做什么', 'Functional: what it does'],
       cap: [['短链接的功能需求就两条：', 'A URL shortener needs two things:'],
             ['长链接进去，短链接出来；', 'a long URL goes in, a short one comes out;'],
-            ['点开短链接，跳回原网址。', 'open the short link, land on the original.'],
+            {zh: '点开短链接，跳回原网址。', en: 'open the short link, land on the original.', say_zh: '点开这个短链接，就跳回原网址。'},
             ['要不要统计点击？范围也要问。', 'Click stats too? Ask. Scope matters.']],
       build() {
         H(`<div class="r" data-cap="1" style="left:0;top:20px;width:960px;height:180px">
@@ -130,7 +130,7 @@ window.EPISODE = {
 
     { title: ['下期预告', 'Next episode'],
       cap: [['下期：“多大”到底怎么算？', 'Next time: how do you put a number on "big"?'],
-            {zh: '日活×次数÷86400，关注我！', en: 'Daily users × requests ÷ 86,400. Follow along!', say_zh: '日活乘以次数，除以八万六千四百。关注我！', say_en: 'Daily users, times requests, divided by eighty-six thousand four hundred. Follow along!'}],
+            {zh: '日活×次数÷86400，关注我！', en: 'Daily users × requests ÷ 86,400. Follow along!', say_zh: '日活乘以次数，再除以八万六千四百。记得关注我！', say_en: 'Daily users, times requests, divided by eighty-six thousand four hundred. Follow along!'}],
       build() {
         H(`<div class="r card" data-cap="0" data-in="pop" style="left:80px;right:80px;top:180px;height:440px;border-color:var(--acc);text-align:center;padding-top:70px">
           <div class="s" style="font-size:34px">${T('第 3 课 · Lesson 3', 'Lesson 3')}</div>

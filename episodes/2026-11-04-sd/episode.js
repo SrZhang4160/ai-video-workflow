@@ -31,7 +31,7 @@ window.EPISODE = {
       cap: [{zh: '先算一天总请求：日活×每人次数。', en: 'First, requests per day: daily users × requests each.',
              say_zh: '先算一天总请求：日活乘每人次数。', say_en: 'First, requests per day: daily users times requests per user.'},
             {zh: '再除以一天的秒数：86400。', en: 'Then divide by the seconds in a day: 86,400.',
-             say_zh: '再除以一天的秒数：八万六千四百。', say_en: 'Then divide by the seconds in a day: eighty-six thousand four hundred.'}],
+             say_zh: '然后，除以一天的秒数：八万六千四百。', say_en: 'Then divide by the seconds in a day: eighty-six thousand four hundred.'}],
       build() {
         const term = (x, w, big, zh, en, c, cap, d) => {
           const e = H(box3(x, 40, w, 200, `<div class="h mono" style="font-size:40px;color:${c}">${big}</div>${lbl(zh, en, 24)}`, c));
@@ -74,7 +74,7 @@ window.EPISODE = {
     { title: ['心算技巧：一天约 10 万秒', 'Shortcut: a day ≈ 100K seconds'],
       cap: [{zh: '心算时，把86400当成10万。', en: 'For mental math, round 86,400 up to 100,000.',
              say_zh: '心算时，把八万六千四百当成十万。', say_en: 'For mental math, round eighty-six thousand four hundred up to one hundred thousand.'},
-            {zh: '十亿除以十万是一万，略低但量级对。', en: '1B ÷ 100K = 10K. A bit low, but the right order.',
+            {zh: '十亿除以十万是一万，略低但量级对。', en: '1B ÷ 100K = 10K. A bit low, but the right order.', say_zh: '十亿除以十万，是一万。偏低一点，但量级对。',
              say_en: 'One billion divided by one hundred thousand is ten thousand. A bit low, but the right order of magnitude.'}],
       build() {
         H(`<div class="r card mono center" data-cap="0" style="left:0;right:0;top:30px;height:170px;gap:30px">
@@ -117,8 +117,8 @@ window.EPISODE = {
       } },
 
     { title: ['机器按峰值准备', 'Plan capacity for the peak'],
-      cap: [{zh: '只按平均备机器，高峰就扛不住。', en: 'Size for the average, and the peak takes you down.'},
-            {zh: '按峰值备，代价是平时机器闲着。', en: 'Size for the peak. The cost: idle servers off-peak.'}],
+      cap: [{zh: '只按平均备机器，高峰就扛不住。', en: 'Size for the average, and the peak takes you down.', say_zh: '如果只按平均来准备机器，高峰就扛不住。'},
+            {zh: '按峰值备，代价是平时机器闲着。', en: 'Size for the peak. The cost: idle servers off-peak.', say_zh: '按峰值来准备，代价是平时机器闲着。'}],
       build() {
         const side = (x, c, ic, zh, en, n, zh2, en2, cap) => {
           const e = H(`<div class="r card" style="left:${x}px;top:30px;width:460px;height:470px;padding:30px;text-align:center;border-color:${c}">

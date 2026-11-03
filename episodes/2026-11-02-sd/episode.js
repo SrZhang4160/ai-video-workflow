@@ -28,7 +28,7 @@ window.EPISODE = {
       } },
 
     { title: ['① 一台机器', '① One machine'],
-      cap: [['刚上线，程序和数据库放一台机器。', 'At launch, the app and the database share one machine.'],
+      cap: [{zh: '刚上线，程序和数据库放一台机器。', en: 'At launch, the app and the database share one machine.', say_zh: '刚刚上线时，程序和数据库，放在一台机器上。'},
             ['简单，但它一挂，全站就没了。', 'Simple. But if it dies, the whole site is down.']],
       build() {
         H(`<div class="r" data-cap="0" style="left:0;top:220px">${box(0, 0, 220, 220, 'user', '用户', 'Users', 'var(--blue)')}</div>`);
@@ -59,7 +59,7 @@ window.EPISODE = {
     { title: ['③ 负载均衡', '③ Load balancer'],
       cap: [['扛不住就多加几台，前面放负载均衡。', "Can't keep up? Add servers, with a load balancer in front."],
             ['一台挂了，别的照样干活。', 'If one dies, the others keep working.'],
-            ['代价：服务器得是无状态的。', 'The cost: servers must be stateless.']],
+            ['代价：服务器必须是无状态的。', 'The cost: servers must be stateless.']],
       build() {
         const ys = [40, 260, 480];
         ys.forEach((y, i) => H(`<div class="r" data-cap="0" data-delay="${i * 0.3}" data-in="pop" style="left:640px;top:${y}px">${box(0, 0, 320, 180, 'gear', `服务器 ${i + 1}`, `Server ${i + 1}`, 'var(--acc2)')}</div>`));
