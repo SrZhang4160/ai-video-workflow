@@ -1,25 +1,80 @@
-Interviewer: design a URL shortener.
-Do you grab the pen and start drawing boxes?
-Wait. Step one is asking about requirements.
-Functional: what the system does.
-Non-functional: how well it does it.
-How fast, how reliable, how many users.
-A URL shortener needs two things:
-a long URL goes in, a short one comes out;
-open the short link, land on the original.
-Click stats too? Ask. Scope matters.
-How fast? Say, redirect within a hundred milliseconds.
-How reliable? It shouldn't just go down.
-How big? How many users? More reads or writes?
-Why ask first? The answers shape the diagram.
-Far more clicks than creates? Add a cache.
-Must stay up? Run several servers.
-But every box you add has a cost.
-What it can do: functional.
-How fast, reliable or big: non-functional.
-To sum up: ask what it does, then how well.
-Once both are clear, start drawing.
-Next time: how do you put a number on "big"?
-Daily users, times requests, divided by eighty-six thousand four hundred. Follow along!
-Quick quiz: which kind of requirement is this?
-Functional or non-functional? Tell me in the comments.
+System design interview: start drawing right away?
+That's an easy way to lose points.
+Say the interviewer asks: "Design a URL shortener."
+Many people grab the pen right away
+and draw a server with a database behind it.
+The problem: you don't know yet what it must do,
+or how well it has to do it.
+So step one isn't drawing. It's asking about requirements.
+Requirements are what you and the interviewer agree
+the system has to deliver.
+They come in two kinds.
+The first kind: functional requirements.
+They answer: what does the system do?
+The second kind: non-functional requirements.
+They answer: how well does it do those things?
+How fast, how reliable, how many users it can handle.
+Let's start with a URL shortener's features.
+A URL shortener takes a very long web address
+and turns it into a short one that's easy to share.
+So it has two core features.
+First: you give it a long URL,
+and it gives you back a short one.
+Second: when someone opens the short link,
+the browser is sent on to the original long URL.
+What about counting clicks?
+Or letting users pick their own short name?
+Those are optional, so ask before you add them.
+Settle the scope first, so the design stays focused.
+But knowing the features isn't enough to draw it.
+Take the same two features.
+Built for ten users, or for a hundred million,
+they become two completely different systems.
+The difference is the non-functional requirements.
+For non-functional, the three most common questions:
+One, how fast? For example, after a click,
+the redirect should happen within a hundred milliseconds.
+Two, how reliable? Even if one machine dies,
+users can still open their links.
+Three, how big? How many users are there?
+And are there more reads or more writes?
+A short link is usually created once
+and then opened many times,
+so it's a classic read-heavy system.
+Why ask all this first?
+Because the answers decide what you draw.
+If you only know the features, one server
+and one database seem like enough.
+But you learned it's read-heavy and huge,
+so you put a cache in front of the database.
+Popular links are read straight from memory:
+faster, and less load on the database.
+You also learned it must not go down,
+so you run several servers behind a load balancer.
+If one dies, requests go to the others.
+But every component you add has a cost:
+more machines, more money, more complexity.
+So don't add what the requirements don't ask for.
+How do you tell the two kinds apart quickly?
+Ask: is it about what it can do, or how well?
+Take another example: a chat app.
+"Users can send messages." "Search by keyword."
+Those say what it can do: functional.
+"Messages arrive within one second."
+"Supports ten million users."
+Those say how well: non-functional.
+To wrap up, here's the whole order.
+Step one, ask about features: what does it do?
+Step two, ask how well: how fast, reliable, big.
+Step three, then start drawing,
+and make every box answer a requirement.
+That "how big": how do you turn it into a number?
+Next time, we'll learn to estimate it.
+Daily users times each user's requests per day,
+divided by the seconds in a day: eighty-six thousand four hundred,
+and you get roughly how many requests per second.
+See you next time.
+Quick quiz: "Users can set an expiry time
+on a short link."
+Is that functional or non-functional?
+Tell me your answer in the comments.
