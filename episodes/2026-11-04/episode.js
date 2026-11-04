@@ -53,8 +53,9 @@ int n = name.length();`)}</div>`);
 
     { title: ['为什么：写在类型里', 'Why: it lives in the type'],
       cap: [{zh: '关键：Option<i32> 不是 i32。', en: 'The key: an Option<i32> is not an i32.', say_zh: '关键是：可选的整数，不是整数。', say_en: 'The key: an Option of i32 is not an i32.'},
-            ['想直接拿来相加？编译不过。', "Try to add it directly? It won't compile."],
-            ['类型写明了，编译器逼你先处理。', 'The type says it, so the compiler makes you handle it.']],
+            ['想直接拿来相加？编译不通过。', "Try to add it directly? It won't compile."],
+            ['类型写明了：它可能没值。', 'The type says it: there may be no value.'],
+            ['编译器要你先处理没值的情况。', 'The compiler makes you handle the None case first.']],
       build() {
         H(`<div class="r card mono" data-cap="0" style="left:0;right:0;top:20px;padding:28px 38px;font-size:32px;line-height:1.75">${code(`let x: i32 = 5;
 let y: Option<i32> = Some(3);
@@ -63,7 +64,7 @@ let sum = x + y;`)}</div>`);
           <div class="red" style="font-size:28px;font-weight:800">error[E0277]: cannot add \`Option&lt;i32&gt;\` to \`i32\`</div></div>`);
         H(`<div class="r card center" data-cap="2" data-in="pop" style="left:0;width:450px;top:420px;height:220px;flex-direction:column;gap:10px;border-color:var(--acc)">
           <div class="mono acc" style="font-size:40px;font-weight:800">Option&lt;i32&gt;</div><div class="s">${T('可能没有，写明了', '"maybe none", stated')}</div></div>`);
-        H(`<div class="r card center" data-cap="2" data-delay="0.8" data-in="pop" style="left:510px;width:450px;top:420px;height:220px;flex-direction:column;gap:10px;border-color:var(--acc2)">
+        H(`<div class="r card center" data-cap="3" data-in="pop" style="left:510px;width:450px;top:420px;height:220px;flex-direction:column;gap:10px;border-color:var(--acc2)">
           ${icon('shield', 56, 'var(--acc2)')}<div class="s">${T('编译时就拦住', 'caught at compile time')}</div></div>`);
       } },
 
@@ -84,7 +85,8 @@ match v.get(5) {   // ${T('可能越界', 'may be out of range')}
       } },
 
     { title: ['三个常用写法', 'Three handy shortcuts'],
-      cap: [{zh: '只关心有值？用 if let。', en: 'Only care about the value? Use if let.', say_zh: '只关心有值？用如果匹配，有值才执行。'},
+      cap: [['只关心有值？', 'Only care about the value?'],
+            {zh: '用 if let，有值才执行。', en: 'Use if let. It runs only when there is a value.', say_zh: '用如果匹配，有值才执行。'},
             {zh: '要个默认值？用 unwrap_or。', en: 'Want a default? Use unwrap_or.', say_zh: '要默认值？用解包或默认。', say_en: 'Want a default? Use unwrap or.'},
             {zh: 'unwrap 没值就崩，少用。', en: 'unwrap panics on None. Use it sparingly.', say_zh: '直接解包，没值就崩，少用。'}],
       build() {
@@ -92,9 +94,9 @@ match v.get(5) {   // ${T('可能越界', 'may be out of range')}
         const row = (cap, y, src, ic, c, note) => H(`<div class="r card" data-cap="${cap}" data-in="left" style="left:0;right:0;top:${y}px;height:170px;padding:22px 34px;border-color:${c}">
           <div class="mono" style="font-size:30px">${code(src)}</div>
           <div style="margin-top:16px;display:flex;align-items:center;gap:14px">${icon(ic, 34, c)}<span class="s" style="color:${c}">${note}</span></div></div>`);
-        row(0, 150, 'if let Some(p) = port { println!("{p}"); }', 'check', 'var(--acc2)', T('有值才执行，没值跳过', 'runs only if there is a value'));
-        row(1, 350, 'let p = port.unwrap_or(8080);', 'check', 'var(--acc2)', T('没值就用 8080', 'no value → 8080'));
-        row(2, 550, 'let p = port.unwrap();', 'boom', 'var(--red)', T('没值 → panic，程序崩溃', 'no value → panic, the program crashes'));
+        row(1, 150, 'if let Some(p) = port { println!("{p}"); }', 'check', 'var(--acc2)', T('有值才执行，没值跳过', 'runs only if there is a value'));
+        row(2, 350, 'let p = port.unwrap_or(8080);', 'check', 'var(--acc2)', T('没值就用 8080', 'no value → 8080'));
+        row(3, 550, 'let p = port.unwrap();', 'boom', 'var(--red)', T('没值 → panic，程序崩溃', 'no value → panic, the program crashes'));
       } },
 
     { title: ['一张图总结', 'One-picture summary'],
@@ -115,7 +117,7 @@ match v.get(5) {   // ${T('可能越界', 'may be out of range')}
       } },
 
     { title: ['下期预告', 'Next episode'],
-      cap: [{zh: '出错了怎么办？下期：Result 和 ?', en: 'What about errors? Next: Result and the ? operator.', say_zh: '那出错了怎么办？下期讲结果类型和问号。关注我！', say_en: 'What about errors? Next: Result and the question mark operator. Follow along!'}],
+      cap: [{zh: '出错了怎么办？下期：Result 和 ?', en: 'What about errors? Next: Result and the ? operator.', say_zh: '那出错了怎么办？下期讲结果类型和问号。', say_en: 'What about errors? Next: Result and the question mark operator.'}],
       build() {
         H(`<div class="r card" data-cap="0" data-in="pop" style="left:80px;right:80px;top:180px;height:440px;border-color:var(--acc);text-align:center;padding-top:70px">
           <div class="s" style="font-size:34px">${T('第 13 课 · Lesson 13', 'Lesson 13')}</div>
