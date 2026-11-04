@@ -33,7 +33,7 @@ def main():
             continue
         open(path, "w").write("\n".join(lines) + "\n")
     doc = {
-        "date": meta["date"], "lesson": ep["n"], "track": meta.get("track", "rust"),   # which daily series (series/schedule.json)
+        "date": meta["date"], "lesson": ep["n"], "track": meta.get("track", "rust"), "format": meta.get("format", "lesson"),   # which daily series (series/schedule.json)
         "topic_zh": meta.get("topic_zh", ""), "topic_en": meta.get("topic_en", ""),
         "title_zh": meta["captions"].get("xhs", {}).get("title", meta.get("topic_zh", "")),
         "title_en": meta["captions"].get("linkedin", {}).get("title", meta.get("topic_en", "")),

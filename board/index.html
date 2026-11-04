@@ -86,7 +86,7 @@ textarea{font:inherit;width:100%;min-height:72px;border:1px solid var(--line);bo
   <header>
     <div>
       <h1>每天1分钟，碎片时间学AI工程师 <span class="acc">·</span> 审核台</h1>
-      <p class="sub" id="weekline">本周节目单 · 每周五凌晨生成下周三个系列各 7 期（Rust + AI + 系统设计），AI 快讯每天凌晨现写当天一期；审核通过后自动出片</p>
+      <p class="sub" id="weekline">本周节目单 · 每周五凌晨生成下周两个系列各 7 期（Rust + AI），AI 快讯每天凌晨现写当天一期；审核通过后自动出片</p>
     </div>
     <div class="counts" id="counts"></div>
     <div class="slots" id="slots"></div>
@@ -123,10 +123,6 @@ const DEFAULT_SLOTS = [
   {series:'news', platform:'小红书', time:'16:30', days:'每天', note:'AI 快讯 · 16:00 前后点发布'},
   {series:'news', platform:'抖音', time:'16:30', days:'每天', note:'AI 快讯 · 同小红书'},
   {series:'news', platform:'TikTok', time:'16:30', days:'每天', note:'AI 快讯 · 英文版'},
-  {series:'sd', platform:'小红书', time:'21:00', days:'每天', note:'系统设计 · 20:30 前后点发布'},
-  {series:'sd', platform:'抖音', time:'21:00', days:'每天', note:'系统设计 · 同小红书'},
-  {series:'sd', platform:'TikTok', time:'21:00', days:'每天', note:'系统设计 · 英文版'},
-  {series:'sd', platform:'LinkedIn', time:'12:30', days:'周一至周五', note:'系统设计 · 英文版 · 午休'},
 ];
 const WD = ['周日','周一','周二','周三','周四','周五','周六'];
 let db = null, eps = [], slots = DEFAULT_SLOTS, open = {}, tabs = {}, drafts = {};
@@ -153,7 +149,7 @@ function renderHeader() {
     h('b', {}, (s.series === 'ai' ? 'AI · ' : s.series === 'news' ? '快讯 · ' : s.series === 'sd' ? '系统设计 · ' : s.series === 'rust' ? 'Rust · ' : '') + s.platform), h('span', {class: 't'}, s.time + ' ET'), h('small', {}, `${s.days} · ${s.note || ''}`))));
   if (eps.length) {
     const a = eps[0].date, b = eps[eps.length - 1].date;
-    $('#weekline').textContent = `节目单 ${a.slice(5)} → ${b.slice(5)} · 每周五凌晨生成下周三个系列各 7 期（Rust + AI + 系统设计），AI 快讯每天凌晨现写当天一期；审核通过后自动出片`;
+    $('#weekline').textContent = `节目单 ${a.slice(5)} → ${b.slice(5)} · 每周五凌晨生成下周两个系列各 7 期（Rust + AI），AI 快讯每天凌晨现写当天一期；审核通过后自动出片`;
   }
 }
 
@@ -261,11 +257,11 @@ function render() {
   if (!db) { $('#list').replaceChildren(h('div', {class: 'empty'}, '登录 claude.ai 后才能看到节目单。')); return; }
   db.collection('episodes').orderBy('date').onSnapshot(snap => {
     const t = todayISO(), weekAgo = new Date(Date.now() - 8 * 864e5).toISOString().slice(0, 10);
-    eps = snap.docs.map(d => ({id: d.id, ...d.data()})).filter(e => e.date >= weekAgo || e.status !== 'posted');
+    eps = snap.docs.map(d => ({id: d.id, ...d.data()})).filter(e => e.track !== 'sd' && (e.date >= weekAgo || e.status !== 'posted'));   // 系统设计 has its own board (board/sd.html)
     render();
     if (!render.scrolled) { const el = document.getElementById('ep-' + t); if (el) { el.scrollIntoView({block: 'start'}); render.scrolled = true; } }
   }, () => toast('节目单加载失败，刷新试试'));
-  db.doc('config/schedule').onSnapshot(s => { if (s.exists && s.data().slots) { slots = s.data().slots; renderHeader(); } });
+  db.doc('config/schedule').onSnapshot(s => { if (s.exists && s.data().slots) { slots = s.data().slots.filter(x => x.series !== 'sd'); renderHeader(); } });
 })();
 renderHeader();
 </script>

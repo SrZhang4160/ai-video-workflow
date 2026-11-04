@@ -1,188 +1,214 @@
-// 系统设计 第 3 课 · 估算入门：QPS 怎么算（日活 × 次数 ÷ 86400）
-const box3 = (x, y, w, h, inner, color = 'var(--line)', extra = '') =>
-  `<div class="r card center" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;flex-direction:column;border-color:${color};${extra}">${inner}</div>`;
-const lbl = (zh, en, size = 24) => `<div class="s" style="font-size:${size}px;margin-top:6px;text-align:center">${T(zh, en)}</div>`;
-const est = () => `<span style="display:inline-block;font-size:24px;font-weight:800;color:var(--yel);border:2px solid var(--yel);border-radius:10px;padding:2px 12px">${T('估算', 'estimate')}</span>`;
+// 系统设计短剧《逆袭架构师》第 1 集 · 一千万人涌进来 (课程第 3 课：估算入门，QPS 怎么算)
+const box = (x, y, w, h, inner, color = 'var(--line)', attrs = '') =>
+  `<div class="card center" ${attrs} style="position:absolute;left:${x}px;top:${y}px;width:${w}px;height:${h}px;flex-direction:column;gap:6px;border-color:${color};text-align:center;line-height:1.2">${inner}</div>`;
+const srv = (color = 'var(--acc2)') => `<div style="width:44px;height:56px;border:3px solid ${color};border-radius:8px;display:inline-block;margin:4px;background:linear-gradient(${color} 0 0) 8px 12px/26px 4px no-repeat,linear-gradient(${color} 0 0) 8px 24px/26px 4px no-repeat"></div>`;
 
 window.EPISODE = {
-  n: 3,
+  n: 1,
+  theme: 'drama',
   scenes: [
-    { title: ['一亿日活，QPS 多少？', '100M daily users: what QPS?'],
-      cap: [{zh: '面试官问：一亿日活，QPS 多少？', en: 'Interviewer: 100 million daily users. What QPS?',
-             say_zh: '面试官问：一亿日活，Q P S 多少？', say_en: 'The interviewer asks: one hundred million daily users. What is the Q P S?'},
-            {zh: 'QPS 就是每秒请求数。', en: 'QPS means queries per second.',
-             say_zh: 'Q P S，就是每秒的请求数。', say_en: 'Q P S means queries per second.'},
-            {zh: '其实就一个公式，半分钟算完。', en: "It's one formula. Done in 30 seconds.",
-             say_en: "It's one formula. Done in thirty seconds."}],
+    { title: ['《逆袭架构师》', 'The Comeback Architect'],
+      cap: [['一千万人，一台服务器够吗？', 'Ten million people. Is one server enough?'],
+            ['技术总监说：够。', 'The tech director said yes.'],
+            ['入职三天的实习生林小满说：不够。', 'Xiaoman, an intern on day three, said no.'],
+            ['她用一道算术题，当众推翻了他。', 'With simple arithmetic, she proved him wrong in front of everyone.']],
       build() {
-        H(box3(0, 60, 400, 320, `<div style="display:flex;gap:6px">${icon('user', 70, 'var(--blue)')}${icon('user', 70, 'var(--blue)')}${icon('user', 70, 'var(--blue)')}</div>
-          <div class="h" style="font-size:56px;margin-top:18px">${T('1 亿', '100M')}</div>${lbl('日活用户 DAU', 'daily active users', 28)}`, 'var(--blue)')).dataset.cap = 0;
-        const a = H(`<svg class="r" data-cap="0" data-delay="0.6" data-in="left" style="left:420px;top:200px" width="120" height="40"><path d="M2 20H104" stroke="#4A5160" stroke-width="5" stroke-linecap="round"/><path d="M96 6l18 14-18 14" fill="none" stroke="#4A5160" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>`);
-        const q = H(box3(560, 60, 400, 320, `<div class="h acc" style="font-size:150px;line-height:1">?</div><div class="h mono" style="font-size:44px;margin-top:10px">QPS</div>`, 'var(--acc)'));
-        q.dataset.cap = 0; q.dataset.delay = '1.0'; q.dataset.in = 'pop';
-        H(`<div class="r card center" data-cap="1" style="left:0;right:0;top:440px;height:130px;gap:20px">
-          <span class="h mono acc" style="font-size:44px">QPS</span><span class="h" style="font-size:40px">=</span>
-          <span class="h" style="font-size:38px">${T('每秒请求数', 'queries per second')}</span></div>`);
-        H(`<div class="r center" data-cap="2" data-in="stamp" style="left:0;right:0;top:640px;gap:20px">${icon('clock', 80, 'var(--acc2)')}
-          <span class="h ok" style="font-size:48px">${T('一个公式 · 30 秒', '1 formula · 30 seconds')}</span></div>`);
+        H(actor('man', 60, 140, 300, 'calm', 'data-cap="2" data-in="left"'));
+        H(actor('kai', 600, 140, 300, 'smug', 'data-cap="1" data-in="right"'));
+        H(`<div class="r" data-cap="3" data-in="stamp" style="left:0;right:0;top:470px;text-align:center"><span style="display:inline-block;border:8px solid var(--red);color:var(--red);font-size:${T(84, 56)}px;font-weight:900;padding:4px 26px;border-radius:12px;transform:rotate(-8deg)">${T('推翻', 'OVERRULED')}</span></div>`);
+        H(box(180, 650, 600, 150, `<span class="h" style="font-size:${T(54, 46)}px">${T('1000 万人 → 1 台？', '10M people → 1 server?')}</span>`, 'var(--acc)', 'data-cap="0" data-in="pop"'));
       } },
 
-    { title: ['公式：日活 × 次数 ÷ 86400', 'The formula'],
-      cap: [{zh: '先算一天总请求：日活×每人次数。', en: 'First, requests per day: daily users × requests each.',
-             say_zh: '先算一天总请求：日活乘每人次数。', say_en: 'First, requests per day: daily users times requests per user.'},
-            {zh: '再除以一天的秒数：86400。', en: 'Then divide by the seconds in a day: 86,400.',
-             say_zh: '然后，除以一天的秒数：八万六千四百。', say_en: 'Then divide by the seconds in a day: eighty-six thousand four hundred.'}],
+    { title: ['昨晚，公司群', 'Last night, the team chat'],
+      cap: [['事情要从昨晚说起。', 'It started last night.'],
+            {zh: "王总在群里宣布：", en: "CEO Wang posted in the team chat:", say_en: "C E O Wang posted in the team chat."},
+            {zh: "明晚八点，顶流主播给咱们带货，", en: "Tomorrow 8 PM, a top streamer sells our products live.", say_en: "Tomorrow at eight PM, a top streamer sells our products live."},
+            ['预计一千万人来看！', 'Ten million people expected to watch!'],
+            ['技术总监周凯秒回：', 'Tech director Zhou Kai replied in a second:'],
+            ['放心，一台服务器，稳得很。', 'Relax. One server can handle it.']],
       build() {
-        const term = (x, w, big, zh, en, c, cap, d) => {
-          const e = H(box3(x, 40, w, 200, `<div class="h mono" style="font-size:40px;color:${c}">${big}</div>${lbl(zh, en, 24)}`, c));
-          e.dataset.cap = cap; if (d) e.dataset.delay = d;
-        };
-        const op = (x, s, cap, d) => H(`<div class="r h acc" data-cap="${cap}" ${d ? `data-delay="${d}"` : ''} data-in="pop" style="left:${x}px;top:105px;width:40px;text-align:center;font-size:52px">${s}</div>`);
-        term(0, 200, T('日活', 'DAU'), '每天活跃用户', 'daily users', 'var(--blue)', 0);
-        op(205, '×', 0, 0.5);
-        term(250, 200, T('次数', 'req'), '每人每天', 'per user / day', 'var(--blue)', 0, 0.8);
-        op(455, '÷', 1);
-        term(500, 200, '86400', '一天的秒数', 'sec / day', 'var(--yel)', 1, 0.4);
-        op(705, '=', 1, 1.0);
-        term(750, 210, T('平均', 'avg'), '平均 QPS', 'average QPS', 'var(--acc)', 1, 1.3);
-        H(`<div class="r" data-cap="0" data-delay="1.4" style="left:0;width:450px;top:270px;height:16px;border:4px solid var(--blue);border-top:none;border-radius:0 0 14px 14px"></div>`);
-        H(`<div class="r s" data-cap="0" data-delay="1.4" style="left:0;width:450px;top:300px;text-align:center">${T('= 一天的总请求数', '= requests per day')}</div>`);
-        H(`<div class="r card mono center" data-cap="1" data-delay="1.8" style="left:60px;right:60px;top:440px;height:220px;flex-direction:column;gap:14px;border-color:var(--yel)">
-          <div style="font-size:44px"><span class="nu">24</span> <span class="q">h</span> × <span class="nu">60</span> <span class="q">min</span> × <span class="nu">60</span> <span class="q">s</span></div>
-          <div style="font-size:56px;font-weight:800">= <span class="yel">86400</span> <span class="q" style="font-size:32px">${T('秒/天', 's/day')}</span></div></div>`);
+        H(phone(T('技术群 (12)', 'Tech team (12)'), [
+          ['wang', '明晚八点，顶流主播带货！', 'Tomorrow 8 PM: top streamer, live sale!'],
+          ['wang', '预计 1000 万人来看 🔥', '10 million viewers expected 🔥'],
+          ['kai', '放心，一台服务器稳得很 👌', 'Relax. One server is plenty 👌'],
+        ], {x: 40, y: 20, w: 480, h: 640, attrs: 'data-cap="1"'}));
+        H(actor('wang', 600, 30, 240, 'happy', 'data-cap="2" data-in="right"'));
+        H(`<div class="r card center" data-cap="3" data-in="pop" style="left:560px;top:340px;width:360px;height:120px;border-color:var(--acc)"><span class="h acc" style="font-size:${T(52, 44)}px">${T('1000 万人', '10M viewers')}</span></div>`);
+        H(actor('kai', 600, 510, 240, 'smug', 'data-cap="4" data-in="right"'));
       } },
 
-    { title: ['代入算一遍', 'Plug in the numbers'],
-      cap: [{zh: '一亿日活，每人十次，一天十亿次。', en: '100M users × 10 requests = 1 billion a day.',
-             say_en: 'Say one hundred million users, ten requests each: one billion a day.'},
-            {zh: '除以86400，约1.2万QPS。', en: 'Divide by 86,400: about 12,000 QPS.',
-             say_zh: '除以八万六千四百，约一万二 Q P S。', say_en: 'Divide by eighty-six thousand four hundred: about twelve thousand Q P S.'},
-            {zh: '这是估算，不求精确。', en: "It's an estimate, not an exact number."}],
+    { title: ['她皱起了眉', 'She frowned'],
+      cap: [['群里全是点赞，', 'The chat filled with thumbs-ups.'],
+            ['只有小满皱起了眉。', 'Only Xiaoman frowned.'],
+            ['她心里只有一个问题：', 'She had one question:'],
+            ['一千万人，每秒到底多少个请求？', 'Ten million people. How many requests per second?']],
       build() {
-        const row = (y, cap, l, r, c = 'var(--ink)') => H(`<div class="r mono" data-cap="${cap}" data-in="left" style="left:40px;right:40px;top:${y}px;font-size:44px;display:flex;justify-content:space-between;align-items:baseline"><span>${l}</span><span style="color:${c};font-weight:800">${r}</span></div>`);
-        H(`<div class="r card" style="left:0;right:0;top:20px;height:600px"></div>`);
-        row(60, 0, T('日活', 'DAU'), T('1 亿', '100M'), 'var(--blue)');
-        row(140, 0, T('× 每人次数', '× req / user'), '10', 'var(--blue)');
-        H(`<div class="r" data-cap="0" data-delay="1.2" style="left:40px;right:40px;top:225px;border-top:3px dashed var(--line)"></div>`);
-        row(250, 0, T('= 每天请求', '= req / day'), T('10 亿', '1B'));
-        row(340, 1, '÷ 86400', '≈ 11574', 'var(--yel)');
-        H(`<div class="r card center" data-cap="1" data-delay="1.2" data-in="pop" style="left:120px;right:120px;top:450px;height:130px;gap:24px;border-color:var(--acc);border-width:4px">
-          <span class="h acc" style="font-size:60px">≈ ${T('1.2 万', '12K')}</span><span class="h mono" style="font-size:40px">QPS</span></div>`);
-        H(`<div class="r center" data-cap="2" data-in="stamp" style="left:0;right:0;top:680px;gap:16px">${est()}<span class="s">${T('数量级对就行，不求精确', 'Right order of magnitude, not exact')}</span></div>`);
+        H(`<div class="r" data-cap="0" style="left:40px;top:40px;font-size:64px;letter-spacing:10px">👍👍👍👍👍👍👍</div>`);
+        H(actor('man', 300, 230, 300, 'think', 'data-cap="1" data-in="zoom"'));
+        H(say(null, '每秒多少请求？', 'Requests per second?', {x: 560, y: 170, w: 380, side: 'n', size: T(38, 30), attrs: 'data-cap="3" data-in="pop"'}));
+        H(`<div class="r card center" data-cap="3" data-delay="0.6" data-in="stamp" style="left:270px;top:700px;width:360px;height:120px;border-color:var(--acc)"><span class="h acc mono" style="font-size:60px">QPS = ?</span></div>`);
       } },
 
-    { title: ['心算技巧：一天约 10 万秒', 'Shortcut: a day ≈ 100K seconds'],
-      cap: [{zh: '心算时，把86400当成10万。', en: 'For mental math, round 86,400 up to 100,000.',
-             say_zh: '心算时，把八万六千四百当成十万。', say_en: 'For mental math, round eighty-six thousand four hundred up to one hundred thousand.'},
-            {zh: '十亿除以十万是一万，略低但量级对。', en: '1B ÷ 100K = 10K. A bit low, but the right order.', say_zh: '十亿除以十万，是一万。偏低一点，但量级对。',
-             say_en: 'One billion divided by one hundred thousand is ten thousand. A bit low, but the right order of magnitude.'}],
+    { title: ['QPS：每秒请求数', 'QPS: queries per second'],
+      cap: [{zh: "这个数，叫 QPS，每秒请求数。", en: "That number is QPS: queries per second.", say_zh: "这个数，叫 Q P S，每秒请求数。", say_en: "That number is Q P S: queries per second."},
+            ['估算它，只要三个数：', 'To estimate it, you need three numbers:'],
+            ['多少人来，', 'how many people come,'],
+            ['每人发几次请求，', 'how many requests each person sends,'],
+            ['这些请求挤在多少秒里。', 'and how many seconds those requests squeeze into.']],
       build() {
-        H(`<div class="r card mono center" data-cap="0" style="left:0;right:0;top:30px;height:170px;gap:30px">
-          <span style="font-size:60px;font-weight:800" class="yel">86400</span><span class="acc" style="font-size:60px;font-weight:800">≈</span>
-          <span style="font-size:60px;font-weight:800">${T('10 万', '100,000')}</span></div>`);
-        H(`<div class="r card mono center" data-cap="1" style="left:0;right:0;top:240px;height:150px;font-size:46px;font-weight:800">${T('10 亿 ÷ 10 万 = <span class="acc">&nbsp;1 万</span>', '1B ÷ 100K = <span class="acc">&nbsp;10K</span>')}</div>`);
-        const bar = (y, w, c, zh, en, val, cap, d) => H(`<div class="r" data-cap="${cap}" ${d ? `data-delay="${d}"` : ''} data-in="left" style="left:0;right:0;top:${y}px;height:80px">
-          <div class="s" style="position:absolute;left:0;top:18px;width:210px">${T(zh, en)}</div>
-          <div style="position:absolute;left:220px;top:10px;width:${w}px;height:60px;border-radius:12px;background:${c}"></div>
-          <div class="mono" style="position:absolute;left:${236 + w}px;top:14px;font-size:36px;font-weight:800">${val}</div></div>`);
-        bar(450, 520, 'var(--blue)', '精确', 'Exact', T('1.16 万', '11.6K'), 1, 1.0);
-        bar(550, 450, 'var(--acc)', '心算', 'Shortcut', T('1 万', '10K'), 1, 1.4);
-        H(`<div class="r center" data-cap="1" data-delay="2.6" data-in="stamp" style="left:0;right:0;top:680px;gap:16px">${icon('check', 60, 'var(--acc2)')}<span class="h ok" style="font-size:40px">${T('量级对了', 'Same order of magnitude')}</span></div>`);
+        H(`<div class="r card center" data-cap="0" style="left:0;right:0;top:20px;height:150px;gap:24px"><span class="h mono acc" style="font-size:64px">QPS</span><span class="h" style="font-size:${T(44, 36)}px">${T('= 每秒请求数', '= requests / second')}</span></div>`);
+        [['user', '多少人', 'People', 2], ['retry', '每人几次', 'Requests each', 3], ['clock', '多少秒', 'Seconds', 4]].forEach(([ic, z, e, k], i) =>
+          H(`<div class="r card center" data-cap="${k}" data-in="pop" style="left:${i * 330}px;top:240px;width:300px;height:280px;flex-direction:column;gap:20px;border-color:var(--acc)">${icon(ic, 100, 'var(--acc)')}<div class="h" style="font-size:${T(40, 30)}px">${T(z, e)}</div></div>`));
+        H(`<div class="r card center mono" data-cap="4" data-delay="0.8" style="left:0;right:0;top:600px;height:150px;font-size:${T(40, 32)}px;font-weight:800">${T('人数 × 次数 ÷ 秒数', 'people × requests ÷ seconds')}</div>`);
       } },
 
-    { title: ['平均 vs 峰值', 'Average vs peak'],
-      cap: [{zh: '流量不是平的：半夜少，晚上多。', en: 'But traffic is not flat: quiet at night, busy in the evening.'},
-            {zh: '常用的经验法则：峰值≈平均2~3倍。', en: 'Rule of thumb: peak ≈ 2–3× the average.',
-             say_zh: '常用的经验法则：峰值约是平均的两到三倍。', say_en: 'A common rule of thumb: peak is about two to three times the average.'},
-            {zh: '所以峰值约2.4万到3.6万。', en: 'So peak is about 24K to 36K QPS.',
-             say_zh: '所以峰值大约两万四，到三万六。', say_en: 'So the peak is about twenty-four to thirty-six thousand Q P S.'}],
+    { title: ['周凯的算法', "Zhou Kai's math"],
+      cap: [['第二天开会，周凯一脸不屑：', 'Next morning, Zhou Kai scoffed:'],
+            ['实习生也配谈架构？', 'An intern talking architecture?'],
+            {zh: "一千万人，每人十次，一亿次请求。", en: "Ten million people, 10 requests each: 100 million requests.", say_en: "Ten million people, ten requests each: a hundred million requests."},
+            {zh: "除以一天八万六千四百秒，", en: "Divide by the 86,400 seconds in a day:", say_en: "Divide by the eighty-six thousand four hundred seconds in a day."},
+            {zh: "才一千多 QPS。", en: "Just over 1,000 QPS.", say_zh: "才一千多 Q P S。", say_en: "Just over a thousand Q P S."},
+            ['一台服务器，绰绰有余。', 'One server is more than enough.']],
       build() {
-        // 24h curve, x: 90..900 (0h..24h), y: 560 (0) .. 80 (high). avg line at y=400.
-        H(`<div class="r card" style="left:0;right:0;top:10px;height:640px"></div>`);
-        H(`<svg class="r" data-cap="0" style="left:0;top:10px" width="960" height="640">
-          <line x1="90" y1="560" x2="910" y2="560" stroke="#4A5160" stroke-width="3"/>
-          <text x="90" y="605" fill="#8B93A3" font-size="26" text-anchor="middle" font-family="Noto Sans SC">0${T('点', 'h')}</text>
-          <text x="292" y="605" fill="#8B93A3" font-size="26" text-anchor="middle" font-family="Noto Sans SC">6</text>
-          <text x="495" y="605" fill="#8B93A3" font-size="26" text-anchor="middle" font-family="Noto Sans SC">12</text>
-          <text x="697" y="605" fill="#8B93A3" font-size="26" text-anchor="middle" font-family="Noto Sans SC">18</text>
-          <text x="900" y="605" fill="#8B93A3" font-size="26" text-anchor="middle" font-family="Noto Sans SC">24</text>
-          <path d="M90 470 C150 520 220 545 292 540 C360 535 400 420 495 380 C570 350 620 360 697 300 C750 250 780 150 810 150 C850 150 870 400 910 450" fill="none" stroke="#5AA9FF" stroke-width="6" stroke-linecap="round"/></svg>`);
-        H(`<div class="r center" data-cap="0" data-delay="1.0" data-in="pop" style="left:180px;top:470px;gap:8px;font-size:26px;color:var(--quiet)">${T('🌙 半夜低', '🌙 low at night')}</div>`);
-        H(`<svg class="r" data-cap="1" data-in="left" style="left:90px;top:385px" width="820" height="10"><line x1="0" y1="5" x2="820" y2="5" stroke="#8B93A3" stroke-width="3" stroke-dasharray="12 10"/></svg>`);
-        H(`<div class="r s" data-cap="1" style="left:100px;top:330px">${T('平均 1.2 万', 'avg 12K')}</div>`);
-        H(`<div class="r" data-cap="1" data-delay="0.8" data-in="pop" style="left:790px;top:148px;width:40px;height:40px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 12px rgba(255,138,76,.25)"></div>`);
-        H(`<div class="r h acc" data-cap="1" data-delay="1.0" style="left:470px;top:80px;width:300px;text-align:right;font-size:40px">${T('峰值 ≈ 2~3×', 'peak ≈ 2–3×')}</div>`);
-        H(`<div class="r card center" data-cap="2" style="left:0;right:0;top:690px;height:130px;gap:20px;border-color:var(--acc)">
-          <span class="h mono" style="font-size:40px">${T('1.2 万 × 2~3', '12K × 2–3')} ≈</span><span class="h acc mono" style="font-size:46px">${T('2.4~3.6 万', '24K–36K')}</span>${est()}</div>`);
+        H(actor('kai', 30, 40, 280, 'smug', 'data-cap="0" data-in="left"'));
+        H(say('kai', '实习生也配谈架构？', 'An intern talking architecture?', {x: 350, y: 90, w: 570, attrs: 'data-cap="1" data-in="pop"'}));
+        H(`<div class="r card center mono" data-cap="2" style="left:0;right:0;top:420px;height:170px;font-size:${T(50, 42)}px;font-weight:800">100,000,000 ÷ 86,400</div>`);
+        H(`<div class="r card center mono" data-cap="4" data-in="pop" style="left:200px;right:200px;top:630px;height:150px;font-size:60px;font-weight:800;border-color:var(--acc2)">≈&nbsp;<span class="ok">1,157</span>&nbsp;QPS</div>`);
       } },
 
-    { title: ['机器按峰值准备', 'Plan capacity for the peak'],
-      cap: [{zh: '只按平均备机器，高峰就扛不住。', en: 'Size for the average, and the peak takes you down.', say_zh: '如果只按平均来准备机器，高峰就扛不住。'},
-            {zh: '按峰值备，代价是平时机器闲着。', en: 'Size for the peak. The cost: idle servers off-peak.', say_zh: '按峰值来准备，代价是平时机器闲着。'}],
+    { title: ['反转', 'The twist'],
+      cap: [['小满站了起来：', 'Xiaoman stood up.'],
+            ['周总，您这个算法，错了。', 'Mr. Zhou, your math is wrong.'],
+            ['直播带货，人不是一整天慢慢来的。', "Live sales don't spread people over a whole day."],
+            {zh: "八点一开播，所有人同时涌进来。", en: "At 8 PM sharp, everyone rushes in at once.", say_en: "At eight PM sharp, everyone rushes in at once."},
+            ['平均值，会骗人。', 'Averages lie.']],
       build() {
-        const side = (x, c, ic, zh, en, n, zh2, en2, cap) => {
-          const e = H(`<div class="r card" style="left:${x}px;top:30px;width:460px;height:470px;padding:30px;text-align:center;border-color:${c}">
-            <div class="h" style="font-size:36px">${T(zh, en)}</div>
-            <div class="mono" style="font-size:54px;font-weight:800;color:${c};margin-top:30px">${n}</div><div class="s">QPS</div>
-            <div style="margin-top:30px">${icon(ic, 90, c)}</div>
-            <div class="s" style="margin-top:14px;color:${c}">${T(zh2, en2)}</div></div>`);
-          e.dataset.cap = cap;
-          return e;
-        };
-        side(0, 'var(--red)', 'boom', '按平均准备', 'Sized for average', T('1.2 万', '12K'), '高峰被打挂', 'Falls over at peak', 0).dataset.shake = '1';
-        side(500, 'var(--acc2)', 'shield', '按峰值准备', 'Sized for peak', T('3.6 万', '36K'), '高峰也扛得住', 'Survives the peak', 1);
-        H(`<div class="r card center" data-cap="1" data-delay="1.2" style="left:0;right:0;top:560px;height:150px;gap:24px;border-color:var(--yel)">
-          ${icon('gear', 70, 'var(--quiet)')}<div><div class="h yel" style="font-size:36px">${T('代价：平时机器闲着', 'Trade-off: idle servers off-peak')}</div>
-          <div class="s">${T('多花钱，换高峰不挂', 'Pay more to stay up at peak')}</div></div></div>`);
+        H(actor('man', 30, 20, 260, 'angry', 'data-cap="0" data-in="zoom"'));
+        H(say('man', '周总，您这个算法，错了。', 'Mr. Zhou, your math is wrong.', {x: 320, y: 70, w: 600, attrs: 'data-cap="1" data-in="pop" data-shake="1"'}));
+        H(`<div class="r card" data-cap="2" style="left:0;right:0;top:380px;height:430px;padding:20px 30px">
+          <svg width="900" height="390" viewBox="0 0 900 390">
+            <path d="M40 340H870M40 340V20" stroke="#5A4E66" stroke-width="4"/>
+            <path d="M40 300H870" stroke="#5BE7C4" stroke-width="6" stroke-dasharray="14 10"/>
+            <text x="60" y="280" font-family="Noto Sans SC" font-size="28" fill="#5BE7C4">${T('平均：一整天慢慢来', 'Average: spread over the day')}</text>
+            <path d="M40 330C380 330 420 330 470 320C490 40 520 30 560 40C600 300 640 325 870 330" stroke="#FF5A5F" stroke-width="7" fill="none"/>
+            <text x="${T(590, 70)}" y="${T(90, 60)}" font-family="Noto Sans SC" font-size="30" font-weight="800" fill="#FF5A5F">${T('8 点：同时涌进来', '8 PM: everyone at once')}</text>
+            <text x="440" y="378" font-family="Noto Sans SC" font-size="26" fill="#A79BB4">20:00</text>
+          </svg></div>`);
+        H(`<div class="r" data-cap="4" data-in="stamp" style="left:560px;top:250px"><span style="display:inline-block;background:var(--red);color:#fff;font-size:${T(44, 34)}px;font-weight:900;padding:8px 22px;border-radius:12px">${T('平均值会骗人', 'Averages lie')}</span></div>`);
       } },
 
-    { title: ['一张图总结', 'One-picture summary'],
-      cap: [{zh: '日活×次数÷86400，得平均。', en: 'Daily users × requests ÷ 86,400 = average QPS.',
-             say_zh: '日活乘次数，除以八万六千四百，得平均。',
-             say_en: 'To sum up: daily users times requests, divided by eighty-six thousand four hundred, is the average Q P S.'},
-            {zh: '再乘二到三是峰值。截图存好！', en: 'Multiply by 2 to 3 for the peak. Save this one!',
-             say_en: 'Multiply by two to three for the peak. Save this one!'}],
+    { title: ['按高峰算', 'Do the math for the peak'],
+      cap: [['小满走到白板前：', 'Xiaoman walked to the whiteboard.'],
+            {zh: "假设一千万人，在开播十分钟内进来，", en: "Say 10 million people arrive in the first 10 minutes,", say_en: "Say ten million people arrive in the first ten minutes,"},
+            {zh: "看商品、刷新、下单，每人约十次请求。", en: "each viewing, refreshing, ordering: about 10 requests.", say_en: "each viewing, refreshing, ordering: about ten requests."},
+            {zh: "一千万乘十，是一亿次请求。", en: "10 million times 10 is 100 million requests.", say_en: "Ten million times ten is a hundred million requests."},
+            {zh: "十分钟，是六百秒。", en: "Ten minutes is 600 seconds.", say_en: "Ten minutes is six hundred seconds."},
+            {zh: "一亿除以六百，大约十七万 QPS。", en: "100 million divided by 600: about 170,000 QPS.", say_zh: "一亿除以六百，大约十七万 Q P S。", say_en: "A hundred million divided by six hundred: about one hundred seventy thousand Q P S."},
+            {zh: "这还只是十分钟的平均。", en: "And that's still a 10-minute average. The busiest second is higher.", say_en: "And that's still a ten-minute average. The busiest second is higher."}],
       build() {
-        H(`<div class="r card" data-cap="0" style="left:0;right:0;top:20px;height:200px;padding:28px 36px;border-color:var(--acc)">
-          <div class="s">${T('① 平均 QPS', '① Average QPS')}</div>
-          <div class="h mono" style="font-size:42px;margin-top:16px">${T('日活 × 次数 ÷ <span class="yel">86400</span>', 'DAU × req ÷ <span class="yel">86400</span>')}</div></div>`);
-        H(`<div class="r card" data-cap="0" data-delay="1.2" style="left:0;width:460px;top:250px;height:170px;padding:26px 30px">
-          <div class="s">${T('心算', 'Shortcut')}</div><div class="h mono" style="font-size:40px;margin-top:14px">86400 ≈ ${T('10 万', '100K')}</div></div>`);
-        H(`<div class="r card" data-cap="1" style="left:500px;width:460px;top:250px;height:170px;padding:26px 30px;border-color:var(--acc)">
-          <div class="s">${T('② 峰值 QPS', '② Peak QPS')}</div><div class="h mono" style="font-size:40px;margin-top:14px">${T('平均', 'avg')} × <span class="acc">2~3</span></div></div>`);
-        H(`<div class="r card mono" data-cap="1" data-delay="0.8" style="left:0;right:0;top:450px;height:200px;padding:28px 36px;font-size:34px;line-height:1.7">
-          <div class="s" style="font-family:'Noto Sans SC'">${T('例', 'Example')}</div>
-          <div>${T('1 亿 × 10 ÷ 86400 ≈ <span class="acc">1.2 万</span>', '100M × 10 ÷ 86400 ≈ <span class="acc">12K</span>')}</div>
-          <div>${T('峰值 ≈ <span class="acc">2.4~3.6 万</span>', 'peak ≈ <span class="acc">24K–36K</span>')}</div></div>`);
-        H(`<div class="r center" data-cap="1" data-delay="1.8" style="left:0;right:0;top:690px;gap:16px">${est()}<span class="s">${T('峰值倍数是经验法则，按业务调整', 'The peak factor is a rule of thumb')}</span></div>`);
+        H(`<div class="r card" data-cap="0" style="left:0;right:0;top:0;height:840px;background:#F4F1EA;border-color:#D8D2C4"></div>`);
+        const row = (y, k, zh, en) => H(`<div class="r mono" data-cap="${k}" data-in="left" style="left:50px;right:30px;top:${y}px;font-size:${T(44, 38)}px;font-weight:800;color:#1D1A22">${T(zh, en)}</div>`);
+        row(60, 1, '人数：1000 万（10 分钟内）', 'People: 10M (within 10 min)');
+        row(170, 2, '每人：10 次请求', 'Each: 10 requests');
+        row(300, 3, '1000 万 × 10 = 1 亿', '10,000,000 × 10 = 100M');
+        row(410, 4, '10 分钟 = 600 秒', '10 min = 600 s');
+        H(`<div class="r mono" data-cap="5" data-in="pop" style="left:50px;top:560px;font-size:${T(52, 44)}px;font-weight:900;color:#C2413B">${T('1 亿 ÷ 600 ≈ 17 万 QPS', '100M ÷ 600 ≈ 170,000 QPS')}</div>`);
+        H(`<div class="r" data-cap="6" data-in="pop" style="left:50px;top:680px;font-size:${T(34, 28)}px;color:#1D1A22;font-weight:800">${T('↑ 10 分钟的平均，最忙那一秒更高', '↑ a 10-minute average; the busiest second is higher')}</div>`);
+        H(`<div class="r" data-cap="0" style="left:50px;right:30px;top:770px;text-align:right;font-size:26px;color:#6B6378;font-weight:700">${T('* 人数、次数都是假设', '* people and requests are assumptions')}</div>`);
       } },
 
-    { title: ['下期预告', 'Next episode'],
-      cap: [{zh: '下期算存储：一年要多少硬盘？', en: 'Next: storage. How much disk for one year?'},
-            {zh: '关注我，一起学系统设计。', en: 'Follow along to learn system design.'}],
+    { title: ['差了一百多倍', 'Off by 100×'],
+      cap: [{zh: "十七万，对一千一百多。", en: "170,000 versus 1,157.", say_en: "One hundred seventy thousand, versus about one thousand one hundred."},
+            ['整整差了一百多倍。', 'Off by more than a hundred times.'],
+            ['全是因为，他用了一整天的平均。', 'All because he used the whole-day average.'],
+            ['会议室，一下子安静了。', 'The room went silent.']],
       build() {
-        H(`<div class="r card" style="left:80px;right:80px;top:160px;height:460px;border-color:var(--acc);text-align:center;padding-top:60px">
-          <div class="s" style="font-size:34px">${T('第 4 课', 'Lesson 4')}</div>
-          <div class="h" style="font-size:72px;margin-top:30px">${T('存储估算', 'Storage estimates')}</div>
-          <div class="s" style="font-size:36px;margin-top:14px">${T('一年要多少硬盘？', 'How much disk for a year?')}</div>
-          <div style="margin-top:36px">${icon('db', 90, 'var(--acc)')}</div></div>`);
+        H(box(0, 40, 440, 220, `<span class="q" style="font-size:30px">${T('周凯', 'Zhou Kai')}</span><span class="h mono" style="font-size:70px">1,157</span>`, 'var(--line)', 'data-cap="0" data-in="left"'));
+        H(box(520, 40, 440, 220, `<span class="q" style="font-size:30px">${T('小满', 'Xiaoman')}</span><span class="h mono red" style="font-size:70px">170,000</span>`, 'var(--red)', 'data-cap="0" data-in="right"'));
+        H(`<div class="r center" data-cap="1" data-in="stamp" style="left:0;right:0;top:300px;height:200px"><span class="mono" style="font-size:150px;font-weight:900;color:var(--acc)">×100+</span></div>`);
+        H(actor('kai', 150, 540, 220, 'shock', 'data-cap="3" data-in="fade"'));
+        H(actor('wang', 590, 540, 220, 'shock', 'data-cap="3" data-in="fade"'));
+      } },
+
+    { title: ['要几台服务器？', 'How many servers?'],
+      cap: [['那要几台服务器？', 'So how many servers?'],
+            {zh: "假设压测下来，一台能扛两千 QPS。", en: "Say load tests show one server handles 2,000 QPS.", say_zh: "假设压测下来，一台能扛两千 Q P S。", say_en: "Say load tests show one server handles two thousand Q P S."},
+            {zh: "十七万除以两千，要八十五台。", en: "170,000 ÷ 2,000: 85 servers.", say_en: "One hundred seventy thousand divided by two thousand: eighty-five servers."},
+            ['而周凯的方案，只有一台。', "Zhou Kai's plan had one."],
+            ['单机能扛多少，要靠压测，别拍脑袋。', 'And per-server capacity comes from load tests, not gut feeling.']],
+      build() {
+        H(`<div class="r card center" data-cap="1" style="left:0;right:0;top:0;height:130px;gap:20px">${srv()}<span class="h" style="font-size:${T(38, 30)}px">${T('1 台 ≈ 2,000 QPS（假设，以压测为准）', '1 server ≈ 2,000 QPS (assumed; load-test it)')}</span></div>`);
+        H(`<div class="r card" data-cap="2" style="left:0;width:600px;top:170px;height:620px;padding:16px;line-height:0">${Array.from({length: 85}, () => srv()).join('')}</div>`);
+        H(`<div class="r center mono" data-cap="2" data-delay="0.8" data-in="pop" style="left:620px;width:340px;top:280px;height:160px;font-size:${T(64, 54)}px;font-weight:900;color:var(--acc2)">≈ 85</div>`);
+        H(`<div class="r card center" data-cap="3" data-in="drop" data-shake="1" style="left:640px;width:300px;top:520px;height:200px;flex-direction:column;gap:10px;border-color:var(--red)">${srv('var(--red)')}<span class="h red" style="font-size:${T(34, 28)}px">${T('周凯：1 台', 'Zhou Kai: 1')}</span></div>`);
+      } },
+
+    { title: ['“全是假设！”', '"Those are guesses!"'],
+      cap: [['周凯脸都绿了：你这些数，全是假设！', 'Zhou Kai went pale: those numbers are all guesses!'],
+            ['小满说：对，估算就是先把假设摆上桌。', 'Xiaoman: yes. Estimating means putting assumptions on the table.'],
+            ['假设错了，可以改。', 'A wrong assumption can be fixed.'],
+            ['但不算，就是在赌。', 'Not doing the math is gambling.']],
+      build() {
+        H(actor('kai', 20, 20, 240, 'angry', 'data-cap="0" data-in="left"'));
+        H(say('kai', '你这些数，全是假设！', 'Those numbers are all guesses!', {x: 290, y: 50, w: 640, attrs: 'data-cap="0" data-delay="0.4" data-in="pop"'}));
+        H(actor('man', 700, 340, 240, 'calm', 'data-cap="1" data-in="right"'));
+        H(say('man', '假设错了能改，不算就是在赌。', 'Wrong guesses can be fixed. No math is gambling.', {x: 20, y: 380, w: 640, side: 'r', attrs: 'data-cap="1" data-delay="0.4" data-in="pop"'}));
+        H(`<div class="r" data-cap="3" data-in="stamp" style="left:120px;top:660px"><span style="display:inline-block;background:var(--acc);color:#1D1A22;font-size:${T(44, 34)}px;font-weight:900;padding:8px 22px;border-radius:12px">${T('不算 = 赌', 'No math = gambling')}</span></div>`);
+      } },
+
+    { title: ['一张图总结：估算 QPS', 'Cheat sheet: estimating QPS'],
+      cap: [['小满的三步，记下来：', "Xiaoman's three steps. Save this:"],
+            {zh: "第一，总请求等于人数乘每人次数。", en: "One: total requests = people × requests each.", say_en: "One: total requests equals people times requests each."},
+            ['第二，除以高峰的秒数，别除一整天。', 'Two: divide by the peak window, not the whole day.'],
+            {zh: "第三，除以单机 QPS，再多留余量。", en: "Three: divide by one server's QPS, then add headroom.", say_zh: "第三，除以单机 Q P S，再多留余量。", say_en: "Three: divide by one server's Q P S, then add headroom."},
+            {zh: "常见做法，多留三到五成。", en: "A common practice: 30 to 50 percent extra.", say_en: "A common practice: thirty to fifty percent extra."}],
+      build() {
+        H(`<div class="r card" data-cap="0" style="left:0;right:0;top:0;height:840px;border-color:var(--acc);border-width:3px"></div>`);
+        [[1, '总请求 = 人数 × 每人次数', 'Total = people × requests each'],
+         [2, '峰值 QPS = 总请求 ÷ 高峰秒数', 'Peak QPS = total ÷ peak seconds'],
+         [3, '机器数 = 峰值 ÷ 单机 QPS，再多留 30–50%', 'Servers = peak ÷ per-server QPS, +30–50%']].forEach(([n, z, e], i) =>
+          H(`<div class="r" data-cap="${i + 1}" data-in="left" style="left:40px;right:40px;top:${60 + i * 190}px;display:flex;align-items:center;gap:26px">${num(n)}<span class="h" style="font-size:${T(40, 32)}px">${T(z, e)}</span></div>`));
+        H(`<div class="r card center" data-cap="2" data-delay="0.8" style="left:60px;right:60px;top:650px;height:120px;border-color:var(--red)"><span class="h red" style="font-size:${T(40, 32)}px">${T('别用一整天的平均值', "Don't use the all-day average")}</span></div>`);
+      } },
+
+    { title: ['开播第三分钟', 'Three minutes in'],
+      cap: [['王总拍板：听小满的，今晚加机器！', 'Wang decided: "We go with Xiaoman. Add servers tonight!"'],
+            ['八十五台服务器，全部到位。', 'Eighty-five servers, all in place.'],
+            {zh: '八点开播，服务器稳稳扛住。', en: 'At 8 PM the stream starts. The servers hold.', say_en: 'At eight PM the stream starts. The servers hold.'},
+            ['可开播才三分钟，', 'But three minutes in,'],
+            ['监控，突然全红了。', 'every monitor turned red.'],
+            ['这一次，扛不住的不是服务器……', "This time, it wasn't the servers that broke..."]],
+      build() {
+        H(actor('wang', 30, 0, 240, 'happy', 'data-cap="0" data-in="left"'));
+        H(say('wang', '听小满的，加机器！', 'We go with Xiaoman!', {x: 300, y: 30, w: 620, attrs: 'data-cap="0" data-delay="0.4" data-in="pop"'}));
+        H(`<div class="r card center" data-cap="1" style="left:300px;width:620px;top:170px;height:100px;gap:8px">${srv()}${srv()}${srv()}${srv()}${srv()}<span class="h ok" style="font-size:36px">×85 ✓</span></div>`);
+        H(alarm('20:03 · 数据库磁盘 99%', '20:03 · Database disk at 99%', {y: 340, attrs: 'data-cap="4" data-in="drop" data-shake="1"'}));
+        H(alarm('20:03 · 写入失败 · 订单存不进去', '20:03 · Writes failing · orders not saved', {y: 440, attrs: 'data-cap="4" data-delay="0.5" data-in="drop" data-shake="1"'}));
+        H(actor('man', 360, 560, 240, 'shock', 'data-cap="5" data-in="zoom"'));
+      } },
+
+    { title: ['下集预告', 'Next episode'],
+      cap: [['下集：《磁盘满了》。', 'Next: "The Disk Is Full."'],
+            ['八十五台服务器都没事，', 'Eighty-five servers were fine.'],
+            ['为什么数据库先倒下了？', 'So why did the database fall first?'],
+            ['小满要算第二笔账：存储。', 'Xiaoman has a second number to estimate: storage.']],
+      build() {
+        H(`<div class="r card center" data-cap="0" data-in="zoom" style="left:0;right:0;top:40px;height:200px;flex-direction:column;gap:6px;border-color:var(--red);border-width:3px"><span class="q" style="font-size:30px">${T('下集预告', 'Next episode')}</span><span class="h" style="font-size:${T(64, 52)}px">${T('《磁盘满了》', '"The Disk Is Full"')}</span></div>`);
+        H(`<div class="r center" data-cap="2" data-in="pop" style="left:0;right:0;top:300px;height:260px">${icon('db', 220, 'var(--red)')}</div>`);
+        H(`<div class="r card center" data-cap="3" style="left:120px;right:120px;top:620px;height:140px;border-color:var(--acc)"><span class="h acc" style="font-size:${T(46, 38)}px">${T('第二笔账：存储估算', 'Estimate #2: storage')}</span></div>`);
       } },
 
     { title: ['考考你', 'Quick quiz'],
-      cap: [{zh: '考考你：一千万日活，每人二十次，', en: 'Quiz: 10 million daily users, 20 requests each.',
-             say_en: 'Quick quiz: ten million daily users, twenty requests each per day.'},
-            {zh: '平均QPS约2300还是2.3万？', en: 'Average QPS: about 2,300 or 23,000?',
-             say_zh: '平均 Q P S 约两千三，还是两万三？', say_en: 'Is the average Q P S about two thousand three hundred, or twenty-three thousand?'},
-            {zh: '评论区告诉我答案！', en: 'Tell me in the comments!'}],
+      cap: [['考考你：一百万人一分钟内涌进来，', 'Quick quiz: a million people arrive within one minute,'],
+            {zh: "每人六次，峰值 QPS 约多少？", en: "six requests each. Roughly what is the peak QPS?", say_zh: "每人六次，峰值 Q P S 约多少？", say_en: "six requests each. Roughly what is the peak Q P S?"},
+            {zh: "A 一万，B 十万？评论区告诉我。", en: "A: 10,000, or B: 100,000? Tell me in the comments.", say_zh: "A，一万；B，十万？评论区告诉我。", say_en: "A, ten thousand, or B, a hundred thousand? Tell me in the comments."}],
       build() {
-        H(`<div class="r card mono" data-cap="0" style="left:0;right:0;top:30px;padding:36px 44px;font-size:40px;line-height:1.8">
-          <div>${T('日活', 'DAU')} = <span class="nu">${T('1000 万', '10M')}</span></div>
-          <div>${T('每人每天', 'req / user / day')} = <span class="nu">20</span></div>
-          <div>${T('平均', 'avg')} QPS ≈ <span class="acc">?</span></div></div>`);
-        H(`<div class="r center" data-cap="1" style="left:0;right:0;top:400px;gap:40px">
-          <div class="card center h mono" style="width:380px;height:130px;font-size:44px;border-color:var(--blue)">A · ${T('约 2300', '~2,300')}</div>
-          <div class="card center h mono" style="width:380px;height:130px;font-size:44px;border-color:var(--blue)">B · ${T('约 2.3 万', '~23,000')}</div></div>`);
-        H(`<div class="r" data-cap="2" data-in="pop" style="left:0;right:0;top:640px;text-align:center"><span class="h acc" style="font-size:44px">${T('答案评论区见 👇', 'Answer in the comments 👇')}</span></div>`);
+        H(`<div class="r card mono" data-cap="0" style="left:0;right:0;top:20px;height:330px;padding:40px;font-size:${T(42, 36)}px;font-weight:800;line-height:1.8">
+          <div>${T('人数：100 万', 'People: 1,000,000')}</div><div>${T('时间：1 分钟内', 'Window: 1 minute')}</div><div>${T('每人：6 次请求', 'Each: 6 requests')}</div></div>`);
+        H(`<div class="r card center" data-cap="1" data-in="pop" style="left:0;right:0;top:390px;height:120px"><span class="h acc mono" style="font-size:56px">${T('峰值 QPS ≈ ?', 'Peak QPS ≈ ?')}</span></div>`);
+        H(`<div class="r card center" data-cap="2" data-in="pop" style="left:60px;width:390px;top:560px;height:150px;border-color:var(--blue)"><span class="h mono" style="font-size:52px">A · ${T('1 万', '10,000')}</span></div>`);
+        H(`<div class="r card center" data-cap="2" data-delay="0.3" data-in="pop" style="left:510px;width:390px;top:560px;height:150px;border-color:var(--blue)"><span class="h mono" style="font-size:52px">B · ${T('10 万', '100,000')}</span></div>`);
+        H(`<div class="r center" data-cap="2" data-delay="0.8" style="left:0;right:0;top:750px;height:80px;font-size:34px;font-weight:800;color:var(--quiet)">${T('答案评论区见 👇', 'Answer in the comments 👇')}</div>`);
       } },
   ],
 };

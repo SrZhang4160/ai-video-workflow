@@ -1,22 +1,68 @@
-The interviewer asks: one hundred million daily users. What is the Q P S?
-Q P S means queries per second.
-It's one formula. Done in thirty seconds.
-First, requests per day: daily users times requests per user.
-Then divide by the seconds in a day: eighty-six thousand four hundred.
-Say one hundred million users, ten requests each: one billion a day.
-Divide by eighty-six thousand four hundred: about twelve thousand Q P S.
-It's an estimate, not an exact number.
-For mental math, round eighty-six thousand four hundred up to one hundred thousand.
-One billion divided by one hundred thousand is ten thousand. A bit low, but the right order of magnitude.
-But traffic is not flat: quiet at night, busy in the evening.
-A common rule of thumb: peak is about two to three times the average.
-So the peak is about twenty-four to thirty-six thousand Q P S.
-Size for the average, and the peak takes you down.
-Size for the peak. The cost: idle servers off-peak.
-To sum up: daily users times requests, divided by eighty-six thousand four hundred, is the average Q P S.
-Multiply by two to three for the peak. Save this one!
-Next: storage. How much disk for one year?
-Follow along to learn system design.
-Quick quiz: ten million daily users, twenty requests each per day.
-Is the average Q P S about two thousand three hundred, or twenty-three thousand?
-Tell me in the comments!
+Ten million people. Is one server enough?
+The tech director said yes.
+Xiaoman, an intern on day three, said no.
+With simple arithmetic, she proved him wrong in front of everyone.
+It started last night.
+C E O Wang posted in the team chat.
+Tomorrow at eight PM, a top streamer sells our products live.
+Ten million people expected to watch!
+Tech director Zhou Kai replied in a second:
+Relax. One server can handle it.
+The chat filled with thumbs-ups.
+Only Xiaoman frowned.
+She had one question:
+Ten million people. How many requests per second?
+That number is Q P S: queries per second.
+To estimate it, you need three numbers:
+how many people come,
+how many requests each person sends,
+and how many seconds those requests squeeze into.
+Next morning, Zhou Kai scoffed:
+An intern talking architecture?
+Ten million people, ten requests each: a hundred million requests.
+Divide by the eighty-six thousand four hundred seconds in a day.
+Just over a thousand Q P S.
+One server is more than enough.
+Xiaoman stood up.
+Mr. Zhou, your math is wrong.
+Live sales don't spread people over a whole day.
+At eight PM sharp, everyone rushes in at once.
+Averages lie.
+Xiaoman walked to the whiteboard.
+Say ten million people arrive in the first ten minutes,
+each viewing, refreshing, ordering: about ten requests.
+Ten million times ten is a hundred million requests.
+Ten minutes is six hundred seconds.
+A hundred million divided by six hundred: about one hundred seventy thousand Q P S.
+And that's still a ten-minute average. The busiest second is higher.
+One hundred seventy thousand, versus about one thousand one hundred.
+Off by more than a hundred times.
+All because he used the whole-day average.
+The room went silent.
+So how many servers?
+Say load tests show one server handles two thousand Q P S.
+One hundred seventy thousand divided by two thousand: eighty-five servers.
+Zhou Kai's plan had one.
+And per-server capacity comes from load tests, not gut feeling.
+Zhou Kai went pale: those numbers are all guesses!
+Xiaoman: yes. Estimating means putting assumptions on the table.
+A wrong assumption can be fixed.
+Not doing the math is gambling.
+Xiaoman's three steps. Save this:
+One: total requests equals people times requests each.
+Two: divide by the peak window, not the whole day.
+Three: divide by one server's Q P S, then add headroom.
+A common practice: thirty to fifty percent extra.
+Wang decided: "We go with Xiaoman. Add servers tonight!"
+Eighty-five servers, all in place.
+At eight PM the stream starts. The servers hold.
+But three minutes in,
+every monitor turned red.
+This time, it wasn't the servers that broke...
+Next: "The Disk Is Full."
+Eighty-five servers were fine.
+So why did the database fall first?
+Xiaoman has a second number to estimate: storage.
+Quick quiz: a million people arrive within one minute,
+six requests each. Roughly what is the peak Q P S?
+A, ten thousand, or B, a hundred thousand? Tell me in the comments.
