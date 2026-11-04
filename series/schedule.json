@@ -403,12 +403,15 @@
       "start": "2026-11-02"
     },
     "sd": {
-      "name_zh": "系统设计",
+      "name_zh": "《逆袭架构师》系统设计短剧",
       "curriculum": "series/system-design/curriculum.md",
       "id_suffix": "-sd",
-      "folder_label": "系统设计第{n}课",
+      "folder_label": "逆袭架构师第{n}集",
       "style_ref": "episodes/demo-rust-01",
-      "start": "2026-11-02"
+      "start": "2026-11-02",
+      "format": "drama",
+      "board": "https://claude.ai/artifact/HGq19vhF8JP5TSqmVysLyG",
+      "rules": "series/system-design/README.md"
     }
   }
 }

@@ -23,12 +23,12 @@ There are three daily lesson series (`series/schedule.json` → `series`): **Rus
 - Quiz with one definite answer: A/B about behaviour ("同样的提示词问两次，temperature=0 一定得到一样的回答吗？" only if the answer is truly definite), or "which step is missing", not "which model is best".
 - Tags: xhs `["AI工程师", "大模型", "AI应用开发", "碎片时间学AI工程师"]`, douyin `["AI", "大模型", "程序员"]`, tiktok `["aiengineering", "llm", "ai", "learntocode"]`, linkedin `["AIEngineering", "LLM", "GenerativeAI", "SoftwareEngineering"]`.
 
-For a 系统设计 episode:
-- `meta.json` has `"track": "sd"`. `n` in `episode.js` is the 系统设计 lesson number.
+For a 系统设计 episode (since 2026-11-04 a 2–3 min drama, 《逆袭架构师》): **read `series/system-design/README.md` and `story.md` first**; their format (length, structure, narrator voice, character kit) replaces the lesson structure and length above. The rules below still apply to the teaching inside the story.
+- `meta.json` has `"track": "sd"`, `"format": "drama"`; `episode.js` has `theme: 'drama'` and `n` = drama episode number.
 - Teach with a diagram first: boxes and arrows (client → load balancer → servers → cache → database), a request flowing through it, or a before/after when one piece is added. Code only when it is the point (a 10-line token bucket), never long code.
 - Numbers must be right and labelled as estimates: show the arithmetic for QPS / storage (1 亿日活 × 10 次 ÷ 86400 ≈ 1.2 万 QPS). Latency figures are orders of magnitude ("约 100 纳秒"), not precise claims. Name the trade-off: every design choice says what it costs.
 - Real systems (Redis, Kafka, DynamoDB, Cassandra, Nginx) are fine when the fact is public and stable; say "commonly" when it's practice, not spec. Never claim how a specific company's internals work unless it's from a public talk or paper, and then say so.
-- Classic design-question lessons (54–71): one minute can't cover a whole design. Pick the one core problem of that system (TinyURL → how to generate short ids; Twitter → push vs pull fan-out) and solve that; the takeaway card is the high-level diagram.
+- Classic design-question lessons (54–71): one episode can't cover a whole design. Pick the one core problem of that system (TinyURL → how to generate short ids; Twitter → push vs pull fan-out) and solve that; the takeaway card is the high-level diagram.
 - Quiz with one definite answer: arithmetic ("每秒 100 个请求，令牌桶容量 10、每秒补 5 个，第 2 秒能放行多少？"), which component fixes the problem, or A/B about behaviour ("先删缓存再写库，并发读会读到旧值吗？"). Not "which design is best".
 - Tags: xhs `["系统设计", "后端", "程序员面试", "碎片时间学AI工程师"]`, douyin `["系统设计", "后端开发", "程序员"]`, tiktok `["systemdesign", "softwareengineering", "coding", "techinterview"]`, linkedin `["SystemDesign", "SoftwareEngineering", "DistributedSystems", "Backend"]`.
 

@@ -1,7 +1,7 @@
 # Nightly build: the approval hook
 
 Runs twice a night (~2:50 and ~6:30 AM ET), and whenever the user says 「现在出片」. Each run is idempotent.
-Review board: https://claude.ai/artifact/C2QhJCX4jV1JNNXhyrfMdb (db collection `episodes`, doc id = episode id: `<date>` for Rust, `<date>-ai` for the AI series, `<date>-sd` for 系统设计; the doc's `date` field is the air date).
+Review boards: https://claude.ai/artifact/C2QhJCX4jV1JNNXhyrfMdb, and 系统设计's own board https://claude.ai/artifact/HGq19vhF8JP5TSqmVysLyG (`series/schedule.json` → `series.<id>.board`). List both; every read, write and asset upload for an episode goes to its own series' board; docs with status `moved` are ignored (db collection `episodes`, doc id = episode id: `<date>` for Rust, `<date>-ai` for the AI series, `<date>-sd` for 系统设计; the doc's `date` field is the air date).
 Voice: the user's Mac voices every script line in the user's cloned voice and pushes `episodes/<id>/voice/<lang>/sNN.ogg` (local/voice_job.sh, every 20 min while the Mac is awake). `python3 engine/render.py episodes/<id> --status` prints `{"zh": [voiced, scenes], "en": [...]}`. "Near" below means the doc's `date` is today or tomorrow (ET). All series (Rust, AI, 系统设计, AI 快讯) go through every step the same way.
 
 ## 0. Guard and early exit

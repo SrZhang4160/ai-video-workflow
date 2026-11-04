@@ -7,7 +7,7 @@ Series name (use exactly): **每天1分钟，碎片时间学AI工程师**. Hasht
 Three daily 1-minute teaching series, same pipeline, same account (plus the daily AI 快讯 news series below):
 - **Rust**: `series/curriculum.md`, episodes `episodes/<date>/`, posts at the times below.
 - **AI 工程师系统课** (from 2026-11-09): `series/ai-engineer/curriculum.md`, episodes `episodes/<date>-ai/` (`meta.json` `"track": "ai"`, board doc id `<date>-ai`), posts daily 12:00 ET on 小红书 / 抖音 / TikTok and weekdays 08:00 on LinkedIn.
-- **系统设计** (from 2026-11-02): `series/system-design/curriculum.md`, episodes `episodes/<date>-sd/` (`meta.json` `"track": "sd"`, board doc id `<date>-sd`), posts daily 21:00 ET on 小红书 / 抖音 / TikTok and weekdays 12:30 on LinkedIn.
+- **系统设计 · 《逆袭架构师》** (from 2026-11-02; a 2–3 min 红果短剧-style drama since 2026-11-04): `series/system-design/README.md` (format rules, read first), `curriculum.md`, `story.md`; episodes `episodes/<date>-sd/` (`meta.json` `"track": "sd"`, `"format": "drama"`). **Own review board**: https://claude.ai/artifact/HGq19vhF8JP5TSqmVysLyG (doc id `<date>-sd`); the main board ignores sd. Posts daily 21:00 ET on 小红书 / 抖音 / TikTok and weekdays 12:30 on LinkedIn.
 
 Each episode goes to four platforms (Rust times shown; AI and 系统设计 times are in `series/schedule.json`):
 
@@ -23,7 +23,7 @@ Times and sources: `series/schedule.json`. The user publishes by hand; nothing h
 ## The loop
 1. **Friday ~1 AM ET**, `runbooks/weekly.md`: script next Monday–Sunday (7 episodes per series: Rust, AI, 系统设计 = 21 total) from each series' curriculum, review each with a fresh reviewer agent, push, and put the scripts on the review board (status 配音中).
 1b. **The user's Mac** (`local/voice_job.sh`, launchd, every 20 min while awake) voices every new line in the user's cloned voice (CosyVoice3, Chinese and English) and pushes `voice/<lang>/sNN.ogg`. The AI voice is only a fallback when the Mac didn't get to it before the air date.
-2. **Fri–Sun**, the user reviews on the board (https://claude.ai/artifact/C2QhJCX4jV1JNNXhyrfMdb): 通过, or 要修改 + a note.
+2. **Fri–Sun**, the user reviews on the board (https://claude.ai/artifact/C2QhJCX4jV1JNNXhyrfMdb; 系统设计 on its own board https://claude.ai/artifact/HGq19vhF8JP5TSqmVysLyG): 通过, or 要修改 + a note. Each series' board is `series/schedule.json` → `series.<id>.board` (default: the main board).
 3. **Every night ~2:50 and ~6:30 AM ET**, `runbooks/nightly.md` (the approval hook): voiced → preview; approved → render all four cuts + upload; changes → revise the script; new voice → re-render. Episodes airing today/tomorrow get built regardless, so a post day is never blocked.
 4. **Reminders**: Rust weekdays 9:50 (LinkedIn) and daily 18:40 (小红书 / 抖音 / TikTok); AI weekdays 7:20 (LinkedIn) and daily 11:20 (小红书 / 抖音 / TikTok); 系统设计 weekdays 12:00 (LinkedIn) and daily 20:20 (小红书 / 抖音 / TikTok). The user gets a push to re-check and post that series' episode.
 
