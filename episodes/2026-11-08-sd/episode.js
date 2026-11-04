@@ -107,7 +107,7 @@ window.EPISODE = {
 
     { title: ['一张图总结', 'One-picture summary'],
       cap: [{zh: '停机时间等于一减可用性，乘全年。', en: 'Downtime = (1 − availability) × one year.', say_en: 'Downtime is one minus availability, times one year.'},
-            {zh: '多一个 9 少十倍，串个依赖打个折。', say_zh: '多一个九少十倍，串个依赖打个折。', en: 'One more nine: ten times less. Each chained dependency cuts it.'}],
+            {zh: '多一个 9 少十倍，串个依赖打个折。', say_zh: '多一个九，停机降到十分之一；多一个依赖，再打个折。', en: 'One more nine: ten times less. Each chained dependency cuts it.'}],
       build() {
         H(`<div class="r card" data-cap="0" style="left:0;right:0;top:20px;padding:26px 36px;border-color:var(--acc)">
           <div style="font-size:32px;font-weight:800;text-align:center">${T('停机 = (1 − 可用性) × 8760 小时', 'Downtime = (1 − A) × 8,760 h')}</div>
@@ -119,7 +119,7 @@ window.EPISODE = {
       } },
 
     { title: ['下期预告', 'Next episode'],
-      cap: [['下期：输入网址后，到底发生了什么？', 'Next: what happens after you type a URL?']],
+      cap: [{zh: '下期：输入网址后，到底发生了什么？', en: 'Next: what happens after you type a URL?', say_zh: '下期：在浏览器里输入一个网址，到底发生了什么？'}],
       build() {
         H(`<div class="r card" style="left:60px;right:60px;top:160px;height:460px;border-color:var(--acc);text-align:center;padding-top:60px">
           <div class="s" style="font-size:34px">${T('第 8 课 · Lesson 8', 'Lesson 8')}</div>

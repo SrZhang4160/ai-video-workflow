@@ -63,7 +63,7 @@ window.EPISODE = {
 
     { title: ['加车道：吞吐涨了，延迟没变', 'More lanes: more cars, same trip'],
       cap: [{zh: '一条车道，每小时约 2000 辆。', en: 'One lane: about 2,000 cars an hour.', say_zh: '一条车道，每小时约两千辆。', say_en: 'One lane: about two thousand cars an hour.'},
-            {zh: '扩成 4 条，约 8000 辆，是 4 倍。', en: 'Four lanes: about 8,000. Four times the throughput.', say_zh: '扩成四条，约八千辆，是四倍。', say_en: 'Four lanes: about eight thousand. Four times the throughput.'},
+            {zh: '扩成 4 条，约 8000 辆，是 4 倍。', en: 'Four lanes: about 8,000. Four times the throughput.', say_zh: '扩成四条车道，大约八千辆，正好四倍。', say_en: 'Four lanes: about eight thousand. Four times the throughput.'},
             {zh: '不堵车时，每辆车还是开 1 小时。', en: 'With no traffic jam, each car still takes one hour.', say_zh: '不堵车的时候，每辆车还是要开一小时。'}],
       build() {
         H(`<div class="r s" data-cap="0" style="left:0;top:20px">${T('1 条车道', '1 lane')}</div>`);
@@ -129,7 +129,7 @@ window.EPISODE = {
 
     { title: ['下期预告', 'Next episode'],
       cap: [['下期聊可用性的几个 9：', 'Next time: the nines of availability.'],
-            {zh: '99.9% 一年能挂多久？关注我！', en: 'How long can 99.9% be down in a year? Follow along!', say_zh: '百分之九十九点九，一年能挂多久？关注我！', say_en: 'How long can ninety-nine point nine percent be down in a year? Follow along!'}],
+            {zh: '99.9% 一年能挂多久？', en: 'How long can 99.9% be down in a year?', say_zh: '百分之九十九点九，一年能挂多久？', say_en: 'How long can ninety-nine point nine percent be down in a year?'}],
       build() {
         H(`<div class="r card" data-cap="0" data-in="pop" style="left:80px;right:80px;top:180px;height:460px;border-color:var(--acc);text-align:center;padding-top:70px">
           <div class="s" style="font-size:34px">${T('第 7 课 · Lesson 7', 'Lesson 7')}</div>

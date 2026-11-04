@@ -17,6 +17,6 @@ Raise throughput: more servers, parallel requests, batching.
 Sum up: latency asks how long one takes,
 throughput asks how many per second. Not the same.
 Next time: the nines of availability.
-How long can ninety-nine point nine percent be down in a year? Follow along!
+How long can ninety-nine point nine percent be down in a year?
 Quick quiz: with four servers, what is the latency of each request?
 A, fifty milliseconds, or B, twelve point five? Tell me in the comments.
