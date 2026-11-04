@@ -118,7 +118,8 @@ fn main() -> Result<(), Box<dyn Error>> {
       } },
 
     { title: ['下期预告', 'Next episode'],
-      cap: [['下期讲 Cargo：建项目、加依赖、跑测试。', 'Next: Cargo. New projects, dependencies, tests.']],
+      cap: [{zh: '下期讲 Cargo：建项目、加依赖、跑测试。', en: 'Next: Cargo. New projects, dependencies, tests.',
+             say_zh: '下期讲卡构：建项目、加依赖、跑测试。'}],   // the clone says "Cargo" as 拷狗/卡狗; 卡构 comes out as kǎ gòu
       build() {
         H(`<div class="r card" data-cap="0" data-in="pop" style="left:80px;right:80px;top:180px;height:440px;border-color:var(--acc);text-align:center;padding-top:70px">
           <div class="s" style="font-size:34px">${T('第 14 课 · Lesson 14', 'Lesson 14')}</div>
