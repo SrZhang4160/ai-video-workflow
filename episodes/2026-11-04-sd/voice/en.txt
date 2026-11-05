@@ -33,6 +33,19 @@ Next night. Three minutes into the stream.
 
 
 Next: The Disk Is Full.
+Estimating Q P S: three steps.
+Step one: total requests.
+People times requests per person.
+Ten million times ten: a hundred million.
+Step two: divide by the peak seconds.
+Not the eighty-six thousand four hundred seconds in a day,
+but the ten-minute peak: six hundred seconds.
+A hundred million over six hundred: about one hundred seventy thousand Q P S.
+Step three: count the servers.
+Peak divided by one server's Q P S,
+plus thirty to fifty percent headroom.
+At two thousand each: eighty-five servers and up.
+Remember: averages lie. Plan for the peak.
 Quick quiz: a million people arrive in one minute,
 six requests each. Roughly what is the peak Q P S?
 A, ten thousand, or B, a hundred thousand? Tell me in the comments.
