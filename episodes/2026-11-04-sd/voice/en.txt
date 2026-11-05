@@ -1,7 +1,7 @@
 Ten million people. Is one server enough?
 The tech director said yes.
 Xiaoman, an intern on day three, said no.
-With arithmetic, she proved him wrong in front of everyone.
+With arithmetic, Xiaoman proved her wrong in front of everyone.
 It started last night.
 C E O Wang posted in the team chat.
 Tomorrow at eight PM, a top streamer sells our products live.
@@ -37,7 +37,7 @@ A hundred million divided by six hundred: about one hundred seventy thousand Q P
 And that's still a ten-minute average. The busiest second is higher.
 One hundred seventy thousand, versus about one thousand one hundred.
 Off by more than a hundred times.
-All because he used the whole-day average.
+All because she used the whole-day average.
 The room went silent.
 So how many servers?
 Say load tests show one server handles two thousand Q P S.

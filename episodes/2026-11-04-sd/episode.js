@@ -12,7 +12,7 @@ window.EPISODE = {
       cap: [['一千万人，一台服务器够吗？', 'Ten million people. Is one server enough?'],
             ['技术总监说：够。', 'The tech director said yes.'],
             ['入职三天的实习生林小满说：不够。', 'Xiaoman, an intern on day three, said no.'],
-            ['她用一道算术题，当众推翻了他。', 'With arithmetic, she proved him wrong in front of everyone.']],
+            ['小满用一道算术题，当众推翻了她。', 'With arithmetic, Xiaoman proved her wrong in front of everyone.']],
       build() {
         H(actor('man', 60, 140, 300, 'calm', 'data-cap="2" data-in="left"'));
         H(actor('kai', 600, 140, 300, 'smug', 'data-cap="1" data-in="right"'));
@@ -121,7 +121,7 @@ window.EPISODE = {
     { title: ['差了一百多倍', 'Off by 100×'],
       cap: [{zh: "十七万，对一千一百多。", en: "170,000 versus 1,157.", say_en: "One hundred seventy thousand, versus about one thousand one hundred."},
             ['整整差了一百多倍。', 'Off by more than a hundred times.'],
-            ['全是因为，他用了一整天的平均。', 'All because he used the whole-day average.'],
+            ['全是因为，她用了一整天的平均。', 'All because she used the whole-day average.'],
             ['会议室，一下子安静了。', 'The room went silent.']],
       build() {
         H(box(0, 40, 440, 220, `<span class="q" style="font-size:30px">${T('铁柱', 'Tiezhu')}</span><span class="h mono" style="font-size:70px">1,157</span>`, 'var(--line)', 'data-cap="0" data-in="left"'));
