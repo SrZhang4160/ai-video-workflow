@@ -10,8 +10,8 @@ window.EPISODE = {
     { title: ['《逆袭架构师》', 'The Comeback Architect'],
       cap: [['一千万人，一台服务器够吗？', 'Ten million people. Is one server enough?'],
             ['技术总监说：够。', 'The tech director said yes.'],
-            ['入职三天的实习生铁柱说：不够。', 'Tiezhu, an intern on day three, said no.'],
-            ['他用一道算术题，当众推翻了他。', 'With arithmetic, the intern proved him wrong in front of everyone.']],
+            ['入职三天的实习生林小满说：不够。', 'Xiaoman, an intern on day three, said no.'],
+            ['她用一道算术题，当众推翻了他。', 'With arithmetic, she proved him wrong in front of everyone.']],
       build() {
         H(actor('man', 60, 140, 300, 'calm', 'data-cap="2" data-in="left"'));
         H(actor('kai', 600, 140, 300, 'smug', 'data-cap="1" data-in="right"'));
@@ -24,7 +24,7 @@ window.EPISODE = {
             {zh: "王总在群里宣布：", en: "CEO Wang posted in the team chat:", say_en: "C E O Wang posted in the team chat."},
             {zh: "明晚八点，顶流主播给咱们带货，", en: "Tomorrow 8 PM, a top streamer sells our products live.", say_en: "Tomorrow at eight PM, a top streamer sells our products live."},
             ['预计一千万人来看！', 'Ten million people expected to watch!'],
-            ['技术总监周凯秒回：', 'Tech director Zhou Kai replied in a second:'],
+            ['技术总监铁柱秒回：', 'Tech director Tiezhu replied in a second:'],
             ['放心，一台服务器，稳得很。', 'Relax. One server can handle it.']],
       build() {
         H(phone(T('技术群 (12)', 'Tech team (12)'), [
@@ -37,10 +37,10 @@ window.EPISODE = {
         H(actor('kai', 600, 510, 240, 'smug', 'data-cap="4" data-in="right"'));
       } },
 
-    { title: ['他皱起了眉', 'He frowned'],
+    { title: ['她皱起了眉', 'She frowned'],
       cap: [['群里全是点赞，', 'The chat filled with thumbs-ups.'],
-            ['只有铁柱皱起了眉。', 'Only Tiezhu frowned.'],
-            ['他心里只有一个问题：', 'He had one question:'],
+            ['只有小满皱起了眉。', 'Only Xiaoman frowned.'],
+            ['她心里只有一个问题：', 'She had one question:'],
             ['一千万人，每秒到底多少个请求？', 'Ten million people. How many requests per second?']],
       build() {
         H(`<div class="r" data-cap="0" style="left:40px;top:40px;font-size:64px;letter-spacing:10px">👍👍👍👍👍👍👍</div>`);
@@ -62,8 +62,8 @@ window.EPISODE = {
         H(`<div class="r card center mono" data-cap="4" data-delay="0.8" style="left:0;right:0;top:600px;height:150px;font-size:${T(40, 32)}px;font-weight:800">${T('人数 × 次数 ÷ 秒数', 'people × requests ÷ seconds')}</div>`);
       } },
 
-    { title: ['周凯的算法', "Zhou Kai's math"],
-      cap: [['第二天开会，周凯一脸不屑：', 'Next morning, Zhou Kai scoffed:'],
+    { title: ['铁柱的算法', "Tiezhu's math"],
+      cap: [['第二天开会，铁柱一脸不屑：', 'Next morning, Tiezhu scoffed:'],
             ['实习生也配谈架构？', 'An intern talking architecture?'],
             {zh: "一千万人，每人十次，一亿次请求。", en: "Ten million people, 10 requests each: 100 million requests.", say_en: "Ten million people, ten requests each: a hundred million requests."},
             {zh: "除以一天八万六千四百秒，", en: "Divide by the 86,400 seconds in a day:", say_en: "Divide by the eighty-six thousand four hundred seconds in a day."},
@@ -77,14 +77,14 @@ window.EPISODE = {
       } },
 
     { title: ['反转', 'The twist'],
-      cap: [['铁柱站了起来：', 'Tiezhu stood up.'],
-            ['周总，您这个算法，错了。', 'Mr. Zhou, your math is wrong.'],
+      cap: [['小满站了起来：', 'Xiaoman stood up.'],
+            ['铁总，您这个算法，错了。', 'Tiezhu, your math is wrong.'],
             ['直播带货，人不是一整天慢慢来的。', "Live sales don't spread people over a whole day."],
             {zh: "八点一开播，所有人同时涌进来。", en: "At 8 PM sharp, everyone rushes in at once.", say_en: "At eight PM sharp, everyone rushes in at once."},
             ['平均值，会骗人。', 'Averages lie.']],
       build() {
         H(actor('man', 30, 20, 260, 'angry', 'data-cap="0" data-in="zoom"'));
-        H(say('man', '周总，您这个算法，错了。', 'Mr. Zhou, your math is wrong.', {x: 320, y: 70, w: 600, attrs: 'data-cap="1" data-in="pop" data-shake="1"'}));
+        H(say('man', '铁总，您这个算法，错了。', 'Tiezhu, your math is wrong.', {x: 320, y: 70, w: 600, attrs: 'data-cap="1" data-in="pop" data-shake="1"'}));
         H(`<div class="r card" data-cap="2" style="left:0;right:0;top:380px;height:430px;padding:20px 30px">
           <svg width="900" height="390" viewBox="0 0 900 390">
             <path d="M40 340H870M40 340V20" stroke="#5A4E66" stroke-width="4"/>
@@ -98,7 +98,7 @@ window.EPISODE = {
       } },
 
     { title: ['按高峰算', 'Do the math for the peak'],
-      cap: [['铁柱走到白板前：', 'Tiezhu walked to the whiteboard.'],
+      cap: [['小满走到白板前：', 'Xiaoman walked to the whiteboard.'],
             {zh: "假设一千万人，在开播十分钟内进来，", en: "Say 10 million people arrive in the first 10 minutes,", say_en: "Say ten million people arrive in the first ten minutes,"},
             {zh: "看商品、刷新、下单，每人约十次请求。", en: "each viewing, refreshing, ordering: about 10 requests.", say_en: "each viewing, refreshing, ordering: about ten requests."},
             {zh: "一千万乘十，是一亿次请求。", en: "10 million times 10 is 100 million requests.", say_en: "Ten million times ten is a hundred million requests."},
@@ -123,8 +123,8 @@ window.EPISODE = {
             ['全是因为，他用了一整天的平均。', 'All because he used the whole-day average.'],
             ['会议室，一下子安静了。', 'The room went silent.']],
       build() {
-        H(box(0, 40, 440, 220, `<span class="q" style="font-size:30px">${T('周凯', 'Zhou Kai')}</span><span class="h mono" style="font-size:70px">1,157</span>`, 'var(--line)', 'data-cap="0" data-in="left"'));
-        H(box(520, 40, 440, 220, `<span class="q" style="font-size:30px">${T('铁柱', 'Tiezhu')}</span><span class="h mono red" style="font-size:70px">170,000</span>`, 'var(--red)', 'data-cap="0" data-in="right"'));
+        H(box(0, 40, 440, 220, `<span class="q" style="font-size:30px">${T('铁柱', 'Tiezhu')}</span><span class="h mono" style="font-size:70px">1,157</span>`, 'var(--line)', 'data-cap="0" data-in="left"'));
+        H(box(520, 40, 440, 220, `<span class="q" style="font-size:30px">${T('小满', 'Xiaoman')}</span><span class="h mono red" style="font-size:70px">170,000</span>`, 'var(--red)', 'data-cap="0" data-in="right"'));
         H(`<div class="r center" data-cap="1" data-in="stamp" style="left:0;right:0;top:300px;height:200px"><span class="mono" style="font-size:150px;font-weight:900;color:var(--acc)">×100+</span></div>`);
         H(actor('kai', 150, 540, 220, 'shock', 'data-cap="3" data-in="fade"'));
         H(actor('wang', 590, 540, 220, 'shock', 'data-cap="3" data-in="fade"'));
@@ -134,18 +134,18 @@ window.EPISODE = {
       cap: [['那要几台服务器？', 'So how many servers?'],
             {zh: "假设压测下来，一台能扛两千 QPS。", en: "Say load tests show one server handles 2,000 QPS.", say_zh: "假设压测下来，一台能扛两千 Q P S。", say_en: "Say load tests show one server handles two thousand Q P S."},
             {zh: "十七万除以两千，要八十五台。", en: "170,000 ÷ 2,000: 85 servers.", say_en: "One hundred seventy thousand divided by two thousand: eighty-five servers."},
-            ['而周凯的方案，只有一台。', "Zhou Kai's plan had one."],
+            ['而铁柱的方案，只有一台。', "Tiezhu's plan had one."],
             ['单机能扛多少，要靠压测，别拍脑袋。', 'And per-server capacity comes from load tests, not gut feeling.']],
       build() {
         H(`<div class="r card center" data-cap="1" style="left:0;right:0;top:0;height:130px;gap:20px">${srv()}<span class="h" style="font-size:${T(38, 30)}px">${T('1 台 ≈ 2,000 QPS（假设，以压测为准）', '1 server ≈ 2,000 QPS (assumed; load-test it)')}</span></div>`);
         H(`<div class="r card" data-cap="2" style="left:0;width:600px;top:170px;height:620px;padding:16px;line-height:0">${Array.from({length: 85}, () => srv()).join('')}</div>`);
         H(`<div class="r center mono" data-cap="2" data-delay="0.8" data-in="pop" style="left:620px;width:340px;top:280px;height:160px;font-size:${T(64, 54)}px;font-weight:900;color:var(--acc2)">≈ 85</div>`);
-        H(`<div class="r card center" data-cap="3" data-in="drop" data-shake="1" style="left:640px;width:300px;top:520px;height:200px;flex-direction:column;gap:10px;border-color:var(--red)">${srv('var(--red)')}<span class="h red" style="font-size:${T(34, 28)}px">${T('周凯：1 台', 'Zhou Kai: 1')}</span></div>`);
+        H(`<div class="r card center" data-cap="3" data-in="drop" data-shake="1" style="left:640px;width:300px;top:520px;height:200px;flex-direction:column;gap:10px;border-color:var(--red)">${srv('var(--red)')}<span class="h red" style="font-size:${T(34, 28)}px">${T('铁柱：1 台', 'Tiezhu: 1')}</span></div>`);
       } },
 
     { title: ['“全是假设！”', '"Those are guesses!"'],
-      cap: [['周凯脸都绿了：你这些数，全是假设！', 'Zhou Kai went pale: those numbers are all guesses!'],
-            ['铁柱说：对，估算就是先把假设摆上桌。', 'Tiezhu: yes. Estimating means putting assumptions on the table.'],
+      cap: [['铁柱脸都绿了：你这些数，全是假设！', 'Tiezhu went pale: those numbers are all guesses!'],
+            ['小满说：对，估算就是先把假设摆上桌。', 'Xiaoman: yes. Estimating means putting assumptions on the table.'],
             ['假设错了，可以改。', 'A wrong assumption can be fixed.'],
             ['但不算，就是在赌。', 'Not doing the math is gambling.']],
       build() {
@@ -157,7 +157,7 @@ window.EPISODE = {
       } },
 
     { title: ['一张图总结：估算 QPS', 'Cheat sheet: estimating QPS'],
-      cap: [['铁柱的三步，记下来：', "Tiezhu's three steps. Save this:"],
+      cap: [['小满的三步，记下来：', "Xiaoman's three steps. Save this:"],
             {zh: "第一，总请求等于人数乘每人次数。", en: "One: total requests = people × requests each.", say_en: "One: total requests equals people times requests each."},
             ['第二，除以高峰的秒数，别除一整天。', 'Two: divide by the peak window, not the whole day.'],
             {zh: "第三，除以单机 QPS，再多留余量。", en: "Three: divide by one server's QPS, then add headroom.", say_zh: "第三，除以单机 Q P S，再多留余量。", say_en: "Three: divide by one server's Q P S, then add headroom."},
@@ -172,7 +172,7 @@ window.EPISODE = {
       } },
 
     { title: ['开播第三分钟', 'Three minutes in'],
-      cap: [['王总拍板：听铁柱的，今晚加机器！', 'Wang decided: "We go with Tiezhu. Add servers tonight!"'],
+      cap: [['王总拍板：听小满的，今晚加机器！', 'Wang decided: "We go with Xiaoman. Add servers tonight!"'],
             ['八十五台服务器，全部到位。', 'Eighty-five servers, all in place.'],
             {zh: '八点开播，服务器稳稳扛住。', en: 'At 8 PM the stream starts. The servers hold.', say_en: 'At eight PM the stream starts. The servers hold.'},
             ['可开播才三分钟，', 'But three minutes in,'],
@@ -180,7 +180,7 @@ window.EPISODE = {
             ['这一次，扛不住的不是服务器……', "This time, it wasn't the servers that broke..."]],
       build() {
         H(actor('wang', 30, 0, 240, 'happy', 'data-cap="0" data-in="left"'));
-        H(say('wang', '听铁柱的，加机器！', 'We go with Tiezhu!', {x: 300, y: 30, w: 620, attrs: 'data-cap="0" data-delay="0.4" data-in="pop"'}));
+        H(say('wang', '听小满的，加机器！', 'We go with Xiaoman!', {x: 300, y: 30, w: 620, attrs: 'data-cap="0" data-delay="0.4" data-in="pop"'}));
         H(`<div class="r card center" data-cap="1" style="left:300px;width:620px;top:170px;height:100px;gap:8px">${srv()}${srv()}${srv()}${srv()}${srv()}<span class="h ok" style="font-size:36px">×85 ✓</span></div>`);
         H(alarm('20:03 · 数据库磁盘 99%', '20:03 · Database disk at 99%', {y: 340, attrs: 'data-cap="4" data-in="drop" data-shake="1"'}));
         H(alarm('20:03 · 写入失败 · 订单存不进去', '20:03 · Writes failing · orders not saved', {y: 440, attrs: 'data-cap="4" data-delay="0.5" data-in="drop" data-shake="1"'}));
@@ -191,7 +191,7 @@ window.EPISODE = {
       cap: [['下集：《磁盘满了》。', 'Next: "The Disk Is Full."'],
             ['八十五台服务器都没事，', 'Eighty-five servers were fine.'],
             ['为什么数据库先倒下了？', 'So why did the database fall first?'],
-            ['铁柱要算第二笔账：存储。', 'Tiezhu has a second number to estimate: storage.']],
+            ['小满要算第二笔账：存储。', 'Xiaoman has a second number to estimate: storage.']],
       build() {
         H(`<div class="r card center" data-cap="0" data-in="zoom" style="left:0;right:0;top:40px;height:200px;flex-direction:column;gap:6px;border-color:var(--red);border-width:3px"><span class="q" style="font-size:30px">${T('下集预告', 'Next episode')}</span><span class="h" style="font-size:${T(64, 52)}px">${T('《磁盘满了》', '"The Disk Is Full"')}</span></div>`);
         H(`<div class="r center" data-cap="2" data-in="pop" style="left:0;right:0;top:300px;height:260px">${icon('db', 220, 'var(--red)')}</div>`);
