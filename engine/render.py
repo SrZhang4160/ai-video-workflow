@@ -9,6 +9,7 @@ Reads   episodes/<id>/episode.js            scenes + bilingual captions
         episodes/<id>/voice/<zh|en>/sNN.wav  or a hand recording (no manifest entry)
 Writes  build/<id>/<platform>.mp4, build/<id>/<platform>-cover.png, build/<id>/report.json
 Caption pages without a current voice clip fall back to the Kokoro AI voice (report.json says which).
+Chinese clips are evened out to 305–330 字/分钟 per line (engine/pace.py; audit: python3 engine/pace.py --after).
 """
 import argparse, hashlib, json, os, re, shutil, subprocess, tempfile
 import numpy as np, soundfile as sf
@@ -186,6 +187,10 @@ def render(ep_dir, platform, out_dir, page_factory):
     pc = (PACE_DRAMA if drama else PACE)[lang]
     if drama and lang in TEMPO_DRAMA:
         scene_clips = [[tempo(c, TEMPO_DRAMA[lang]) for c in clips] for clips in scene_clips]
+    if lang == "zh":   # speaking-rate standard: every line 305–330 字/分钟 (engine/pace.py)
+        import pace
+        scene_clips = [[pace.even_out(c, page_text(cap, lang), SR, lambda x, f: tempo(x, f))[0]
+                        for c, cap in zip(clips, s["caps"])] for clips, s in zip(scene_clips, info)]
     level, rng = tone_level([c for clips in scene_clips for c in clips]), np.random.default_rng(0)
     pause = lambda sec: room_tone(level, int(sec * SR), rng)
 

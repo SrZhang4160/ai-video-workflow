@@ -42,6 +42,7 @@ One AI-industry story a day, analyzed. Scripted every night ~00:40 ET for the sa
 - `build/`: render output, never committed.
 
 ## Rules
+- Chinese speaking rate: every line 305–330 字/分钟, evenly (`runbooks/pace.md`; enforced in `engine/render.py`, audit with `engine/pace.py`).
 - Teach the viewer; never "what I learned". Accurate or cut.
 - Never mention the user's employer (RELAI), its products, customers or numbers. Only general tech and the user's own practice.
 - No "AI voice / made with AI" labels, no series slogans, no progress bars on screen.

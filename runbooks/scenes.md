@@ -64,7 +64,7 @@ window.EPISODE = {
 
 - **Captions**: each page ≤ 18 Chinese characters and ≤ 70 English characters. The pair must say the same thing. The voice reads the pages back to back, so they must flow as speech.
 - `say_zh` / `say_en` (optional): what the voice should read when it differs from the caption, e.g. `C++` → `C加加`, `2015` → `二零一五`, `uv` → `U V`. The cloud AI voice mispronounces symbols, so spell them out here.
-- **One caption page = one voice clip.** Pages are voiced separately (`voice/<lang>/sNN.ogg`, numbered across the episode), so the caption lands exactly on the voice and there is a pause between pages. English is paced slower on purpose (longer pauses and a 1.6 s hold after each scene, voice at 0.92× speed): keep English pages short and plain so viewers can read the visuals.
+- **One caption page = one voice clip.** Pages are voiced separately (`voice/<lang>/sNN.ogg`, numbered across the episode), so the caption lands exactly on the voice and there is a pause between pages. Chinese is held to 305–330 字/分钟 on every page (`runbooks/pace.md`; render.py evens each clip out, so avoid pages under 4 characters and "colon + one word" dramatic pauses). English is paced slower on purpose (longer pauses and a 1.6 s hold after each scene, voice at 0.92× speed): keep English pages short and plain so viewers can read the visuals.
 
 ## Visuals: the stage
 `build()` draws into a 960 × 900 px stage (dark theme). Position with `class="r"` + `left/top/width/height` in px. Every top-level element you add with `H()` fades in, in the order added, so add things in the order the voice talks about them.

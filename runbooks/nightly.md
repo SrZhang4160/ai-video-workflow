@@ -29,6 +29,7 @@ Set status `revising` (pinned `if_version`). A fresh subagent edits `episodes/<i
 
 ## 2. `voicing` → preview video
 Before rendering, once zh is fully voiced: `~/cosyvoice3/.venv/bin/python engine/zh_check.py episodes/<id> --audio` (Whisper listens to every clip and compares pinyin with the script). For each AUDIO line: if the date isn't near, change that line's `say_zh` (reword, or add a comma) and re-export so the Mac re-voices it; if it is near, list the lines in `review_notes` (`请听一下第 N 句：…`).
+Then the speaking-rate check (`runbooks/pace.md`): `~/cosyvoice3/.venv/bin/python engine/pace.py episodes/<id> --after`; lines marked 需重配 are handled the same way as AUDIO lines (reword `say_zh` if the date isn't near, else `review_notes`: `第 N 句语速调不进 305–330，请听一下：<那一句>`). render.py evens every Chinese line out to 305–330 字/分钟 by itself.
 If `--status` zh is complete, or the date is near: `render.py --only xhs`, upload `xhs.mp4` + `xhs-cover.png` (Artifact publish, `url` = board, `asset: true`, `file_paths`), and update the doc: `status: "draft"`, `draft: {video, cover, seconds, asset_ids}`, `voice` ("clone" if every scene is the user's voice, "ai" if none, else "mixed"), `voice_sig`. If the date is near and the voice is incomplete, add to `review_notes`: `Mac 没来得及配音，这一期先用 AI 配音。`. Otherwise leave it for the next run.
 
 ## 3. `approved` → build all four cuts
