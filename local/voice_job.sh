@@ -11,7 +11,7 @@ if pgrep -f "voice_daemon.py" >/dev/null; then echo "voice_daemon already runnin
 git pull --quiet --rebase --autostash || { echo "git pull failed"; exit 1; }
 out="$("$CV/.venv/bin/python" local/voice_daemon.py "$REPO" 2>&1 | grep -v -E 'Warning|warn\(|Sliding Window' )"
 echo "$out" | tail -40
-if [ -n "$(git status --porcelain episodes)" ]; then
-  git add episodes/*/voice
+git add episodes/*/voice 2>/dev/null
+if ! git diff --cached --quiet -- episodes; then
   git commit -qm "voice: $(echo "$out" | grep -c ' in ') clips in your cloned voice" && git push -q && echo "pushed"
 fi
