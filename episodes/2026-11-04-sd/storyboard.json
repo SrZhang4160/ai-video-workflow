@@ -136,7 +136,8 @@
     {
      "who": "man",
      "zh": "一千万人……每秒多少请求？",
-     "en": "Ten million… how many requests a second?"
+     "en": "Ten million… how many requests a second?",
+     "say_zh": "一千万人，每秒多少请求？"
     }
    ],
    "narration": null,
@@ -144,7 +145,7 @@
    "overlay": null,
    "gen": {
     "mode": "live",
-    "prompt_en": "Vertical 9:16 medium close-up, slow push-in. A corner desk in a startup office, half in shadow, soft-focus cheering colleagues behind. {man} stops typing, fingers frozen above the keyboard; she lifts her eyes toward camera-left, narrowing slightly, and murmurs to herself. Quiet, focused, cool tones against warm background light."
+    "prompt_en": "Vertical 9:16 medium close-up, slow push-in. A corner desk in a startup office, half in shadow, soft-focus cheering colleagues behind. {man} stops typing, fingers frozen above the keyboard; she lifts her eyes toward camera-left, narrowing slightly, and murmurs to herself. Quiet, focused, cool tones against warm background light. The line is spoken clearly and completely, every syllable audible, mouth clearly visible."
    },
    "purpose": "Plant the question: 小满 already sees the problem"
   },
@@ -485,7 +486,8 @@
     {
      "who": "wang",
      "zh": "差了……一百多倍？",
-     "en": "Off by… over a hundred times?"
+     "en": "Off by… over a hundred times?",
+     "say_zh": "差了，一百多倍？"
     }
    ],
    "narration": null,
@@ -493,7 +495,7 @@
    "overlay": null,
    "gen": {
     "mode": "live",
-    "prompt_en": "Vertical 9:16 medium shot, static. Night meeting room. {wang} jabs numbers into a calculator on his phone (screen not readable), then looks up pale and speaks in disbelief; colleagues around him whisper behind their hands. Comedic shock, blue light."
+    "prompt_en": "Vertical 9:16 medium shot, static. Night meeting room. {wang} jabs numbers into a calculator on his phone (screen not readable), then looks up pale and speaks in disbelief; colleagues around him whisper behind their hands. Comedic shock, blue light. The line is spoken clearly and completely, every syllable audible, mouth clearly visible."
    },
    "purpose": "REACTION: the 打脸 lands on the boss"
   },
@@ -965,7 +967,8 @@
     {
      "who": "man",
      "zh": "……不是服务器。",
-     "en": "…It's not the servers."
+     "en": "…It's not the servers.",
+     "say_zh": "不是服务器。"
     }
    ],
    "narration": null,
@@ -973,7 +976,7 @@
    "overlay": null,
    "gen": {
     "mode": "live",
-    "prompt_en": "Vertical 9:16 two-shot, static with rack focus from frame left to frame right. Dark war room washed in pulsing red alert light. {kai} at frame left snaps her head toward {man}, lips parted, searching her face; {man} at frame right stares at the wall of screens without moving, red light on her calm face, and says something quietly. Ominous, tense."
+    "prompt_en": "Vertical 9:16 two-shot, static with rack focus from frame left to frame right. Dark war room washed in pulsing red alert light. {kai} at frame left snaps her head toward {man}, lips parted, searching her face; {man} at frame right stares at the wall of screens without moving, red light on her calm face, and says something quietly. Ominous, tense. The line is spoken clearly and completely, every syllable audible, mouth clearly visible."
    },
    "purpose": "Cliffhanger lands on the rivalry: 铁柱 now looks to 小满"
   },
