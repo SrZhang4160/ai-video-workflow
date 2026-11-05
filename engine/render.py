@@ -28,6 +28,11 @@ FPS, SR = 24, 24000
 # English runs slower on purpose so viewers have time to read the visuals.
 PACE = {"zh": {"lead": 0.35, "gap": {"comma": 0.06, "colon": 0.12, "stop": 0.2}, "tail": 0.6},
         "en": {"lead": 0.8, "gap": {"comma": 0.15, "colon": 0.3, "stop": 0.6}, "tail": 1.6}}
+# Drama episodes (meta.json "format": "drama", 2–3 min stories) keep a tighter pace in both languages, and English clips
+# are sped up at render time (pitch kept) so the English cut stays close to the Chinese one.
+PACE_DRAMA = {"zh": {"lead": 0.3, "gap": {"comma": 0.05, "colon": 0.1, "stop": 0.18}, "tail": 0.5},
+              "en": {"lead": 0.35, "gap": {"comma": 0.08, "colon": 0.15, "stop": 0.25}, "tail": 0.6}}
+TEMPO_DRAMA = {"en": 1.12}
 SOFT_END, COLON_END = "，,、；;—-", "：:"
 FADE = 0.012    # seconds faded in/out at clip edges so cuts don't click
 
@@ -70,6 +75,15 @@ def load_audio(path):
     if x.ndim > 1:
         x = x.mean(axis=1)
     return resample(x, r)
+
+
+def tempo(x, f):
+    """Speed a clip up by f without changing its pitch (ffmpeg atempo)."""
+    with tempfile.TemporaryDirectory() as d:
+        src, dst = os.path.join(d, "in.wav"), os.path.join(d, "out.wav")
+        sf.write(src, x, SR)
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-af", f"atempo={f}", dst], check=True)
+        return load_audio(dst)
 
 
 def resample(x, r):
@@ -168,7 +182,10 @@ def render(ep_dir, platform, out_dir, page_factory):
     info = page.evaluate("EP_INFO()")
     cache = os.path.join(ROOT, "build", ".tts"); os.makedirs(cache, exist_ok=True)
     scene_clips, sources = page_voices(ep_dir, info, lang, cache)
-    pc = PACE[lang]
+    drama = json.load(open(os.path.join(ep_dir, "meta.json"))).get("format") == "drama"
+    pc = (PACE_DRAMA if drama else PACE)[lang]
+    if drama and lang in TEMPO_DRAMA:
+        scene_clips = [[tempo(c, TEMPO_DRAMA[lang]) for c in clips] for clips in scene_clips]
     level, rng = tone_level([c for clips in scene_clips for c in clips]), np.random.default_rng(0)
     pause = lambda sec: room_tone(level, int(sec * SR), rng)
 
