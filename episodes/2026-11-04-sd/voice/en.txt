@@ -1,68 +1,38 @@
-Ten million people. Is one server enough?
-The tech director said yes.
-Xiaoman, an intern on day three, said no.
-With arithmetic, Xiaoman proved her wrong in front of everyone.
-It started last night.
-C E O Wang posted in the team chat.
-Tomorrow at eight PM, a top streamer sells our products live.
-Ten million people expected to watch!
-Tech director Tiezhu replied in a second:
-Relax. One server can handle it.
-The chat filled with thumbs-ups.
-Only Xiaoman frowned.
-She had one question:
-Ten million people. How many requests per second?
-That number is Q P S: queries per second.
-To estimate it, you need three numbers:
-how many people come,
-how many requests each person sends,
-and how many seconds those requests squeeze into.
-Next morning, Tiezhu scoffed:
-An intern talking architecture?
-Ten million people, ten requests each: a hundred million requests.
-Divide by the eighty-six thousand four hundred seconds in a day.
-Just over a thousand Q P S.
-One server is more than enough.
-Xiaoman stood up.
-Tiezhu, your math is wrong.
-Live sales don't spread people over a whole day.
-At eight PM sharp, everyone rushes in at once.
-Averages lie.
-Xiaoman walked to the whiteboard.
-Say ten million people arrive in the first ten minutes,
-each viewing, refreshing, ordering: about ten requests.
-Ten million times ten is a hundred million requests.
-Ten minutes is six hundred seconds.
-A hundred million divided by six hundred: about one hundred seventy thousand Q P S.
-And that's still a ten-minute average. The busiest second is higher.
-One hundred seventy thousand, versus about one thousand one hundred.
-Off by more than a hundred times.
-All because she used the whole-day average.
-The room went silent.
-So how many servers?
-Say load tests show one server handles two thousand Q P S.
-One hundred seventy thousand divided by two thousand: eighty-five servers.
-Tiezhu's plan had one.
-And per-server capacity comes from load tests, not gut feeling.
-Tiezhu went pale: those numbers are all guesses!
-Xiaoman: yes. Estimating means putting assumptions on the table.
-A wrong assumption can be fixed.
-Not doing the math is gambling.
-Xiaoman's three steps. Save this:
-One: total requests equals people times requests each.
-Two: divide by the peak window, not the whole day.
-Three: divide by one server's Q P S, then add headroom.
-A common practice: thirty to fifty percent extra.
-Wang decided: "We go with Xiaoman. Add servers tonight!"
-Eighty-five servers, all in place.
-At eight PM the stream starts. The servers hold.
-But three minutes in,
-every monitor turned red.
-This time, it wasn't the servers that broke...
-Next: "The Disk Is Full."
-Eighty-five servers were fine.
-So why did the database fall first?
-Xiaoman has a second number to estimate: storage.
-Quick quiz: a million people arrive within one minute,
+
+Twelve hours earlier.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Next night. Three minutes into the stream.
+
+
+
+Next: The Disk Is Full.
+Quick quiz: a million people arrive in one minute,
 six requests each. Roughly what is the peak Q P S?
 A, ten thousand, or B, a hundred thousand? Tell me in the comments.

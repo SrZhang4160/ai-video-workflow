@@ -1,0 +1,17 @@
+{
+ "man": {
+  "kling_voice_id": "947040411309836337",
+  "tts_voice": "Calm_Woman",
+  "sample": "series/system-design/cast/voice-man.mp3"
+ },
+ "kai": {
+  "kling_voice_id": "947040903661763219",
+  "tts_voice": "Inspirational_girl",
+  "sample": "series/system-design/cast/voice-kai.mp3"
+ },
+ "wang": {
+  "kling_voice_id": "947041938661459538",
+  "tts_voice": "Determined_Man",
+  "sample": "series/system-design/cast/voice-wang.mp3"
+ }
+}

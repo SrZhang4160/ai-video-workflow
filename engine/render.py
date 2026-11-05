@@ -139,6 +139,8 @@ def page_voices(ep_dir, info, lang, cache):
         for c in s["caps"]:
             i += 1
             text = page_text(c, lang)
+            if s.get("audio") == "clip" or not text:   # acted shot: its own audio (drama v2); nothing to voice
+                clips.append(None); sources.append("clip"); continue
             path, kind = own_voice(ep_dir, lang, i, text)
             if path:
                 clips.append(trim(load_audio(path))); sources.append(kind); continue
@@ -186,6 +188,25 @@ def clip_frames(ep_dir, clip, W, H, tmp, si):
     return sorted(os.path.join(d, f) for f in os.listdir(d))
 
 
+def clip_audio(ep_dir, clip, D, tmp, si, pause):
+    """The acted shot's own audio (Kling dialogue + SFX) cut or padded to D seconds; room tone when there is none."""
+    path = clip and os.path.join(ep_dir, clip)
+    n = int(round(D * SR))
+    if not path or not os.path.exists(path):
+        return pause(D)
+    wav = os.path.join(tmp, f"clipa{si:02d}.wav")
+    r = subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", path, "-vn", "-ac", "1", "-ar", str(SR), wav])
+    if r.returncode or not os.path.exists(wav):
+        return pause(D)
+    x = load_audio(wav)[:n]
+    if len(x) < n:
+        x = np.concatenate([x, pause((n - len(x)) / SR)[: n - len(x)]])
+    k = min(len(x), int(0.03 * SR))   # 30 ms fades so cuts don't click
+    if k:
+        x[:k] *= np.linspace(0, 1, k); x[-k:] *= np.linspace(1, 0, k)
+    return x.astype(np.float32)
+
+
 def render(ep_dir, platform, out_dir, page_factory):
     ratio, lang = PLATFORMS[platform]
     W, H = SIZES[ratio]
@@ -198,6 +219,7 @@ def render(ep_dir, platform, out_dir, page_factory):
     info = page.evaluate("EP_INFO()")
     cache = os.path.join(ROOT, "build", ".tts"); os.makedirs(cache, exist_ok=True)
     scene_clips, sources = page_voices(ep_dir, info, lang, cache)
+    scene_clips = [[c for c in clips if c is not None] for clips in scene_clips]
     drama = json.load(open(os.path.join(ep_dir, "meta.json"))).get("format") == "drama"
     pc = (PACE_DRAMA if drama else PACE)[lang]
     if drama and lang in TEMPO_DRAMA:
@@ -215,13 +237,19 @@ def render(ep_dir, platform, out_dir, page_factory):
         # scene audio: lead, page 1, gap, page 2, ..., tail. Caption k starts exactly when its clip starts.
         # first scene: the hook starts almost at once (viewers decide in the first second)
         lead = min(pc["lead"], 0.15 if lang == "zh" else 0.3) if si == 0 else pc["lead"]
-        ct, t, parts = [], lead, [pause(lead)]
-        for k, c in enumerate(clips):
-            if k:
-                g = gap_after(page_text(s["caps"][k - 1], lang), pc["gap"])
-                parts.append(pause(g)); t += g
-            ct.append(t); parts.append(c); t += len(c) / SR
-        parts.append(pause(pc["tail"])); D = t + pc["tail"]
+        if s.get("audio") == "clip":   # drama v2 acted shot: the shot's own dialogue + SFX, cut to the storyboard length
+            D = float(s["seconds"]); ct = list(s.get("cap_at") or [])
+            parts = [clip_audio(ep_dir, s.get("clip"), D, tmp, si, pause)]
+        elif not s["caps"] and s.get("seconds"):   # silent card
+            D = float(s["seconds"]); ct = []; parts = [pause(D)]
+        else:
+            ct, t, parts = [], lead, [pause(lead)]
+            for k, c in enumerate(clips):
+                if k:
+                    g = gap_after(page_text(s["caps"][k - 1], lang), pc["gap"])
+                    parts.append(pause(g)); t += g
+                ct.append(t); parts.append(c); t += len(c) / SR
+            parts.append(pause(pc["tail"])); D = t + pc["tail"]
         n = page.evaluate(f"showScene({si})")
         page.evaluate("Promise.all([...document.images].map(i => i.decode().catch(() => {})))")   # shot() images
         wins = page.evaluate("([D, ct]) => schedule(D, 0, ct)", [D, ct])
@@ -236,10 +264,10 @@ def render(ep_dir, platform, out_dir, page_factory):
             ts.update(k / FPS for k in range(int(D * FPS) + 1))
         ts = sorted(x for x in ts if 0 <= x < D)
         for j, x in enumerate(ts):
-            ci = max([k for k, c0 in enumerate(ct) if c0 <= x + 1e-6], default=0)
+            ci = max([k for k, c0 in enumerate(ct) if c0 <= x + 1e-6], default=-1 if ct else 0)
             if live:
                 page.evaluate("src => setBg(src)", "file://" + live[min(int(x * FPS), len(live) - 1)])
-            page.evaluate("([t,D,ct,c]) => { setFrame(t, D, ct); setCap(c); }", [x, D, ct, s["caps"][ci]])
+            page.evaluate("([t,D,ct,c]) => { setFrame(t, D, ct); setCap(c); }", [x, D, ct, s["caps"][ci] if s["caps"] and ci >= 0 else None])
             p = os.path.join(tmp, f"f{len(frames):05d}.png")
             page.screenshot(path=p)
             frames.append((p, (ts[j + 1] if j + 1 < len(ts) else D) - x))
