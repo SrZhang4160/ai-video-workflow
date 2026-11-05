@@ -218,7 +218,7 @@ const src = (name) => `<span style="font-size:22px;color:var(--quiet);border:1.5
    alarm(zh, en, opts)      red monitoring alert banner; opts {x, y, w, size}
    EPISODE.cast overrides / adds characters: {id: {zh, en, color, hair, top, style, glasses}} */
 const CAST = Object.assign({
-  man:  {zh: '林小满', en: 'Xiaoman', color: '#3FBF9A', hair: '#2B1C18', top: '#2F6F5E', style: 'pony'},
+  man:  {zh: '铁柱', en: 'Tiezhu', color: '#3FBF9A', hair: '#1E1612', top: '#2F6F5E', style: 'buzz'},
   kai:  {zh: '周凯', en: 'Zhou Kai', color: '#E0564F', hair: '#111', top: '#2B3150', style: 'slick', glasses: true},
   wang: {zh: '王总', en: 'CEO Wang', color: '#D9A520', hair: '#5A5A5A', top: '#6B4A2E', style: 'bald'},
 }, (window.EPISODE && window.EPISODE.cast) || {});
@@ -227,6 +227,7 @@ function who(id, size = 240, mood = 'calm') {
   const c = CAST[id] || CAST.man, sk = '#F3CDAA', hr = c.hair;
   const hair = {
     pony: `<path d="M52 92c-4-40 22-62 50-62s52 20 48 60c-10-20-30-30-50-30s-38 10-48 32z" fill="${hr}"/><ellipse cx="156" cy="104" rx="16" ry="34" fill="${hr}"/><circle cx="148" cy="74" r="7" fill="${c.color}"/>`,
+    buzz: `<path d="M54 92c-6-38 18-60 46-60 30 0 52 20 46 60-4-12-8-20-14-24-10 4-22 6-32 6s-24-2-34-6c-6 4-10 12-12 24z" fill="${hr}"/><path d="M70 40l6 10M86 34l4 10M104 32v10M120 36l-4 10" stroke="${hr}" stroke-width="6" stroke-linecap="round"/>`,
     slick: `<path d="M54 86c-2-34 20-54 48-54 30 0 50 18 46 52-6-14-22-24-46-26-20 6-34 14-48 28z" fill="${hr}"/>`,
     bald: `<path d="M54 98c-2-10 0-20 4-26l8 4c-2 8-2 16-2 24zM146 98c2-10 0-20-4-26l-8 4c2 8 2 16 2 24z" fill="${hr}"/><path d="M70 50c18-10 42-10 60 0" stroke="${hr}" stroke-width="5" fill="none"/>`,
   }[c.style || 'pony'];
