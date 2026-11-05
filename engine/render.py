@@ -24,6 +24,7 @@ PLATFORMS = {            # ratio, language
 }
 SIZES = {"3x4": (1080, 1440), "9x16": (1080, 1920), "4x5": (1080, 1350)}
 FPS, SR = 24, 24000
+CAM_FPS = 15   # extra frames for the slow camera move (lesson.html camera()); animations still get FPS
 # Pacing per voice language: silence before the first line, between caption pages, and after the scene.
 # The gap between pages follows how the earlier page ends: a comma keeps the sentence going, a full stop rests.
 # English runs slower on purpose so viewers have time to read the visuals.
@@ -191,6 +192,7 @@ def render(ep_dir, platform, out_dir, page_factory):
     url = f"file://{ENGINE}/lesson.html?ratio={ratio}&lang={lang}"
     page = page_factory(W, H)
     page.goto("about:blank")
+    page.add_init_script(f"window.EP_DIR = {json.dumps('file://' + ep_dir.rstrip('/') + '/')};")
     page.add_init_script(path=os.path.join(ep_dir, "episode.js"))
     page.goto(url); page.wait_for_function("window.ready === true"); page.evaluate("document.fonts.ready")
     info = page.evaluate("EP_INFO()")
@@ -211,7 +213,9 @@ def render(ep_dir, platform, out_dir, page_factory):
     frames, audio, lasts = [], [], []
     for si, (s, clips) in enumerate(zip(info, scene_clips)):
         # scene audio: lead, page 1, gap, page 2, ..., tail. Caption k starts exactly when its clip starts.
-        ct, t, parts = [], pc["lead"], [pause(pc["lead"])]
+        # first scene: the hook starts almost at once (viewers decide in the first second)
+        lead = min(pc["lead"], 0.15 if lang == "zh" else 0.3) if si == 0 else pc["lead"]
+        ct, t, parts = [], lead, [pause(lead)]
         for k, c in enumerate(clips):
             if k:
                 g = gap_after(page_text(s["caps"][k - 1], lang), pc["gap"])
@@ -219,10 +223,14 @@ def render(ep_dir, platform, out_dir, page_factory):
             ct.append(t); parts.append(c); t += len(c) / SR
         parts.append(pause(pc["tail"])); D = t + pc["tail"]
         n = page.evaluate(f"showScene({si})")
+        page.evaluate("Promise.all([...document.images].map(i => i.decode().catch(() => {})))")   # shot() images
         wins = page.evaluate("([D, ct]) => schedule(D, 0, ct)", [D, ct])
         ts = {0.0, *ct}
         for a, b in wins:
+            a = max(a, 0.0)
             ts.update(a + k / FPS for k in range(int((b - a) * FPS) + 2))
+        if page.evaluate("cameraOn()"):
+            ts.update(k / CAM_FPS for k in range(int(D * CAM_FPS) + 1))
         live = clip_frames(ep_dir, s.get("clip"), W, H, tmp, si)
         if live:   # live-action shot: every frame, the video plays once and then holds its last frame
             ts.update(k / FPS for k in range(int(D * FPS) + 1))

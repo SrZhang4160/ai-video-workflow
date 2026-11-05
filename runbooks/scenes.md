@@ -35,7 +35,11 @@ For a 系统设计 episode (since 2026-11-04 a 2–3 min drama, 《逆袭架构�
 ## Growth rules (小红书 pushes a note further only if people interact)
 小红书 first shows a new note to a small pool (a few hundred views) and decides from interaction whether to push it further. Commonly cited (unofficial) weights: like or save = 1, comment or share = 4, follow = 8. So a comment is worth four likes: every episode is built to make people comment and save.
 
-1. **First 3 seconds = the viewer's question.** Open with the problem or a question the viewer cares about ("面试被问到这个，你答得出吗？", "这行代码为什么编译不过？"). Never open with a self-introduction or "今天我们讲".
+1. **First 3 seconds = a concrete payoff or contrast, not a bare question.** (Competitor study 2026-11-04: the top Reels open with a number contrast or a surprising result — "沒裝的 AI 寫 267 行，裝了只要 9 行"; plain questions and abstract concepts performed worst.)
+   - Scene 1, caption page 1 states the **result** the viewer will get or a **before → after** with real numbers: 「同一个函数，加上 4 处 'a，1 个报错直接变成 0 个。」 / 「一行配置，冷启动从 3 秒降到 0.4 秒。」 A question is fine only as the second beat after the payoff, or when it names a concrete pain (「这行代码为什么编译不过？」 + the error on screen).
+   - Scene 1's visual is the hook itself, in huge type: use `hook({...})` (before struck through → after stamped in, numbers count) or a big error/result card. Something is on screen from the very first frame (the engine guarantees scene 1's opening elements are already in at t = 0).
+   - The scene-1 title, the cover (= scene 1 fully built) and the post titles all carry the same hook. Numbers must be true for the code shown (count the errors, the lines, the characters).
+   - Never open with a self-introduction, "今天我们讲", or a generic "你知道吗".
 2. **Comment quiz, every episode.** The last scene is 「考考你 / Quick quiz」: a tiny code snippet or situation with **one definite answer** that a viewer who watched can get (guess-the-answer, A or B, "能编译吗？"). Not an opinion question ("你被坑过吗？"): a quiz is easier to answer and makes people come back for the answer.
    - On screen: the snippet in a code card, two option chips (A / B or 能 / 不能), and 「答案评论区见 👇 / Answer in the comments」.
    - In the voice: two caption pages, e.g. `['考考你：x 是什么类型？', 'Quick quiz: what type is x?']`, `['f32 还是 f64？评论区告诉我。', 'f32 or f64? Tell me in the comments.']`.
@@ -87,6 +91,15 @@ Helpers:
 | `data-in="pop / left / right / drop / zoom / stamp / fade"` | entrance style (default: rises up). `stamp` for ✓ / ✗ / ×2 verdicts, `pop` for key items |
 | `data-move="dx,dy,dur"` | after entering, travel (e.g. a job card sliding into a queue) |
 | `data-shake="1"` | shake after entering (crash, error) |
+| `data-type="1.5"` | typewriter: lines of a code card (or a one-line label) appear one after another over 1.5 s. Use on code cards instead of showing all the code at once |
+| `data-count="0.9"` (+ `data-from="267"`) | the first number in the element counts up (or down from `data-from`) |
+| `data-draw="0.9"` | SVG arrows and lines draw on (solid strokes; dashed lines and fills fade in at the end) |
+| `data-hl="k"` / `"k,k2"` | emphasis pulse (slight zoom + glow) when caption page k starts, for something already on screen that the voice now points at |
+
+**Motion rule (every scene):** the picture must change at least every ~2–3 s while the voice talks. In practice: every caption page brings something new (`data-cap`) or points at something (`data-hl`); code cards type on (`data-type`); arrows draw on (`data-draw`); key numbers count (`data-count`). The engine adds a slow camera push-in that steps closer on each caption page toward that page's new content, so place each page's elements together. Turn it off for a scene with `camera: false` (e.g. a dense summary table) or for the episode with `camera: false` on `EPISODE`.
+
+`hook({label, a, b, top, cap, capB})`: the scene-1 hook card (adds its own elements; don't wrap it in `H`). `a` = before (struck through), `b` = after (stamped in; if both have numbers, b counts from a's number), `capB` = caption page where b lands. Example: `hook({label: ["同一个函数 · 加 4 处 'a", "Same function · 'a in 4 places"], a: ['1 个报错', '1 error'], b: ['0 个报错', '0 errors'], top: 60, capB: 1})`.
+
 Extra helpers: `icon(name, size, color)` with check, cross, boom, gear, key, clock, rocket, box, retry, db, shield, card, user; `badge(text, color)`; `num(n)` (solution number); `src(name)` (small "from · AWS" source tag). Set `tag: ['', 'Backend · Reliability']` on the episode to replace the "Lesson N" tag (empty hides it). `episodes/li-deploy-background-jobs/episode.js` is the reference for an animated English explainer.
 
 Classes: `.card` (panel), `.mono`, `.h` (40px bold), `.s` (28px quiet), `.chip`, `.center` (flex center), colors `.acc` (orange accent) `.ok` (mint) `.blue` `.red` `.yel` `.q` (quiet); code tokens `.kw .ty .st .cm .nu`.

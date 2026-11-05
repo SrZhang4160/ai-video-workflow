@@ -122,6 +122,7 @@ window.EP_INFO = () => EP.scenes.map(s => ({
 window.showScene = (i) => {
   st.innerHTML = '';
   const s = EP.scenes[i];
+  window.SCENE_I = i;
   const news = EP.theme === 'news';
   document.body.classList.toggle('news', news);
   document.body.classList.toggle('drama', EP.theme === 'drama');
@@ -133,10 +134,30 @@ window.showScene = (i) => {
   const tag = s.tag ? T(s.tag[0], s.tag[1]) : news ? '' : EP.tag ? T(EP.tag[0], EP.tag[1]) : EP.theme === 'drama' ? T(`第 ${EP.n} 集`, `Ep. ${EP.n}`) : (LANG === 'zh' ? `第 ${EP.n} 课` : `Lesson ${EP.n}`);
   const tg = document.getElementById('tag'); tg.textContent = tag; tg.style.display = tag ? '' : 'none';
   document.getElementById('ttl').innerHTML = LANG === 'zh' ? `${s.title[0]}<small>${s.title[1]}</small>` : s.title[1];
+  if (window.STB === undefined) window.STB = (t => t === 'none' ? '' : t)(getComputedStyle(st).transform);
+  st.style.transform = window.STB;
   s.build();
   document.body.classList.remove('live');
+  window.FOCI = foci(s.cap.length);
+  window.CAM = EP.camera !== false && s.camera !== false && !s.clip;
   return st.children.length;
 };
+// camera focus per caption page: centre of the elements that appear on that page (stage px, clamped away from the edges)
+function foci(nCaps) {
+  const sr = st.getBoundingClientRect(), k = sr.width / 960 || 1, F = [];
+  for (let j = 0; j < nCaps; j++) {
+    let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+    [...st.children].filter(e => e.dataset.cap !== undefined && +e.dataset.cap === j).forEach(e => {
+      const r = e.getBoundingClientRect();
+      x0 = Math.min(x0, (r.left - sr.left) / k); y0 = Math.min(y0, (r.top - sr.top) / k);
+      x1 = Math.max(x1, (r.right - sr.left) / k); y1 = Math.max(y1, (r.bottom - sr.top) / k);
+    });
+    F.push(x1 > x0 ? [Math.min(760, Math.max(200, (x0 + x1) / 2)), Math.min(700, Math.max(200, (y0 + y1) / 2))]
+                   : (F[j - 1] || [480, 450]));
+  }
+  return F.length ? F : [[480, 450]];
+}
+window.cameraOn = () => !!window.CAM;
 // live-action scene: show this video frame (a file URL) behind title and captions; null turns it off
 window.setBg = (src) => { const b = document.getElementById('bg'); document.body.classList.toggle('live', !!src); if (src) b.src = src; return b.decode ? b.decode().catch(() => {}) : null; };
 
@@ -147,6 +168,12 @@ window.setBg = (src) => { const b = document.getElementById('bg'); document.body
      data-in="fade|up|pop|left|right|zoom|stamp|drop"   entrance style (default up)
      data-move="dx,dy,dur"  after entering, travel by (dx,dy) px over dur s (e.g. a job card sliding into a queue)
      data-shake="1"      shake for 0.5 s after entering (crash, error)
+     data-type="1.5"     typewriter: child lines (e.g. code() lines) appear one after another over 1.5 s
+     data-count="0.9"    the first number in the text counts up (from data-from, default 0) over 0.9 s
+     data-draw="0.9"     SVG strokes draw on over 0.9 s
+     data-hl="k[,k2]"    emphasis pulse (slight zoom + glow) when caption page k starts; for things already on screen
+   Camera: every scene slowly pushes in and steps a little closer on each caption page, easing toward the content that
+   page adds (FOCI). Off with EPISODE.camera = false or scene.camera = false; live-action scenes never move.
 */
 window.FADE = 0.45;
 const ease = l => 1 - Math.pow(1 - l, 3);
@@ -158,20 +185,83 @@ function plan(D, capTimes) {
     const d = e.dataset;
     let t0 = d.cap !== undefined && capTimes && capTimes[+d.cap] !== undefined ? capTimes[+d.cap] + 0.1 : 0.15 + i * gap;
     t0 += +(d.delay || 0);
+    // the video's very first frame is never empty: scene 1's opening elements are already mostly in at t = 0
+    if (window.SCENE_I === 0 && t0 < 0.4) t0 = Math.min(t0, -0.6 * window.FADE);
     let t1 = t0 + window.FADE;
     if (d.move) t1 += +(d.move.split(',')[2] || 0.8);
     if (d.shake) t1 += 0.5;
+    const extra = Math.max(d.type !== undefined ? +d.type || 1.2 : 0, d.count !== undefined ? +d.count || 0.9 : 0,
+                           d.draw !== undefined ? +d.draw || 0.9 : 0);
+    t1 = Math.max(t1, t0 + 0.2 + extra);
     return [t0, t1];
   });
 }
-window.schedule = (D, N, capTimes) => plan(D, capTimes);
+// emphasis pulses: data-hl="k" or "k,k2" → pulse when caption page k starts
+const hlTimes = (e, capTimes) => (e.dataset.hl || '').split(',').filter(x => x !== '' && capTimes && capTimes[+x] !== undefined)
+  .map(x => capTimes[+x] + 0.15);
+window.schedule = (D, N, capTimes) => {
+  const P = plan(D, capTimes);
+  [...st.children].forEach(e => hlTimes(e, capTimes).forEach(h => P.push([h, h + 0.9])));
+  return P;
+};
+const clamp01 = x => Math.min(1, Math.max(0, x));
+// camera: slow push-in that steps a little closer on every caption page and eases its anchor toward that page's new content
+function camera(t, D, capTimes) {
+  if (!window.CAM || t > D || document.body.classList.contains('live')) { st.style.transform = window.STB || ''; return; }
+  const ct = capTimes && capTimes.length ? capTimes : [0], F = window.FOCI || [[480, 450]];
+  let k = 0; ct.forEach((c, j) => { if (c <= t) k = j; });
+  const end = ct[k + 1] !== undefined ? ct[k + 1] : D, frac = clamp01((t - ct[k]) / Math.max(0.5, end - ct[k]));
+  const s = 1 + Math.min(0.04, 0.012 * k + 0.012 * frac);
+  const a = F[Math.max(0, k - 1)] || F[0], b = F[k] || a, m = k ? ease(clamp01((t - ct[k]) / 0.7)) : 1;
+  const px = a[0] + (b[0] - a[0]) * m, py = a[1] + (b[1] - a[1]) * m;
+  st.style.transform = `${window.STB || ''} translate(${px}px,${py}px) scale(${s.toFixed(5)}) translate(${-px}px,${-py}px)`.trim();
+}
+// first text node with a number in it (for data-count)
+function numNode(e) {
+  const w = document.createTreeWalker(e, NodeFilter.SHOW_TEXT);
+  for (let n = w.nextNode(); n; n = w.nextNode()) if (/\d/.test(n.nodeValue)) return n;
+  return null;
+}
+const NUMS = new WeakMap();
+function countUp(e, p) {
+  let st0 = NUMS.get(e);
+  if (!st0) { const n = numNode(e); if (!n) return; st0 = { n, txt: n.nodeValue }; NUMS.set(e, st0); }
+  const m = st0.txt.match(/\d[\d,]*(\.\d+)?/); if (!m) return;
+  const raw = m[0], to = parseFloat(raw.replace(/,/g, '')), from = parseFloat(e.dataset.from || 0);
+  const dec = (m[1] || '').length ? m[1].length - 1 : 0, v = from + (to - from) * p;
+  let out = v.toFixed(dec); if (raw.includes(',')) out = Number(out).toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+  st0.n.nodeValue = st0.txt.replace(raw, out);
+}
+// typewriter: element with several child lines → lines appear one after another, each wiping left to right
+function typeOn(e, p) {
+  const kids = e.children.length >= 2 ? [...e.children] : [e];
+  const n = kids.length;
+  kids.forEach((c, i) => { const q = clamp01(p * n - i); c.style.clipPath = q >= 1 ? '' : `inset(-4px ${(1 - q) * 100}% -4px -4px)`; });
+}
+// draw-on for SVG strokes (solid lines only; dashed lines and filled shapes fade in at the end)
+function drawOn(e, p) {
+  e.querySelectorAll('path,line,polyline,polygon,circle,rect,ellipse').forEach(g => {
+    const cs = getComputedStyle(g), stroked = cs.stroke !== 'none' && parseFloat(cs.strokeWidth) > 0, dashed = cs.strokeDasharray !== 'none';
+    if (stroked && !dashed && g.getTotalLength) {
+      if (!g.dataset.len) g.dataset.len = g.getTotalLength();
+      const L = +g.dataset.len; g.style.strokeDasharray = L; g.style.strokeDashoffset = L * (1 - p);
+    } else g.style.opacity = clamp01((p - 0.7) / 0.3);
+  });
+}
 window.setFrame = (t, D, capTimes) => {
   const els = [...st.children], P = plan(D, capTimes);
+  camera(t, D, capTimes);
   els.forEach((e, i) => {
     const d = e.dataset;
     if (d.op === undefined) d.op = getComputedStyle(e).opacity;
     if (d.tf === undefined) d.tf = getComputedStyle(e).transform === 'none' ? '' : getComputedStyle(e).transform;
     const t0 = P[i][0], l = Math.min(1, Math.max(0, (t - t0) / window.FADE)), k = ease(l);
+    const since = t - t0 - 0.15;
+    if (d.type !== undefined) typeOn(e, clamp01(since / (+d.type || 1.2)));
+    if (d.count !== undefined) countUp(e, ease(clamp01(since / (+d.count || 0.9))));
+    if (d.draw !== undefined) drawOn(e, ease(clamp01(since / (+d.draw || 0.9))));
+    const pan = e.querySelector && e.querySelector('img[data-pan]');
+    if (pan) pan.style.transform = `translateY(${-(+pan.dataset.pan) * clamp01((t - t0) / Math.max(1, D - t0))}px)`;
     let op = k, tf = '';
     switch (d.in || 'up') {
       case 'fade': break;
@@ -189,6 +279,10 @@ window.setFrame = (t, D, capTimes) => {
       tf += ` translate(${dx * m}px, ${dy * m}px)`; after -= (dur || 0.8);
     } else if (d.move && after <= 0) { /* not moved yet */ }
     if (d.shake && after > 0 && after < 0.5) tf += ` translateX(${Math.sin(after * 60) * 10 * (1 - after / 0.5)}px)`;
+    let glow = 0;
+    hlTimes(e, capTimes).forEach(h => { const u = (t - h) / 0.9; if (u > 0 && u < 1) glow = Math.max(glow, Math.sin(Math.PI * u)); });
+    if (glow > 0) tf += ` scale(${(1 + 0.06 * glow).toFixed(4)})`;
+    e.style.filter = glow > 0 ? `drop-shadow(0 0 ${(22 * glow).toFixed(1)}px var(--acc))` : '';
     e.style.opacity = op * (+d.op);
     e.style.transform = (d.tf + ' ' + tf).trim();
   });
@@ -221,6 +315,32 @@ const num = (n, color = 'var(--acc)') =>
   `<span style="display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:${color};color:var(--bg);font-weight:900;font-size:32px;font-family:JBM">${n}</span>`;
 // small "source" tag for public references, e.g. src('AWS')
 const src = (name) => `<span style="font-size:22px;color:var(--quiet);border:1.5px solid var(--line);border-radius:999px;padding:3px 14px">${T('参考', 'from')} · ${name}</span>`;
+/* real screenshot from episodes/<id>/assets/ (made by engine/capture.py): shot('repo.png', {x, y, w, h, pos, attrs, border})
+   - the image covers the w×h box; pos = CSS object-position ('top' default: keep the page header visible)
+   - pan: scroll the image upward by N px over the scene (e.g. walking down a README); keep it slow (≤ 200)
+   Add a src() tag next to it naming where it came from. */
+function shot(file, o = {}) {
+  const w = o.w || 960, h = o.h || 560, base = window.EP_DIR || '';
+  return `<div class="r card" ${o.attrs || ''} style="left:${o.x ?? 0}px;top:${o.y ?? 0}px;width:${w}px;height:${h}px;overflow:hidden;padding:0;${o.border ? `border-color:${o.border};` : ''}">
+    <img src="${base}assets/${file}" ${o.pan ? `data-pan="${o.pan}"` : ''} style="width:100%;height:${o.pan ? 'auto' : '100%'};object-fit:cover;object-position:${o.pos || 'top'};display:block"></div>`;
+}
+/* hook card for the first 3 s: a concrete before → after (or problem → payoff) in huge type. Adds its own elements.
+   hook({label: [zh, en], a: [zh, en], b: [zh, en], top: 120, cap: 0, capB: 1})
+   - label: small line above (what is being compared), optional
+   - a: the "before" (shown struck through), b: the "after" (accent, stamped). If both contain a number, b counts from a's number.
+   - a may be omitted: then b is a single big claim that pops in (its number counts up from 0).
+   - capB: caption page on which b lands (default: same as cap); use it when the voice says the result on the next page. */
+function hook(o) {
+  const top = o.top ?? 120, cap = o.cap ?? 0, a = o.a && T(o.a[0], o.a[1]), b = T(o.b[0], o.b[1]);
+  const n = s => { const m = String(s).match(/\d[\d,]*(\.\d+)?/); return m ? m[0].replace(/,/g, '') : null; };
+  if (o.label) H(`<div class="r center" data-cap="${cap}" data-in="fade" style="left:0;right:0;top:${top}px"><span class="h q" style="font-size:${T(40, 34)}px">${T(o.label[0], o.label[1])}</span></div>`);
+  if (a) {
+    H(`<div class="r center" data-cap="${cap}" data-in="left" style="left:0;right:0;top:${top + 90}px"><span class="h" style="font-size:${T(104, 84)}px;color:var(--quiet);text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:8px">${a}</span></div>`);
+    H(`<div class="r center" data-cap="${cap}" data-delay="0.35" data-in="drop" style="left:0;right:0;top:${top + 250}px"><svg width="90" height="90" viewBox="0 0 24 24"><path d="M12 3v16M5 13l7 7 7-7" fill="none" stroke="var(--acc)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`);
+  }
+  const from = n(b) ? ` data-count="${a ? 0.9 : 1.2}" data-from="${a && n(a) ? n(a) : 0}"` : '', capB = o.capB ?? cap;
+  H(`<div class="r center" data-cap="${capB}" data-delay="${a && capB === cap ? 0.7 : 0.1}" data-in="${a ? 'stamp' : 'pop'}"${from} style="left:0;right:0;top:${top + (a ? 360 : 140)}px"><span class="h acc" style="font-size:${T(150, 120)}px;line-height:1.05">${b}</span></div>`);
+}
 
 /* ---- drama kit (系统设计短剧) ----
    who(id, size, mood)      drawn character bust; mood: calm smug shock angry happy think

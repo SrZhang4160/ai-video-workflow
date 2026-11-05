@@ -14,16 +14,21 @@ Series rules: `series/news/README.md` (read it first). Review board: https://cla
 
 ## 1. Research (you, not a subagent)
 - Read `series/news/log.md` (stories already covered; next episode number = highest `#n` + 1, or 1).
+- `python3 engine/news_sources.py <id>` → `build/<id>/candidates.md`: GitHub Trending AI repos (pool A) and Hugging Face Daily
+  Papers (pool B).
 - WebSearch (standard mode, several queries in one turn; extended only if results are thin) for AI-industry news from the last
-  36 hours: model / API releases, open-source releases, research, developer tools, big industry or policy moves. Open the
-  primary source for each candidate (WebFetch) and confirm its publish date.
-- Pick one story by the order in `series/news/README.md`. Write a short brief to `build/<id>/brief.md`: the story in 3 lines,
+  36 hours (pool C): model / API releases, developer tools, big industry or policy moves.
+- Shortlist 3–5 across the pools. Open the primary source for each (WebFetch: README, paper abstract + results, announcement)
+  and confirm what's new, the date, and the one number that would be the hook.
+- Pick one story by the order in `series/news/README.md` (pool rotation: check `log.md`). Capture the real screenshots it needs
+  now (`engine/capture.py`, see README → Real visuals) into `episodes/<id>/assets/` and list them in the brief.
+- Write a short brief to `build/<id>/brief.md`: the pool (A/B/C), the hook number with its source, the story in 3 lines,
   the key facts each with its source URL, what's genuinely new, the analysis angle (why it matters for builders), 2–4 sources,
   and the runner-up stories (in case the reviewer rejects the pick).
 
 ## 2. Write (one fresh subagent)
 Give it: the full text of `runbooks/scenes.md` and `series/news/README.md` (its structure replaces the lesson structure),
-`build/<id>/brief.md`, `episodes/li-deploy-background-jobs/episode.js` and `episodes/demo-rust-01/episode.js` as style
+`build/<id>/brief.md`, the screenshots in `episodes/<id>/assets/` (placed with `shot()`, each with a `src()` tag), `episodes/li-deploy-background-jobs/episode.js` and `episodes/demo-rust-01/episode.js` as style
 references, and the target folder `episodes/<id>/`. It writes `episode.js` (`n`, `theme: 'news'`, `tag: ['AI 快讯', 'AI News']`, and a `tag` on every scene: 头条 / 新闻 / 分析 / 观点 / 总结 (no quiz); `episodes/2026-11-02-news/episode.js` is the news reference) and
 `meta.json` (`date` = air date, `track: "news"`, `sources`, `platforms: ["xhs", "douyin", "tiktok"]`, `captions` for those three, `"voice": "own"` (no `quiz`); tags include `AI快讯`, `AI新闻`,
 `AI工程师`, `碎片时间学AI工程师` on 小红书, `AINews` / `AI` on TikTok), uses only facts in the brief,
@@ -38,7 +43,7 @@ style, keep it and put the points in `review_notes`.
 
 ## 4. Hand off for voicing
 1. `python3 engine/export.py episodes/<id>`.
-2. Append the story to `series/news/log.md`.
+2. Append the story to `series/news/log.md` (with its pool letter).
    Before committing, run the Mandarin check `~/cosyvoice3/.venv/bin/python engine/zh_check.py episodes/<id>` and fix every ERR / WARN / wrong 多音 reading (re-export after).
 3. `git add episodes/<id> series/news && git commit -m "<id>: AI 快讯 #<n> <headline>" && git push`. Only those paths; never `build/`.
 4. `ArtifactData set` collection `episodes`, doc_id `<id>`: `build/<id>/doc.json` + `status: "voicing"`, `updated` (ISO time),
