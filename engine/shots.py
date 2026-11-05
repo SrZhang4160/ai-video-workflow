@@ -21,7 +21,7 @@ from fal import run, upload, download  # noqa: E402
 CAST_DIR = os.path.join(ROOT, "series", "system-design", "cast")
 LOOK = {   # fixed wardrobe, so every shot matches the headshots
     "man": "the young woman (林小满) with a high ponytail in a grey hoodie",
-    "kai": "the strikingly beautiful woman (铁柱) with long dark wavy hair and red lipstick, in a white tailored blazer over a black top with a thin gold necklace",
+    "kai": "the stunningly beautiful young woman (铁柱), about 24, with long dark wavy hair and rosy red lips, in a white tailored blazer over a black top with a thin gold necklace",
     "wang": "the older man (王总) in a brown suede jacket",
 }
 FRAME_MODEL = "fal-ai/flux-pro/kontext/max/multi"

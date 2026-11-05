@@ -1,6 +1,6 @@
 # 《逆袭架构师》· story so far
 
-Cast (engine `CAST`): 林小满 `man` (intern backend engineer, day 3 at the start, calm and precise) · 铁柱 `kai` (Tiezhu, a woman, tech director: stunning 御姐 look, smug, bossy, trusts gut feeling) · 王总 `wang` (CEO, promises big launches).
+Cast (engine `CAST`): 林小满 `man` (intern backend engineer, day 3 at the start, calm and precise) · 铁柱 `kai` (Tiezhu, a woman, about 24, the youngest tech director: young and stunning, smug, bossy, trusts gut feeling) · 王总 `wang` (CEO, promises big launches).
 The startup: an unnamed e-commerce app that sells through livestreams.
 Hidden arc (see README → Premise): 小满 is secretly "Z", the architect behind a 双十一-scale system at 某大厂, whose design was credited to others; 铁柱 was on that team and built her name on it. 铁柱 does not know; the audience only gets teases at first. First 马甲 clue: ep 2 or 3. Full reveal: season finale.
 
