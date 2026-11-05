@@ -411,7 +411,8 @@
       "start": "2026-11-02",
       "format": "drama",
       "board": "https://claude.ai/artifact/HGq19vhF8JP5TSqmVysLyG",
-      "rules": "series/system-design/README.md"
+      "rules": "series/system-design/README.md",
+      "live_shots": true
     }
   }
 }

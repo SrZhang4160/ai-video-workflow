@@ -51,5 +51,17 @@
     "answer_zh": "答案：B。100 万 × 6 = 600 万次请求，按一分钟内均匀到达估算：600 万 ÷ 60 = 10 万 QPS。",
     "answer_en": "Answer: B. 1M × 6 = 6M requests; spread evenly over 60 seconds, 6M ÷ 60 = 100,000 QPS."
   },
-  "format": "drama"
+  "format": "drama",
+  "shots": [
+    {
+      "scene": 0,
+      "cast": [
+        "man",
+        "kai"
+      ],
+      "setting": "a glass-walled meeting room at night, the whole team seated around the table, blue projector light, city lights outside",
+      "prompt_en": "{kai} leans back in his chair with an arrogant smirk and flicks his hand dismissively; across the table {man} slowly stands up, calm, and looks straight at him. Tense silence, slow push-in.",
+      "seconds": 5
+    }
+  ]
 }

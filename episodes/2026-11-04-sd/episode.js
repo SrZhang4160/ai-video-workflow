@@ -8,6 +8,7 @@ window.EPISODE = {
   theme: 'drama',
   scenes: [
     { title: ['《逆袭架构师》', 'The Comeback Architect'],
+      clip: 'clips/s01.mp4',
       cap: [['一千万人，一台服务器够吗？', 'Ten million people. Is one server enough?'],
             ['技术总监说：够。', 'The tech director said yes.'],
             ['入职三天的实习生林小满说：不够。', 'Xiaoman, an intern on day three, said no.'],

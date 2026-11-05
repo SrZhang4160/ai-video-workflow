@@ -3,3 +3,6 @@ engine/node_modules/
 __pycache__/
 *.pyc
 .DS_Store
+
+# live-action clips (engine/shots.py) stay on the Mac, like build/
+episodes/*/clips/

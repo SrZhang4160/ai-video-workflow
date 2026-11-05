@@ -172,6 +172,19 @@ def contact_sheet(paths, out, cols=3, w=360):
     sheet.save(out)
 
 
+def clip_frames(ep_dir, clip, W, H, tmp, si):
+    """Frames of a scene's live-action clip (episodes/<id>/<clip>), cover-cropped to W×H at FPS. [] when there is no clip
+    file yet: the scene then renders its drawn fallback."""
+    path = clip and os.path.join(ep_dir, clip)
+    if not path or not os.path.exists(path):
+        return []
+    d = os.path.join(tmp, f"clip{si:02d}"); os.makedirs(d, exist_ok=True)
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", path, "-an", "-vf",
+                    f"fps={FPS},scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H}", "-q:v", "3",
+                    os.path.join(d, "%05d.jpg")], check=True)
+    return sorted(os.path.join(d, f) for f in os.listdir(d))
+
+
 def render(ep_dir, platform, out_dir, page_factory):
     ratio, lang = PLATFORMS[platform]
     W, H = SIZES[ratio]
@@ -210,9 +223,14 @@ def render(ep_dir, platform, out_dir, page_factory):
         ts = {0.0, *ct}
         for a, b in wins:
             ts.update(a + k / FPS for k in range(int((b - a) * FPS) + 2))
+        live = clip_frames(ep_dir, s.get("clip"), W, H, tmp, si)
+        if live:   # live-action shot: every frame, the video plays once and then holds its last frame
+            ts.update(k / FPS for k in range(int(D * FPS) + 1))
         ts = sorted(x for x in ts if 0 <= x < D)
         for j, x in enumerate(ts):
             ci = max([k for k, c0 in enumerate(ct) if c0 <= x + 1e-6], default=0)
+            if live:
+                page.evaluate("src => setBg(src)", "file://" + live[min(int(x * FPS), len(live) - 1)])
             page.evaluate("([t,D,ct,c]) => { setFrame(t, D, ct); setCap(c); }", [x, D, ct, s["caps"][ci]])
             p = os.path.join(tmp, f"f{len(frames):05d}.png")
             page.screenshot(path=p)

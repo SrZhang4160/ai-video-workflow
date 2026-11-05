@@ -27,6 +27,9 @@ for re-takes of single lines). For each file there (not in `done/`):
 ## 1. `changes` → revise the script
 Set status `revising` (pinned `if_version`). A fresh subagent edits `episodes/<id>/episode.js` / `meta.json` to address `feedback` exactly, following `runbooks/scenes.md`, renders `--only xhs` and checks `sheet-xhs.png`. Then `engine/export.py`, commit + push (the Mac re-voices only the changed lines), and update the doc: `status: "voicing"`, `script` / `captions` from the new `doc.json`, append `{at, feedback}` to `feedback_log`, clear `feedback`. If the feedback asks for something not allowed (e.g. promoting the employer), keep the old script, set status `draft` and explain in `review_notes`.
 
+## 1b. 系统设计 live-action shots
+For any `<date>-sd` episode about to be rendered in sections 2–4 (and when `series/schedule.json` → `series.sd.live_shots` is true): `python3 engine/shots.py episodes/<id>` first. It only generates clips that don't exist yet (≈ $0.78 per shot, max 6 per episode) into `episodes/<id>/clips/` (Mac-local, gitignored); a failed shot is fine, that scene renders its drawn fallback. Add a `review_notes` line if any shot failed.
+
 ## 2. `voicing` → preview video
 Before rendering, once zh is fully voiced: `~/cosyvoice3/.venv/bin/python engine/zh_check.py episodes/<id> --audio` (Whisper listens to every clip and compares pinyin with the script). For each AUDIO line: if the date isn't near, change that line's `say_zh` (reword, or add a comma) and re-export so the Mac re-voices it; if it is near, list the lines in `review_notes` (`请听一下第 N 句：…`).
 Then the speaking-rate check (`runbooks/pace.md`): `~/cosyvoice3/.venv/bin/python engine/pace.py episodes/<id> --after`; lines marked 需重配 are handled the same way as AUDIO lines (reword `say_zh` if the date isn't near, else `review_notes`: `第 N 句语速调不进 305–330，请听一下：<那一句>`). render.py evens every Chinese line out to 305–330 字/分钟 by itself.

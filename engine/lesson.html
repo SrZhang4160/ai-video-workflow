@@ -66,8 +66,16 @@ body.drama .cap .a{text-shadow:0 2px 0 #000}
 .phone .m .t{background:#2A2A34;color:#eee;border-radius:16px;padding:10px 14px;font-size:24px;font-weight:600;line-height:1.3;max-width:78%}
 .phone .m.me .t{background:#3E8E6A;color:#fff}
 .alarm{position:absolute;background:#2A0D10;border:3px solid var(--red);border-radius:16px;padding:16px 24px;display:flex;align-items:center;gap:18px;color:#FFB3B5;font-weight:800}
+/* live-action clip scenes (scene.clip): the shot fills the frame; a gradient keeps title and captions readable.
+   Stage elements stay hidden unless marked data-live (e.g. an alarm banner over the shot). */
+#bg{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;display:none}
+#shade{position:absolute;left:0;top:0;width:100%;height:100%;display:none;background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,0) 22%,rgba(0,0,0,0) 58%,rgba(0,0,0,.78) 78%)}
+body.live #bg,body.live #shade{display:block}
+body.live{background:#000}
+body.live #stage>*:not([data-live]){display:none}
 .alarm .dot{width:22px;height:22px;border-radius:50%;background:var(--red);box-shadow:0 0 18px var(--red)}
 </style></head><body>
+<img id="bg" alt=""><div id="shade"></div>
 <div id="mast"><span class="mk" id="mk"></span><span class="mk2" id="mk2"></span><span class="md" id="md"></span></div>
 <div class="top"><span class="tag" id="tag"></span><div class="ttl" id="ttl"></div></div>
 <div id="stage"></div>
@@ -109,7 +117,7 @@ function code(src) {
 const EP = window.EPISODE;
 const pick = (c) => Array.isArray(c) ? { zh: c[0], en: c[1] } : c;
 window.EP_INFO = () => EP.scenes.map(s => ({
-  title: s.title, caps: s.cap.map(pick).map(c => ({ zh: c.zh || '', en: c.en, say_zh: c.say_zh || c.zh || '', say_en: c.say_en || c.en }))
+  title: s.title, clip: s.clip || null, caps: s.cap.map(pick).map(c => ({ zh: c.zh || '', en: c.en, say_zh: c.say_zh || c.zh || '', say_en: c.say_en || c.en }))
 }));
 window.showScene = (i) => {
   st.innerHTML = '';
@@ -126,8 +134,11 @@ window.showScene = (i) => {
   const tg = document.getElementById('tag'); tg.textContent = tag; tg.style.display = tag ? '' : 'none';
   document.getElementById('ttl').innerHTML = LANG === 'zh' ? `${s.title[0]}<small>${s.title[1]}</small>` : s.title[1];
   s.build();
+  document.body.classList.remove('live');
   return st.children.length;
 };
+// live-action scene: show this video frame (a file URL) behind title and captions; null turns it off
+window.setBg = (src) => { const b = document.getElementById('bg'); document.body.classList.toggle('live', !!src); if (src) b.src = src; return b.decode ? b.decode().catch(() => {}) : null; };
 
 /* ---- timing & motion ----
    Each top-level stage element animates in. Attributes on that element:
