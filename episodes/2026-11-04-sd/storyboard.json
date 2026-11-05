@@ -1,0 +1,361 @@
+{
+  "episode": 1,
+  "title_zh": "一千万人涌进来",
+  "title_en": "Ten Million at Once",
+  "lesson": 3,
+  "runtime_target_s": 110,
+  "budget": {"live_shots": 18, "live_seconds": 73, "est_cost_usd": 11.66, "note": "73 s x $0.14 + 18 first frames x $0.08"},
+  "continuity": {
+    "wardrobe": "Same outfits both days. man: ponytail, plain grey hoodie. kai: long glossy dark wavy hair, red lipstick, fitted white tailored blazer over black top, thin gold necklace. wang: receding hair, brown jacket.",
+    "axis": "In every kai/man face-off kai is frame LEFT, man is frame RIGHT (meeting room: projector end = left, whiteboard + back row = right)."
+  },
+  "locations": {
+    "tech_floor_day": "Open-plan tech floor of a fast-growing livestream e-commerce startup, morning daylight through tall windows, rows of desks with dual monitors, a large wall display showing an abstract glowing chart (no readable text), plants, hoodies on chairs, glass door at the entrance. Tiezhu's desk sits by the window; Xiaoman's desk is in the far corner, half in shadow.",
+    "meeting_room_night": "Glass-walled meeting room at night, long glass table with the whole team seated, cool blue projector light on a pull-down screen at the head of the table (frame left), a large whiteboard on the right wall, city lights through the glass, coffee cups and laptops on the table, door on the right side.",
+    "war_room_night": "Livestream-sale war room at night: dim room, a whole wall of monitoring screens glowing blue (abstract graphs, no readable text or numbers), rows of engineers with headsets at long desks, red alert light able to wash the room, tense atmosphere."
+  },
+  "shots": [
+    {
+      "id": 1, "location": "meeting_room_night", "shot_size": "CU", "camera": "slow push-in", "seconds": 3,
+      "cast": ["kai", "man"],
+      "action": "铁柱用两根手指把白板笔弹到小满面前，笔在玻璃桌上滚；她双手撑桌，俯身逼近，红唇一勾。",
+      "performance": {"kai": "chin up, eyes half-lidded, one-sided smirk; flicks the marker with two fingers, then plants both palms and leans in, hair falling forward", "man": "seated, frame right, out of focus, does not flinch"},
+      "dialogue": [{"who": "kai", "zh": "实习生，也配谈架构？", "en": "An intern, talking architecture?"}],
+      "narration": null,
+      "sfx": "marker clacks and rolls across glass; room drops to silence",
+      "overlay": null,
+      "gen": {"mode": "live", "prompt_en": "Vertical 9:16 close-up, slow push-in. Glass-walled meeting room at night, cool blue projector light. {kai} flicks a whiteboard marker across the glass table with two fingers, plants both palms on the table and leans toward camera-right with a cold one-sided smirk, red lips, long wavy hair falling forward. {man} sits soft-focus at frame right, perfectly still. Tense silence, moody cinematic light."},
+      "purpose": "HOOK: public humiliation in the first 3 s"
+    },
+    {
+      "id": 2, "location": "meeting_room_night", "shot_size": "ECU", "camera": "tilt up", "seconds": 2,
+      "cast": ["man"],
+      "action": "一只手按住滚动的白板笔，握住。镜头上摇到小满的眼睛：平静，抬眼。",
+      "performance": {"man": "hand stops the marker without hurry, fingers close around it; eyes lift slowly toward camera-left, calm, a faint knowing stillness"},
+      "dialogue": [],
+      "narration": null,
+      "sfx": "single low bass hit as her hand closes",
+      "overlay": null,
+      "gen": {"mode": "live", "prompt_en": "Vertical 9:16 extreme close-up, tilt up. A slim hand calmly stops a rolling whiteboard marker on a glass table and closes around it; the camera tilts up to {man}'s face as her calm, sharp eyes lift toward camera-left, unreadable, quietly confident. Cool blue projector light, night, shallow depth of field."},
+      "purpose": "HOOK part 2: the answer to the insult is a look; 马甲 tease"
+    },
+    {
+      "id": 3, "location": null, "shot_size": "CARD", "camera": "static", "seconds": 1.5,
+      "cast": [],
+      "action": "黑场字卡。",
+      "performance": {},
+      "dialogue": [],
+      "narration": {"zh": "12 小时前。", "en": "12 hours earlier."},
+      "sfx": "clock tick, whoosh",
+      "overlay": {"kind": "card", "content": {"zh": "12 小时前", "en": "12 HOURS EARLIER"}},
+      "gen": {"mode": "card", "prompt_en": null},
+      "purpose": "Time card (flashback)"
+    },
+    {
+      "id": 4, "location": "tech_floor_day", "shot_size": "MS", "camera": "handheld follow", "seconds": 5,
+      "cast": ["wang"],
+      "action": "王总推开玻璃门冲进来，手机举过头顶像举奖杯，差点被椅子绊倒；同事们齐刷刷抬头。",
+      "performance": {"wang": "eyes wide, grinning, pumping the phone above his head, stumbles on a chair leg and doesn't care", "colleagues": "heads pop up from monitors, mouths open"},
+      "dialogue": [{"who": "wang", "zh": "明晚八点！顶流来带货，一千万人！", "en": "8 PM tomorrow! A top streamer! Ten million!"}],
+      "narration": null,
+      "sfx": "door bangs open, chairs roll",
+      "overlay": null,
+      "gen": {"mode": "live", "prompt_en": "Vertical 9:16 medium shot, handheld follow. Bright open-plan startup office, morning daylight. {wang} bursts through a glass door holding his phone high over his head like a trophy, grinning wildly, stumbles on a chair leg and keeps going; colleagues at their desks look up in surprise. Energetic, comedic, natural light."},
+      "purpose": "SETUP: the crisis arrives as good news"
+    },
+    {
+      "id": 5, "location": "tech_floor_day", "shot_size": "MS", "camera": "static", "seconds": 4,
+      "cast": ["kai"],
+      "action": "背景里同事们欢呼击掌；前景铁柱坐在窗边工位涂红色指甲油，头也不抬，吹了吹指尖。",
+      "performance": {"kai": "never lifts her eyes; blows on one wet red nail, bored half-smile, speaks to her nails", "colleagues": "cheering and high-fiving, soft focus behind her, freeze when she speaks"},
+      "dialogue": [{"who": "kai", "zh": "吵什么。一台服务器，够了。", "en": "Quiet. One server is enough."}],
+      "narration": null,
+      "sfx": "cheering cuts off mid-shout",
+      "overlay": null,
+      "gen": {"mode": "live", "prompt_en": "Vertical 9:16 medium shot, static. Sunlit startup office by a window. In the foreground {kai} sits at her desk painting her nails red, never looking up, and blows on a fingertip with a bored half-smile; behind her, soft-focus colleagues cheer and high-five, then go quiet. Morning light, glamorous and arrogant mood."},
+      "purpose": "CONFLICT: the wrong call, made without thinking"
+    },
+    {
+      "id": 6, "location": "tech_floor_day", "shot_size": "MCU", "camera": "slow push-in", "seconds": 4,
+      "cast": ["man"],
+      "action": "角落工位，小满敲键盘的手停在半空。她抬眼，越过整个办公室看向铁柱。",
+      "performance": {"man": "fingers freeze above the keys; eyes narrow a fraction; lips barely move, muttering to herself"},
+      "dialogue": [{"who": "man", "zh": "一千万人……每秒多少请求？", "en": "Ten million… how many requests a second?"}],
+      "narration": null,
+      "sfx": "keyboard clatter stops",
+      "overlay": null,
+      "gen": {"mode": "live", "prompt_en": "Vertical 9:16 medium close-up, slow push-in. A corner desk in a startup office, half in shadow. {man} stops typing, her fingers frozen above the keyboard; she lifts her eyes and looks across the office toward camera-left, eyes narrowing slightly, lips barely moving. Quiet, focused, cool tones against warm background light."},
+      "purpose": "Plant the question; 小满 already sees the problem"
+    },
+    {
+      "id": 7, "location": "tech_floor_day", "shot_size": "CU", "camera": "static", "seconds": 3,
+      "cast": ["kai"],
+      "action": "铁柱感觉到目光，眼珠一斜看过来，「咔」地拧上指甲油瓶盖。",
+      "performance": {"kai": "only her eyes move, sliding to camera-right; then a sharp twist of the polish cap; one eyebrow up"},
+      "dialogue": [{"who": "kai", "zh": "看什么？干活。", "en": "Staring? Get to work."}],
+      "narration": null,
+      "sfx": "sharp click of the bottle cap",
+      "overlay": null,
+      "gen": {"mode": "live", "prompt_en": "Vertical 9:16 close-up, static. {kai} at a sunlit desk senses someone watching; only her eyes slide toward camera-right, then she twists a nail-polish cap shut with a sharp motion and raises one eyebrow, cold and bossy. Morning window light, shallow depth of field."},
+      "purpose": "First spark of the 双女主 rivalry"
+    },
+    {
+      "id": 8, "location": "meeting_room_night", "shot_size": "MS", "camera": "slow dolly-in", "seconds": 4,
+      "cast": ["kai", "wang"],
+      "action": "当晚方案评审。铁柱站在投影幕前（画左），白板笔「嗒嗒」点着幕布；全员坐着，王总在桌首点头。",
+      "performance": {"kai": "owns the room, one hand on hip, taps the screen with the marker on each number", "wang": "nodding along, arms crossed, pleased", "colleagues": "taking notes"},
+      "dialogue": [{"who": "kai", "zh": "一千万人，每人十次，一亿请求。", "en": "10M people, 10 taps each: 100M requests."}],
+      "narration": null,
+      "sfx": "marker taps on the screen",
+      "overlay": {"kind": "calc", "content": {"tag": {"zh": "当晚 · 方案评审", "en": "That night · design review"}, "lines": ["1,000 万人 × 10 次 = 1 亿次请求", "10M × 10 = 100M requests"]}},
+      "gen": {"mode": "live", "prompt_en": "Vertical 9:16 medium shot, slow dolly-in. Glass-walled meeting room at night. {kai} stands confidently at the head of the table beside a glowing blank projector screen at frame left, one hand on her hip, tapping the screen with a marker; the team sits around the table, {wang} nods with arms crossed. Cool blue projector light, city lights outside."},
+      "purpose": "CONFLICT: the misconception, delivered with total confidence"
+    },
+    {
+      "id": 9, "location": "meeting_room_night", "shot_size": "INSERT", "camera": "static", "seconds": 3.5,
+      "cast": ["kai"],
+      "action": "投影幕特写（引擎绘制）：铁柱的算式。",
+      "performance": {},
+      "dialogue": [{"who": "kai", "zh": "除以一天，八万六千四百秒。", "en": "Divide by a day: 86,400 seconds."}],
+      "narration": null,
+      "sfx": "soft UI pop as the result appears",
+      "overlay": {"kind": "calc", "content": {"title": {"zh": "铁柱的算法：全天平均", "en": "Tiezhu's math: whole-day average"}, "lines": ["1 亿 ÷ 86,400 秒 ≈ 1,157 QPS", "100M ÷ 86,400 s ≈ 1,157 QPS"]}},
+      "gen": {"mode": "card", "prompt_en": null},
+      "purpose": "Show the wrong calculation exactly"
+    },
+    {
+      "id": 10, "location": "meeting_room_night", "shot_size": "MS", "camera": "static", "seconds": 4,
+      "cast": ["kai", "wang"],
+      "action": "铁柱转身面向全场，「咔」地合上笔帽，双手一摊；同事们跟着点头，王总竖起大拇指。",
+      "performance": {"kai": "turns with a dazzling, self-satisfied smile, caps the marker, spreads her hands like the case is closed", "wang": "thumbs up, relieved laugh", "colleagues": "nodding"},
+      "dialogue": [{"who": "kai", "zh": "一千出头。一台，绰绰有余。", "en": "About a thousand. One server. Plenty."}],
+      "narration": null,
+      "sfx": "pen cap click, a few chuckles",
+      "overlay": null,
+      "gen": {"mode": "live", "prompt_en": "Vertical 9:16 medium shot, static. Night meeting room in blue projector light. {kai} turns from the screen to face the table with a dazzling self-satisfied smile, caps her marker and spreads her hands as if the matter is settled; colleagues nod, {wang} gives a relieved thumbs-up. Confident, glossy, slightly smug mood."},
+      "purpose": "铁柱 at the top: set up the fall"
+    },
+    {
+      "id": 11, "location": "meeting_room_night", "shot_size": "MS", "camera": "static, rack focus to back row", "seconds": 3,
+      "cast": ["man"],
+      "action": "后排（画右），椅子「吱」一声，小满站起来。全场回头。",
+      "performance": {"man": "stands without hurry, hands at her sides, voice level, eyes on 铁柱", "colleagues": "heads swivel toward her, one stops mid-sip"},
+      "dialogue": [{"who": "man", "zh": "铁总，这个算法不对。", "en": "Director, that math is wrong."}],
+      "narration": null,
+      "sfx": "chair scrapes; dead silence",
+      "overlay": null,
+      "gen": {"mode": "live", "prompt_en": "Vertical 9:16 medium shot, rack focus from the backs of seated colleagues to the back row at frame right. In a night meeting room, {man} calmly stands up from her chair, hands at her sides, looking toward camera-left; colleagues turn their heads to stare at her, one freezes mid-sip. Blue projector light, sudden tension."},
+      "purpose": "REVERSAL 1 begins (~0:34). The insult that answers this is the hook (shots 1–2), not repeated"
+    },
+    {
+      "id": 12, "location": "meeting_room_night", "shot_size": "MS", "camera": "slow arc around her", "seconds": 6,
+      "cast": ["man"],
+      "action": "小满拿着铁柱扔来的那支笔走到白板前（画右），先画一条长长的平线，再在末端拉出一根尖峰，笔尖在峰顶一顿。",
+      "performance": {"man": "draws in two clean strokes, no hesitation; taps the peak once; half-turns to the room on the second line", "colleagues": "leaning forward"},
+      "dialogue": [
+        {"who": "man", "zh": "直播不是一整天慢慢来。", "en": "A live sale doesn't trickle in all day."},
+        {"who": "man", "zh": "八点一开播，全涌进来。", "en": "At 8, everyone floods in at once."}
+      ],
+      "narration": null,
+      "sfx": "marker squeak, one sharp tap",
+      "overlay": {"kind": "diagram", "content": {"type": "traffic_curve", "flat_line": {"zh": "全天平均 ≈ 1,157 QPS", "en": "daily average ≈ 1,157 QPS"}, "spike": {"zh": "20:00 开播", "en": "8 PM go-live"}}},
+      "gen": {"mode": "live", "prompt_en": "Vertical 9:16 medium shot, slow arc. Night meeting room, whiteboard on the right wall. {man} draws a long flat line on the whiteboard with a marker, then a sharp tall spike at its end in one stroke (abstract strokes, no readable text or numbers), taps the peak once and half-turns toward the seated team. Calm authority, blue projector light mixing with warm room light."},
+      "purpose": "LESSON: the average hides the peak"
+    },
+    {
+      "id": 13, "location": "meeting_room_night", "shot_size": "INSERT", "camera": "static", "seconds": 3,
+      "cast": ["man"],
+      "action": "白板特写（引擎绘制）：平线 vs 尖峰，尖峰亮起。",
+      "performance": {},
+      "dialogue": [{"who": "man", "zh": "平均值，会骗人。", "en": "Averages lie."}],
+      "narration": null,
+      "sfx": "low hit",
+      "overlay": {"kind": "diagram", "content": {"type": "traffic_curve", "highlight": "spike", "caption": {"zh": "平均值会骗人：要按高峰算", "en": "Averages lie: size for the peak"}}},
+      "gen": {"mode": "card", "prompt_en": null},
+      "purpose": "The thesis line, on the diagram"
+    },
+    {
+      "id": 14, "location": "meeting_room_night", "shot_size": "INSERT", "camera": "static", "seconds": 7,
+      "cast": ["man"],
+      "action": "白板算式特写（引擎绘制），一行行写出；最后两个数并排，差距拉满。",
+      "performance": {},
+      "dialogue": [
+        {"who": "man", "zh": "一亿请求，挤进十分钟，", "en": "100M requests, squeezed into ten minutes,"},
+        {"who": "man", "zh": "除以六百秒，十七万 QPS。", "en": "÷ 600 seconds: 170,000 QPS."}
+      ],
+      "narration": null,
+      "sfx": "marker writing, then a heavy drum hit on the comparison",
+      "overlay": {"kind": "calc", "content": {"assumption": {"zh": "假设：1,000 万人集中在开播 10 分钟内", "en": "Assumption: all 10M arrive in the first 10 minutes"}, "lines": ["1 亿 ÷ 600 秒 ≈ 166,667 ≈ 17 万 QPS", "100M ÷ 600 s ≈ 170,000 QPS"], "compare": {"zh": "1,157 vs 17 万：差 100 多倍", "en": "1,157 vs 170,000: over 100×"}}},
+      "gen": {"mode": "card", "prompt_en": null},
+      "purpose": "LESSON: peak QPS = total ÷ seconds of the peak window"
+    },
+    {
+      "id": 15, "location": "meeting_room_night", "shot_size": "MS", "camera": "static, rack focus foreground to background", "seconds": 3,
+      "cast": ["wang", "kai"],
+      "action": "前景王总的咖啡杯停在嘴边，旁边同事倒吸一口气；焦点拉到后面投影幕前的铁柱：笑容一点点褪掉，手指捏紧笔帽。",
+      "performance": {"wang": "cup frozen at his lips, eyes bulging", "kai": "smile drains in stages, jaw sets, knuckles whiten on the pen cap", "colleagues": "sharp intake of breath"},
+      "dialogue": [],
+      "narration": null,
+      "sfx": "cup rattles on saucer; silence",
+      "overlay": null,
+      "gen": {"mode": "live", "prompt_en": "Vertical 9:16 medium shot, rack focus from foreground to background. Night meeting room. In the foreground {wang} freezes with a coffee cup at his lips, eyes wide; a colleague beside him gasps. Focus pulls to {kai} standing by the blue-lit projector screen at frame left: her confident smile slowly drains away, her jaw sets, her fingers tighten on a pen cap. No dialogue, stunned silence."},
+      "purpose": "REACTION: the 打脸 lands on faces"
+    },
+    {
+      "id": 16, "location": "meeting_room_night", "shot_size": "MCU", "camera": "slow push-in", "seconds": 5,
+      "cast": ["man"],
+      "action": "小满从白板前转身，正面看向铁柱（视线画左），「咔」地合上笔帽。",
+      "performance": {"man": "unhurried turn, level gaze at 铁柱, caps the marker on the last word; no smile"},
+      "dialogue": [
+        {"who": "man", "zh": "单机按两千算，要八十五台。", "en": "At 2,000 per server: 85 servers."},
+        {"who": "man", "zh": "不是一台。", "en": "Not one."}
+      ],
+      "narration": null,
+      "sfx": "pen cap click",
+      "overlay": {"kind": "calc", "content": {"lines": ["17 万 QPS ÷ 2,000 QPS/台 ≈ 85 台", "170,000 ÷ 2,000 per server ≈ 85 servers"], "assumption": {"zh": "假设：单机 2,000 QPS（以压测为准）", "en": "Assumption: 2,000 QPS per server (from load tests)"}}},
+      "gen": {"mode": "live", "prompt_en": "Vertical 9:16 medium close-up, slow push-in. Night meeting room, whiteboard behind her. {man} turns away from the whiteboard to face camera-left with a level, unblinking gaze and caps the marker with a small decisive click. No smile, quiet authority, blue and warm mixed light."},
+      "purpose": "REVERSAL 1 lands (~0:56): 小满 owns the room"
+    },
+    {
+      "id": 17, "location": "meeting_room_night", "shot_size": "2S", "camera": "static profile two-shot", "seconds": 4,
+      "cast": ["kai", "man"],
+      "action": "铁柱（画左）大步走到小满面前，近到一拳距离，用指甲「嗒」地点一下白板上的数字。同事窃窃私语，王总又犹豫了。",
+      "performance": {"kai": "strides in, stops inches away, tilts her head down at her, taps the board with a red nail, cold smile back on", "man": "does not step back, chin level", "wang": "glances between them, unsure"},
+      "dialogue": [{"who": "kai", "zh": "两千、十分钟，全是你猜的。", "en": "2,000? Ten minutes? You made it all up."}],
+      "narration": null,
+      "sfx": "heels on floor, nail tap on whiteboard, murmurs",
+      "overlay": null,
+      "gen": {"mode": "live", "prompt_en": "Vertical 9:16 profile two-shot, static. Night meeting room by the whiteboard. {kai} strides in from frame left and stops inches from {man} at frame right, tilts her head with a cold smile and taps the whiteboard with a red fingernail; {man} does not step back, chin level. Charged face-off between two women, blue projector light, tension."},
+      "purpose": "REVERSAL 2 (~1:01): 铁柱 strikes back with a half-valid point; the room wavers"
+    },
+    {
+      "id": 18, "location": "meeting_room_night", "shot_size": "OTS", "camera": "over 铁柱's shoulder, slow push-in on 小满", "seconds": 6,
+      "cast": ["man", "kai"],
+      "action": "越过铁柱肩头拍小满（画右）。她不退半步，平静承认，然后把话钉死。",
+      "performance": {"man": "nods once on '对', holds 铁柱's eyes; the last line is quieter than the rest", "kai": "blurred shoulder and hair in frame left, a slight recoil on the last line"},
+      "dialogue": [
+        {"who": "man", "zh": "对，是假设。再留三到五成余量。", "en": "Yes, assumptions. Add 30–50% headroom."},
+        {"who": "man", "zh": "不算，才是在赌。", "en": "Not doing the math is gambling."}
+      ],
+      "narration": null,
+      "sfx": "low string swell",
+      "overlay": {"kind": "calc", "content": {"lines": ["85 台 + 30–50% 余量", "85 servers + 30–50% headroom"], "assumption": {"zh": "单机 QPS 靠压测得出；假设错了就改", "en": "Per-server QPS comes from load tests; fix it if wrong"}}},
+      "gen": {"mode": "live", "prompt_en": "Vertical 9:16 over-the-shoulder shot, slow push-in. Night meeting room. Over {kai}'s blurred shoulder and wavy hair at frame left, {man} at frame right holds her gaze, nods once and answers calmly, unflinching, her voice dropping on the last words. Intimate, tense, blue projector light."},
+      "purpose": "Deepens the lesson: assumptions are labelled, headroom covers them; 小满 retakes the room"
+    },
+    {
+      "id": 19, "location": "meeting_room_night", "shot_size": "MS", "camera": "static, slight low angle", "seconds": 4,
+      "cast": ["wang"],
+      "action": "王总一巴掌拍在桌上站起来，指着小满。同事们松了一口气。",
+      "performance": {"wang": "slams his palm, shoots up, points across the room, booming", "colleagues": "exhale, a couple grin"},
+      "dialogue": [{"who": "wang", "zh": "听小满的！今晚加机器！", "en": "Do what Xiaoman says! More servers tonight!"}],
+      "narration": null,
+      "sfx": "palm slam on glass, cups jump",
+      "overlay": null,
+      "gen": {"mode": "live", "prompt_en": "Vertical 9:16 medium shot, slight low angle, static. Night meeting room. {wang} slams his palm on the glass table, shoots to his feet and points decisively toward camera-right, booming; cups jump, colleagues around the table exhale and grin. Dramatic, decisive, blue projector light."},
+      "purpose": "Power settles on 小满; 王总 makes the call"
+    },
+    {
+      "id": 20, "location": "meeting_room_night", "shot_size": "2S", "camera": "static, then slow push-in on 铁柱", "seconds": 5,
+      "cast": ["kai", "man"],
+      "action": "散会。门口两人擦肩，铁柱（画左）停住，没回头，低声问。小满顿半拍，只答两个字，走出门。铁柱盯着她的背影，下颌绷紧。",
+      "performance": {"kai": "stops dead, eyes forward, voice low and suspicious; after the answer her jaw tightens, eyes follow her out", "man": "a half-beat pause, the faintest smile, keeps walking"},
+      "dialogue": [
+        {"who": "kai", "zh": "你到底是谁？", "en": "Who are you, really?"},
+        {"who": "man", "zh": "实习生。", "en": "An intern."}
+      ],
+      "narration": null,
+      "sfx": "chairs, people filing out; a single piano note",
+      "overlay": null,
+      "gen": {"mode": "live", "prompt_en": "Vertical 9:16 two-shot at a glass meeting room door at night, slow push-in. People file out behind them. {kai} at frame left and {man} at frame right brush shoulders in the doorway; {kai} stops without turning her head and speaks low; {man} pauses half a beat, the faintest smile, and walks out; {kai} watches her go, jaw tightening. Suspicious, charged, dim blue light."},
+      "purpose": "马甲 tease: 你到底是谁？ (she calls back the hook's word '实习生')"
+    },
+    {
+      "id": 21, "location": null, "shot_size": "CARD", "camera": "static", "seconds": 6,
+      "cast": [],
+      "action": "相机快门声，白板照片定格成一张图总结（可收藏）。",
+      "performance": {},
+      "dialogue": [],
+      "narration": null,
+      "sfx": "camera shutter",
+      "overlay": {"kind": "card", "content": {
+        "title": {"zh": "一张图：估算 QPS 三步", "en": "Estimating QPS in 3 steps"},
+        "steps": [
+          {"zh": "① 总请求 = 人数 × 人均请求：1,000 万 × 10 = 1 亿", "en": "1. Total = users × requests each: 10M × 10 = 100M"},
+          {"zh": "② 峰值 QPS = 总请求 ÷ 高峰秒数：1 亿 ÷ 600 ≈ 17 万（别除 86,400）", "en": "2. Peak QPS = total ÷ peak seconds: 100M ÷ 600 ≈ 170K (not ÷ 86,400)"},
+          {"zh": "③ 机器数 = 峰值 ÷ 单机 QPS + 30–50% 余量：17 万 ÷ 2,000 ≈ 85 台起", "en": "3. Servers = peak ÷ per-server QPS + 30–50% headroom: ≈ 85+"}
+        ],
+        "footnote": {"zh": "假设：高峰 10 分钟；单机 2,000 QPS 以压测为准", "en": "Assumptions: 10-min peak; 2,000 QPS/server from load tests"}
+      }},
+      "gen": {"mode": "card", "prompt_en": null},
+      "purpose": "一张图总结 (save-worthy)"
+    },
+    {
+      "id": 22, "location": null, "shot_size": "CARD", "camera": "static", "seconds": 2,
+      "cast": [],
+      "action": "黑场时间卡。",
+      "performance": {},
+      "dialogue": [],
+      "narration": {"zh": "第二天晚上，开播三分钟。", "en": "Next night. Three minutes into the stream."},
+      "sfx": "clock tick",
+      "overlay": {"kind": "card", "content": {"zh": "次日 20:03 · 开播 3 分钟", "en": "Next day 20:03 · 3 min into the stream"}},
+      "gen": {"mode": "card", "prompt_en": null},
+      "purpose": "Time card"
+    },
+    {
+      "id": 23, "location": "war_room_night", "shot_size": "WS", "camera": "handheld, fast push-in", "seconds": 5,
+      "cast": [],
+      "action": "满墙大屏骤然全红，警报灯扫过整个房间。值班工程师一把扯下耳机站起来喊。",
+      "performance": {"on-call engineer": "rips off headset, jumps up, shouting over the alarm", "colleagues": "heads snap toward the red wall"},
+      "dialogue": [
+        {"who": "oncall", "zh": "数据库磁盘 99%！", "en": "Database disk at 99%!"},
+        {"who": "oncall", "zh": "订单存不进去了！", "en": "Orders aren't saving!"}
+      ],
+      "narration": null,
+      "sfx": "alarm klaxon, rising tension drone",
+      "overlay": {"kind": "card", "content": {"style": "alarm", "zh": "20:03 · 数据库磁盘 99% · 订单写入失败", "en": "20:03 · DB disk 99% · order writes failing"}},
+      "gen": {"mode": "live", "prompt_en": "Vertical 9:16 wide shot, handheld fast push-in. A dark livestream war room at night: a whole wall of monitoring screens with abstract graphs suddenly turns red, red alert light sweeps the room; an on-call engineer rips off his headset and jumps up shouting; colleagues at long desks snap their heads toward the wall. No readable text or numbers. Panic, urgent."},
+      "purpose": "CLIFFHANGER: new crisis (leads to lesson 4, storage)"
+    },
+    {
+      "id": 24, "location": "war_room_night", "shot_size": "2S", "camera": "static, rack focus 铁柱 to 小满", "seconds": 3,
+      "cast": ["kai", "man"],
+      "action": "红光里，铁柱（画左）猛地转头看向小满；小满（画右）盯着大屏，一动不动。",
+      "performance": {"kai": "head snaps toward 小满, lips parted, for the first time looking to her for the answer", "man": "eyes locked on the screens, red light on her face, quiet"},
+      "dialogue": [{"who": "man", "zh": "……不是服务器。", "en": "…It's not the servers."}],
+      "narration": null,
+      "sfx": "alarm muffles to a heartbeat",
+      "overlay": null,
+      "gen": {"mode": "live", "prompt_en": "Vertical 9:16 two-shot, static with rack focus from frame left to frame right. Dark war room washed in pulsing red alert light. {kai} at frame left snaps her head toward {man}, lips parted, searching her face; {man} at frame right stares at the wall of screens without moving, red light on her calm face, and says something quietly. Ominous, tense."},
+      "purpose": "Cliffhanger lands on the rivalry: 铁柱 now looks to 小满"
+    },
+    {
+      "id": 25, "location": null, "shot_size": "CARD", "camera": "static", "seconds": 3,
+      "cast": [],
+      "action": "下集预告卡。",
+      "performance": {},
+      "dialogue": [],
+      "narration": {"zh": "下集：磁盘满了。", "en": "Next: The Disk Is Full."},
+      "sfx": "sting",
+      "overlay": {"kind": "card", "content": {"zh": "下集 ·《磁盘满了》", "en": "Next · The Disk Is Full", "sub": {"zh": "存储要多大？算给你看", "en": "How much storage? Let's do the math"}}},
+      "gen": {"mode": "card", "prompt_en": null},
+      "purpose": "下集预告 (lesson 4: storage estimation)"
+    },
+    {
+      "id": 26, "location": null, "shot_size": "CARD", "camera": "static", "seconds": 10,
+      "cast": [],
+      "action": "考考你卡（标准考考你场景，内容取自 meta.json，不改）。",
+      "performance": {},
+      "dialogue": [],
+      "narration": null,
+      "sfx": "quiz chime",
+      "overlay": {"kind": "card", "content": {"style": "quiz", "source": "meta.json quiz",
+        "q_zh": "一百万人一分钟内涌进来，每人请求六次，峰值 QPS 大约多少？A 一万，B 十万",
+        "q_en": "1M people arrive within one minute, 6 requests each. Peak QPS: A) 10,000 or B) 100,000?",
+        "answer_zh": "答案：B。100 万 × 6 = 600 万次请求，按一分钟内均匀到达估算：600 万 ÷ 60 = 10 万 QPS。",
+        "answer_en": "Answer: B. 1M × 6 = 6M requests; spread evenly over 60 seconds, 6M ÷ 60 = 100,000 QPS."}},
+      "gen": {"mode": "card", "prompt_en": null},
+      "purpose": "考考你 quiz"
+    }
+  ]
+}
