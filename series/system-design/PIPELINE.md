@@ -17,7 +17,8 @@ confrontation. Each role is a separate agent (fresh context, its own brief) or a
       │
  5 拍摄 shoot: engine/shots.py   per shot: first frame (FLUX Kontext + cast & set refs) → motion (Kling 3.0, faces as elements)
  6 配音 voice                    dialogue lines per character + the two narrator cards (voice plan: see "Open decisions")
- 7 剪辑 edit: engine/render.py   cuts the shots in storyboard order, dialogue subtitles (speaker-colored), overlays (diagrams/calc drawn by
+ 7 剪辑 edit: engine/edit_points.py (Whisper word timestamps → cut each acted shot tight on its dialogue, so speakers
+                         pick up right after each other) → engine/storyboard.py (episode.js) → engine/render.py: cuts the shots in storyboard order, dialogue subtitles (speaker-colored), overlays (diagrams/calc drawn by
       │                         the engine, so numbers are exact), SFX/BGM, the quiz card; 4 platform cuts
  8 导演看片 director review      looks at the contact sheet + key frames of each shot; marks reshoots (max 1 round per episode)
       │
