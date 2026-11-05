@@ -1,0 +1,24 @@
+Take two strings, return the longer one.
+Such a simple function, and it won't compile?
+The compiler is really asking one question.
+Is the returned reference borrowed from x, or from y?
+If it doesn't know, it can't check the reference is still valid.
+Add a lifetime, tick a, to tie the three references together.
+It means the returned reference is valid
+no longer than the shorter-lived of x and y.
+Careful: a lifetime doesn't make anything live longer.
+It only describes a relationship, so the compiler can check it.
+b is freed at the closing brace.
+r is still used outside, and r may point to b,
+so the compiler stops it before it can run.
+So do you annotate every reference? No.
+When only one parameter is a reference,
+the compiler ties the result to it for you.
+To recap: a lifetime is a name for how long a reference is valid,
+it describes how references relate, without changing how long anything lives,
+and with only one reference parameter, you can skip it.
+Next time: iterators and closures.
+One line to process a whole list.
+Follow along and learn with me!
+Quick quiz: does this code compile?
+Yes or no? Tell me in the comments.

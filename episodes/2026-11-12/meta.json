@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-12",
+  "topic_zh": "用 Rust 调 HTTP API（reqwest + serde）",
+  "topic_en": "Calling an HTTP API from Rust with reqwest and serde",
+  "captions": {
+    "xhs": {
+      "title": "Rust 怎么调接口拿 JSON？",
+      "body": "第 20 课（Rust 系列最后一课）：用 reqwest + serde 调 HTTP API\ncargo add reqwest --features blocking,json，再 cargo add serde --features derive\n照着 JSON 写一个结构体，加 #[derive(Deserialize)]，字段名要和 JSON 的键一样\nClient::new().get(网址).header(\"User-Agent\", …).send()?.json()? 一条链拿到结构体\n多出来的字段直接忽略；类型不对会返回 Err，不会悄悄给你错的值\n考考你：JSON 里的键是 stargazers_count，结构体字段却写成 stars: u32，.json() 是 A 拿到 121083，还是 B 返回 Err？ 评论区告诉我～",
+      "tags": ["Rust", "编程入门", "程序员", "AI工程师", "碎片时间学AI工程师"]
+    },
+    "douyin": {
+      "title": "一分钟学会用 Rust 调 HTTP API",
+      "body": "reqwest 发请求，serde 把 JSON 变成结构体，get、send、json 一条链搞定。Rust 20 课完结！\n考考你：JSON 键是 stargazers_count，字段写成 stars: u32，是 A 拿到数字，还是 B 返回 Err？ 评论区告诉我～",
+      "tags": ["Rust", "编程", "程序员"]
+    },
+    "tiktok": {
+      "body": "Fetch JSON from a real API in Rust, in one minute: reqwest + serde. Quick quiz: the JSON key is stargazers_count but your struct field is stars: u32. A: you get 121083, or B: Err? Comment your answer.",
+      "tags": ["rust", "rustlang", "coding", "learntocode", "programming"]
+    },
+    "linkedin": {
+      "title": "Calling an HTTP API from Rust in about 10 lines",
+      "body": "Add two crates: reqwest (features blocking, json) and serde (feature derive).\nWrite a struct shaped like the JSON and add #[derive(Deserialize)]; field names must match the keys.\nClient::new().get(url).header(\"User-Agent\", ...).send()?.json()? gives you the struct directly.\nExtra JSON fields are ignored; a wrong type returns an Err instead of a silently wrong value.\nThis wraps up our 20-lesson Rust series.\nQuick quiz: the JSON key is stargazers_count but the struct field is stars: u32. A: you get 121083, or B: Err? Answer in the comments.",
+      "tags": ["Rust", "SoftwareEngineering", "AIEngineering"]
+    }
+  },
+  "quiz": {
+    "q_zh": "JSON 的键是 stargazers_count，结构体字段写成 stars: u32，.json() 的结果是 A 拿到 121083，还是 B 返回 Err？",
+    "q_en": "The JSON key is stargazers_count, but the struct field is stars: u32. Does .json() A: give 121083, or B: return an Err?",
+    "answer_zh": "答案：B，返回 Err：missing field `stars`。serde 按字段名找 JSON 的键，找不到就报错。想用别的名字，加 #[serde(rename = \"stargazers_count\")]。",
+    "answer_en": "Answer: B, an Err: missing field `stars`. serde matches field names to JSON keys and fails when one is missing. To use another name, add #[serde(rename = \"stargazers_count\")]."
+  }
+}

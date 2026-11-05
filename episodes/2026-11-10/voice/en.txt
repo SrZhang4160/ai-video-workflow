@@ -1,0 +1,23 @@
+Doubling every number with a loop?
+With an iterator and a closure, one line does it.
+First, closures: a tiny function with no name.
+Parameters go between the two bars, the result comes after.
+Store it in a variable and call it like a function.
+Closures can also use variables from outside.
+This k: the closure just uses it.
+Try that with a plain fn and it won't compile.
+An iterator hands out items one at a time.
+map transforms them, filter picks some,
+and each step takes a closure.
+Then sum finishes it off with the result.
+But careful: iterators are lazy.
+A map with nothing at the end does nothing at all.
+The compiler even warns you about it.
+Add collect or sum, and only then does it run.
+To sum up: a closure is a tiny nameless function,
+an iterator hands out items one by one,
+steps in between shape them, and the end makes it run.
+Next time, let's build a command-line tool.
+With the clap crate. Follow along, see you then!
+Quick quiz: what does this code print?
+A or B? Tell me in the comments.

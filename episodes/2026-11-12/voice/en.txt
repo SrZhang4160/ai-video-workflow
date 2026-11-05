@@ -1,0 +1,27 @@
+Want your Rust program to fetch data from the web?
+reqwest sends the request, and serde parses the J S O N.
+Let's try it: get the star count of the rust repo.
+First, add two crates with cargo add:
+reqwest with the blocking and json features,
+and serde with derive.
+Write a struct shaped like the JSON.
+Add derive Deserialize.
+Field names must match the JSON keys exactly.
+get takes the U R L, then add a User-Agent header.
+GitHub requires one; without it you get a four oh three.
+send sends it, and json turns the body into a Repo.
+Each step can fail, so the question mark passes the error up.
+main returns a Result, so the question mark works inside it.
+cargo run, and we really get the star count!
+What if the JSON and the struct don't match?
+Extra fields are simply ignored:
+there are over eighty fields, and taking just two is fine.
+A wrong type returns an Err. It never guesses.
+To recap: cargo add the two crates,
+derive Deserialize on a struct,
+then get, send, json: one chain and the data is yours.
+That's it: all 20 Rust lessons are done!
+A one-page summary of all twenty, plus a learning path,
+is coming soon as an illustrated post. Save it!
+Quick quiz: the field is renamed to stars. What happens?
+A or B? Tell me in the comments.

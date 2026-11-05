@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>每天1分钟学 Rust · 20 课学习手册</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+@page { size: A4; margin: 18mm 16mm 18mm 16mm; }
+:root { --ink:#16181d; --quiet:#5c6370; --line:#dfe2e8; --acc:#d9621f; --acc-soft:#fdeee4; --ok:#11845b; --ok-soft:#e2f4ec; --bad:#c2413b; --bad-soft:#f9e3e1; --blue:#2f62c8; --blue-soft:#e4ecfb; --code:#0f1117; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: "Noto Sans SC", "PingFang SC", sans-serif; color: var(--ink); font-size: 10.5pt; line-height: 1.7; }
+h1, h2, h3 { line-height: 1.3; margin: 0; }
+code, pre { font-family: "JetBrains Mono", ui-monospace, Menlo, monospace; font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
+p { margin: 0 0 6px; }
+ul { margin: 4px 0 8px; padding-left: 18px; }
+li { margin: 2px 0; }
+.acc { color: var(--acc); }
+
+/* cover */
+.cover { height: 257mm; display: flex; flex-direction: column; justify-content: space-between; page-break-after: always; }
+.cover .top { font-size: 11pt; color: var(--quiet); letter-spacing: .08em; }
+.cover h1 { font-size: 40pt; font-weight: 900; margin-top: 30mm; }
+.cover h1 .acc { display: block; }
+.cover .sub { font-size: 14pt; color: var(--quiet); margin-top: 6mm; }
+.cover .map { display: grid; gap: 3mm; margin-top: 14mm; }
+.cover .layer { border: 1px solid var(--line); border-left: 5px solid var(--acc); border-radius: 6px; padding: 3mm 5mm; display: flex; justify-content: space-between; align-items: baseline; }
+.cover .layer b { font-size: 12pt; }
+.cover .layer span { color: var(--quiet); font-size: 10pt; }
+.cover .foot { color: var(--quiet); font-size: 9.5pt; border-top: 1px solid var(--line); padding-top: 4mm; }
+
+/* toc */
+.toc { page-break-after: always; }
+.toc h2, .part h2 { font-size: 20pt; font-weight: 900; margin-bottom: 4mm; }
+.toc table { width: 100%; border-collapse: collapse; font-size: 10pt; }
+.toc td { padding: 2.2mm 2mm; border-bottom: 1px solid var(--line); vertical-align: top; }
+.toc td.n { width: 12mm; color: var(--acc); font-weight: 700; font-family: "JetBrains Mono", monospace; }
+.toc td.p { width: 34mm; color: var(--quiet); }
+.howto { margin-top: 8mm; background: var(--blue-soft); border-radius: 8px; padding: 4mm 5mm; font-size: 10pt; }
+
+/* parts and lessons */
+.part { page-break-before: always; }
+.part .intro { color: var(--quiet); margin-bottom: 5mm; }
+.lesson { border-top: 2px solid var(--ink); padding-top: 3mm; margin-top: 6mm; break-inside: avoid-page; }
+.lesson .hd { display: flex; gap: 3mm; align-items: baseline; }
+.lesson .no { font-family: "JetBrains Mono", monospace; font-weight: 700; color: var(--acc); font-size: 13pt; }
+.lesson h3 { font-size: 14pt; font-weight: 800; }
+.lesson .one { margin: 2mm 0 2mm; font-weight: 700; background: var(--acc-soft); border-radius: 6px; padding: 2mm 4mm; }
+pre { background: var(--code); color: #e6e9ef; border-radius: 6px; padding: 3mm 4mm; font-size: 8.8pt; line-height: 1.55; margin: 2mm 0 3mm; white-space: pre-wrap; break-inside: avoid; }
+pre .c { color: #7f8796; }
+.pit { background: var(--bad-soft); border-radius: 6px; padding: 2mm 4mm; margin: 2mm 0; font-size: 10pt; }
+.pit b { color: var(--bad); }
+.quiz { background: var(--ok-soft); border-radius: 6px; padding: 2mm 4mm; margin: 2mm 0; font-size: 10pt; }
+.quiz b { color: var(--ok); }
+.quiz code, .pit code, li code, p code, td code { background: rgba(0,0,0,.06); border-radius: 3px; padding: 0 3px; font-size: 9pt; }
+
+/* path */
+.stage { border: 1px solid var(--line); border-radius: 8px; padding: 4mm 5mm; margin: 4mm 0; break-inside: avoid; }
+.stage .sh { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2mm; }
+.stage .sh b { font-size: 13pt; }
+.stage .sh span { color: var(--acc); font-weight: 700; }
+.stage .grid { display: grid; grid-template-columns: 22mm 1fr; gap: 1.5mm 3mm; font-size: 10pt; }
+.stage .grid .k { color: var(--quiet); font-weight: 700; }
+table.ref { width: 100%; border-collapse: collapse; font-size: 9.6pt; margin: 2mm 0 5mm; }
+table.ref th { text-align: left; background: #f2f3f6; padding: 2mm; }
+table.ref td { padding: 2mm; border-bottom: 1px solid var(--line); vertical-align: top; }
+.end { margin-top: 8mm; text-align: center; color: var(--quiet); font-size: 9.5pt; }
+</style>
+</head>
+<body>
+
+<section class="cover">
+  <div class="top">每天1分钟，碎片时间学AI工程师 · Rust 篇</div>
+  <div>
+    <h1>20 课学会 Rust<span class="acc">学习手册</span></h1>
+    <div class="sub">每课一个知识点 · 能编译的代码 · 常见坑 · 小测验答案 · 系统学习路径</div>
+    <div class="map">
+      <div class="layer"><b>① 基础语法</b><span>第 1–5 课 · 变量、类型、函数、控制流</span></div>
+      <div class="layer"><b>② 所有权与借用</b><span>第 6–9 课 · Rust 的灵魂</span></div>
+      <div class="layer"><b>③ 数据建模</b><span>第 10–12 课 · struct、enum、Option</span></div>
+      <div class="layer"><b>④ 错误处理与工程化</b><span>第 13–14 课 · Result、?、Cargo</span></div>
+      <div class="layer"><b>⑤ 抽象</b><span>第 15–17 课 · trait、泛型、生命周期</span></div>
+      <div class="layer"><b>⑥ 进阶与实战</b><span>第 18–20 课 · 迭代器闭包、命令行、HTTP</span></div>
+    </div>
+  </div>
+  <div class="foot">本手册所有代码都用 rustc 1.98（edition 2021）实测：标「编译不过」的代码确实报所写的错误。第 19、20 课用 clap 4.6、reqwest 0.13、serde 1.0 实际编译运行过。</div>
+</section>
+
+<section class="toc">
+  <h2>目录</h2>
+  <table>
+    <tr><td class="n">01</td><td>Rust 知识全景：五块知识怎么搭</td><td class="p">① 基础语法</td></tr>
+    <tr><td class="n">02</td><td>变量：let、mut 和 shadowing</td><td class="p">① 基础语法</td></tr>
+    <tr><td class="n">03</td><td>基本类型：整数、浮点、bool、char、元组、数组</td><td class="p">① 基础语法</td></tr>
+    <tr><td class="n">04</td><td>函数与表达式：最后一行不加分号就是返回值</td><td class="p">① 基础语法</td></tr>
+    <tr><td class="n">05</td><td>控制流：if 是表达式，loop / while / for</td><td class="p">① 基础语法</td></tr>
+    <tr><td class="n">06</td><td>所有权的三条规则</td><td class="p">② 所有权与借用</td></tr>
+    <tr><td class="n">07</td><td>Move、Clone、Copy 有什么区别</td><td class="p">② 所有权与借用</td></tr>
+    <tr><td class="n">08</td><td>借用：&amp; 和 &amp;mut 的规则</td><td class="p">② 所有权与借用</td></tr>
+    <tr><td class="n">09</td><td>String 和 &amp;str：切片是什么</td><td class="p">② 所有权与借用</td></tr>
+    <tr><td class="n">10</td><td>struct + impl：给数据加方法</td><td class="p">③ 数据建模</td></tr>
+    <tr><td class="n">11</td><td>enum + match：穷尽所有情况</td><td class="p">③ 数据建模</td></tr>
+    <tr><td class="n">12</td><td>Option：Rust 为什么没有 null</td><td class="p">③ 数据建模</td></tr>
+    <tr><td class="n">13</td><td>Result 和 ? 运算符：错误处理</td><td class="p">④ 错误处理与工程化</td></tr>
+    <tr><td class="n">14</td><td>Cargo：建项目、加依赖、跑测试</td><td class="p">④ 错误处理与工程化</td></tr>
+    <tr><td class="n">15</td><td>trait：定义共同行为</td><td class="p">⑤ 抽象</td></tr>
+    <tr><td class="n">16</td><td>泛型：一份代码，多种类型</td><td class="p">⑤ 抽象</td></tr>
+    <tr><td class="n">17</td><td>生命周期入门：'a 到底在说什么</td><td class="p">⑤ 抽象</td></tr>
+    <tr><td class="n">18</td><td>迭代器和闭包</td><td class="p">⑥ 进阶与实战</td></tr>
+    <tr><td class="n">19</td><td>用 clap 写一个命令行工具</td><td class="p">⑥ 进阶与实战</td></tr>
+    <tr><td class="n">20</td><td>用 Rust 调 HTTP API（reqwest + serde）</td><td class="p">⑥ 进阶与实战</td></tr>
+    <tr><td class="n">→</td><td>系统学习 Rust 的路径（8 周 + 进阶）</td><td class="p">学习路径</td></tr>
+    <tr><td class="n">→</td><td>附录：Cargo 命令速查 · 常见编译错误码</td><td class="p">附录</td></tr>
+  </table>
+  <div class="howto"><b>怎么用这份手册：</b>每课先看「一句话」，再把代码敲一遍（别复制粘贴），故意改成「编译不过」的版本看编译器怎么说，最后做小测验。Rust 的编译器是最好的老师：报错信息里的 <code>error[E0382]</code> 这类错误码，用 <code>rustc --explain E0382</code> 能看到完整解释。</div>
+</section>
+
+<!-- ① -->
+<section class="part">
+  <h2>① 基础语法</h2>
+  <p class="intro">学过 Python、JavaScript 的话，这一层很快。重点是两件事：变量默认不可变；几乎一切都是表达式。</p>
+
+  <div class="lesson">
+    <div class="hd"><span class="no">01</span><h3>Rust 知识全景：五块知识怎么搭</h3></div>
+    <div class="one">Rust 的知识是一层层往上搭的：基础语法 → 所有权 → 数据建模 → 工程化 → 进阶。所有权最难，也最重要。</div>
+    <ul>
+      <li><b>基础语法</b>：变量、函数、条件、循环。</li>
+      <li><b>所有权</b>：一个值只有一个主人，想用就借。不用垃圾回收，内存也安全。</li>
+      <li><b>数据建模</b>：struct 描述数据，enum 表示几种可能，trait 定义共同行为。</li>
+      <li><b>工程化</b>：Cargo 管项目，Result 处理错误，cargo test 跑测试。</li>
+      <li><b>进阶</b>：迭代器、闭包、智能指针、并发和异步。</li>
+    </ul>
+    <div class="pit"><b>建议：</b>基础快速过，所有权一定要吃透。后面每一课遇到的编译错误，十有八九和所有权、借用有关。</div>
+  </div>
+
+  <div class="lesson">
+    <div class="hd"><span class="no">02</span><h3>变量：let、mut 和 shadowing</h3></div>
+    <div class="one">变量默认不能改；要改值加 <code>mut</code>；要换类型用 shadowing（再写一次 <code>let</code>）。</div>
+<pre>let x = 5;
+// x = 6;               <span class="c">// 编译不过：E0384，不能给不可变变量赋两次值</span>
+let mut y = 1;
+y += 1;                 <span class="c">// 加了 mut，可以改</span>
+let s = "42";           <span class="c">// &amp;str</span>
+let s: i32 = s.parse().unwrap();  <span class="c">// shadowing：同名新变量，类型换成 i32</span></pre>
+    <ul>
+      <li>默认不可变是故意的：一眼就能看出哪些值会变，编译期就能拦住误改。</li>
+      <li><code>mut</code> 只能改值，不能改类型；shadowing 是新变量，可以换类型。</li>
+    </ul>
+  </div>
+
+  <div class="lesson">
+    <div class="hd"><span class="no">03</span><h3>基本类型：整数、浮点、bool、char、元组、数组</h3></div>
+    <div class="one">标量是单个值（整数、浮点、bool、char）；复合类型里，元组装不同类型，数组装同一种类型、长度固定。</div>
+<pre>let a: u8 = 255;           <span class="c">// u = 无符号，8 = 位数；整数默认 i32</span>
+let b = 3.0;               <span class="c">// 浮点默认 f64</span>
+let c = true;              <span class="c">// bool：true / false</span>
+let d = '中';              <span class="c">// char 用单引号，一个 Unicode 字符</span>
+let t: (i32, f64, char) = (1, 2.0, 'a');
+let first = t.0;           <span class="c">// 元组用 .下标</span>
+let arr: [i32; 3] = [1, 2, 3];
+let x = arr[0];            <span class="c">// 数组用 [下标]，长度写在类型里</span></pre>
+    <div class="pit"><b>坑：</b>整数和浮点不能直接相加（<code>1 + 2.0</code> 报 E0277），Rust 不会偷偷转换，要自己写 <code>as f64</code>。</div>
+    <div class="quiz"><b>考考你：</b><code>let x = 3.0;</code> x 是 f32 还是 f64？ <b>答案：</b>f64，浮点数不写类型时默认 f64。</div>
+  </div>
+
+  <div class="lesson">
+    <div class="hd"><span class="no">04</span><h3>函数与表达式：最后一行不加分号就是返回值</h3></div>
+    <div class="one">语句只做事、不产生值；表达式会算出一个值。函数体最后一行不加分号，它的值就是返回值。</div>
+<pre>fn add(a: i32, b: i32) -> i32 {   <span class="c">// 参数必须标类型，-> 后写返回类型</span>
+    a + b                          <span class="c">// 没有分号：这是返回值</span>
+}
+
+let y = {                          <span class="c">// 代码块也是表达式</span>
+    let x = 3;
+    x + 1                          <span class="c">// y = 4</span>
+};</pre>
+    <ul>
+      <li>加上分号，表达式就变成语句，值被丢掉，只剩空元组 <code>()</code>。</li>
+      <li>想提前返回，才用 <code>return</code>。</li>
+    </ul>
+    <div class="quiz"><b>考考你：</b><code>fn five() -> i32 { 5; }</code> 能编译吗？ <b>答案：</b>不能。<code>5;</code> 是语句，函数实际返回 <code>()</code>，和 i32 对不上（E0308）。去掉分号就好。</div>
+  </div>
+
+  <div class="lesson">
+    <div class="hd"><span class="no">05</span><h3>控制流：if 是表达式，loop / while / for</h3></div>
+    <div class="one">if 是表达式，能直接赋值；一直转用 loop（break 可以带值），按条件用 while，遍历用 for。</div>
+<pre>let kind = if n % 2 == 0 { "even" } else { "odd" };  <span class="c">// 不需要三元运算符</span>
+
+let mut c = 0;
+let r = loop {
+    c += 1;
+    if c == 10 { break c * 2; }    <span class="c">// 只有 loop 的 break 能带值出来</span>
+};
+while c > 0 { c -= 1; }
+for i in 0..3 { println!("{i}"); } <span class="c">// 0, 1, 2（不含 3）</span></pre>
+    <div class="quiz"><b>考考你：</b><code>let n = if true { 1 } else { "one" };</code> 能编译吗？ <b>答案：</b>不能。两个分支必须是同一种类型：1 是整数，"one" 是 &amp;str（E0308）。</div>
+  </div>
+</section>
+
+<!-- ② -->
+<section class="part">
+  <h2>② 所有权与借用</h2>
+  <p class="intro">Rust 不用垃圾回收、也不用手动释放内存，靠的就是这一层：编译时就把内存的账算清楚。</p>
+
+  <div class="lesson">
+    <div class="hd"><span class="no">06</span><h3>所有权的三条规则</h3></div>
+    <div class="one">每个值都有一个主人；同一时刻只有一个主人；主人离开作用域，值被自动清理。</div>
+<pre>let s1 = String::from("hi");
+let s2 = s1;          <span class="c">// 所有权交给 s2</span>
+// println!("{s1}");  <span class="c">// 编译不过：E0382 borrow of moved value</span>
+}                     <span class="c">// s2 离开作用域，内存自动释放（编译器插入 drop）</span></pre>
+    <table class="ref">
+      <tr><th>方式</th><th>谁来释放</th><th>代价</th></tr>
+      <tr><td>手动释放（C）</td><td>程序员</td><td>容易漏放、重复放</td></tr>
+      <tr><td>垃圾回收（Java、Go）</td><td>运行时</td><td>运行时额外开销</td></tr>
+      <tr><td>所有权（Rust）</td><td>编译器</td><td>编译时检查，运行时零开销</td></tr>
+    </table>
+  </div>
+
+  <div class="lesson">
+    <div class="hd"><span class="no">07</span><h3>Move、Clone、Copy 有什么区别</h3></div>
+    <div class="one">Move 搬走所有权，旧变量作废；Clone 手动完整复制一份，可能很贵；Copy 自动复制，旧变量照样能用。</div>
+<pre>let s1 = String::from("hi");
+let s2 = s1.clone();   <span class="c">// 堆上的数据完整复制一份，s1、s2 都能用</span>
+let a = 5;
+let b = a;             <span class="c">// i32 实现了 Copy：a 照样能用</span></pre>
+    <ul>
+      <li>Move 和 Copy 底层一样，都是复制栈上的字节；区别只在旧变量还能不能用。</li>
+      <li>整数、浮点、bool、char 是 Copy；String、Vec 管着堆内存，不是 Copy。</li>
+      <li>自定义类型可以 <code>#[derive(Clone, Copy)]</code>（前提是字段都是 Copy）。</li>
+    </ul>
+    <div class="quiz"><b>考考你：</b><code>let a = 5; let b = a;</code> 之后再打印 a，能编译吗？ <b>答案：</b>能。i32 是 Copy，换成 String 就不行。</div>
+  </div>
+
+  <div class="lesson">
+    <div class="hd"><span class="no">08</span><h3>借用：&amp; 和 &amp;mut 的规则</h3></div>
+    <div class="one">同一时刻，要么很多个 &amp;（只读），要么只有一个 &amp;mut（能改）。不能一边读一边改。</div>
+<pre>fn len(s: &amp;String) -> usize { s.len() }     <span class="c">// 只借来读，所有权不动</span>
+fn push_bang(s: &amp;mut String) { s.push('!'); } <span class="c">// 借来改</span>
+
+let mut s = String::from("hi");   <span class="c">// 要可变借用，变量本身也得是 mut</span>
+let n = len(&amp;s);
+push_bang(&amp;mut s);
+let r = &amp;s;
+println!("{r}");    <span class="c">// r 最后一次使用，借用到这里就结束了</span>
+s.push('a');        <span class="c">// 所以这里可以改</span></pre>
+    <ul>
+      <li>这条规则从根上避免了数据竞争。</li>
+      <li>借用的范围到「最后一次使用」为止，不用等到大括号结束（NLL）。</li>
+    </ul>
+    <div class="quiz"><b>考考你：</b><code>let r = &amp;s; s.push('a'); println!("{r}");</code> 能编译吗？ <b>答案：</b>不能（E0502）。r 后面还要用，这时不能可变借用 s。把 println 挪到 push 前面就行。</div>
+  </div>
+
+  <div class="lesson">
+    <div class="hd"><span class="no">09</span><h3>String 和 &amp;str：切片是什么</h3></div>
+    <div class="one">String 拥有自己的文字，放在堆上、能变长；&amp;str 是字符串切片，只借来看一段（起点 + 长度）。</div>
+<pre>fn first_word(s: &amp;str) -> &amp;str {   <span class="c">// 参数写 &amp;str 最通用</span>
+    s.split(' ').next().unwrap_or("")
+}
+let s = String::from("hello world");
+let w = first_word(&amp;s);            <span class="c">// &amp;String 自动转成 &amp;str</span>
+let lit = first_word("hi there");  <span class="c">// 字面量本身就是 &amp;str</span>
+let part = &amp;s[0..5];               <span class="c">// "hello"，按字节下标切</span></pre>
+    <div class="pit"><b>坑：</b>切片按<b>字节</b>切。中文一个字 3 个字节，切到半个字会 panic。处理中文请用 <code>.chars()</code>。</div>
+    <div class="quiz"><b>考考你：</b><code>let s = "hi"; s.push('!');</code> 能编译吗？ <b>答案：</b>不能（E0599）。"hi" 是只读的 &amp;str，没有 push。要改就用 <code>let mut s = String::from("hi");</code></div>
+  </div>
+</section>
+
+<!-- ③ -->
+<section class="part">
+  <h2>③ 数据建模</h2>
+  <p class="intro">用 struct 描述「几样都有」的数据，用 enum 描述「几种里选一种」，再用 Option 把「可能没有」写进类型里。</p>
+
+  <div class="lesson">
+    <div class="hd"><span class="no">10</span><h3>struct + impl：给数据加方法</h3></div>
+    <div class="one">Rust 没有 class：struct 放数据，impl 放方法。第一个参数是 self 的叫方法（用 . 调用），没有的叫关联函数（用 :: 调用）。</div>
+<pre>struct Rect { w: u32, h: u32 }
+
+impl Rect {
+    fn new(w: u32, h: u32) -> Self { Rect { w, h } }  <span class="c">// 关联函数：Rect::new(3, 4)</span>
+    fn area(&amp;self) -> u32 { self.w * self.h }       <span class="c">// &amp;self：只读</span>
+    fn grow(&amp;mut self) { self.w += 1; }             <span class="c">// &amp;mut self：能改</span>
+}
+let mut r = Rect::new(3, 4);
+r.area();   <span class="c">// 12</span></pre>
+    <ul><li><code>&amp;self</code> 只读、<code>&amp;mut self</code> 能改、<code>self</code> 拿走所有权，正好对应前几课的三种方式。</li></ul>
+    <div class="quiz"><b>考考你：</b><code>fn inc(&amp;self) { self.n += 1; }</code> 能编译吗？ <b>答案：</b>不能（E0594）。&amp;self 只读，要改就写 <code>&amp;mut self</code>。</div>
+  </div>
+
+  <div class="lesson">
+    <div class="hd"><span class="no">11</span><h3>enum + match：穷尽所有情况</h3></div>
+    <div class="one">enum 列出所有可能；match 每种情况都得处理，漏了一种就编译不过。</div>
+<pre>enum Light { Red, Yellow, Green }
+
+fn secs(l: Light) -> u32 {
+    match l {                 <span class="c">// match 也是表达式</span>
+        Light::Red => 30,
+        Light::Yellow => 3,
+        Light::Green => 25,   <span class="c">// 少写一个分支：E0004 non-exhaustive</span>
+    }
+}</pre>
+    <div class="pit"><b>坑：</b><code>_ =&gt;</code> 能兜住剩下的情况，但以后新加的情况也会被它悄悄吞掉，失去「漏写就报错」的保护。</div>
+    <div class="quiz"><b>考考你：</b><code>enum Dir { Up, Down, Left }</code>，match 里只写 <code>Dir::Up</code> 和 <code>_</code>，能编译吗？ <b>答案：</b>能，<code>_</code> 匹配了剩下的所有情况。</div>
+  </div>
+
+  <div class="lesson">
+    <div class="hd"><span class="no">12</span><h3>Option：Rust 为什么没有 null</h3></div>
+    <div class="one">Rust 没有空值，用 <code>Option&lt;T&gt;</code>（Some(值) 或 None）把「可能没有」写进类型。Option&lt;i32&gt; 不是 i32，不处理 None 就用不了。</div>
+<pre>fn plus_one(x: Option&lt;i32&gt;) -> i32 {
+    match x {
+        Some(n) => n + 1,
+        None => 0,
+    }
+}
+if let Some(n) = x { println!("{n}"); }  <span class="c">// 只关心有值的情况</span>
+let v = x.unwrap_or(0);                  <span class="c">// 给默认值</span></pre>
+    <div class="pit"><b>坑：</b><code>x + 1</code>（x 是 Option&lt;i32&gt;）编译不过（E0369）。<code>unwrap()</code> 遇到 None 会直接崩，正式代码少用。</div>
+    <div class="quiz"><b>考考你：</b><code>let x: Option&lt;i32&gt; = Some(5);</code> match 只写 <code>Some(n)</code>，能编译吗？ <b>答案：</b>不能（E0004）。编译器只看类型不看值，漏了 None 就报错。</div>
+  </div>
+</section>
+
+<!-- ④ -->
+<section class="part">
+  <h2>④ 错误处理与工程化</h2>
+  <p class="intro">Rust 没有异常：错误也是一个值。Cargo 一个工具管完建项目、依赖、测试。</p>
+
+  <div class="lesson">
+    <div class="hd"><span class="no">13</span><h3>Result 和 ? 运算符：错误处理</h3></div>
+    <div class="one"><code>Result&lt;T, E&gt;</code>：成功是 Ok(值)，失败是 Err(错误)。match 就地处理，? 把错误交给上层，unwrap 只在确定不会错时用。</div>
+<pre>use std::num::ParseIntError;
+
+fn parse_sum(a: &amp;str, b: &amp;str) -> Result&lt;i32, ParseIntError&gt; {
+    let x: i32 = a.parse()?;   <span class="c">// 成功取值继续，失败直接 return Err</span>
+    let y: i32 = b.parse()?;
+    Ok(x + y)
+}
+parse_sum("1", "2");   <span class="c">// Ok(3)</span>
+parse_sum("a", "2");   <span class="c">// Err(...)</span></pre>
+    <ul><li>比起 Option，Result 还能说出失败的原因。连 <code>main</code> 都可以返回 Result。</li></ul>
+    <div class="quiz"><b>考考你：</b><code>fn f() -> i32 { let n: i32 = "7".parse()?; n }</code> 能编译吗？ <b>答案：</b>不能（E0277）。用 ? 的函数自己也得返回 Result（或 Option）。</div>
+  </div>
+
+  <div class="lesson">
+    <div class="hd"><span class="no">14</span><h3>Cargo：建项目、加依赖、跑测试</h3></div>
+    <div class="one">四个命令走完一个项目：<code>cargo new</code> 建项目、<code>cargo run</code> 运行、<code>cargo add</code> 加依赖、<code>cargo test</code> 跑测试。</div>
+<pre>$ cargo new hello      <span class="c"># 生成 Cargo.toml 和 src/main.rs</span>
+$ cd hello &amp;&amp; cargo run
+$ cargo add serde      <span class="c"># 写进 Cargo.toml，编译时从 crates.io 下载</span>
+$ cargo test
+
+#[test]
+fn adds() {
+    assert_eq!(add(2, 2), 4);   <span class="c">// 不相等就 panic，测试失败</span>
+}</pre>
+    <div class="quiz"><b>考考你：</b><code>assert_eq!(2 + 2, 5);</code> 跑 cargo test，结果是 ok 还是 FAILED？ <b>答案：</b>FAILED，assert_eq! 不相等会 panic。</div>
+  </div>
+</section>
+
+<!-- ⑤ -->
+<section class="part">
+  <h2>⑤ 抽象：trait、泛型、生命周期</h2>
+  <p class="intro">trait 定义「能做什么」，泛型让一份代码用于多种类型，生命周期告诉编译器「引用能活多久」。三者都在编译期检查，没有运行时开销。</p>
+
+  <div class="lesson">
+    <div class="hd"><span class="no">15</span><h3>trait：定义共同行为</h3></div>
+    <div class="one">trait 是一份行为清单。给类型实现它，一个参数 <code>&amp;impl Trait</code> 就能收下所有实现了它的类型。</div>
+<pre>trait Speak {
+    fn speak(&amp;self) -> String;                 <span class="c">// 只有签名：必须实现</span>
+    fn hello(&amp;self) -> String {                <span class="c">// 默认实现：可以不写</span>
+        format!("I say {}", self.speak())
+    }
+}
+struct Dog; struct Cat;
+impl Speak for Dog { fn speak(&amp;self) -> String { "woof".into() } }
+impl Speak for Cat { fn speak(&amp;self) -> String { "meow".into() } }
+
+fn talk(x: &amp;impl Speak) { println!("{}", x.speak()); }
+talk(&amp;Dog); talk(&amp;Cat);   <span class="c">// 没实现 Speak 的类型传进来：编译报错</span></pre>
+    <div class="quiz"><b>考考你：</b><code>impl Speak for Dog {}</code>（speak 没有默认实现）能编译吗？ <b>答案：</b>不能（E0046），必须把 speak 写出来。</div>
+  </div>
+
+  <div class="lesson">
+    <div class="hd"><span class="no">16</span><h3>泛型：一份代码，多种类型</h3></div>
+    <div class="one"><code>&lt;T&gt;</code> 声明类型参数，trait 约束规定 T 能做什么。编译时按用到的类型各生成一份，跑起来和手写一样快。</div>
+<pre>fn largest&lt;T: PartialOrd&gt;(a: T, b: T) -> T {   <span class="c">// 不加约束，a &gt; b 编译不过（E0369）</span>
+    if a > b { a } else { b }
+}
+largest(3, 7);        <span class="c">// 7，T = i32</span>
+largest("a", "b");    <span class="c">// "b"，T = &amp;str</span>
+
+struct Pair&lt;T&gt; { a: T, b: T }   <span class="c">// Option&lt;T&gt;、Vec&lt;T&gt; 也都是泛型</span></pre>
+    <ul><li>上一课的 <code>&amp;impl Speak</code> 其实就是泛型 <code>&lt;T: Speak&gt;</code> 的简写。</li></ul>
+    <div class="quiz"><b>考考你：</b><code>fn show&lt;T&gt;(x: T) { println!("{}", x); }</code> 能编译吗？ <b>答案：</b>不能（E0277），T 不一定能打印。改成 <code>T: std::fmt::Display</code>。</div>
+  </div>
+
+  <div class="lesson">
+    <div class="hd"><span class="no">17</span><h3>生命周期入门：'a 到底在说什么</h3></div>
+    <div class="one"><code>'a</code> 不改变任何值活多久，它只是告诉编译器：返回的引用和哪个参数活得一样久，好让编译器检查不会出现悬垂引用。</div>
+<pre>// fn longest(x: &amp;str, y: &amp;str) -> &amp;str   <span class="c">// E0106：返回的引用来自 x 还是 y？</span>
+fn longest&lt;'a&gt;(x: &amp;'a str, y: &amp;'a str) -> &amp;'a str {
+    if x.len() > y.len() { x } else { y }
+}
+
+let r;
+{
+    let s = String::from("hi");
+    r = &amp;s;        <span class="c">// E0597：s 在这个大括号结束就没了</span>
+}
+// println!("{r}"); <span class="c">// r 会指向已经释放的内存，所以编译器不让</span>
+
+struct Excerpt&lt;'a&gt; { part: &amp;'a str }   <span class="c">// 结构体里存引用，也要标生命周期</span></pre>
+    <ul>
+      <li>大多数时候不用写：编译器有「省略规则」，比如只有一个引用参数时，返回值自动跟它一样久。</li>
+      <li>只有编译器推不出来（多个引用参数、返回引用、结构体存引用）时才需要写。</li>
+    </ul>
+    <div class="quiz"><b>考考你：</b><code>fn first(x: &amp;str, n: usize) -> &amp;str { &amp;x[..n] }</code> 能编译吗？ <b>答案：</b>能。只有 x 一个引用参数，省略规则自动把返回值和 x 绑在一起，等于写了 <code>&lt;'a&gt;</code>。</div>
+  </div>
+</section>
+
+<!-- ⑥ -->
+<section class="part">
+  <h2>⑥ 进阶与实战</h2>
+  <p class="intro">把前面的知识拼起来：迭代器链处理数据，clap 做命令行，reqwest + serde 调网络 API。学完这三课，就能写出真正有用的小工具。</p>
+
+  <div class="lesson">
+    <div class="hd"><span class="no">18</span><h3>迭代器和闭包</h3></div>
+    <div class="one">闭包是能捕获周围变量的匿名函数 <code>|x| x * k</code>；迭代器用 map / filter 串成一条链，最后用 collect、sum 这类方法真正跑起来。</div>
+<pre>let v = vec![1, 2, 3, 4];
+let k = 10;
+let out: Vec&lt;i32&gt; = v.iter()
+    .filter(|&amp;&amp;x| x % 2 == 0)   <span class="c">// 闭包当参数</span>
+    .map(|x| x * k)             <span class="c">// 捕获外面的 k</span>
+    .collect();                 <span class="c">// [20, 40]</span>
+let total: i32 = v.iter().sum();   <span class="c">// 10</span>
+
+let s = String::from("hi");
+let own = move || println!("{s}");  <span class="c">// move：把 s 的所有权搬进闭包</span></pre>
+    <ul>
+      <li>迭代器是惰性的：只写 map 不 collect，什么都不会执行（编译器会提示 unused）。</li>
+      <li><code>iter()</code> 借元素（&amp;T），<code>iter_mut()</code> 可变借用，<code>into_iter()</code> 拿走所有权。</li>
+      <li>编译后和手写 for 循环一样快（零成本抽象）。</li>
+    </ul>
+    <div class="pit"><b>坑：</b><code>let d: Vec&lt;i32&gt; = v.iter().map(|x| x * 2);</code> 编译不过（E0308）：map 返回的是迭代器，不是 Vec，要加 <code>.collect()</code>。</div>
+    <div class="quiz"><b>考考你：</b><code>v.iter().map(|x| println!("{}", x));</code> 会打印 1 2 3 吗？ <b>答案：</b>什么都不打印。迭代器是惰性的，没有 collect / for_each 这类消费者，闭包根本不执行。改成 <code>v.iter().for_each(|x| println!("{}", x));</code></div>
+  </div>
+
+  <div class="lesson">
+    <div class="hd"><span class="no">19</span><h3>用 clap 写一个命令行工具</h3></div>
+    <div class="one">用 clap 的 derive 写法：定义一个 struct，字段就是参数，<code>#[derive(Parser)]</code> 自动生成解析、校验和 --help。</div>
+<pre>$ cargo new greet &amp;&amp; cd greet
+$ cargo add clap --features derive
+
+use clap::Parser;
+
+/// 向某人打招呼
+#[derive(Parser)]
+struct Args {
+    /// 名字
+    name: String,                          <span class="c">// 位置参数（必填）</span>
+    /// 打招呼的次数
+    #[arg(short, long, default_value_t = 1)]
+    count: u8,                             <span class="c">// -c / --count，默认 1</span>
+}
+
+fn main() {
+    let args = Args::parse();
+    for _ in 0..args.count {
+        println!("Hello, {}!", args.name);
+    }
+}
+
+$ cargo run -- Rust -c 2     <span class="c"># Hello, Rust! 打印两遍</span>
+$ cargo run -- --help        <span class="c"># 文档注释 /// 自动变成帮助文字</span></pre>
+    <ul>
+      <li>不传 name 会报错 <code>the following required arguments were not provided</code>，校验 clap 帮你做了。</li>
+      <li><code>count: u8</code> 传 <code>-c abc</code> 会自动报类型错误；想让参数可选就用 <code>Option&lt;T&gt;</code>（第 12 课）。</li>
+    </ul>
+    <div class="quiz"><b>考考你：</b><code>count</code> 是 u8，运行 <code>greet Ann -c 300</code> 会怎样？ <b>答案：</b>报错退出：<code>300 is not in 0..=255</code>。u8 最大 255，clap 解析时就拦下了。</div>
+  </div>
+
+  <div class="lesson">
+    <div class="hd"><span class="no">20</span><h3>用 Rust 调 HTTP API（reqwest + serde）</h3></div>
+    <div class="one">reqwest 发请求，serde 把返回的 JSON 直接变成你定义的 struct；只声明你需要的字段，其他的自动忽略。</div>
+<pre>$ cargo add reqwest --features blocking,json
+$ cargo add serde --features derive
+
+use serde::Deserialize;
+
+#[derive(Deserialize, Debug)]
+struct Repo {
+    full_name: String,
+    stargazers_count: u64,   <span class="c">// 字段名和 JSON 的 key 对上</span>
+}
+
+fn main() -> Result&lt;(), reqwest::Error&gt; {
+    let client = reqwest::blocking::Client::new();
+    let repo: Repo = client
+        .get("https://api.github.com/repos/rust-lang/rust")
+        .header("User-Agent", "rust-demo")   <span class="c">// GitHub API 要求带 User-Agent</span>
+        .send()?                             <span class="c">// 第 13 课的 ?</span>
+        .json()?;                            <span class="c">// JSON → Repo</span>
+    println!("{} ⭐ {}", repo.full_name, repo.stargazers_count);
+    Ok(())
+}</pre>
+    <ul>
+      <li>blocking 写法最简单；正式服务一般用异步版：<code>reqwest::get(...).await</code> 配合 tokio（见学习路径阶段 4）。</li>
+      <li>JSON 里可能没有的字段，类型写成 <code>Option&lt;T&gt;</code>，缺了就是 None 而不是报错。</li>
+    </ul>
+    <div class="quiz"><b>考考你：</b>把字段改名成 <code>stars: u64</code>（JSON 里的 key 还是 stargazers_count），<code>.json()</code> 会得到什么？ <b>答案：</b>Err：<code>missing field `stars`</code>。字段名必须和 key 对上，或者加 <code>#[serde(rename = "stargazers_count")]</code>。</div>
+  </div>
+</section>
+
+<!-- path -->
+<section class="part">
+  <h2>系统学习 Rust 的路径</h2>
+  <p class="intro">按每天 1 小时算，8 周能独立写小工具，之后按方向深入。每个阶段都有「检验标准」：做到了再往下走。</p>
+
+  <div class="stage">
+    <div class="sh"><b>阶段 1 · 语法和所有权</b><span>第 1–2 周 · 对应第 1–9 课</span></div>
+    <div class="grid">
+      <span class="k">学什么</span><span>变量、类型、函数、控制流；所有权三规则、Move/Clone/Copy、借用规则、String 与 &amp;str。</span>
+      <span class="k">读</span><span>《The Rust Programming Language》（官方书，中文版《Rust 程序设计语言》）第 1–4、8 章。</span>
+      <span class="k">练</span><span>Rustlings（官方练习，一个个修好编译错误）：variables → functions → if → move_semantics → strings。</span>
+      <span class="k">检验</span><span>看到 E0382、E0502，能说出原因并改对。</span>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="sh"><b>阶段 2 · 建模、错误处理、工程化</b><span>第 3–4 周 · 对应第 10–14 课</span></div>
+    <div class="grid">
+      <span class="k">学什么</span><span>struct/impl、enum/match、Option、Result 与 ?、Cargo、模块、单元测试。</span>
+      <span class="k">读</span><span>官方书第 5–7、9、11 章；《Rust by Example》对应章节（边看边跑）。</span>
+      <span class="k">练</span><span>Rustlings 的 structs、enums、options、error_handling、tests。</span>
+      <span class="k">小项目</span><span>命令行记账本：读写一个文本文件，用 enum 表示收入/支出，所有错误用 Result 返回，写 3 个测试。</span>
+      <span class="k">检验</span><span>整个项目里不出现 unwrap（测试除外）。</span>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="sh"><b>阶段 3 · 抽象和函数式</b><span>第 5–6 周 · 对应第 15–18 课</span></div>
+    <div class="grid">
+      <span class="k">学什么</span><span>trait、泛型与约束、生命周期、迭代器与闭包、常用集合（Vec、HashMap）。</span>
+      <span class="k">读</span><span>官方书第 10、13 章；标准库文档里 Iterator 的方法列表（filter、map、fold、zip、enumerate）。</span>
+      <span class="k">练</span><span>Exercism 的 Rust 赛道（有导师点评）；把阶段 2 的项目里的 for 循环改写成迭代器链。</span>
+      <span class="k">检验</span><span>能给自己的类型实现 Display 和一个自定义 trait；能读懂带生命周期的函数签名。</span>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="sh"><b>阶段 4 · 实战：命令行与网络</b><span>第 7–8 周 · 对应第 19–20 课</span></div>
+    <div class="grid">
+      <span class="k">学什么</span><span>clap 命令行、serde 序列化、reqwest 调 API；异步入门（async/await + tokio）。</span>
+      <span class="k">读</span><span>clap、serde、reqwest 的 docs.rs 文档首页示例；Tokio 官方教程（tokio.rs/tokio/tutorial）。</span>
+      <span class="k">小项目</span><span>GitHub 仓库查询工具：<code>repo-cli rust-lang/rust</code> 输出 star 数和最近 5 个 issue；加 --json 参数输出原始 JSON；先写 blocking 版，再改成 tokio 异步版。</span>
+      <span class="k">检验</span><span>项目通过 <code>cargo clippy</code> 无警告，有 README，发到 GitHub。</span>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="sh"><b>阶段 5 · 按方向进阶</b><span>第 9 周以后</span></div>
+    <div class="grid">
+      <span class="k">共同必修</span><span>智能指针（Box、Rc、RefCell）、并发（线程、Arc&lt;Mutex&lt;T&gt;&gt;、channel）：官方书第 15、16 章。</span>
+      <span class="k">后端服务</span><span>axum + tokio + sqlx，写一个带数据库的 REST API。</span>
+      <span class="k">AI 工程</span><span>用 Rust 写高性能的数据处理或推理服务；用 PyO3 给 Python 写扩展。</span>
+      <span class="k">系统/底层</span><span>《Rust Atomics and Locks》（并发底层）、unsafe 和 FFI（The Rustonomicon）。</span>
+      <span class="k">深入理解</span><span>《Rust for Rustaceans》（中级进阶）；Google 的 Comprehensive Rust 课程（免费，适合复习查漏）。</span>
+    </div>
+  </div>
+
+  <h3 style="margin-top:6mm;font-size:13pt">学习方法</h3>
+  <ul>
+    <li><b>先读报错。</b>Rust 的报错会告诉你哪里错、为什么、怎么改。用 <code>rustc --explain E0xxx</code> 看完整解释。</li>
+    <li><b>装好工具：</b>rust-analyzer（编辑器插件，实时提示类型）、<code>cargo fmt</code>（自动格式化）、<code>cargo clippy</code>（代码建议，能学到地道写法）。</li>
+    <li><b>先能跑，再优化。</b>刚开始被借用检查卡住时，<code>.clone()</code> 一下没关系，先把功能做完，回头再去掉多余的 clone。</li>
+    <li><b>每周做一个小东西。</b>看十遍不如写一遍，项目比刷题更能暴露你没懂的地方。</li>
+  </ul>
+</section>
+
+<!-- appendix -->
+<section class="part">
+  <h2>附录</h2>
+  <h3 style="font-size:13pt;margin-bottom:2mm">Cargo 命令速查</h3>
+  <table class="ref">
+    <tr><th style="width:52mm">命令</th><th>作用</th></tr>
+    <tr><td><code>cargo new 名字</code></td><td>新建项目（加 <code>--lib</code> 建库）</td></tr>
+    <tr><td><code>cargo run</code></td><td>编译并运行；<code>cargo run -- 参数</code> 把参数传给程序</td></tr>
+    <tr><td><code>cargo build --release</code></td><td>优化编译，产物在 target/release/</td></tr>
+    <tr><td><code>cargo check</code></td><td>只检查能否编译，不生成程序，最快</td></tr>
+    <tr><td><code>cargo add 库名</code></td><td>加依赖（<code>--features</code> 打开可选功能）</td></tr>
+    <tr><td><code>cargo test</code></td><td>运行所有测试</td></tr>
+    <tr><td><code>cargo fmt</code> / <code>cargo clippy</code></td><td>自动格式化 / 代码检查和建议</td></tr>
+    <tr><td><code>cargo doc --open</code></td><td>生成并打开项目和依赖的文档</td></tr>
+  </table>
+
+  <h3 style="font-size:13pt;margin-bottom:2mm">新手最常见的编译错误</h3>
+  <table class="ref">
+    <tr><th style="width:20mm">错误码</th><th style="width:52mm">意思</th><th>常见原因 → 改法</th><th style="width:12mm">课</th></tr>
+    <tr><td>E0384</td><td>不可变变量赋了第二次值</td><td>忘了 mut → <code>let mut</code></td><td>2</td></tr>
+    <tr><td>E0308</td><td>类型不匹配</td><td>最后一行多了分号；if 两个分支类型不同；忘了 collect</td><td>4 5 18</td></tr>
+    <tr><td>E0382</td><td>用了已经被 move 的值</td><td>所有权已经交出去 → 借用 &amp; 或 clone</td><td>6 7</td></tr>
+    <tr><td>E0502 / E0499</td><td>借用冲突</td><td>读着的时候又要改，或两个 &amp;mut → 调整顺序，缩短借用</td><td>8</td></tr>
+    <tr><td>E0599</td><td>类型上没有这个方法</td><td>&amp;str 上调 push → 用 String</td><td>9</td></tr>
+    <tr><td>E0594 / E0596</td><td>通过不可变引用修改</td><td>方法写成 &amp;self → <code>&amp;mut self</code></td><td>10</td></tr>
+    <tr><td>E0004</td><td>match 没有穷尽</td><td>漏了某个分支（比如 None）→ 补上或用 _</td><td>11 12</td></tr>
+    <tr><td>E0277</td><td>类型没实现需要的 trait</td><td>整数加浮点；? 用在不返回 Result 的函数；泛型缺约束</td><td>3 13 16</td></tr>
+    <tr><td>E0369</td><td>不支持这个运算符</td><td>Option 直接 +；泛型缺 PartialOrd 约束</td><td>12 16</td></tr>
+    <tr><td>E0046</td><td>trait 方法没实现全</td><td>impl 里漏写了没有默认实现的方法</td><td>15</td></tr>
+    <tr><td>E0106 / E0597</td><td>缺生命周期 / 引用活得比值长</td><td>返回引用时标 'a；别让引用指向已离开作用域的值</td><td>17</td></tr>
+  </table>
+
+  <div class="end">每天1分钟，碎片时间学AI工程师 · Rust 20 课完结 · 下一站：AI 工程师系统课</div>
+</section>
+
+</body>
+</html>

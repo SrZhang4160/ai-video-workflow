@@ -1,0 +1,28 @@
+Writing a command-line tool? How do you read its arguments?
+Splitting the strings by hand is tedious and easy to get wrong.
+With clap, one struct does it all.
+First, add clap with cargo add,
+and turn on the derive feature.
+Cargo.toml now has this line.
+Put derive Parser on a struct.
+Each field is one argument.
+Triple-slash comments become the help text.
+A plain field is a positional argument. It is required.
+Add short and long, and it becomes an option:
+dash c and dash dash count both work.
+default value t gives it a default of one.
+In main, call Args parse.
+You get the struct, already filled in.
+Run it with dash c two: it prints twice.
+The best part: you don't write --help,
+clap generates it from your struct.
+count is a u8. Pass in abc,
+and clap stops with an error that says what is wrong.
+Get the type right and the checking is done for you.
+To recap: derive Parser defines the arguments,
+plain fields are positional, attributes make options,
+and one parse call gives you help and errors for free.
+Next time: calling an HTTP API from Rust,
+with reqwest and serde. See you then!
+Quick quiz: count is a u8. What does dash c three hundred do?
+Print 300 times, or error? Tell me in the comments.

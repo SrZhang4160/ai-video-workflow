@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Rust 20 课 · 小红书图文</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{--bg:#0E1015;--panel:#181B22;--line:#2A2F3A;--ink:#ECEEF3;--quiet:#8B93A3;--acc:#FF8A4C;--acc2:#5BE7C4;--blue:#6EA8FF;--red:#FF6B6B;--yel:#FFD166}
+*{box-sizing:border-box;margin:0}
+body{background:#000;font-family:"Noto Sans SC",sans-serif;color:var(--ink)}
+.mono{font-family:"JetBrains Mono",monospace;font-variant-ligatures:none}
+.card{width:1080px;height:1440px;background:var(--bg);padding:84px 76px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.card+.card{margin-top:20px}
+.tag{display:inline-flex;align-self:flex-start;background:var(--acc);color:#1a0f08;font-weight:900;font-size:30px;padding:6px 18px;border-radius:10px;letter-spacing:.04em}
+.h{font-size:66px;font-weight:900;line-height:1.2;margin-top:28px}
+.sub{font-size:32px;color:var(--quiet);margin-top:14px}
+.page{position:absolute;right:76px;bottom:56px;font-size:26px;color:var(--quiet)}
+.panel{background:var(--panel);border:2px solid var(--line);border-radius:22px}
+
+/* cover */
+.cover .big{font-size:150px;font-weight:900;line-height:1.05;margin-top:80px}
+.cover .big .acc{color:var(--acc)}
+.cover .line{font-size:44px;font-weight:700;margin-top:36px}
+.cover .chips{display:flex;flex-wrap:wrap;gap:18px;margin-top:64px}
+.cover .chip{font-size:34px;font-weight:700;padding:14px 26px;border-radius:999px;border:2px solid var(--line);background:var(--panel)}
+.cover .chip b{color:var(--acc2)}
+.cover .stack{margin-top:auto;display:grid;gap:12px}
+.cover .stack div{height:58px;border-radius:12px;display:flex;align-items:center;padding:0 24px;font-size:28px;font-weight:700;color:#0E1015}
+
+/* map */
+.map{display:grid;gap:22px;margin-top:56px}
+.layer{display:grid;grid-template-columns:120px 1fr;align-items:center;padding:26px 30px;gap:22px}
+.layer .n{font-size:54px;font-weight:900}
+.layer b{font-size:40px;display:block}
+.layer span{font-size:29px;color:var(--quiet)}
+
+/* lesson list */
+.list{display:grid;gap:16px;margin-top:44px}
+.li{display:grid;grid-template-columns:96px 1fr;gap:20px;padding:22px 28px;align-items:start}
+.li .n{font-size:44px;font-weight:700;color:var(--acc);line-height:1.2}
+.li b{font-size:35px;display:block;line-height:1.3}
+.li span{font-size:28px;color:var(--quiet);display:block;margin-top:6px;line-height:1.4}
+
+/* path */
+.path{display:grid;gap:18px;margin-top:44px}
+.st{padding:24px 30px;border-left:10px solid var(--acc)}
+.st .t{display:flex;justify-content:space-between;align-items:baseline}
+.st .t b{font-size:38px}
+.st .t span{font-size:28px;color:var(--acc);font-weight:700}
+.st p{font-size:28px;color:var(--quiet);margin-top:8px;line-height:1.45}
+.st p em{font-style:normal;color:var(--ink)}
+
+.tips{display:grid;gap:22px;margin-top:48px}
+.tip{display:grid;grid-template-columns:70px 1fr;gap:18px;padding:32px 30px;align-items:start}
+.tip .i{font-size:44px;line-height:1}
+.tip b{font-size:35px;display:block}
+.tip span{font-size:28px;color:var(--quiet);display:block;margin-top:6px;line-height:1.45}
+
+.cta .box{margin-top:56px;padding:44px 44px;display:grid;gap:22px}
+.cta .row{font-size:36px;font-weight:700;display:flex;gap:18px;align-items:center}
+.cta .row i{font-style:normal;color:var(--acc2);font-size:40px}
+.cta .ask{margin-top:auto;text-align:center;padding:44px;border:3px dashed var(--acc);border-radius:26px}
+.cta .ask b{font-size:56px;font-weight:900;color:var(--acc)}
+.cta .ask span{display:block;font-size:30px;color:var(--quiet);margin-top:14px}
+</style>
+</head>
+<body>
+
+<!-- 1 cover -->
+<section class="card cover">
+  <span class="tag">Rust 20 课 · 完结</span>
+  <div class="big">20 节课<br>学会 <span class="acc">Rust</span></div>
+  <div class="line">一张图串起全部知识点 + 8 周学习路径</div>
+  <div class="chips">
+    <span class="chip"><b>6</b> 层知识地图</span>
+    <span class="chip"><b>20</b> 课一句话总结</span>
+    <span class="chip"><b>8</b> 周学习路线</span>
+  </div>
+  <div class="stack">
+    <div style="background:#FFD166;width:62%">⑥ 进阶与实战</div>
+    <div style="background:#6EA8FF;width:70%">⑤ 抽象：trait · 泛型 · 生命周期</div>
+    <div style="background:#5BE7C4;width:78%">④ 错误处理与工程化</div>
+    <div style="background:#C9A7FF;width:86%">③ 数据建模</div>
+    <div style="background:#FF8A4C;width:93%">② 所有权与借用 ← 最重要</div>
+    <div style="background:#ECEEF3;width:100%">① 基础语法</div>
+  </div>
+</section>
+
+<!-- 2 map -->
+<section class="card">
+  <span class="tag">知识地图</span>
+  <div class="h">Rust 就这 6 层<br>一层层往上搭</div>
+  <div class="map">
+    <div class="layer panel"><span class="n" style="color:#ECEEF3">①</span><div><b>基础语法 · 第 1–5 课</b><span>变量默认不可变，几乎一切都是表达式</span></div></div>
+    <div class="layer panel" style="border-color:var(--acc)"><span class="n" style="color:var(--acc)">②</span><div><b>所有权与借用 · 第 6–9 课</b><span>一个值一个主人，想用就借；最难也最重要</span></div></div>
+    <div class="layer panel"><span class="n" style="color:#C9A7FF">③</span><div><b>数据建模 · 第 10–12 课</b><span>struct 几样都有，enum 几选一，Option 代替 null</span></div></div>
+    <div class="layer panel"><span class="n" style="color:var(--acc2)">④</span><div><b>错误处理与工程化 · 第 13–14 课</b><span>错误也是值：Result + ?；Cargo 一个工具全包</span></div></div>
+    <div class="layer panel"><span class="n" style="color:var(--blue)">⑤</span><div><b>抽象 · 第 15–17 课</b><span>trait 定义行为，泛型复用代码，'a 管引用寿命</span></div></div>
+    <div class="layer panel"><span class="n" style="color:var(--yel)">⑥</span><div><b>进阶与实战 · 第 18–20 课</b><span>迭代器闭包、clap 命令行、reqwest 调 API</span></div></div>
+  </div>
+  <span class="page">2 / 8</span>
+</section>
+
+<!-- 3 lessons 1-7 -->
+<section class="card">
+  <span class="tag">第 1–7 课</span>
+  <div class="h">基础语法 + 所有权（上）</div>
+  <div class="list">
+    <div class="li panel"><span class="n mono">01</span><div><b>知识全景</b><span>五块知识一层层搭，先吃透所有权</span></div></div>
+    <div class="li panel"><span class="n mono">02</span><div><b>let · mut · shadowing</b><span>默认不可变；改值加 mut，换类型再 let 一次</span></div></div>
+    <div class="li panel"><span class="n mono">03</span><div><b>基本类型</b><span>整数默认 i32，浮点默认 f64；不会偷偷转换</span></div></div>
+    <div class="li panel"><span class="n mono">04</span><div><b>函数与表达式</b><span>最后一行不加分号，就是返回值</span></div></div>
+    <div class="li panel"><span class="n mono">05</span><div><b>控制流</b><span>if 能直接赋值；loop / while / for 各管一种</span></div></div>
+    <div class="li panel"><span class="n mono">06</span><div><b>所有权三条规则</b><span>一个主人；同时只有一个；主人走了值就释放</span></div></div>
+    <div class="li panel"><span class="n mono">07</span><div><b>Move · Clone · Copy</b><span>搬走、手动复制、自动复制：看旧变量还能不能用</span></div></div>
+  </div>
+  <span class="page">3 / 8</span>
+</section>
+
+<!-- 4 lessons 8-14 -->
+<section class="card">
+  <span class="tag">第 8–14 课</span>
+  <div class="h">借用、建模、错误处理</div>
+  <div class="list">
+    <div class="li panel"><span class="n mono">08</span><div><b>借用 &amp; 和 &amp;mut</b><span>要么多个只读，要么一个能改，不能同时</span></div></div>
+    <div class="li panel"><span class="n mono">09</span><div><b>String 和 &amp;str</b><span>String 拥有能改；&amp;str 只借一段来看</span></div></div>
+    <div class="li panel"><span class="n mono">10</span><div><b>struct + impl</b><span>没有 class：struct 放数据，impl 放方法</span></div></div>
+    <div class="li panel"><span class="n mono">11</span><div><b>enum + match</b><span>每种情况都得处理，漏一个就编译不过</span></div></div>
+    <div class="li panel"><span class="n mono">12</span><div><b>Option</b><span>没有 null：「可能没有」写进类型里</span></div></div>
+    <div class="li panel"><span class="n mono">13</span><div><b>Result 和 ?</b><span>没有异常：错误是值，? 把错误交给上层</span></div></div>
+    <div class="li panel"><span class="n mono">14</span><div><b>Cargo</b><span>new · run · add · test，四个命令走完一个项目</span></div></div>
+  </div>
+  <span class="page">4 / 8</span>
+</section>
+
+<!-- 5 lessons 15-20 -->
+<section class="card">
+  <span class="tag">第 15–20 课</span>
+  <div class="h">抽象 + 实战</div>
+  <div class="list">
+    <div class="li panel"><span class="n mono">15</span><div><b>trait</b><span>一份行为清单，一个参数收下所有实现它的类型</span></div></div>
+    <div class="li panel"><span class="n mono">16</span><div><b>泛型</b><span>&lt;T&gt; 一份代码多种类型，编译时展开不变慢</span></div></div>
+    <div class="li panel"><span class="n mono">17</span><div><b>生命周期 'a</b><span>不改变寿命，只告诉编译器引用跟谁一样久</span></div></div>
+    <div class="li panel"><span class="n mono">18</span><div><b>迭代器和闭包</b><span>map / filter 串成链，collect 才真正执行</span></div></div>
+    <div class="li panel"><span class="n mono">19</span><div><b>clap 命令行</b><span>写个 struct，参数解析和 --help 自动生成</span></div></div>
+    <div class="li panel"><span class="n mono">20</span><div><b>reqwest + serde</b><span>发请求，JSON 直接变成你的 struct</span></div></div>
+  </div>
+  <div class="panel" style="margin-top:auto;margin-bottom:40px;padding:30px 34px;border-color:var(--acc)"><b style="font-size:36px">学完 20 课，你能：</b><span style="display:block;font-size:30px;color:var(--quiet);margin-top:10px;line-height:1.5">读懂编译器报错 · 写带测试的项目 · 做一个调 API 的命令行工具</span></div>
+  <span class="page">5 / 8</span>
+</section>
+
+<!-- 6 path -->
+<section class="card">
+  <span class="tag">学习路径</span>
+  <div class="h">每天 1 小时<br>8 周能写小工具</div>
+  <div class="path">
+    <div class="st panel"><div class="t"><b>阶段 1 · 语法和所有权</b><span>第 1–2 周</span></div><p>官方书第 1–4、8 章 + Rustlings。<em>检验：看到 E0382 能说出原因并改对</em></p></div>
+    <div class="st panel" style="border-left-color:#C9A7FF"><div class="t"><b>阶段 2 · 建模和错误处理</b><span>第 3–4 周</span></div><p>官方书第 5–7、9、11 章。<em>项目：命令行记账本，全程不用 unwrap</em></p></div>
+    <div class="st panel" style="border-left-color:var(--blue)"><div class="t"><b>阶段 3 · 抽象和函数式</b><span>第 5–6 周</span></div><p>官方书第 10、13 章 + Exercism。<em>把 for 循环改写成迭代器链</em></p></div>
+    <div class="st panel" style="border-left-color:var(--yel)"><div class="t"><b>阶段 4 · 命令行和网络</b><span>第 7–8 周</span></div><p>clap + serde + reqwest，再学 tokio 异步。<em>项目：GitHub 仓库查询工具</em></p></div>
+  </div>
+  <span class="page">6 / 8</span>
+</section>
+
+<!-- 7 advanced + method -->
+<section class="card">
+  <span class="tag">第 9 周以后</span>
+  <div class="h">按方向进阶<br>+ 4 个学习习惯</div>
+  <div class="tips">
+    <div class="tip panel"><span class="i">🧱</span><div><b>共同必修</b><span>Box · Rc · RefCell，线程和 Arc&lt;Mutex&lt;T&gt;&gt;</span></div></div>
+    <div class="tip panel"><span class="i">🧭</span><div><b>选一个方向</b><span>后端：axum + sqlx　AI 工程：PyO3 写 Python 扩展<br>底层：《Rust Atomics and Locks》</span></div></div>
+    <div class="tip panel"><span class="i">🔍</span><div><b>先读报错</b><span>rustc --explain E0382，看完整解释</span></div></div>
+    <div class="tip panel"><span class="i">🛠️</span><div><b>装好三件套</b><span>rust-analyzer · cargo fmt · cargo clippy</span></div></div>
+    <div class="tip panel"><span class="i">🚀</span><div><b>先能跑，再优化</b><span>卡在借用检查时先 clone，功能做完再回头去掉</span></div></div>
+  </div>
+  <span class="page">7 / 8</span>
+</section>
+
+<!-- 8 cta -->
+<section class="card cta">
+  <span class="tag">完整版手册</span>
+  <div class="h">这 20 课的<br>完整学习手册</div>
+  <div class="sub">PDF · 约 20 页 · 新手到能写工具</div>
+  <div class="box panel">
+    <div class="row"><i>✓</i>每课一句话 + 关键要点</div>
+    <div class="row"><i>✓</i>每课能编译的代码（都实测过）</div>
+    <div class="row"><i>✓</i>常见坑 + 每课小测验和答案</div>
+    <div class="row"><i>✓</i>8 周学习路径 + 进阶方向</div>
+    <div class="row"><i>✓</i>Cargo 命令和常见错误码速查</div>
+  </div>
+  <div class="ask"><b>评论区扣「Rust」</b><span>私信发你完整版 PDF · 先收藏，学的时候对着看</span></div>
+</section>
+
+</body>
+</html>

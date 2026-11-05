@@ -23,9 +23,9 @@ Rules for every lesson: teach the viewer (not "what I learned"), one idea per vi
 - [x] 14. Cargo：建项目、加依赖、跑测试
 - [x] 15. trait：定义共同行为
 - [x] 16. 泛型：一份代码，多种类型
-- [ ] 17. 生命周期入门：'a 到底在说什么
-- [ ] 18. 迭代器和闭包
-- [ ] 19. 用 clap 写一个命令行工具
-- [ ] 20. 用 Rust 调 HTTP API（reqwest + serde）
+- [x] 17. 生命周期入门：'a 到底在说什么
+- [x] 18. 迭代器和闭包
+- [x] 19. 用 clap 写一个命令行工具
+- [x] 20. 用 Rust 调 HTTP API（reqwest + serde）
 
 （原第 21–52 课的大模型 / Agent / 评测内容已移到 AI 系列：`series/ai-engineer/curriculum.md`。Rust 学完第 20 课后可以接着加 Rust 进阶，或者停更 Rust、只保留 AI 系列。）

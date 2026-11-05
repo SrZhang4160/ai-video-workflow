@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-11",
+  "topic_zh": "用 clap 写一个命令行工具",
+  "topic_en": "Build a Rust command-line tool with clap",
+  "captions": {
+    "xhs": {
+      "title": "Rust 命令行参数，一个结构体搞定",
+      "body": "第 19 课：用 clap 写命令行工具\ncargo add clap --features derive，记得开 derive\n结构体加 #[derive(Parser)]：普通字段是位置参数，#[arg(short, long)] 变成 -c / --count 选项\nmain 里一句 Args::parse()，--help 自动生成，类型不对直接报错\n考考你：count: u8，运行 greet Ann -c 300，是打印 300 遍还是报错？ 评论区告诉我～",
+      "tags": ["Rust", "编程入门", "程序员", "AI工程师", "碎片时间学AI工程师"]
+    },
+    "douyin": {
+      "title": "一分钟用 Rust + clap 写个命令行工具",
+      "body": "#[derive(Parser)] 定义参数，Args::parse() 一句解析，--help 和报错全自动。\n考考你：count: u8，运行 greet Ann -c 300，是打印 300 遍还是报错？ 评论区告诉我～",
+      "tags": ["Rust", "编程", "程序员"]
+    },
+    "tiktok": {
+      "body": "Stop parsing command-line args by hand. One struct + clap does it, --help included. Quick quiz: count is a u8 and you run greet Ann -c 300. Prints 300 times, or errors? Comment your answer.",
+      "tags": ["rust", "rustlang", "coding", "learntocode", "programming"]
+    },
+    "linkedin": {
+      "title": "A Rust CLI in one struct",
+      "body": "With clap's derive API, a struct with #[derive(Parser)] is your argument spec.\nPlain fields are required positional arguments; #[arg(short, long)] turns a field into -c / --count.\nArgs::parse() fills the struct, and /// doc comments become the auto-generated --help.\nThe field type is the validation: a u8 field rejects \"abc\" with a clear error.\nQuick quiz: count is a u8 and you run greet Ann -c 300. Prints 300 times, or errors? Answer in the comments.",
+      "tags": ["Rust", "SoftwareEngineering", "AIEngineering"]
+    }
+  },
+  "quiz": {
+    "q_zh": "#[arg(short, long, default_value_t = 1)] count: u8，运行 greet Ann -c 300，打印 300 遍还是报错？",
+    "q_en": "#[arg(short, long, default_value_t = 1)] count: u8. You run greet Ann -c 300. Prints 300 times, or errors?",
+    "answer_zh": "答案：报错。u8 最大只到 255，clap 解析时就拒绝了：error: invalid value '300' for '--count <COUNT>': 300 is not in 0..=255。",
+    "answer_en": "Answer: an error. A u8 only goes up to 255, so clap rejects it while parsing: error: invalid value '300' for '--count <COUNT>': 300 is not in 0..=255."
+  }
+}
