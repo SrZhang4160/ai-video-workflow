@@ -118,7 +118,7 @@ function code(src) {
 const EP = window.EPISODE;
 const pick = (c) => Array.isArray(c) ? { zh: c[0], en: c[1] } : c;
 window.EP_INFO = () => EP.scenes.map(s => ({
-  title: s.title, clip: s.clip || null, audio: s.audio || null, seconds: s.seconds || null, cap_at: s.cap_at || null,
+  title: s.title, clip: s.clip || null, audio: s.audio || null, clip_in: s.clip_in || 0, seconds: s.seconds || null, cap_at: s.cap_at || null,
   caps: s.cap.map(pick).map(c => ({ zh: c.zh || '', en: c.en, say_zh: 'say_zh' in c ? c.say_zh : (c.zh || ''), say_en: 'say_en' in c ? c.say_en : c.en }))
 }));
 window.showScene = (i) => {

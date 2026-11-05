@@ -175,35 +175,35 @@ def contact_sheet(paths, out, cols=3, w=360):
     sheet.save(out)
 
 
-def clip_frames(ep_dir, clip, W, H, tmp, si):
+def clip_frames(ep_dir, clip, W, H, tmp, si, start=0.0):
     """Frames of a scene's live-action clip (episodes/<id>/<clip>), cover-cropped to W×H at FPS. [] when there is no clip
     file yet: the scene then renders its drawn fallback."""
     path = clip and os.path.join(ep_dir, clip)
     if not path or not os.path.exists(path):
         return []
     d = os.path.join(tmp, f"clip{si:02d}"); os.makedirs(d, exist_ok=True)
-    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", path, "-an", "-vf",
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{start:.3f}", "-i", path, "-an", "-vf",
                     f"fps={FPS},scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H}", "-q:v", "3",
                     os.path.join(d, "%05d.jpg")], check=True)
     return sorted(os.path.join(d, f) for f in os.listdir(d))
 
 
-def clip_audio(ep_dir, clip, D, tmp, si, pause):
+def clip_audio(ep_dir, clip, D, tmp, si, pause, start=0.0):
     """The acted shot's own audio (Kling dialogue + SFX) cut or padded to D seconds; room tone when there is none."""
     path = clip and os.path.join(ep_dir, clip)
     n = int(round(D * SR))
     if not path or not os.path.exists(path):
         return pause(D)
     wav = os.path.join(tmp, f"clipa{si:02d}.wav")
-    r = subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", path, "-vn", "-ac", "1", "-ar", str(SR), wav])
+    r = subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{start:.3f}", "-i", path, "-vn", "-ac", "1", "-ar", str(SR), wav])
     if r.returncode or not os.path.exists(wav):
         return pause(D)
     x = load_audio(wav)[:n]
     if len(x) < n:
         x = np.concatenate([x, pause((n - len(x)) / SR)[: n - len(x)]])
-    k = min(len(x), int(0.03 * SR))   # 30 ms fades so cuts don't click
-    if k:
-        x[:k] *= np.linspace(0, 1, k); x[-k:] *= np.linspace(1, 0, k)
+    k1, k2 = min(len(x), int(0.02 * SR)), min(len(x), int(0.08 * SR))   # quick fade in, softer fade out: joins don't click
+    if k1 and k2:
+        x[:k1] *= np.linspace(0, 1, k1); x[-k2:] *= np.linspace(1, 0, k2)
     return x.astype(np.float32)
 
 
@@ -239,7 +239,7 @@ def render(ep_dir, platform, out_dir, page_factory):
         lead = min(pc["lead"], 0.15 if lang == "zh" else 0.3) if si == 0 else pc["lead"]
         if s.get("audio") == "clip":   # drama v2 acted shot: the shot's own dialogue + SFX, cut to the storyboard length
             D = float(s["seconds"]); ct = list(s.get("cap_at") or [])
-            parts = [clip_audio(ep_dir, s.get("clip"), D, tmp, si, pause)]
+            parts = [clip_audio(ep_dir, s.get("clip"), D, tmp, si, pause, float(s.get("clip_in") or 0))]
         elif not s["caps"] and s.get("seconds"):   # silent card
             D = float(s["seconds"]); ct = []; parts = [pause(D)]
         else:
@@ -259,7 +259,7 @@ def render(ep_dir, platform, out_dir, page_factory):
             ts.update(a + k / FPS for k in range(int((b - a) * FPS) + 2))
         if page.evaluate("cameraOn()"):
             ts.update(k / CAM_FPS for k in range(int(D * CAM_FPS) + 1))
-        live = clip_frames(ep_dir, s.get("clip"), W, H, tmp, si)
+        live = clip_frames(ep_dir, s.get("clip"), W, H, tmp, si, float(s.get("clip_in") or 0))
         if live:   # live-action shot: every frame, the video plays once and then holds its last frame
             ts.update(k / FPS for k in range(int(D * FPS) + 1))
         ts = sorted(x for x in ts if 0 <= x < D)

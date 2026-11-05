@@ -42,6 +42,10 @@
           <div class="card" style="flex:1;padding:14px;border-color:var(--red);font-size:${T(28, 22)}px;font-weight:800">${esc(L(c.right))}</div></div>
         <div style="font-size:${T(32, 26)}px;font-weight:900;color:var(--acc)">${esc(L(c.verdict))}</div>`, 470, 370));
       st.lastElementChild.dataset.delay = '0.6';
+    } else if (o.kind === 'phone') {   // a message on a character's phone (the reason behind an order)
+      H(`<div class="r" data-live="1" data-in="drop" data-delay="0.2" style="left:20px;top:470px;width:${T(560, 610)}px;background:rgba(250,250,252,.96);color:#15121A;border-radius:26px;padding:18px 22px;box-shadow:0 10px 30px rgba(0,0,0,.45)">
+        <div style="display:flex;align-items:center;gap:10px;font-size:22px;color:#6B6378;font-weight:700"><span style="width:34px;height:34px;border-radius:9px;background:#3FBF9A;display:inline-block"></span>${esc(L(c.from))} · ${T('刚刚', 'now')}</div>
+        <div style="font-size:${T(30, 26)}px;font-weight:800;line-height:1.35;margin-top:8px">${esc(L(c.text))}</div></div>`);
     } else if (o.kind === 'card' && c.style === 'alarm') {
       (c.lines || []).forEach((l, i) => { H(alarm(l.zh, l.en, {x: 0, y: 20 + i * 96, w: 960, size: T(30, 24), attrs: `data-live="1" data-in="drop" data-shake="1" data-delay="${0.3 + i * 0.6}"`})); });
     } else if (o.kind === 'card' && c.style === 'quiz') {
@@ -53,8 +57,9 @@
     } else if (o.kind === 'card' && c.steps) {
       H(`<div class="r card" style="left:0;right:0;top:0;height:880px;border-color:var(--acc);border-width:3px"></div>`);
       H(`<div class="r" style="left:40px;right:40px;top:30px;font-size:${T(44, 36)}px;font-weight:900;color:var(--acc)">${esc(L(c.title))}</div>`);
-      c.steps.forEach((s, i) => H(`<div class="r" data-in="left" data-delay="${0.4 + i * 0.7}" style="left:40px;right:40px;top:${130 + i * 150}px;font-size:${T(34, 28)}px;font-weight:800;line-height:1.35">${esc(L(s))}</div>`));
-      (c.notes || []).forEach((s, i) => H(`<div class="r" data-delay="${2.6 + i * 0.5}" style="left:40px;right:40px;top:${590 + i * 80}px;font-size:${T(30, 24)}px;font-weight:700;color:var(--red)">${esc(L(s))}</div>`));
+      const sc = sh.step_cap || {}, at = (i, d) => sc[i] != null ? `data-cap="${sc[i]}"` : `data-delay="${d}"`;
+      c.steps.forEach((s, i) => H(`<div class="r" data-in="left" ${at(i, 0.4 + i * 0.7)} style="left:40px;right:40px;top:${130 + i * 150}px;font-size:${T(34, 28)}px;font-weight:800;line-height:1.35">${esc(L(s))}</div>`));
+      (c.notes || []).forEach((s, i) => H(`<div class="r" ${sc[3] != null ? `data-cap="${sc[3]}" data-delay="${i * 0.4}"` : `data-delay="${2.6 + i * 0.5}"`} style="left:40px;right:40px;top:${590 + i * 80}px;font-size:${T(30, 24)}px;font-weight:700;color:var(--red)">${esc(L(s))}</div>`));
       if (c.footnote) H(`<div class="r" style="left:40px;right:40px;top:800px;font-size:22px;color:var(--quiet)">${esc(L(c.footnote))}</div>`);
     } else if (o.kind === 'card' && (c.zh || c.en)) {   // time card / next-episode card
       H(`<div class="r center" data-in="zoom" style="left:0;right:0;top:300px;height:200px;flex-direction:column;gap:18px"><span style="font-size:${T(72, 60)}px;font-weight:900;letter-spacing:4px">${esc(L(c))}</span>${c.sub ? `<span style="font-size:34px;color:var(--acc);font-weight:800">${esc(L(c.sub))}</span>` : ''}</div>`);
@@ -70,17 +75,22 @@
 
   window.EPISODE = {
     n: SB.episode, theme: 'drama',
-    scenes: SB.shots.map(sh => {
+    scenes: SB.shots.map((sh, k) => {
       const live = sh.gen.mode === 'live', o = sh.overlay || {}, c = o.content || {};
+      const next = SB.shots[k + 1], beforeCard = next && next.gen.mode !== 'live';
       const scene = {title: ['', ''], build() { overlay(sh); }};
       if (live) {
-        Object.assign(scene, {clip: `clips/shot${String(sh.id).padStart(2, '0')}.mp4`, audio: 'clip', seconds: sh.seconds, cap_at: capAt(sh),
+        const e = sh.edit, len = e ? +(e.out - e.in + (beforeCard ? 0.5 : 0)).toFixed(2) : sh.seconds;
+        const at = e ? e.cap_at.map((t, i, a) => Math.min(t, i ? len - 0.8 : t)) : capAt(sh);
+        Object.assign(scene, {clip: `clips/shot${String(sh.id).padStart(2, '0')}.mp4`, clip_in: e ? e.in : 0, audio: 'clip', seconds: len, cap_at: at,
           grade: c.style === 'flashback_grade' ? 'flashback' : null,
           cap: (sh.dialogue || []).map(d => ({zh: `${NAME[d.who][0]}：${d.zh}`, en: `${NAME[d.who][1]}: ${d.en}`, say_zh: '', say_en: ''}))});
       } else if (c.style === 'quiz') {
         scene.cap = [{zh: '考考你：一百万人一分钟内涌进来，', en: 'Quick quiz: a million people arrive in one minute,'},
                      {zh: '每人六次，峰值 QPS 约多少？', en: 'six requests each. Roughly what is the peak QPS?', say_zh: '每人六次，峰值 Q P S 约多少？', say_en: 'six requests each. Roughly what is the peak Q P S?'},
                      {zh: 'A 一万，B 十万？评论区告诉我。', en: 'A: 10,000, or B: 100,000? Tell me in the comments.', say_zh: 'A，一万；B，十万？评论区告诉我。', say_en: 'A, ten thousand, or B, a hundred thousand? Tell me in the comments.'}];
+      } else if (Array.isArray(sh.narration)) {
+        scene.cap = sh.narration.map(n => Object.assign({zh: n.zh, en: n.en}, n.say_zh ? {say_zh: n.say_zh} : {}, n.say_en ? {say_en: n.say_en} : {}));
       } else if (sh.narration) {
         const n = sh.narration;
         scene.cap = [{zh: n.zh, en: n.en, say_en: n.say_en || n.en.replace(/\b12\b/, 'Twelve')}];

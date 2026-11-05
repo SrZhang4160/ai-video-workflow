@@ -52,7 +52,15 @@
     "mode": "live",
     "prompt_en": "Vertical 9:16 close-up, slow push-in. Glass-walled meeting room at night, cool blue projector light. {kai} flicks a whiteboard marker across the glass table with two fingers, plants both palms on the table and leans toward camera-right with a cold one-sided smirk, red lips, long wavy hair falling forward, and speaks. At soft-focus frame right {man} calmly stops the rolling marker with her hand. Tense silence, moody cinematic light."
    },
-   "purpose": "HOOK: public humiliation in the first 3 s (flash-forward to the moment after shots 6–7)"
+   "purpose": "HOOK: public humiliation in the first 3 s (flash-forward to the moment after shots 6–7)",
+   "edit": {
+    "in": 0.42,
+    "out": 2.6,
+    "cap_at": [
+     0.07
+    ],
+    "sig": "72e5ea7f0c55"
+   }
   },
   {
    "id": 2,
@@ -112,12 +120,33 @@
    ],
    "narration": null,
    "sfx": "door bangs open, cheering, chairs roll",
-   "overlay": null,
+   "overlay": {
+    "kind": "phone",
+    "content": {
+     "from": {
+      "zh": "投资人",
+      "en": "Investor"
+     },
+     "text": {
+      "zh": "上个月云服务器账单超预算了。下一轮融资前，服务器成本先降一半。",
+      "en": "Last month's cloud bill blew the budget. Halve server costs before the next round."
+     }
+    }
+   },
    "gen": {
     "mode": "live",
     "prompt_en": "Vertical 9:16 medium shot, handheld follow ending on a two-shot. Bright open-plan startup office, morning daylight. {wang} bursts through a glass door holding his phone high like a trophy, shouting happily as colleagues cheer, then strides to a desk by the window and points at {kai}, talking emphatically; {kai} calmly closes her laptop and gives one cool, confident nod. Energetic, natural light."
    },
-   "purpose": "SETUP: the crisis arrives as good news + the cost-cut order (铁柱's motive)"
+   "purpose": "SETUP: the crisis arrives as good news + the cost-cut order (铁柱's motive)",
+   "edit": {
+    "in": 1.14,
+    "out": 6.96,
+    "cap_at": [
+     0.07,
+     4.45
+    ],
+    "sig": "5580492e989e"
+   }
   },
   {
    "id": 4,
@@ -147,7 +176,15 @@
     "mode": "live",
     "prompt_en": "Vertical 9:16 medium close-up, slow push-in. A corner desk in a startup office, half in shadow, soft-focus cheering colleagues behind. {man} stops typing, fingers frozen above the keyboard; she lifts her eyes toward camera-left, narrowing slightly, and murmurs to herself. Quiet, focused, cool tones against warm background light. The line is spoken clearly and completely, every syllable audible, mouth clearly visible."
    },
-   "purpose": "Plant the question: 小满 already sees the problem"
+   "purpose": "Plant the question: 小满 already sees the problem",
+   "edit": {
+    "in": 0.84,
+    "out": 3.58,
+    "cap_at": [
+     0.07
+    ],
+    "sig": "cb5fea31641c"
+   }
   },
   {
    "id": 5,
@@ -209,7 +246,16 @@
     "mode": "live",
     "prompt_en": "Vertical 9:16 medium shot, slow dolly-in. Glass-walled meeting room at night. {kai} stands at the head of the table beside a projector screen glowing with an abstract monitoring dashboard (graphs only, no readable text), clicks a remote, taps a flat curve with a marker and turns to the seated team with a confident smile, speaking; {wang} nods with arms crossed, pleased. Cool blue projector light, city lights outside."
    },
-   "purpose": "CONFLICT: a smart person's realistic mistake (daily average from real monitoring) under cost pressure"
+   "purpose": "CONFLICT: a smart person's realistic mistake (daily average from real monitoring) under cost pressure",
+   "edit": {
+    "in": 0.4,
+    "out": 5.76,
+    "cap_at": [
+     0.07,
+     3.91
+    ],
+    "sig": "8c85398c0d92"
+   }
   },
   {
    "id": 6,
@@ -239,7 +285,15 @@
     "mode": "live",
     "prompt_en": "Vertical 9:16 medium shot, rack focus from the backs of seated colleagues to the back row at frame right. In a night meeting room, {man} calmly stands up, hands at her sides, looks toward camera-left and speaks; colleagues turn to stare at her, one freezes mid-sip. Blue projector light, sudden tension."
    },
-   "purpose": "SWING 1 begins: 小满 challenges the director"
+   "purpose": "SWING 1 begins: 小满 challenges the director",
+   "edit": {
+    "in": 0.92,
+    "out": 2.7,
+    "cap_at": [
+     0.07
+    ],
+    "sig": "ed1533c927ba"
+   }
   },
   {
    "id": 7,
@@ -308,7 +362,16 @@
     "mode": "live",
     "prompt_en": "Vertical 9:16 medium close-up that becomes a two-shot. Night meeting room. {kai} walks around the glass table from frame left to stand facing {man} at frame right, speaks with a pleasant smile that turns cold, and drops a small pen cap on the table like a gavel; {man} holds a whiteboard marker, eyes level. Charged rivalry, blue projector light."
    },
-   "purpose": "STAKES: the 赌约"
+   "purpose": "STAKES: the 赌约",
+   "edit": {
+    "in": 1.46,
+    "out": 6.0,
+    "cap_at": [
+     0.07,
+     2.69
+    ],
+    "sig": "0b5c10a29c26"
+   }
   },
   {
    "id": 9,
@@ -337,7 +400,15 @@
     "mode": "live",
     "prompt_en": "Vertical 9:16 close-up, static. Night meeting room, blue light. {man} uncaps a whiteboard marker with her thumb, says a single word with calm, sharp eyes, and turns away toward a whiteboard at frame right. Quietly confident."
    },
-   "purpose": "She accepts the bet"
+   "purpose": "She accepts the bet",
+   "edit": {
+    "in": 0.96,
+    "out": 2.76,
+    "cap_at": [
+     0.07
+    ],
+    "sig": "dd1d412e5aaa"
+   }
   },
   {
    "id": 10,
@@ -385,7 +456,16 @@
     "mode": "live",
     "prompt_en": "Vertical 9:16 medium shot, slow arc. Night meeting room, whiteboard on the right wall. {man} draws a long flat line on the whiteboard, then a sharp tall spike at its end in one stroke (abstract strokes, no readable text or numbers), taps the peak once and half-turns to the seated team, speaking. Calm authority, blue and warm mixed light."
    },
-   "purpose": "LESSON: the average hides the peak"
+   "purpose": "LESSON: the average hides the peak",
+   "edit": {
+    "in": 2.02,
+    "out": 6.0,
+    "cap_at": [
+     0.07,
+     2.23
+    ],
+    "sig": "8eabdce63040"
+   }
   },
   {
    "id": 11,
@@ -414,7 +494,15 @@
     "mode": "live",
     "prompt_en": "Vertical 9:16 close-up, static. Night meeting room. {kai} drums red fingernails on a glass table, glances up at a wall clock with deliberate boredom, then looks toward camera-right and says one cutting word. Glamorous, cold, blue light."
    },
-   "purpose": "RETORT: breaks the lecture"
+   "purpose": "RETORT: breaks the lecture",
+   "edit": {
+    "in": 0.08,
+    "out": 2.18,
+    "cap_at": [
+     0.07
+    ],
+    "sig": "4bfd089f3ef6"
+   }
   },
   {
    "id": 12,
@@ -466,7 +554,16 @@
     "mode": "live",
     "prompt_en": "Vertical 9:16 medium close-up, slow push-in. Night meeting room. {man} writes quickly on a whiteboard (abstract marks, no readable text or numbers), taps it twice with the marker and turns her head to look toward camera-left, speaking calmly. Focused, precise, blue and warm light."
    },
-   "purpose": "LESSON: peak QPS = total ÷ seconds of the peak window"
+   "purpose": "LESSON: peak QPS = total ÷ seconds of the peak window",
+   "edit": {
+    "in": 0.38,
+    "out": 4.64,
+    "cap_at": [
+     0.07,
+     1.83
+    ],
+    "sig": "74eda0f77fcd"
+   }
   },
   {
    "id": 13,
@@ -497,7 +594,15 @@
     "mode": "live",
     "prompt_en": "Vertical 9:16 medium shot, static. Night meeting room. {wang} jabs numbers into a calculator on his phone (screen not readable), then looks up pale and speaks in disbelief; colleagues around him whisper behind their hands. Comedic shock, blue light. The line is spoken clearly and completely, every syllable audible, mouth clearly visible."
    },
-   "purpose": "REACTION: the 打脸 lands on the boss"
+   "purpose": "REACTION: the 打脸 lands on the boss",
+   "edit": {
+    "in": 1.42,
+    "out": 3.02,
+    "cap_at": [
+     0.07
+    ],
+    "sig": "dd1eb3718e63"
+   }
   },
   {
    "id": 14,
@@ -545,7 +650,16 @@
     "mode": "live",
     "prompt_en": "Vertical 9:16 medium close-up, slow push-in. Night meeting room, whiteboard behind her. {man} faces camera-left with a level, unblinking gaze, speaks two short sentences and caps the marker with a small decisive click. No smile, quiet authority."
    },
-   "purpose": "SWING 1 lands: 小满 owns the room"
+   "purpose": "SWING 1 lands: 小满 owns the room",
+   "edit": {
+    "in": 0.04,
+    "out": 3.46,
+    "cap_at": [
+     0.07,
+     3.19
+    ],
+    "sig": "aad2b060387c"
+   }
   },
   {
    "id": 15,
@@ -576,7 +690,15 @@
     "mode": "live",
     "prompt_en": "Vertical 9:16 profile two-shot, static. Night meeting room by the whiteboard. {kai} steps in from frame left to inches from {man} at frame right, tilts her head with a cold smile, taps the whiteboard with a red fingernail and speaks; {man} does not step back. Charged face-off between two women, blue light."
    },
-   "purpose": "SWING 2: 铁柱's half-valid point; the room wavers"
+   "purpose": "SWING 2: 铁柱's half-valid point; the room wavers",
+   "edit": {
+    "in": 1.1,
+    "out": 4.02,
+    "cap_at": [
+     0.07
+    ],
+    "sig": "17bcc24edd77"
+   }
   },
   {
    "id": 16,
@@ -630,7 +752,16 @@
     "mode": "live",
     "prompt_en": "Vertical 9:16 over-the-shoulder shot, slow push-in. Night meeting room. Over {kai}'s blurred shoulder and wavy hair at frame left, {man} at frame right holds her gaze, nods once and answers calmly, unflinching, voice dropping on the last words. Intimate, tense, blue light."
    },
-   "purpose": "Deepens the lesson (the 10-min figure is still an average → headroom); 小满 retakes the room"
+   "purpose": "Deepens the lesson (the 10-min figure is still an average → headroom); 小满 retakes the room",
+   "edit": {
+    "in": 0.32,
+    "out": 7.0,
+    "cap_at": [
+     0.07,
+     1.63
+    ],
+    "sig": "8faf7c8b766c"
+   }
   },
   {
    "id": 17,
@@ -659,7 +790,15 @@
     "mode": "live",
     "prompt_en": "Vertical 9:16 medium shot, static. Night meeting room. {wang} stares at the calculator on his phone (screen not readable), brows knotting deeper, then snaps his head up and blurts out a worried question. Comedic alarm, blue light."
    },
-   "purpose": "SWING 3 (the twist): the boss balks at the cost"
+   "purpose": "SWING 3 (the twist): the boss balks at the cost",
+   "edit": {
+    "in": 1.5,
+    "out": 3.8,
+    "cap_at": [
+     0.07
+    ],
+    "sig": "1dc7acd12554"
+   }
   },
   {
    "id": 18,
@@ -688,7 +827,15 @@
     "mode": "live",
     "prompt_en": "Vertical 9:16 medium close-up, slight low angle, static. Night meeting room. {kai}'s confident smile slowly returns; she turns toward someone off-screen and speaks in a silky voice, eyebrow raised, spinning a small pen cap between her fingers. Glamorous, victorious, blue light."
    },
-   "purpose": "Power swings back to 铁柱"
+   "purpose": "Power swings back to 铁柱",
+   "edit": {
+    "in": 0.9,
+    "out": 3.76,
+    "cap_at": [
+     0.07
+    ],
+    "sig": "e19109b374cc"
+   }
   },
   {
    "id": 19,
@@ -743,7 +890,16 @@
     "mode": "live",
     "prompt_en": "Vertical 9:16 medium close-up, slow push-in. Night meeting room. {man} turns toward someone off-screen at frame left and speaks two calm, flat sentences, the second slower, then holds still and lets it sit. Composed, persuasive, blue and warm light."
    },
-   "purpose": "Wins swing 3 with cost-of-failure: capacity vs cost"
+   "purpose": "Wins swing 3 with cost-of-failure: capacity vs cost",
+   "edit": {
+    "in": 0.1,
+    "out": 5.7,
+    "cap_at": [
+     0.07,
+     2.27
+    ],
+    "sig": "9fe274c9a262"
+   }
   },
   {
    "id": 20,
@@ -779,7 +935,16 @@
     "mode": "live",
     "prompt_en": "Vertical 9:16 medium shot, rack focus from foreground to background. Night meeting room. {wang} slams his palm on the glass table, shoots to his feet and points decisively toward camera-right, booming; focus pulls to {kai} behind him at frame left, a pen cap frozen between her fingers, her smile stiffening, jaw set. Dramatic, blue light."
    },
-   "purpose": "Boss makes the call + 赌约 paid off; 铁柱's reaction"
+   "purpose": "Boss makes the call + 赌约 paid off; 铁柱's reaction",
+   "edit": {
+    "in": 0.28,
+    "out": 4.54,
+    "cap_at": [
+     0.07,
+     2.65
+    ],
+    "sig": "4fd4b14e0eba"
+   }
   },
   {
    "id": 21,
@@ -815,62 +980,16 @@
     "mode": "live",
     "prompt_en": "Vertical 9:16 two-shot at a glass meeting room door at night, slow push-in. People file out behind them. {kai} at frame left and {man} at frame right brush shoulders in the doorway; {kai} stops without turning her head and speaks low; {man} pauses half a beat, the faintest smile, answers briefly and walks out; {kai} watches her go, jaw tightening. Suspicious, charged, dim blue light."
    },
-   "purpose": "马甲 tease (calls back the hook's 「实习生」)"
-  },
-  {
-   "id": 22,
-   "location": null,
-   "shot_size": "CARD",
-   "camera": "static",
-   "seconds": 6,
-   "cast": [],
-   "action": "快门声，白板照片定格成一张图总结（可收藏）。",
-   "performance": {},
-   "dialogue": [],
-   "narration": null,
-   "sfx": "camera shutter",
-   "overlay": {
-    "kind": "card",
-    "content": {
-     "title": {
-      "zh": "一张图：估算 QPS 三步",
-      "en": "Estimating QPS in 3 steps"
-     },
-     "steps": [
-      {
-       "zh": "① 总请求 = 人数 × 人均请求：1,000 万 × 10 = 1 亿",
-       "en": "1. Total = users × requests each: 10M × 10 = 100M"
-      },
-      {
-       "zh": "② 峰值 QPS = 总请求 ÷ 高峰秒数：1 亿 ÷ 600 ≈ 17 万（别除 86,400）",
-       "en": "2. Peak QPS = total ÷ peak seconds: 100M ÷ 600 ≈ 170K (not ÷ 86,400)"
-      },
-      {
-       "zh": "③ 机器数 = 峰值 ÷ 单机 QPS + 30–50% 余量：≈ 85 台起",
-       "en": "3. Servers = peak ÷ per-server QPS + 30–50% headroom: ≈ 85+"
-      }
-     ],
-     "notes": [
-      {
-       "zh": "10 分钟也是平均，最忙那一秒更高 → 所以留余量",
-       "en": "10 minutes is still an average; the busiest second is higher → headroom"
-      },
-      {
-       "zh": "多租一晚的钱 ≪ 开播崩一次的损失",
-       "en": "One night of extra servers ≪ one crash on air"
-      }
-     ],
-     "footnote": {
-      "zh": "假设：高峰 10 分钟；单机 2,000 QPS 以压测为准",
-      "en": "Assumptions: 10-min peak; 2,000 QPS/server from load tests"
-     }
-    }
-   },
-   "gen": {
-    "mode": "card",
-    "prompt_en": null
-   },
-   "purpose": "一张图总结 (save-worthy)"
+   "purpose": "马甲 tease (calls back the hook's 「实习生」)",
+   "edit": {
+    "in": 1.04,
+    "out": 3.38,
+    "cap_at": [
+     0.07,
+     1.73
+    ],
+    "sig": "22c3c7e41793"
+   }
   },
   {
    "id": 23,
@@ -946,7 +1065,16 @@
     "mode": "live",
     "prompt_en": "Vertical 9:16 wide shot, handheld fast push-in. A dark livestream war room at night: a whole wall of monitoring screens with abstract graphs suddenly turns red, red alert light sweeps the room; an on-call engineer rips off his headset, jumps up and shouts; colleagues at long desks snap their heads toward the wall. No readable text or numbers. Panic, urgent."
    },
-   "purpose": "CLIFFHANGER: believable new crisis (disk was nearly full; nobody estimated storage) → lesson 4"
+   "purpose": "CLIFFHANGER: believable new crisis (disk was nearly full; nobody estimated storage) → lesson 4",
+   "edit": {
+    "in": 1.12,
+    "out": 7.0,
+    "cap_at": [
+     0.07,
+     1.79
+    ],
+    "sig": "9b6409420159"
+   }
   },
   {
    "id": 25,
@@ -978,7 +1106,15 @@
     "mode": "live",
     "prompt_en": "Vertical 9:16 two-shot, static with rack focus from frame left to frame right. Dark war room washed in pulsing red alert light. {kai} at frame left snaps her head toward {man}, lips parted, searching her face; {man} at frame right stares at the wall of screens without moving, red light on her calm face, and says something quietly. Ominous, tense. The line is spoken clearly and completely, every syllable audible, mouth clearly visible."
    },
-   "purpose": "Cliffhanger lands on the rivalry: 铁柱 now looks to 小满"
+   "purpose": "Cliffhanger lands on the rivalry: 铁柱 now looks to 小满",
+   "edit": {
+    "in": 0.0,
+    "out": 1.22,
+    "cap_at": [
+     0.0
+    ],
+    "sig": "684fdac5a69d"
+   }
   },
   {
    "id": 26,
@@ -1011,6 +1147,131 @@
     "prompt_en": null
    },
    "purpose": "下集预告 (lesson 4: storage estimation)"
+  },
+  {
+   "id": 22,
+   "location": null,
+   "shot_size": "CARD",
+   "camera": "static",
+   "seconds": 6,
+   "cast": [],
+   "action": "快门声，白板照片定格成一张图总结（可收藏）。",
+   "performance": {},
+   "dialogue": [],
+   "narration": [
+    {
+     "zh": "估算 QPS，记住三步。",
+     "en": "Estimating QPS: three steps.",
+     "say_zh": "估算 Q P S，记住三步。",
+     "say_en": "Estimating Q P S: three steps."
+    },
+    {
+     "zh": "第一步，算总请求：",
+     "en": "Step one: total requests."
+    },
+    {
+     "zh": "人数乘以每人请求数。",
+     "en": "People times requests per person."
+    },
+    {
+     "zh": "一千万乘十，一亿次。",
+     "en": "Ten million times ten: 100 million.",
+     "say_en": "Ten million times ten: a hundred million."
+    },
+    {
+     "zh": "第二步，除以高峰的秒数。",
+     "en": "Step two: divide by the peak seconds."
+    },
+    {
+     "zh": "不是一天的八万六千四百秒，",
+     "en": "Not the 86,400 seconds in a day,",
+     "say_en": "Not the eighty-six thousand four hundred seconds in a day,"
+    },
+    {
+     "zh": "而是高峰十分钟，六百秒。",
+     "en": "but the ten-minute peak: 600 seconds.",
+     "say_en": "but the ten-minute peak: six hundred seconds."
+    },
+    {
+     "zh": "一亿除以六百，约十七万 QPS。",
+     "en": "100M ÷ 600 ≈ 170,000 QPS.",
+     "say_zh": "一亿除以六百，约十七万 Q P S。",
+     "say_en": "A hundred million over six hundred: about one hundred seventy thousand Q P S."
+    },
+    {
+     "zh": "第三步，算机器：",
+     "en": "Step three: count the servers."
+    },
+    {
+     "zh": "峰值除以单机能扛的 QPS，",
+     "en": "Peak divided by one server's QPS,",
+     "say_zh": "峰值除以单机能扛的 Q P S，",
+     "say_en": "Peak divided by one server's Q P S,"
+    },
+    {
+     "zh": "再多留三到五成余量。",
+     "en": "plus 30 to 50 percent headroom.",
+     "say_en": "plus thirty to fifty percent headroom."
+    },
+    {
+     "zh": "单机两千，就是八十五台起。",
+     "en": "At 2,000 each: 85 servers and up.",
+     "say_en": "At two thousand each: eighty-five servers and up."
+    },
+    {
+     "zh": "记住：平均值会骗人，按高峰算。",
+     "en": "Remember: averages lie. Plan for the peak."
+    }
+   ],
+   "sfx": "camera shutter",
+   "overlay": {
+    "kind": "card",
+    "content": {
+     "title": {
+      "zh": "一张图：估算 QPS 三步",
+      "en": "Estimating QPS in 3 steps"
+     },
+     "steps": [
+      {
+       "zh": "① 总请求 = 人数 × 人均请求：1,000 万 × 10 = 1 亿",
+       "en": "1. Total = users × requests each: 10M × 10 = 100M"
+      },
+      {
+       "zh": "② 峰值 QPS = 总请求 ÷ 高峰秒数：1 亿 ÷ 600 ≈ 17 万（别除 86,400）",
+       "en": "2. Peak QPS = total ÷ peak seconds: 100M ÷ 600 ≈ 170K (not ÷ 86,400)"
+      },
+      {
+       "zh": "③ 机器数 = 峰值 ÷ 单机 QPS + 30–50% 余量：≈ 85 台起",
+       "en": "3. Servers = peak ÷ per-server QPS + 30–50% headroom: ≈ 85+"
+      }
+     ],
+     "notes": [
+      {
+       "zh": "10 分钟也是平均，最忙那一秒更高 → 所以留余量",
+       "en": "10 minutes is still an average; the busiest second is higher → headroom"
+      },
+      {
+       "zh": "多租一晚的钱 ≪ 开播崩一次的损失",
+       "en": "One night of extra servers ≪ one crash on air"
+      }
+     ],
+     "footnote": {
+      "zh": "假设：高峰 10 分钟；单机 2,000 QPS 以压测为准",
+      "en": "Assumptions: 10-min peak; 2,000 QPS/server from load tests"
+     }
+    }
+   },
+   "gen": {
+    "mode": "card",
+    "prompt_en": null
+   },
+   "purpose": "THE LESSON: narrated three steps (the point of the episode; everything before sets it up)",
+   "step_cap": {
+    "0": 1,
+    "1": 4,
+    "2": 8,
+    "3": 12
+   }
   },
   {
    "id": 27,
