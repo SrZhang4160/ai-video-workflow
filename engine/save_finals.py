@@ -13,7 +13,8 @@ Re-running after a new approval keeps every version: a file that would change is
 import argparse, datetime, json, os, shutil, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-NAMES = {"xhs": "小红书", "douyin": "抖音", "tiktok": "TikTok", "linkedin": "LinkedIn"}
+NAMES = {"xhs": "小红书", "douyin": "抖音", "tiktok": "TikTok", "instagram": "Instagram", "linkedin": "LinkedIn"}
+SAME_AS = {"instagram": "tiktok"}   # Instagram Reels = the TikTok cut (English 9:16), cover and post text, unless it has its own
 
 
 def post_text(cap, pin, when):
@@ -60,20 +61,27 @@ def main():
             open(dst, "w").write(data)
     quiz = meta.get("quiz") or {}
     saved, missing = [], []
-    for key in meta.get("platforms", list(NAMES)):
+    plats = list(meta.get("platforms", list(NAMES)))
+    if "tiktok" in plats and "instagram" not in plats:
+        plats.insert(plats.index("tiktok") + 1, "instagram")
+    for key in plats:
+        base = key if os.path.exists(os.path.join(ROOT, "build", eid, f"{key}.mp4")) else SAME_AS.get(key, key)
         slot = slots.get(key)
         if not slot or dow not in slot["dow"]:
             continue                                                          # e.g. no LinkedIn on weekends
-        src = os.path.join(ROOT, "build", eid, f"{key}.mp4")
+        src = os.path.join(ROOT, "build", eid, f"{base}.mp4")
         if not os.path.exists(src):
             missing.append(key); continue
         stem = os.path.join(folder, f"{slot['time'].replace(':', '')}_{name}_{NAMES[key]}")
         put(stem + ".mp4", src=src)
-        cover = os.path.join(ROOT, "build", eid, f"{key}-cover.png")
+        cover = os.path.join(ROOT, "build", eid, f"{base}-cover.png")
         if os.path.exists(cover):
             put(stem + "_封面.png", src=cover)
         pin = quiz.get("answer_zh" if key in ("xhs", "douyin") else "answer_en")
-        put(stem + "_文案.txt", data=post_text(meta["captions"].get(key, {}), pin, f"{meta['date']} {slot['time']}"))
+        cap = dict(meta["captions"].get(key) or meta["captions"].get(SAME_AS.get(key, key), {}))
+        if track == "rust" and key in ("xhs", "douyin") and lesson:
+            cap["title"] = f"每天一分钟，学习AI工程- Rust 第{lesson}课"   # fixed series title on Chinese platforms (user, 2026-11-05)
+        put(stem + "_文案.txt", data=post_text(cap, pin, f"{meta['date']} {slot['time']}"))
         saved.append(NAMES[key])
     spoken = []
     for lang in ("zh", "en"):

@@ -9,13 +9,14 @@ Three daily 1-minute teaching series, same pipeline, same account (plus the dail
 - **AI 工程师系统课** (from 2026-11-09): `series/ai-engineer/curriculum.md`, episodes `episodes/<date>-ai/` (`meta.json` `"track": "ai"`, board doc id `<date>-ai`), posts daily 12:00 ET on 小红书 / 抖音 / TikTok and weekdays 08:00 on LinkedIn.
 - **系统设计 · 《逆袭架构师》** (from 2026-11-02; a 2–3 min 红果短剧-style drama since 2026-11-04): `series/system-design/README.md` (format rules, read first), `curriculum.md`, `story.md`; episodes `episodes/<date>-sd/` (`meta.json` `"track": "sd"`, `"format": "drama"`). **Own review board**: https://claude.ai/artifact/HGq19vhF8JP5TSqmVysLyG (doc id `<date>-sd`); the main board ignores sd. Posts daily 21:00 ET on 小红书 / 抖音 / TikTok and weekdays 12:30 on LinkedIn.
 
-Each episode goes to four platforms (Rust times shown; AI and 系统设计 times are in `series/schedule.json`):
+Each episode goes to five platforms (Rust times shown; AI and 系统设计 times are in `series/schedule.json`):
 
 | platform | ratio | voice | captions | posts (ET) |
 |---|---|---|---|---|
 | 小红书 xhs | 3:4 | Chinese | zh + en | daily 19:30 |
 | 抖音 douyin | 9:16 | Chinese | zh + en | daily 19:30 |
 | TikTok | 9:16 | English | en | daily 19:30 |
+| Instagram (Reels) | 9:16 | English | en | daily 19:30 (same as TikTok) — reuses the TikTok cut, cover and text; no separate render |
 | LinkedIn | 4:5 | English | en | Mon–Fri 10:30 |
 
 Times and sources: `series/schedule.json`. The user publishes by hand; nothing here posts anywhere.
