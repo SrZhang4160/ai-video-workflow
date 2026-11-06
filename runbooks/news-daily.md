@@ -3,7 +3,7 @@
 Runs every night at ~00:40 ET (after the Mac wakes at 00:05), and whenever the user says 「做今天的快讯」. Goal: one reviewed,
 fact-checked news script for **today's** air date on the review board before the Mac voice job's next pass, so the nightly
 build (~2:50 / ~6:30) has a preview and the three cuts ready by morning. The user reviews in the morning or early afternoon; posts go out at 16:30 ET (小红书 / 抖音 / TikTok; no LinkedIn).
-Series rules: `series/news/README.md` (read it first). Review board: https://claude.ai/artifact/C2QhJCX4jV1JNNXhyrfMdb
+Series rules: `series/news/README.md` (read it first). Review board: https://claude.ai/artifact/9bpYMza5ppyqnNrd2XPZop
 (db collection `episodes`, doc id = `<date>-news`).
 
 ## 0. Guard

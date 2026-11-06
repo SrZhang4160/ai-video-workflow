@@ -1,6 +1,6 @@
 # Posting reminders
 
-Light runs, no rendering. Review board: https://claude.ai/artifact/C2QhJCX4jV1JNNXhyrfMdb (系统设计: its own board https://claude.ai/artifact/HGq19vhF8JP5TSqmVysLyG; link that one in 系统设计 reminders)
+Light runs, no rendering. Review board: https://claude.ai/artifact/9bpYMza5ppyqnNrd2XPZop (系统设计: its own board https://claude.ai/artifact/JMKCFHSXHqCRih3TAV2wLW; link that one in 系统设计 reminders)
 
 1. Today's date in America/New_York. The reminder says which series it is for (`rust`, `ai`, `sd` or `news`, see `series/schedule.json` → `reminders`). `ArtifactData get` collection `episodes`, doc_id = that date (Rust) or `<date>-ai` (AI) or `<date>-sd` (系统设计) or `<date>-news` (AI 快讯).
 2. Which platforms this reminder covers:

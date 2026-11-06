@@ -33,7 +33,7 @@ Plus occasional **LinkedIn deep dives** (English only) in the hand-drawn whitebo
 | What | Where |
 |---|---|
 | This repo | to be pushed to `github.com/SrZhang4160/ai-video-workflow` (private, empty as of handoff) |
-| Review board (审核台) | https://claude.ai/artifact/C2QhJCX4jV1JNNXhyrfMdb (db collection `episodes`, doc id = air date; `config/schedule`) |
+| Review board (审核台) | https://claude.ai/artifact/9bpYMza5ppyqnNrd2XPZop (db collection `episodes`, doc id = air date; `config/schedule`) |
 | CosyVoice3 (voice clone) | `~/Desktop/AI/cosyvoice3` (`say.sh`, `.venv`, `my_voice.wav/.txt` = 6 s Chinese sample). `local/install_voice_job.sh` moves it to `~/cosyvoice3` |
 | Temp voicing folder | `~/Desktop/AI/lesson-today/` (`run.sh` voices `episodes/<date>/voice/*.txt` there); retire once this repo is the voice job's home |
 | 12-week study plan (Claude Doc) | https://claude.ai/code/artifact/81f0bea2-9fec-4d42-afa2-4fb4cfcb94b4 |
@@ -47,6 +47,7 @@ Plus occasional **LinkedIn deep dives** (English only) in the hand-drawn whitebo
 `voice` (clone/ai/mixed), `voice_sig`, `posted:{<platform>:true}`. Videos are artifact assets (`/_blob/<id>`), uploaded
 with the Artifact tool (`asset: true`); delete superseded assets. Write docs with ArtifactData pinned to `if_version`.
 The board page itself is `board/index.html` (republish to the same URL when changed).
+Boards moved 2026-11-05: the old boards (C2QhJ…, HGq19…) belonged to a Claude account that is no longer signed in on this Mac, so both were republished under the current account (main https://claude.ai/artifact/9bpYMza5ppyqnNrd2XPZop, 系统设计 https://claude.ai/artifact/JMKCFHSXHqCRih3TAV2wLW; capabilities db + assets + downloads). Episodes from 11-02 on were recreated from `build/<id>/doc.json`, the videos folder and `~/Desktop/AI/publish/log.md`; old review decisions could not be read. If the signed-in account changes again, boards and scheduled tasks lose access the same way.
 
 ## State at handoff
 - **10/24 第 1 课 Rust 知识全景**: built in cloned voice (zh+en), on the board; 小红书 posted (marked). 抖音/TikTok status unknown.

@@ -1,7 +1,7 @@
 # Weekly batch: script next week's episodes (three series × 7)
 
 Runs early Friday morning (ET). Goal: for each series in `series/schedule.json` → `series` (Rust, AI 工程师系统课, 系统设计), 7 reviewed scripts for the following Monday–Sunday on the review board (21 in all; a series starts on its `start` date if it has one). The user's Mac then voices them in the user's cloned voice (local/voice_job.sh), and the nightly run turns them into preview videos, so drafts are ready Friday morning and the user reviews Friday through Sunday.
-Review board: https://claude.ai/artifact/C2QhJCX4jV1JNNXhyrfMdb, except series with their own `board` in `series/schedule.json` (系统设计: https://claude.ai/artifact/HGq19vhF8JP5TSqmVysLyG). Every board read/write below goes to that series' board (db collection `episodes`, doc id = episode id = air date + the series' `id_suffix`, e.g. `2026-11-09` for Rust, `2026-11-09-ai` for AI, `2026-11-09-sd` for 系统设计).
+Review board: https://claude.ai/artifact/9bpYMza5ppyqnNrd2XPZop, except series with their own `board` in `series/schedule.json` (系统设计: https://claude.ai/artifact/JMKCFHSXHqCRih3TAV2wLW). Every board read/write below goes to that series' board (db collection `episodes`, doc id = episode id = air date + the series' `id_suffix`, e.g. `2026-11-09` for Rust, `2026-11-09-ai` for AI, `2026-11-09-sd` for 系统设计).
 
 ## 0. Guard
 - Video generation may only run 00:00–09:00 America/New_York. If this run was started by the schedule and the ET time is outside that window, stop and report "outside generation window".

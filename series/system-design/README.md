@@ -2,7 +2,7 @@
 
 From 2026-11-04 the 系统设计 series is a serialized micro-drama in the 红果短剧 style, not a 1-minute lesson. Same pipeline (weekly batch, cloned voice, nightly build, reminders), with these differences:
 
-- **Own review board**: https://claude.ai/artifact/HGq19vhF8JP5TSqmVysLyG (`board/sd.html`, db collection `episodes`, doc id `<date>-sd`, plus `config/schedule`). The main board ignores `track: "sd"`. `series/schedule.json` → `series.sd.board`.
+- **Own review board**: https://claude.ai/artifact/JMKCFHSXHqCRih3TAV2wLW (`board/sd.html`, db collection `episodes`, doc id `<date>-sd`, plus `config/schedule`). The main board ignores `track: "sd"`. `series/schedule.json` → `series.sd.board`.
 - **Length**: 2–3 minutes. 12–16 scenes plus the quiz scene, about 600–850 Chinese characters spoken. Drama episodes render with a tighter pace and English sped up 1.12× (`PACE_DRAMA` / `TEMPO_DRAMA` in `engine/render.py`), but English still runs longer than Chinese: write English captions shorter than a literal translation (aim ≤ 50 characters a page, drop filler) so the English cut stays under ~3.5 min. Ep 1 came out at 3:22 zh / 4:09 en.
 - **One episode = one curriculum lesson** (`curriculum.md`, in order). Episode number `n` in `episode.js` = drama episode number (ep 1 = lesson 3 on 2026-11-04; ep k = lesson k + 2). `meta.json` has `"track": "sd"`, `"format": "drama"`; `episode.js` has `theme: 'drama'` (tag shows 第N集).
 - Read `series/system-design/story.md` for the cast and what has happened so far, and append one line to it per episode written.
