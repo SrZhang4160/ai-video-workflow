@@ -1,0 +1,23 @@
+Make a reasoning model think almost half as much, and still get it right.
+On AIME24 math, thinking drops from 13,493 to 7,364 tokens.
+Accuracy didn't drop. It even went up a little.
+That is what a new Tencent and Xi'an Jiaotong paper reports.
+The paper is called LoCo: "Think Less, Locally."
+It made Hugging Face Daily Papers, with 56 upvotes when we looked.
+Reasoning models overthink: they have the answer and keep paying to think.
+LoCo first finds the step where overthinking starts.
+It keeps everything before it, and regenerates 8 times from there,
+keeping the shortest one that is still correct.
+Then DPO training teaches it to take the shorter path from that step.
+How? It looks at how confident the model is at each step.
+Steps with low, jumpy confidence go to a judge model to confirm.
+In the table, another method also gets shorter, but loses accuracy.
+Authors say: 40%+ fewer tokens on math, 23–36% fewer on code.
+Want to try it? The LoCo-7B weights are on Hugging Face,
+MIT licensed, code on GitHub, and it runs with vLLM.
+The minimum GPU isn't stated; the authors used NVIDIA H20s.
+My take: only one 7B model was tested,
+the numbers are the authors' own, and AIME scores swing a lot,
+and it works by changing the weights, so closed API models can't use it.
+In one line: don't cut thinking everywhere. Fix the step where it overthinks.
+What to watch: whether others reproduce it on other models.

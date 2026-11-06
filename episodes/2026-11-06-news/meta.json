@@ -1,0 +1,73 @@
+{
+  "date": "2026-11-06",
+  "track": "news",
+  "voice": "own",
+  "platforms": [
+    "xhs",
+    "douyin",
+    "tiktok"
+  ],
+  "topic_zh": "LoCo：让推理模型少想 45%，准确率没掉（腾讯微信 AI + 西安交大论文）",
+  "topic_en": "LoCo: reasoning models think 45% less with no accuracy loss, the authors report (Tencent WeChat AI + XJTU)",
+  "sources": [
+    {
+      "title": "Think Less, Locally: Local Preference Learning for Reasoning Compression",
+      "url": "https://arxiv.org/abs/2611.04814",
+      "outlet": "arXiv",
+      "published": "2026-11-03"
+    },
+    {
+      "title": "Think Less, Locally (paper page)",
+      "url": "https://huggingface.co/papers/2611.04814",
+      "outlet": "Hugging Face Daily Papers",
+      "published": "2026-11-04"
+    },
+    {
+      "title": "LoCo-7B model card",
+      "url": "https://huggingface.co/MuyaoYuan/LoCo-7B",
+      "outlet": "Hugging Face",
+      "published": "2026-11-04"
+    },
+    {
+      "title": "LoCo code",
+      "url": "https://github.com/MuyaoYuan/LoCo",
+      "outlet": "GitHub",
+      "published": "2026-11-04"
+    }
+  ],
+  "captions": {
+    "xhs": {
+      "title": "推理模型少想近一半，答案照样对？",
+      "body": "推理模型爱「想太多」：答案已经有了还在想，多想的每个 token 都要花钱、要等。\n腾讯微信 AI 和西安交大的新论文 LoCo（Think Less, Locally）报告：在 AIME24 数学题上，DeepSeek-R1-Distill-Qwen-7B 每题平均思考从 13493 降到 7364 个 token（少 45%），准确率没掉，还略升。\n怎么做到的：先用模型自己每一步的信心（低、又忽高忽低），再加一个裁判模型，找到开始想太多的那一步；前面不动，从这儿重写 8 次，留最短且答对的；再用 DPO 教它从这一步起走更短的路，而不是一律变短。\n作者称：五个数学测试都省四成多 token；只用数学训练，代码题也省 23%–36%。\n想试：LoCo-7B 权重在 Hugging Face（MIT，8B 参数，pip install vllm 后 vllm serve 就能跑），代码在 GitHub；最低显卡要求没写。\n我的看法：只测了一个 7B 模型，数字是作者自报，AIME 波动大（±4–7），准确率的小幅上升在误差范围内；而且要改权重才能用，闭源 API 模型用不上。思路值得学：压缩要找模型在哪儿想多，而不是一刀切。接下来看有没有人在别的模型上复现。\n你用推理模型时，最心疼的是钱还是等待时间？评论区聊聊～",
+      "tags": [
+        "AI快讯",
+        "AI新闻",
+        "推理模型",
+        "大模型",
+        "AI工程师",
+        "碎片时间学AI工程师"
+      ]
+    },
+    "douyin": {
+      "title": "推理模型少想45%，准确率还没掉？",
+      "body": "腾讯微信 AI 和西安交大的论文 LoCo 报告：找到模型开始想太多的那一步，教它从那儿起走更短的路。AIME24 上思考 token 从 13493 降到 7364，准确率略升。7B 权重已开源（MIT），但数字是作者自报，只测了一个模型。",
+      "tags": [
+        "AI快讯",
+        "AI新闻",
+        "AI",
+        "大模型",
+        "程序员"
+      ]
+    },
+    "tiktok": {
+      "body": "A reasoning model that thinks 45% less and still gets it right: on AIME24, thinking dropped from 13,493 to 7,364 tokens with no accuracy loss, a Tencent WeChat AI + Xi'an Jiaotong paper reports. The trick: find the exact step where it starts overthinking and train it to take a shorter correct path from there. 7B weights are open (MIT). Authors' own numbers, one model tested.",
+      "tags": [
+        "AINews",
+        "AI",
+        "LLM",
+        "reasoning",
+        "machinelearning"
+      ]
+    }
+  }
+}
