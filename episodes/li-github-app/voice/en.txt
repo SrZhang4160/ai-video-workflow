@@ -1,83 +1,113 @@
-How to build a GitHub App that evaluates every pull request.
-We'll start with what it does, and how a user experiences it,
-then the architecture choices and their trade-offs,
-and in part two, the details that make it reliable.
-For this GitHub App, our goal was simple to state.
-Whenever a pull request gets a new commit,
-we want to run our evaluations against that exact commit,
-to detect any potential regression,
-and show that result on the commit as a GitHub check.
-We use a GitHub App here,
-because GitHub sends it an event for every commit.
-And unlike a personal token, it has its own identity,
-narrow permissions, and short-lived tokens
-for each installation of the GitHub App.
-From the user's side, it takes a few clicks.
-They sign in to our dashboard, and click "Connect GitHub".
-Then they install the app on the repositories they choose.
-GitHub asks them to authorize, which proves they own that install.
-After that, they simply open pull requests.
-A check appears on each commit: queued, running, then a result,
-with a link to the full results in our dashboard.
-Behind that, there are four parts.
-An API service receives GitHub's webhooks and the user's sign-in.
-Postgres stores every installation, delivery and run.
-A durable workflow hands each run into an isolated sandbox.
-Results flow back to the API, which posts the check.
-We chose our tech stack based on the following considerations.
-Every part of this architecture was a decision, with real options.
-We judged every option with the same questions.
-Does it fit the job? What does it cost to run, and to operate?
-How locked in would we be? And does the team already know it?
-Let's go through the decisions one at a time.
-First, the API framework. The common options:
-Express: minimal and everywhere, but you add validation yourself.
-Fastify: fast, with schema validation built in, but less opinionated.
-NestJS: strong structure for large teams, at the cost of boilerplate.
-Django: batteries included, with admin and auth, but heavier.
-FastAPI: async Python, with automatic validation and docs.
-Go: very fast and lean, but more code for the same JSON handling.
-We chose Fastify with TypeScript. The service is small and focused,
-it needs the raw body for signatures, and strict types catch bugs in CI.
-The cost: we couldn't reuse our existing Django permission code.
-Next, sign-in. You can build it yourself, or use a provider.
-Building it gives full control, but you own passwords, resets and M F A.
-Auth0: mature, with social login, organizations and permissions.
-But its price grows with users, and moving away later is work.
-Clerk: excellent developer experience and ready-made UI.
-Amazon Cognito: cheap at scale and AWS-native, but harder to use.
-Firebase or Supabase Auth: simple and cheap, tied to their platforms.
-We chose Auth0: Google login, plus signed tokens with permissions,
-and we never store a password. It tells us who someone is;
-what they may access still lives in our own database.
-Then, where the service runs.
-A plain VM is cheapest, but patching, backups and deploys are on you.
-Kubernetes on a big cloud scales to anything, with heavy operations.
-Render deploys from Git, with health checks and managed databases.
-Railway is similar, very quick to start, with usage-based pricing.
-Managed platforms cost more per unit, and give you less control.
-We chose Render: it deploys from main only when checks pass,
-the setup lives in the repo, and a small team doesn't run servers.
-One caveat: more app copies don't make the database highly available.
-Evaluations take minutes. So how do you run long jobs?
-In the webhook handler: simplest, but GitHub expects a reply in ten seconds.
-Postgres plus a Redis queue: fast and familiar,
-but saving and queueing are two writes, so a crash can lose work.
-Postgres alone as the queue: one system, transactional, fewer features.
-A workflow engine like Temporal: retries and recovery built in,
-but one more system to run, and new rules to learn.
-Our prototype used Redis, and it showed exactly that gap.
-So Postgres is the source of truth, and Temporal runs the work.
-Pull-request code is untrusted. So where does it run?
-Our own containers: full control, but isolation and cleanup are ours.
-E2B: microVM sandboxes built for AI agents that run code.
-Daytona: fast sandboxes for AI-written code, with lasting workspaces.
-Modal: Python-first serverless containers, billed per second.
-Price lists don't compare them fairly.
-Run the same pinned evaluation on each, and measure cold start,
-timeouts, cleanup and the real bill.
-We started with Modal: our evaluators are Python, and runs are short.
-So those are the choices: options, trade-offs, and a reason for each.
+Every pull request can quietly make your product worse.
+We wanted to catch that before merge, on every single commit.
+So we built a GitHub App that does exactly that.
+In this video, I'll explain what it does, what the user sees,
+and how we chose each piece of the architecture.
+In part two, we'll make it reliable.
+The goal is simple.
+When a pull request gets a new commit,
+we run our evaluations on that exact commit,
+and show the result on the commit as a GitHub check.
+So GitHub has to tell us every time a commit arrives.
+A personal access token could do that,
+but it acts as one person, with all of that person's access,
+and it often never expires.
+A GitHub App is built for this.
+It gets an event for every commit,
+it has its own identity and only the permissions you ask for,
+and its tokens expire after an hour.
+From the user's side, it's a few clicks.
+They sign in to our dashboard, click "Connect GitHub",
+pick their repositories, and authorize,
+which proves the install is really theirs.
+After that, they work as usual,
+and every new commit gets a check, with a link to the details.
+Behind those clicks are four parts.
+An API service receives GitHub's webhooks and handles sign-in.
+Postgres stores every installation and every run.
+A workflow engine starts each run in an isolated sandbox.
+And the result goes back to the API, which updates the check.
+Each of these parts was a real decision.
+For each one, we asked the same questions.
+Does it fit the job? What does it cost to run, and to maintain?
+How hard is it to leave? And does the team already know it?
+That last one matters more than people admit.
+Let's start with the API framework.
+Our main backend is Django,
+so the obvious move was to add this service to it.
+Django is great when you want an admin panel, a database layer,
+and user accounts out of the box.
+But this service is small. It mostly receives webhooks,
+and it needs the raw bytes of each request
+to check GitHub's signature.
+Express is the usual default for that,
+but you put validation together yourself.
+NestJS suits large teams that want a strict structure,
+and Go suits services where raw speed matters most.
+We chose Fastify with TypeScript.
+Validation is built in, the raw body is easy to get,
+and strict types catch mistakes before they ship.
+The price: our permission logic lives in Django,
+so this service has to do its own access checks.
+Next, sign-in.
+Building it yourself only makes sense when identity is your product,
+because passwords, resets and two-factor are then yours forever.
+Firebase or Supabase Auth fit if you already build on their platform.
+Cognito fits teams that live in AWS.
+And Clerk fits when you want polished sign-in screens in a day.
+We chose Auth0, for Google login, organizations,
+and tokens that carry permissions, without ever storing a password.
+The trade-off is a bill that grows with users,
+and real work if we ever leave.
+So we keep one rule. Auth0 tells us who someone is.
+What they may see stays in our own database.
+That keeps the exit door open.
+Then, where it runs.
+A plain virtual machine is the cheapest,
+if someone is happy to handle patching and backups.
+Kubernetes makes sense when you already have a platform team.
+Render and Railway are for small teams
+that want to push code and have it run.
+We chose Render.
+It deploys from main only after the checks pass,
+and the whole setup lives in one file in the repo.
+One caveat, though: more copies of the app
+don't make the database any more available.
+Plan for that separately.
+The most interesting decision was how to run long jobs.
+An evaluation takes minutes,
+but GitHub wants a webhook reply within ten seconds,
+so the work has to happen somewhere else.
+Our first prototype saved the run in Postgres,
+and then pushed a job onto Redis.
+It's fast, it's familiar, and it works most of the time.
+But those are two separate writes.
+If the process crashes in between,
+the run exists, and nobody ever picks it up.
+Using Postgres itself as the queue fixes that,
+and it's a good fit for short, simple jobs.
+Ours aren't simple.
+They wait on sandboxes, they time out, and they need retries.
+So we chose Temporal.
+Postgres stays the source of truth,
+and Temporal makes sure every saved run actually finishes.
+The cost is one more system to run.
+For us, never losing a run was worth it.
+The last decision is where the code runs.
+Pull-request code is untrusted, so it needs a sandbox.
+Your own containers fit when you need full control,
+but isolation and cleanup are then on you.
+E2B and Daytona are built for AI agents that run code.
+Modal fits Python work that runs in short bursts,
+billed by the second.
+Here's the lesson: you can't compare them from their pricing pages.
+Run the same evaluation on each one, and measure cold starts,
+timeouts, cleanup, and the real bill.
+We started with Modal as a trial,
+because our evaluators are written in Python, and each run is short.
+So every choice came with a cost,
+and we picked the cost we could live with.
 In part two, we'll make it reliable:
-webhooks, lost messages, retries, reruns, and fair comparisons.
+duplicate webhooks, lost messages, retries versus reruns,
+and fair comparisons.
 Which of these choices would you have made differently?

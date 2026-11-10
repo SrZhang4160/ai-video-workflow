@@ -1,43 +1,36 @@
-The model forgets your last message. You resend the whole chat.
+At turn twenty, you resend turns one to nineteen. The model remembers nothing.
 That's one of nine things to know before you call an L L M A P I.
 One: each message has a role. System sets the rules.
 User is what the person asks. Assistant is what the model said.
-Some APIs take the system prompt as a separate field instead.
-Two: the model is stateless. Each request stands alone.
-So for turn three, you resend turns one and two, plus the new one.
-The request grows, so long chats cost more and get slower.
-And the history must still fit in the context window.
+Two: stateless. At turn three, you resend turns one and two, plus the new one.
+Requests grow: long chats cost more, get slower, must fit the window.
+Some APIs can store the chat for you, but it's still sent and billed.
 Three: each next token is sampled; temperature sets how random.
 Low means focused and predictable. High means more varied.
 Temperature zero is more repeatable, but not guaranteed identical.
-Many APIs also offer top P, which trims the unlikely tokens.
-Four: max tokens caps how long the answer can be.
-Hit the cap, and the answer just stops, mid-sentence.
+Top P cuts unlikely tokens. Tune one, not both; some models lock them.
+Four: max tokens caps the answer. Hit it, and it stops mid-sentence.
 So check the stop reason. Providers name it differently.
 A max-tokens stop means cut off. Raise the limit, or ask for less.
 Five: streaming. Without it, you wait for the whole answer.
-With it, the server sends server-sent events: chunks as they're made.
+With it, chunks arrive as they're made, over server-sent events.
 Your app shows each chunk at once. Same total time, feels faster.
 Six: JSON. Just asking for it usually works, until it doesn't.
 Better: give a JSON schema, with a structured-output or tool feature.
-Then still validate the result in your code before you use it.
+Still validate: a cut-off or refused answer won't match the schema.
 If it fails, retry or fall back, instead of crashing.
 Seven: a four twenty-nine error means you hit a rate limit.
 Don't retry at once. Wait, doubling each time: one, two, four seconds.
 Add jitter, a bit of randomness, so clients don't retry together.
 If the response says how long to wait, respect it. Cap retries.
 Eight: output tokens usually cost more than input tokens. Why?
-Your input is read in one pass, many tokens in parallel.
-Output is made one token at a time, each a new step.
-So output tokens use more hardware time. Check the pricing page.
+Input is read in parallel. Output is made one token at a time.
+Each output token takes more hardware time. Check the pricing page.
 Nine: big or small model? Start capable, get the task working.
 Then write evals: test cases with checks you can rerun.
-Move simple steps, like sorting or extracting, to a smaller model.
-Keep the switch if evals still pass: usually cheaper and faster.
-Here's the whole chapter in one picture. Save it.
-Messages with roles, resent every time, sampled with temperature.
+Move simple steps to a smaller model; keep it if evals still pass.
+The whole chapter in one picture: roles, resend, temperature.
 Check the stop reason, stream the chunks, validate the JSON.
 Back off on four twenty-nines, watch output tokens, let evals pick the model.
 Quick quiz: your JSON ends halfway. Stop reason: max tokens.
-What fixes it? A: temperature zero. B: raise max tokens.
-Tell me A or B in the comments.
+A: temperature zero, or B: raise max tokens? Comment below.

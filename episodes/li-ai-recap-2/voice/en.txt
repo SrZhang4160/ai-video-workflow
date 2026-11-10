@@ -1,22 +1,22 @@
 There are three Rs in strawberry. Many L L Ms famously said two.
 The reason: a model never sees letters at all.
-Let's build up how an L L M works, and then that will make sense.
+Here's how it works, piece by piece.
 At its core, an L L M does one thing: predict the next token.
 Give it "The cat sat on the", and it scores every possible next piece.
 "mat" gets a high chance, "floor" less, "banana" almost none.
 It picks one, appends it, and repeats, token by token.
 A token is a chunk of text: a word, part of a word, or punctuation.
-For example, "unbelievable" might be un, believ, able: three ids.
+For example, unbelievable might be un, beleev, able: three ids.
 APIs bill per token: your input plus the output.
 Common words are often one token, and splits differ by tokenizer.
-A model might see "strawberry" as, for example, str, aw, berry.
+A model might see strawberry as, for example, S T R, A W, berry.
 It gets three token ids, never the ten letters inside them.
 So a letter count is a guess from patterns, not a real count.
 Asking it to spell the word out first, or to use code, usually helps.
 Attention is how it decides which words matter. Take this sentence.
-To understand "it", that token looks at every other token,
-and weighs "dog" most, since roads don't get tired.
-Every token does this at once, layer after layer, to predict the next.
+Each token can look back at every token before it.
+By "tired", the model links "it" to "dog": roads don't get tired.
+This happens in every layer, sharpening the next-token guess.
 First, pretraining: predict the next token on huge amounts of text.
 Now it knows language and facts, but it only continues text.
 Then S F T, supervised fine-tuning: it learns from example requests with good answers.
@@ -28,7 +28,6 @@ Whatever does not fit, the model simply cannot see.
 So apps commonly trim, summarize, or pick only the relevant parts.
 Training rewards text that sounds plausible, not text that is checked.
 So ask about an obscure paper, and it may still answer fluently.
-It can be wrong, with nothing inside flagging it as wrong.
 You can reduce it: sources in the context, "I don't know", checks.
 But you can't remove it: generating likely text is what it does.
 Reasoning models write out steps before the final answer.
@@ -45,4 +44,4 @@ Pretraining, S F T and preference tuning shaped what it predicts.
 And three traps to remember. Save this picture for later.
 Quick quiz: your prompt fills almost the whole context window.
 Can the model still write a long answer?
-A: yes, it gets its own space. B: no, they share it. Comment below.
+A, yes, it gets its own space. B, no, they share it. Comment below.

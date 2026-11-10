@@ -30,7 +30,7 @@ It stops at an end-of-reply token, or when it hits your length limit.
 Streaming sends the reply piece by piece; without it, all at once.
 The response also reports usage: input tokens and output tokens.
 You pay for both, usually at different rates. Check the pricing page.
-The job: build products on top of a model, not train it.
+The job: mostly build products on top of a model, not train it.
 The stack: model, context, retrieval, tools, evals, production.
 One call: messages, tokens, one token at a time, billed both ways.
 Quick quiz: your prompt is one thousand tokens, and the reply is two hundred.
