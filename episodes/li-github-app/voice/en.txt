@@ -1,73 +1,69 @@
-A pull-request check sounds simple. Making it reliable is not.
-We built a GitHub App that runs our evaluations on every new commit,
-and reports each result on that commit, for every team using it.
-Let's cover the concept, the design, and the failures to plan for.
-First, the concept. A GitHub App is a bot with its own identity.
-An organization installs it on the repositories it chooses,
-and grants it only the permissions it requests.
-Why not simply use a personal access token? Because it acts as you.
-An app receives short-lived tokens, valid for about an hour,
-limited to a single installation. GitHub also sends it events,
-such as a new pull request, which is exactly the trigger we need.
-Now, the design. GitHub notifies our service through a webhook.
-The service records the event in a database,
-and hands the actual work to a separate runner.
-The runner reports its progress and, finally, the result.
-The service posts it as a check. Next, let's walk through each step.
-The first step is registering the app with GitHub.
-We provide a webhook URL and choose its permissions.
-We keep them minimal: write checks, read code, read pull requests.
-The app can never modify code. Next, a team installs it.
-When a team installs the app, we must link it to the right customer.
-However, the installation ID in the setup URL can be forged.
-So we ask the user to sign in with GitHub,
-and verify that they actually have access to that installation.
-After that, every new commit triggers a webhook. First, we verify it:
-we check the signature on the raw bytes, before parsing anything.
+We needed a trigger: whenever a pull request gets a new commit,
+our evaluations should run against that exact commit,
+and the result should appear on the commit, for every team using it.
+The natural way to get that trigger is a GitHub App.
+A GitHub App is a bot with its own identity.
+A team installs it only on the repositories they choose,
+and it gets only the permissions it needs, such as writing checks.
+A personal token cannot do this well, because it acts as you.
+The app instead gets short-lived tokens, valid for about an hour,
+for one installation only. More importantly, GitHub sends it events,
+like a new commit on a pull request. That is our trigger.
+Here is the flow. A new commit makes GitHub send our service a webhook.
+The service saves it in a database,
+which then triggers a job on a separate runner.
+The runner reports progress, and finally the result,
+which the service posts back to the commit as a check.
+Before any of that, a team installs the app, and we link it to them.
+One subtlety: the installation ID in the setup URL can be forged.
+So the user signs in with GitHub,
+and we confirm they really have access to that installation.
+Now the first step. When a webhook arrives, we verify its signature,
+computed over the raw bytes, before we parse anything.
 GitHub may deliver the same event more than once,
-so we record each delivery ID and ignore duplicates.
-We store the event and respond within ten seconds,
-and the slower work continues in the background.
-The runner then evaluates the exact commit, not the branch name,
-because a branch can move while the job is still running.
-Fork pull requests carry untrusted code, so we skip them: safety first.
+so we record each delivery ID and drop the repeats.
+Then we store it and reply within ten seconds,
+leaving the slow work for the background.
+That step drove our first stack choice: TypeScript on Node.
+Webhooks are JSON, and types catch payloads with the wrong shape.
+For the server we chose Fastify, because it exposes the raw body,
+which the signature check needs, and it validates schemas quickly.
+And zod validates every external input, from GitHub or the runner,
+before we rely on it.
+The next step is saving the run, and for that we chose PostgreSQL.
+A transaction stores the run and its status together.
+A unique key on the commit and test version stops duplicate runs.
+And locks make sure only one worker reports a given run.
+We decided not to add a separate queue yet,
+because at our scale, Postgres can serve as the queue, too.
+Saving the run triggers the job. The runner gets the exact commit,
+not a branch name, because a branch can move during the run.
+Fork pull requests carry untrusted code, so we skip them.
 And the app's private key stays in our backend, never in the runner.
-That covers the normal path. Now, what happens when something fails?
-First, crashes. We save each run before handing it off,
-and submit it with an idempotency key,
-so if a response is lost and we retry, no second job is started.
-After a crash, a reconciler resumes any unfinished runs.
-We also store results separately from reporting,
+That is also why the runner is its own service:
+it executes untrusted code, and it scales independently.
+To test all of this, an in-memory Postgres keeps the tests fast,
+and CI runs a real Postgres, so database behavior is really tested.
+But a handoff can fail. What if the runner's reply is lost?
+Because the run was saved first, nothing is forgotten.
+We resend it with the same idempotency key,
+so the runner recognizes it, and no second job is started.
+If our service itself crashes, a reconciler resumes unfinished runs.
+And results are stored separately from reporting,
 so a failed call to GitHub cannot erase a result.
-Second, messages can arrive late or out of order.
-Every update carries an attempt ID and an increasing sequence number.
+Then the runner reports back. Messages can arrive late or out of order,
+so each one carries an attempt ID and an increasing sequence number.
 We accept only the current attempt, and only newer numbers,
 so an old result can never overwrite a newer one.
-The check follows the same rule: it is tagged with the run ID,
-and we search the commit for it before creating another.
-Third, a retry and a rerun are different things.
-A retry simply continues the same run after a lost request.
+Finally, the check on GitHub is tagged with the run ID,
+and we look for it before creating another, to avoid duplicates.
+Across all of these steps, we keep retries and reruns apart.
+A retry continues the same run after a lost request.
 A rerun is a new measurement, so the earlier result is kept.
-When our infrastructure fails, we report that, not a code failure.
+If our infrastructure fails, we say so, rather than fail the code.
 And when we compare results, we compare like with like:
 the same test version, model settings, and runtime.
-A missing score is recorded as missing, never as zero.
-These requirements shaped our stack. The service is TypeScript on Node.
-Everything is JSON, and types catch payloads with the wrong shape.
-We chose Fastify because it gives direct access to the raw body,
-which signature checks require, and it validates schemas quickly.
-Zod validates every external input, from GitHub or the runner,
-before we rely on it.
-For storage, PostgreSQL holds all of the state.
-Transactions keep each run and its status consistent.
-Unique keys prevent duplicate runs.
-Locks ensure that only one worker reports a given run.
-We chose not to add a separate queue yet.
-Postgres covers it at our scale, with one fewer system to fail.
-The runner is a separate service,
-because it executes untrusted code and scales independently.
-In tests, an in-memory Postgres keeps the suite fast,
-and CI runs against a real Postgres to test real database behavior.
+A missing score stays missing; it is never a zero.
 The same principles apply beyond GitHub. Consider a Slack alert
 that fires when an account reaches ninety percent of its weekly usage.
 We record the alert once per account per week in our own database,
