@@ -1,78 +1,113 @@
-We needed a trigger: whenever a pull request gets a new commit,
-our evaluations should run against that exact commit,
-and the result should appear on the commit, for every team using it.
-The natural way to get that trigger is a GitHub App.
-A GitHub App is a bot with its own identity.
-A team installs it only on the repositories they choose,
-and it gets only the permissions it needs, such as writing checks.
-A personal token cannot do this well, because it acts as you.
-The app instead gets short-lived tokens, valid for about an hour,
-for one installation only. More importantly, GitHub sends it events,
-like a new commit on a pull request. That is our trigger.
-Here is the flow. A new commit makes GitHub send our service a webhook.
-The service saves it in a database,
-which then triggers a job on a separate runner.
-The runner reports progress, and finally the result,
-which the service posts back to the commit as a check.
-Before any of that, a team installs the app, and we link it to them.
-One subtlety: the installation ID in the setup URL can be forged.
-So the user signs in with GitHub,
-and we confirm they really have access to that installation.
-Now the first step. When a webhook arrives, we verify its signature,
-computed over the raw bytes, before we parse anything.
-GitHub may deliver the same event more than once,
-so we record each delivery ID and drop the repeats.
-Then we store it and reply within ten seconds,
-leaving the slow work for the background.
-That step drove our first stack choice: TypeScript on Node.
-Webhooks are JSON, and types catch payloads with the wrong shape.
-For the server we chose Fastify, because it exposes the raw body,
-which the signature check needs, and it validates schemas quickly.
-And zod validates every external input, from GitHub or the runner,
-before we rely on it.
-The next step is saving the run, and for that we chose PostgreSQL.
-A transaction stores the run and its status together.
-A unique key on the commit and test version stops duplicate runs.
-And locks make sure only one worker reports a given run.
-We decided not to add a separate queue yet,
-because at our scale, Postgres can serve as the queue, too.
-Saving the run triggers the job. The runner gets the exact commit,
-not a branch name, because a branch can move during the run.
-Fork pull requests carry untrusted code, so we skip them.
-And the app's private key stays in our backend, never in the runner.
-That is also why the runner is its own service:
-it executes untrusted code, and it scales independently.
-To test all of this, an in-memory Postgres keeps the tests fast,
-and CI runs a real Postgres, so database behavior is really tested.
-But a handoff can fail. What if the runner's reply is lost?
-Because the run was saved first, nothing is forgotten.
-We resend it with the same idempotency key,
-so the runner recognizes it, and no second job is started.
-If our service itself crashes, a reconciler resumes unfinished runs.
-And results are stored separately from reporting,
-so a failed call to GitHub cannot erase a result.
-Then the runner reports back. Messages can arrive late or out of order,
-so each one carries an attempt ID and an increasing sequence number.
-We accept only the current attempt, and only newer numbers,
-so an old result can never overwrite a newer one.
-Finally, the check on GitHub is tagged with the run ID,
-and we look for it before creating another, to avoid duplicates.
-Across all of these steps, we keep retries and reruns apart.
-A retry continues the same run after a lost request.
-A rerun is a new measurement, so the earlier result is kept.
-If our infrastructure fails, we say so, rather than fail the code.
-And when we compare results, we compare like with like:
-the same test version, model settings, and runtime.
-A missing score stays missing; it is never a zero.
-The same principles apply beyond GitHub. Consider a Slack alert
-that fires when an account reaches ninety percent of its weekly usage.
-We record the alert once per account per week in our own database,
-and only then send it.
-There is exactly one sender, so nobody receives it twice.
-And the threshold is computed in the same window we enforce,
-not in an analytics tool that uses a different time zone.
-To summarize: tie every run to a single commit.
-Make every step safe to repeat.
-Reject stale attempts, and classify every failure clearly.
-And keep missing data missing.
-Which of these has caused you trouble?
+Today: how to build a GitHub App that evaluates every pull request.
+We'll start with what it does, and how a user experiences it,
+then the architecture choices and their trade-offs,
+and finally the details that make it reliable.
+Our goal was simple to state.
+Whenever a pull request gets a new commit,
+run our evaluations against that exact commit,
+and show the result on the commit, as a GitHub check.
+A GitHub App fits, because GitHub sends it an event for every commit.
+And unlike a personal token, it has its own identity,
+narrow permissions, and short-lived tokens for each installation.
+From the user's side, it takes a few clicks.
+They sign in to our dashboard, and click "Connect GitHub".
+Then they install the app on the repositories they choose.
+GitHub asks them to authorize, which proves they own that install.
+After that, they simply open pull requests.
+A check appears on each commit: queued, running, then a result,
+with a link to the full results.
+Behind that, there are four parts.
+An API service receives GitHub's webhooks and the user's sign-in.
+Postgres stores every installation, delivery and run.
+A durable workflow hands each run to an isolated sandbox.
+Results flow back to the API, which posts the check.
+Each part was a choice, so let's look at the trade-offs.
+First, the service framework. We compared five options:
+Fastify, NestJS, Django, FastAPI and Go, and prototyped Fastify.
+We chose TypeScript because strict types and type-aware linting
+catch mistakes in CI, before code review.
+Fastify gives direct access to the raw request body, for signatures,
+and zod validates every outside input at runtime.
+The trade-off: a new service can't reuse our Django permission code,
+so we rebuilt that part on purpose, and kept the service small.
+For sign-in, we use Auth0.
+It handles passwords and Google login,
+and gives our API signed tokens that it can verify.
+The trade-off: Auth0 tells us who someone is,
+not what they may access.
+Organization membership, and which GitHub account belongs to whom,
+still live in our own database.
+We host the service on Render.
+We compared it with Railway and a plain virtual machine.
+A VM is cheaper, but then we own patching, backups and monitoring.
+Render deploys from main when checks pass,
+waits for a health check, and shuts down gracefully.
+Caveat: more app copies don't make the database highly available.
+That's a separate decision.
+Our first prototype used Postgres plus a Redis queue.
+It worked, but saving a run and queueing it are two separate writes.
+A crash between them loses work,
+so you need a reconciler anyway.
+So now Postgres is the source of truth,
+and a durable workflow engine, Temporal, owns execution and retries.
+Pull-request code is untrusted, so it never runs inside the API.
+It runs in a sandbox on Modal.
+We compared Modal, Daytona and E2B.
+The fair way to compare them is to run the same pinned evaluation,
+and measure cold start, timeouts, cleanup, and the real bill,
+not the price list.
+Now, the details that matter when you implement it. First, webhooks.
+Verify the signature over the raw bytes, before parsing.
+A valid signature proves the message came from GitHub,
+not that this customer may use this repo. Check that separately.
+Record each delivery ID to drop repeats,
+then store the event and reply quickly.
+Second, linking an installation to a customer.
+The installation ID in the setup URL can be forged. It's not proof.
+We bind the flow to a single-use link that expires in ten minutes,
+and GitHub authorization proves access.
+If the app is uninstalled mid-flow, the link is invalidated.
+Third, what counts as one run:
+one repository, pull request, commit and evaluation version.
+We run the exact commit, never the branch, because branches move.
+Pull requests from forks are skipped,
+and the app's private key never leaves the backend.
+Fourth, lost and late messages.
+We save the run before handing it off,
+and submit it with an idempotency key,
+so a lost response can't start a second evaluation.
+Each update carries an attempt ID and a growing sequence number,
+so a late result can't overwrite a newer one.
+The check carries the run ID, so we find it instead of duplicating it.
+Now, retries and reruns, which are easy to confuse.
+A retry repeats an infrastructure step,
+like resending a request or re-posting a check.
+It continues the same run, with its own retry budget.
+A rerun executes the tests again. That's a new measurement,
+so we keep the first result, and label it:
+passed the first time, or passed only on rerun.
+One eventual pass doesn't prove the test is reliable.
+And if our infrastructure fails, the check says "action required",
+not "failed", and nothing is scored.
+When we compare a pull request against its baseline,
+both must use the same test and evaluator versions,
+the same model settings, and the same runtime.
+We record that configuration with every result,
+and refuse to compare when it doesn't match.
+A missing score stays missing.
+Zero means it was measured and failed.
+Missing means it wasn't measured, and we report coverage separately.
+A few more design points.
+Ship behind feature flags. With the app disabled, it runs health-only,
+and when enabled, it refuses to start with incomplete configuration.
+Keep the three secrets separate:
+the private key, the OAuth secret and the webhook secret
+each prove something different.
+Another organization's run returns "not found", not "forbidden".
+And the same reserve-once idea powers our usage alerts:
+one alert per account per week, sent by exactly one sender.
+So, to wrap up: start from the user's experience,
+choose each tool for a reason you can state,
+pin every run to one commit, make every step safe to repeat,
+and keep retries, reruns and missing data honest.
+Which part would you have built differently?
