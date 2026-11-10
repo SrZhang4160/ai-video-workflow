@@ -1,0 +1,82 @@
+We recently built a GitHub App. Here's what it does.
+Whenever a pull request gets a new commit, it runs our evaluations,
+and posts the result right on that commit, as a check.
+It works for many teams at once. But first: what is a GitHub App?
+Think of it as a bot with its own identity.
+A team installs it on just the repos they choose,
+and it only gets the permissions it asked for.
+You might ask: why not a personal token? That token acts as you.
+An app gets its own short-lived token, good for about an hour,
+for one install only. And GitHub pushes events to it,
+like "someone opened a pull request." Exactly the trigger we need.
+So this is what we built. GitHub calls our service with a webhook.
+Our service writes it down in a database,
+then hands the real work to a separate runner.
+The runner reports back as it goes, and when it's done,
+our service posts the result to the commit. So what's it made of?
+We wrote the service in TypeScript, on Node.
+It's all JSON, and types catch payloads with the wrong shape.
+For the web server, Fastify, because you can get at the raw body,
+which signature checks need, and it validates schemas fast.
+And zod checks anything coming from outside, GitHub or the runner,
+before we trust it. Then we needed somewhere to keep state.
+For that, PostgreSQL. It holds everything.
+Transactions keep a run and its status in sync.
+Unique keys make duplicate runs impossible.
+Locks make sure only one worker reports a run.
+At our size, it doubles as the job queue,
+so that's one less system that can break.
+The runner lives on its own,
+because it runs untrusted code and needs to scale separately.
+In tests, an in-memory Postgres keeps things fast,
+and CI runs a real one. With the pieces chosen, we set up the app.
+Setting it up on GitHub is mostly filling in a form.
+You give it a webhook URL, and you pick its permissions.
+We kept them tight: write checks, read code, read pull requests.
+It can never change anyone's code. Then a team installs it.
+When a team installs it, we need to know which customer they are.
+Here's the catch: the installation ID in the setup URL can be faked.
+So we ask the user to sign in with GitHub,
+and check that they really have access to that install.
+Someone pushes a commit, and the webhook arrives. First, its signature
+gets checked on the raw bytes, before we parse anything.
+GitHub can send the same event more than once,
+so we remember each delivery ID and ignore repeats.
+We save it and answer within ten seconds,
+and do the slow work in the background. Which brings us to the job.
+The job runs the exact commit, not the branch name,
+because the branch can move while it's still running.
+Pull requests from forks are a stranger's code, so we skip them.
+And the app's private key stays in our backend, never in the runner.
+That's the happy path. But things fail. What if something crashes?
+We save the run before handing it off,
+and send it with an idempotency key,
+so if a response gets lost and we retry, no second job starts.
+If our service crashes, a reconciler finds the unfinished runs.
+And results are stored apart from reporting,
+so a failed call to GitHub can't wipe out a result.
+Another problem: messages can show up late, or out of order.
+So every update carries an attempt ID and a growing sequence number.
+We only accept the current attempt, and only newer numbers.
+That way an old result can never overwrite a newer one.
+The check works the same way: it's tagged with the run ID,
+and we look for it on the commit before creating a new one.
+One more thing: a retry and a rerun are not the same.
+Retrying a lost request just continues the same run.
+Rerunning tests is a new measurement, so we keep the old result too.
+When our infrastructure breaks, we say so. We never blame the code.
+When we compare results, we compare like with like:
+same test version, same model settings, same runtime.
+And a missing score is never a zero.
+We hit the same pattern outside GitHub, too, in a Slack alert
+that fires when an account hits ninety percent of its weekly usage.
+We record the alert once per account per week, in our own database,
+and only then send it.
+Only one thing sends it, or people get it twice.
+And the math runs in the same time window we enforce,
+not in an analytics tool that uses a different timezone.
+So, if you're building one: tie every run to one commit.
+Make every step safe to repeat.
+Ignore stale attempts, and be clear about why something failed.
+And keep missing data missing.
+Which of these has bitten you?

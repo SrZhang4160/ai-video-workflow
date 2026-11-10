@@ -1,0 +1,58 @@
+Here's one of the trickiest agent bugs I look for.
+The test says pass. The customer got the right result.
+But the agent never asked permission first.
+Take the public tau-bench benchmark, retail domain.
+A customer-service agent chats with a simulated customer,
+played by another LLM.
+It has tools to look up users and orders,
+and tools that change the database: cancel, modify, return, exchange.
+The policy is clear.
+Before any of those actions, list the details,
+and get an explicit yes from the customer.
+Tau-bench scores the outcome.
+Does the final database match the expected one?
+Did the replies include the needed information?
+The paper itself warns: necessary, not sufficient.
+Here's what that looks like in a trace.
+The customer asks to swap a shirt for the blue one.
+The agent reads the order,
+and immediately exchanges the items.
+The final database is exactly right, so it passes.
+But the customer never said yes.
+So there are two questions.
+Outcome: where did the agent end up?
+Trajectory: how did it get there?
+For agents that act, you need both.
+When I evaluate agents, I check three things in the trace.
+Tool calls in the right order.
+The database state after every write, not only at the end.
+And consent for each action:
+the agent listed those exact details,
+and the customer's next message was a yes.
+I write these as a deterministic code grader, not only an LLM judge.
+Code gives the same answer every run,
+and is cheap enough for every commit.
+I keep the LLM judge for fuzzy questions, like tone.
+Then I test the grader itself.
+I feed it episodes I know are good,
+and episodes I broke on purpose:
+remove the yes, confirm a different item, swap the order.
+If it lets a bad one through, I can't trust its passes.
+That also tells you whose bug it is.
+If the trace is bad but the grader passed it,
+the evaluator has a blind spot. Fix the grader first.
+If the grader catches it, the agent has a real defect.
+Here's the trap.
+A prompt tweak or an optimizer can raise the score
+without fixing the failure.
+Add "always confirm", and a judge sees the word "confirm".
+But the agent asks, "Shall I proceed?"
+and acts before the customer answers.
+An optimizer learns whatever your grader can't see.
+So every failure I find becomes a regression test in CI,
+with the trace saved as a fixture.
+And the same consent check runs on production traces,
+so a new model or prompt can't quietly bring the bug back.
+Grade the path, not just the destination.
+And test your grader before you trust its passes.
+How do you test your agents?

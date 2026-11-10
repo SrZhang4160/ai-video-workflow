@@ -1,0 +1,45 @@
+The hardest problem I've solved was in a medical image editor.
+It runs in the browser. Clinicians paint regions on three D scans,
+hundreds of slices deep. And every big stroke froze the page.
+A browser runs your JavaScript, input and drawing on one thread.
+The event loop runs one task at a time.
+At sixty frames a second, each frame gets about sixteen milliseconds.
+Our fill took seconds, so nothing else could run.
+Five hundred slices, each five hundred twelve pixels square, is over a hundred and thirty million voxels.
+One fill could touch millions of them.
+My first try: split the work into chunks with setTimeout.
+The freeze turned into stutter, and big fills got slower.
+The profiler showed why: visited voxels lived in a Set of strings.
+Millions of tiny strings meant hashing, allocation, and garbage-collection pauses.
+Fix one: move the compute into a Web Worker, a separate thread.
+The main thread only handles input and drawing.
+The two talk by passing messages.
+Messages are copied by default.
+Copying a whole volume per stroke is its own freeze.
+So the worker owns the mask. The main thread sends only the stroke.
+Changed slices come back as transferable ArrayBuffers.
+Ownership moves. Nothing is copied.
+Region growing across slices is a breadth-first flood fill in three D.
+Start from a seed. Take a voxel off the queue.
+Check its six neighbors: four in the slice, one above, one below.
+Queue the ones that match.
+Each voxel becomes one number: its index in a flat array.
+"Visited" becomes one bit in a typed array.
+A hundred and thirty million voxels fit in about sixteen megabytes. A check is one bit test.
+The queue is a typed array too. No strings, no garbage.
+Brush strokes overlap, so the same voxel gets painted again and again.
+A per-stroke bitmask marks what's already written.
+Each voxel is changed, and recorded, exactly once.
+Mouse events arrive faster than frames.
+So we queue them and merge them into one batch per frame.
+The slice on screen updates first. The interface stays smooth.
+Undo was the last trap.
+A full copy of the mask per step: gigabytes after twenty edits.
+Instead, each edit is a command that stores only what changed:
+the voxel indices and their old values.
+Undo writes the old values back. Redo applies the edit again.
+The lesson: a frozen page isn't always a slow algorithm.
+Measure first. Keep the main thread for the user.
+Move heavy work off it. Pick data structures that make no garbage.
+Every choice here traded memory for speed, on purpose.
+What's the hardest bug you've chased?
