@@ -1,27 +1,30 @@
-Today: how to build a GitHub App that evaluates every pull request.
+How to build a GitHub App that evaluates every pull request.
 We'll start with what it does, and how a user experiences it,
 then the architecture choices and their trade-offs,
-and finally the details that make it reliable.
-Our goal was simple to state.
+and in part two, the details that make it reliable.
+For this GitHub App, our goal was simple to state.
 Whenever a pull request gets a new commit,
-run our evaluations against that exact commit,
-and show the result on the commit, as a GitHub check.
-A GitHub App fits, because GitHub sends it an event for every commit.
+we want to run our evaluations against that exact commit,
+to detect any potential regression,
+and show that result on the commit as a GitHub check.
+We use a GitHub App here,
+because GitHub sends it an event for every commit.
 And unlike a personal token, it has its own identity,
-narrow permissions, and short-lived tokens for each installation.
+narrow permissions, and short-lived tokens
+for each installation of the GitHub App.
 From the user's side, it takes a few clicks.
 They sign in to our dashboard, and click "Connect GitHub".
 Then they install the app on the repositories they choose.
 GitHub asks them to authorize, which proves they own that install.
 After that, they simply open pull requests.
 A check appears on each commit: queued, running, then a result,
-with a link to the full results.
+with a link to the full results in our dashboard.
 Behind that, there are four parts.
 An API service receives GitHub's webhooks and the user's sign-in.
 Postgres stores every installation, delivery and run.
-A durable workflow hands each run to an isolated sandbox.
+A durable workflow hands each run into an isolated sandbox.
 Results flow back to the API, which posts the check.
-Each part was a choice, so let's look at the trade-offs.
+We chose our tech stack based on the following considerations.
 Every part of this architecture was a decision, with real options.
 We judged every option with the same questions.
 Does it fit the job? What does it cost to run, and to operate?
@@ -74,58 +77,7 @@ Price lists don't compare them fairly.
 Run the same pinned evaluation on each, and measure cold start,
 timeouts, cleanup and the real bill.
 We started with Modal: our evaluators are Python, and runs are short.
-Now, the details that matter when you implement it. First, webhooks.
-Verify the signature over the raw bytes, before parsing.
-A valid signature proves the message came from GitHub,
-not that this customer may use this repo. Check that separately.
-Record each delivery ID to drop repeats,
-then store the event and reply quickly.
-Second, linking an installation to a customer.
-The installation ID in the setup URL can be forged. It's not proof.
-We bind the flow to a single-use link that expires in ten minutes,
-and GitHub authorization proves access.
-If the app is uninstalled mid-flow, the link is invalidated.
-Third, what counts as one run:
-one repository, pull request, commit and evaluation version.
-We run the exact commit, never the branch, because branches move.
-Pull requests from forks are skipped,
-and the app's private key never leaves the backend.
-Fourth, lost and late messages.
-We save the run before handing it off,
-and submit it with an idempotency key,
-so a lost response can't start a second evaluation.
-Each update carries an attempt ID and a growing sequence number,
-so a late result can't overwrite a newer one.
-The check carries the run ID, so we find it instead of duplicating it.
-Now, retries and reruns, which are easy to confuse.
-A retry repeats an infrastructure step,
-like resending a request or re-posting a check.
-It continues the same run, with its own retry budget.
-A rerun executes the tests again. That's a new measurement,
-so we keep the first result, and label it:
-passed the first time, or passed only on rerun.
-One eventual pass doesn't prove the test is reliable.
-And if our infrastructure fails, the check says "action required",
-not "failed", and nothing is scored.
-When we compare a pull request against its baseline,
-both must use the same test and evaluator versions,
-the same model settings, and the same runtime.
-We record that configuration with every result,
-and refuse to compare when it doesn't match.
-A missing score stays missing.
-Zero means it was measured and failed.
-Missing means it wasn't measured, and we report coverage separately.
-A few more design points.
-Ship behind feature flags. With the app disabled, it runs health-only,
-and when enabled, it refuses to start with incomplete configuration.
-Keep the three secrets separate:
-the private key, the OAuth secret and the webhook secret
-each prove something different.
-Another organization's run returns "not found", not "forbidden".
-And the same reserve-once idea powers our usage alerts:
-one alert per account per week, sent by exactly one sender.
-So, to wrap up: start from the user's experience,
-choose each tool for a reason you can state,
-pin every run to one commit, make every step safe to repeat,
-and keep retries, reruns and missing data honest.
-Which part would you have built differently?
+So those are the choices: options, trade-offs, and a reason for each.
+In part two, we'll make it reliable:
+webhooks, lost messages, retries, reruns, and fair comparisons.
+Which of these choices would you have made differently?

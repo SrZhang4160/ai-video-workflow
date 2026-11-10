@@ -1,0 +1,59 @@
+In part one, we designed a GitHub App that evaluates every pull request:
+a webhook arrives, the API saves a run, and a sandbox runs the tests,
+and the result comes back as a check on the commit.
+Now, the details that make it reliable, starting with webhooks.
+First, webhooks: GitHub sends one for every new commit.
+Verify the signature over the raw bytes, before parsing.
+A valid signature proves the message came from GitHub,
+not that this customer may use this repo. Check that separately.
+Record each delivery ID to drop repeats,
+then store the event and reply quickly.
+Second, linking an installation to a customer.
+The installation ID in the setup URL can be forged. It's not proof.
+We bind the flow to a single-use link that expires in ten minutes,
+and GitHub authorization proves access.
+If the app is uninstalled mid-flow, the link is invalidated.
+Third, what counts as one run:
+one repository, pull request, commit and evaluation version.
+We run the exact commit, never the branch, because branches move.
+Pull requests from forks are skipped,
+and the app's private key never leaves the backend.
+Fourth, lost and late messages.
+We save the run before handing it off,
+and submit it with an idempotency key,
+so a lost response can't start a second evaluation.
+Each update carries an attempt ID and a growing sequence number,
+so a late result can't overwrite a newer one.
+The check carries the run ID, so we find it instead of duplicating it.
+Now, retries and reruns, which are easy to confuse.
+A retry repeats an infrastructure step,
+like resending a request or re-posting a check.
+It continues the same run, with its own retry budget.
+A rerun executes the tests again. That's a new measurement,
+so we keep the first result, and label it:
+passed the first time, or passed only on rerun.
+One eventual pass doesn't prove the test is reliable.
+And if our infrastructure fails, the check says "action required",
+not "failed", and nothing is scored.
+When we compare a pull request against its baseline,
+both must use the same test and evaluator versions,
+the same model settings, and the same runtime.
+We record that configuration with every result,
+and refuse to compare when it doesn't match.
+A missing score stays missing.
+Zero means it was measured and failed.
+Missing means it wasn't measured, and we report coverage separately.
+A few more design points.
+Ship behind feature flags. With the app disabled, it runs health-only,
+and when enabled, it refuses to start with incomplete configuration.
+Keep the three secrets separate:
+the private key, the OAuth secret and the webhook secret
+each prove something different.
+Another organization's run returns "not found", not "forbidden".
+And the same reserve-once idea powers our usage alerts:
+one alert per account per week, sent by exactly one sender.
+So, to wrap up: verify every input before you trust it,
+pin every run to one commit,
+make every step safe to repeat,
+and keep retries, reruns and missing data honest.
+Which of these has caused you trouble?
