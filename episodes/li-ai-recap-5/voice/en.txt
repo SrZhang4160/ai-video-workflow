@@ -1,0 +1,57 @@
+Same question, same model: first a wrong answer, then the right one.
+The only thing that changed: which chunk got retrieved.
+Let's walk the whole pipeline, and see where to look when it fails.
+Ahead of time, you split your documents into chunks,
+turn each chunk into a vector, and store it.
+Then, for every question, you turn the question into a vector too,
+search for the nearest chunks, and rerank them,
+and put the best ones in the prompt, so the model can answer.
+An embedding model turns text into a vector: a list of numbers.
+Picture each vector as a point on a map.
+Similar meaning lands close together, even with no shared words.
+Unrelated text lands far away.
+To compare two texts, you compare their vectors.
+Cosine similarity looks at the angle between them, not the length.
+Pointing the same way: close to one. Very similar.
+At a right angle: close to zero. Unrelated.
+Retrieval then means: find the chunks with the highest score.
+A model has never seen your handbook, or last week's changes.
+RAG fixes that: first, retrieve the most relevant chunks,
+then paste them into the prompt, next to the question.
+The model answers from those chunks, and can cite them.
+So the answer can only be as good as what you retrieved.
+Before you embed, you split documents into chunks.
+Too big, and one chunk mixes many topics: a noisy match.
+Too small, and a chunk loses its context.
+A common middle: one idea per chunk, with a little overlap.
+There's no universal best size: test a few with your evals.
+A vector database stores each vector with its text and metadata.
+Checking a question against every vector gets slow at scale,
+so it uses approximate nearest-neighbour search: close matches, fast.
+Metadata filters narrow the search, like: only the 2026 handbook.
+Examples: P G vector inside Postgres, Qdrant, Weaviate, Pinecone.
+Vector search matches meaning. But some words must match exactly:
+error codes, product names, I Ds, like E four zero one two.
+To an embedding, E four zero one two and E four zero two one can look almost the same.
+Keyword search, like B M twenty-five, rewards exact and rare terms.
+Hybrid search runs both, and merges the two ranked lists.
+Search is fast but rough, so fetch many candidates, say fifty.
+A reranker reads the question and each chunk together, and scores it.
+It is slower but more precise, so it only sees the shortlist.
+The top few go into the prompt: less noise, usually better answers.
+When RAG answers wrong, first look at the chunks it retrieved.
+Right chunk missing? Retrieval problem: fix chunking, search, filters.
+Right chunk there? Generation problem: the model didn't use it.
+In our example, the old handbook was retrieved. A filter fixed it.
+If your knowledge is small and stable, you may not need RAG.
+Put all of it in the prompt: nothing to retrieve, nothing to miss.
+Same if it's not a lookup: rewriting an email, or text already pasted.
+Use RAG when knowledge is large, changes often, or needs sources.
+Here is the whole chapter in one picture. Save it.
+Chunk your docs, embed each chunk, store them with metadata.
+For each question: keyword plus vector search, then rerank.
+Put the top chunks in the prompt, and answer with sources.
+Wrong answer? Check retrieval first. Fits in the prompt? Skip RAG.
+Quick quiz. Your RAG bot gives a wrong answer.
+You check: the right chunk is in the retrieved top three.
+Retrieval problem, or generation problem? Tell me in the comments.

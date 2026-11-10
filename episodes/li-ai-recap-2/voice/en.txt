@@ -1,0 +1,48 @@
+There are three Rs in strawberry. Many L L Ms famously said two.
+The reason: a model never sees letters at all.
+Let's build up how an L L M works, and then that will make sense.
+At its core, an L L M does one thing: predict the next token.
+Give it "The cat sat on the", and it scores every possible next piece.
+"mat" gets a high chance, "floor" less, "banana" almost none.
+It picks one, appends it, and repeats, token by token.
+A token is a chunk of text: a word, part of a word, or punctuation.
+For example, "unbelievable" might be un, believ, able: three ids.
+APIs bill per token: your input plus the output.
+Common words are often one token, and splits differ by tokenizer.
+A model might see "strawberry" as, for example, str, aw, berry.
+It gets three token ids, never the ten letters inside them.
+So a letter count is a guess from patterns, not a real count.
+Asking it to spell the word out first, or to use code, usually helps.
+Attention is how it decides which words matter. Take this sentence.
+To understand "it", that token looks at every other token,
+and weighs "dog" most, since roads don't get tired.
+Every token does this at once, layer after layer, to predict the next.
+First, pretraining: predict the next token on huge amounts of text.
+Now it knows language and facts, but it only continues text.
+Then S F T, supervised fine-tuning: it learns from example requests with good answers.
+Then preference tuning, like R L H F: people compare answers,
+and the model is pushed toward the answers people prefer.
+The context window is how many tokens it can see at once.
+Instructions, history, documents, question and answer all share it.
+Whatever does not fit, the model simply cannot see.
+So apps commonly trim, summarize, or pick only the relevant parts.
+Training rewards text that sounds plausible, not text that is checked.
+So ask about an obscure paper, and it may still answer fluently.
+It can be wrong, with nothing inside flagging it as wrong.
+You can reduce it: sources in the context, "I don't know", checks.
+But you can't remove it: generating likely text is what it does.
+Reasoning models write out steps before the final answer.
+That thinking is output tokens too: you usually pay, and you wait.
+It is worth it for math, code and multi-step problems,
+and often wasted on a simple lookup.
+To read an image, a model first cuts it into small square patches.
+Each patch becomes a list of numbers, like a text token does.
+Those sit next to your text tokens, and it predicts the answer.
+So images take up context space too, and usually cost tokens.
+In one picture: text and images become tokens in the context window,
+attention mixes them, and it predicts the next token, over and over.
+Pretraining, S F T and preference tuning shaped what it predicts.
+And three traps to remember. Save this picture for later.
+Quick quiz: your prompt fills almost the whole context window.
+Can the model still write a long answer?
+A: yes, it gets its own space. B: no, they share it. Comment below.

@@ -1,0 +1,49 @@
+Prompt one: "Summarize this." You get a random wall of text.
+Prompt two names the task, the reader, a limit and the format.
+Now you get three short bullets, ready to send.
+Better wording helps. But what goes into the window matters more.
+Five fundamentals. One: a clear task, exactly what you want done.
+Two: context. Who is it for, and why do they need it?
+Three: constraints. Length, tone, and what to avoid.
+Four: the output format. Bullets, a table, or Jason.
+Five: examples. Show what a good answer looks like.
+Describe a style, "be friendly but brief", and it can mean anything.
+Instead, show two or three examples: an input, then the ideal output.
+The model picks up the pattern: the length, the tone, the format.
+Careful: it copies quirks too. So vary your examples.
+A long prompt often mixes instructions, documents and examples.
+The model can mistake a line in the document for an instruction.
+So wrap each part in a tag, like instructions, email and example.
+Each part now has a clear start and end, and a name you can point to.
+Ask a multi-step question straight away, and the model may guess.
+Ask it to think step by step first, then give the answer.
+Put steps in thinking tags, the answer in answer tags, for your code.
+Many models now have a built-in thinking mode that does this for you.
+The cost: more tokens and more waiting. Skip it for simple lookups.
+Context windows can hold a lot. But where things sit still matters.
+A twenty twenty-three research paper, called "Lost in the Middle", tested this.
+Models used facts at the start or end more reliably than the middle.
+Newer models are better at this, but the advice still holds.
+Put long documents first, key rules at the edges, the question last.
+In a real app, your prompt is only one part of what the model sees.
+The window also holds the documents your search found,
+tool results, the conversation so far, and saved memory.
+Context engineering means choosing what goes in, on every call.
+The window is a budget: irrelevant text costs tokens and distracts.
+So select: keep only the documents that help with this question.
+Trim: swap a long chat history for a short summary.
+Order: key facts at the edges, and the question at the end.
+The question shifts from "how do I word it?" to "what must it see?"
+One changed word can change behavior everywhere. So version prompts.
+Keep a test set: real inputs, each with a check for a good answer.
+Before you ship version two, run it on the whole set.
+If a case that passed on version one now fails, don't ship it.
+And if a bad version slips out, roll back to the last good one.
+Log the prompt version with every answer, so you can trace problems.
+Write the prompt: five fundamentals, examples, tags, room to think.
+Fill the window: only what helps, key info at the start or end.
+Ship it like code: versioned, tested, and easy to roll back.
+From wording to what goes in. Save this for your next prompt.
+Quick quiz: this prompt has a task, a reader, a limit and a format.
+Which of the five fundamentals is missing?
+Examples, or constraints? Tell me in the comments.
