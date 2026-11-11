@@ -99,10 +99,10 @@ Your own containers fit when you need full control,
 but isolation and cleanup are then on you.
 E2B and Daytona are built for AI agents that run code.
 Modal fits Python work that runs in short bursts,
-billed by the second.
+charged by the second.
 Here's the lesson: you can't compare them from their pricing pages.
 Run the same evaluation on each one, and measure cold starts,
-timeouts, cleanup, and the real bill.
+timeouts, cleanup, and the real cost.
 We started with Modal as a trial,
 because our evaluators are written in Python, and each run is short.
 So every choice came with a cost,
