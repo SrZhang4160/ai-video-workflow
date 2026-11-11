@@ -1,44 +1,60 @@
-Same question, same model: first a wrong answer, then the right one.
-The only thing that changed: which chunk got retrieved.
-Let's walk the whole pipeline, and see where to look when it fails.
+A new hire asks your H R bot: "How many vacation days do I get?"
+It says ten days. But that came from the old twenty twenty-two handbook.
+You fix one thing, ask again: fifteen days, from the twenty twenty-six handbook. Right.
+Same model, same question. The only change: which chunk it retrieved.
+This is part five of Road to Agent Evals: rag, start to finish.
+So let's walk the pipeline, and see where to look when it breaks.
+So how does a computer know two texts mean the same thing?
 An embedding model turns text into a vector: a list of numbers.
-Similar meaning lands close together, even with no shared words.
-Unrelated text lands far away.
-Cosine similarity compares two vectors by angle, not length.
-Pointing the same way: close to one. Very similar.
-A wider angle means a lower score: less related.
-Retrieval then means: find the chunks with the highest score.
-A model has never seen your handbook, or last week's changes.
-Rag retrieves the most relevant chunks and pastes them in the prompt.
-The model answers from those chunks, and can cite them.
-So the answer can only be as good as what you retrieved.
-Too big, and one chunk mixes many topics: a noisy match.
-Too small, and a chunk loses its context.
+Here's the thing: similar meaning lands close together.
+"Refund policy" and "get my money back" share no words. Still close.
+And unrelated text, like "cat photos", lands far away.
+So how do you measure "close"? A common way: cosine similarity.
+It compares two vectors by their angle, not their length.
+Same direction: close to one, very similar. Wider angle: lower score.
+So retrieval just means: find the chunks with the highest scores.
+But why retrieve at all? Why not just ask the model?
+Because it's never seen your handbook, or last week's changes.
+So rag retrieves the relevant chunks and puts them in the prompt.
+Then the model answers from those chunks, and can cite them.
+Which means the answer can only be as good as what you retrieved.
+Before you retrieve anything, you cut your docs into chunks. How big?
+Go too big, and one chunk mixes many topics: a noisy match.
+Too small, and you get: "is fifteen days." Fifteen days of what?
 A common middle: one idea per chunk, with a little overlap.
-There's no universal best size: test a few with your evals.
-A vector database stores each vector with its text and metadata.
-Checking a question against every vector gets slow at scale,
-so it uses approximate nearest-neighbor search: close matches, fast.
-Metadata filters narrow the search, like: only the 2026 handbook.
-Some words must match exactly: error codes, I Ds, like E four zero one two.
-To an embedding, E four zero one two and E four zero two one can look almost the same.
-Keyword search, like B M twenty-five, rewards exact and rare terms.
+There's no universal best size. Try a few, and let your evals decide.
+Now, where do all these vectors live? In a vector database.
+It stores each vector together with its text and its metadata.
+Checking a question against every vector gets slow at scale.
+So it uses approximate nearest-neighbor search: close matches, fast.
+And metadata filters narrow it down, like: only the twenty twenty-six handbook.
+Now say a user asks about error E forty twelve. That code must match exactly.
+But to an embedding, E forty twelve and E forty twenty-one can look almost the same.
+This is what keyword search, like B M twenty-five, is for: exact, rare terms.
 Hybrid search runs both, and merges the two ranked lists.
-Search is fast but rough, so fetch many candidates, say fifty.
-A reranker reads the question and each chunk together, and scores it.
-It is slower but more precise, so it only sees the shortlist.
+Search is fast, but rough. So you grab many candidates, say fifty.
+Then a reranker reads the question with each chunk, and scores it.
+That's slower, but more precise. So it only sees the shortlist.
 The top few go into the prompt: less noise, usually better answers.
-When rag answers wrong, first look at the chunks it retrieved.
+So your bot answers wrong. Where do you look first?
+Tempted to tweak the prompt? Look at the retrieved chunks first.
 Right chunk missing? Retrieval problem: fix chunking, search, filters.
 Right chunk there? Generation problem: the model didn't use it.
-In our example, the old handbook was retrieved. A filter fixed it.
-If your knowledge is small and stable, you may not need rag.
-Put all of it in the prompt: no retrieval step, no retrieval misses.
+In our example, the old handbook came back. A filter fixed it.
+And this is where evals come in: test the two halves separately.
+Retrieval: for each test question, is the right chunk in the top few?
+Generation: given the right chunks, does the answer stick to them?
+So when a score drops, you know which half to fix.
+Do you always need rag? Not if your knowledge is small and stable.
+Then just put all of it in the prompt. No retrieval, nothing to miss.
 Same if it's not a lookup: rewriting an email, or text already pasted.
 Use rag when knowledge is large, changes often, or needs sources.
-One picture to save: chunk, embed, store with metadata.
+One picture to save. Up front: chunk, embed, store with metadata.
 Per question: hybrid search, rerank, top chunks into the prompt.
-Wrong answer? Check retrieval first. Fits in the prompt? Skip rag.
+Wrong answer? Check retrieval first, then generation.
+And if it all fits in the prompt, you may not need rag at all.
 Quick quiz. Your rag bot gives a wrong answer.
 The right chunk is in the prompt, and nothing there contradicts it.
-Retrieval problem, or generation problem? Tell me in the comments.
+Is it a retrieval problem? That's option ay. Or a generation problem? That's option bee.
+Drop your answer in the comments.
+Next, part six: agents. Models that call tools and take their own steps.

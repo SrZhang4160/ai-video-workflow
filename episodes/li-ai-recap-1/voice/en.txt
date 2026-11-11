@@ -1,9 +1,11 @@
-Ask people what an AI engineer does, and most will say: train models.
+If you ask people what AI engineers do, most will say: train models.
 And training a big model is a huge job. GPUs, data, months of work.
 But here's the thing: most AI engineers never train one.
 They take a model someone else trained, and call it with a request.
 Then they build the whole product around that call.
-So let's unpack it: the job, the stack, and one API call.
+This is part one of Road to Agent Evals: from the basics, to testing agents.
+So what does an AI engineer's real work look like? Three parts:
+who does what, what you actually build, and what one API call does.
 So where do AI engineers fit? Picture three kinds of engineers.
 One trains the model itself. That's the ML or research engineer.
 Another builds servers, databases and APIs. That's backend.
@@ -51,6 +53,8 @@ So next time someone asks you what an AI engineer does, here you go.
 They build products on top of a model. They mostly don't train it.
 They wire up the stack: context, retrieval, tools, evals, production.
 And under all of it is one call: tokens in, tokens out, paid for both.
+Keep evals in mind. That's where this whole series is heading.
 Quick quiz. Your prompt is one thousand tokens, and the reply is two hundred.
 Do you pay for just the two hundred reply tokens? That's option ay. Or for both? That's option bee.
 Drop your answer in the comments.
+Next, part two: how an L L M actually works, piece by piece.

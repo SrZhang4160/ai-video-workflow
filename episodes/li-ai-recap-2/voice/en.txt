@@ -1,47 +1,62 @@
-There are three Rs in strawberry. Many L L Ms famously said two.
-The reason: a model never sees letters at all.
-Here's how it works, piece by piece.
-At its core, an L L M does one thing: predict the next token.
+How many Rs in strawberry? Three. Yet many L L Ms famously said two.
+Why? Most people think: it's just bad at spelling. Not quite.
+Here's the thing: the model never sees the letters at all.
+This is part two of Road to Agent Evals.
+So let's open it up, piece by piece. Then strawberry makes sense.
+So what does an L L M actually do? One thing: predict the next token.
 Give it "The cat sat on the", and it scores every possible next piece.
 "mat" gets a high chance, "floor" less, "banana" almost none.
-It picks one, appends it, and repeats, token by token.
-A token is a chunk of text: a word, part of a word, or punctuation.
-For example, unbelievable might be un, beleev, able: three ids.
-APIs bill per token: your input plus the output.
-Common words are often one token, and splits differ by tokenizer.
-A model might see strawberry as, for example, S T R, A W, berry.
-It gets three token ids, never the ten letters inside them.
-So a letter count is a guess from patterns, not a real count.
-Asking it to spell the word out first, or to use code, usually helps.
-Attention is how it decides which words matter. Take this sentence.
-Each token can look back at every token before it.
-By "tired", the model links "it" to "dog": roads don't get tired.
-This happens in every layer, sharpening the next-token guess.
-First, pretraining: predict the next token on huge amounts of text.
-Now it knows language and facts, but it only continues text.
-Then S F T, supervised fine-tuning: it learns from example requests with good answers.
-Then preference tuning, like R L H F: people compare answers,
+Then it picks one, adds it to the end, and does it all again.
+But it doesn't always take the top pick. Sometimes "floor" wins.
+So the same prompt can give you different answers, run to run.
+That's why evals often run a case several times, not just once.
+So what's a token? Most people guess: a word. Close, but not quite.
+It's a chunk of text: a word, part of a word, or punctuation.
+Take unbelievable. It might be split into un, beleev, able.
+Each piece becomes an I D number. Common words are often one token.
+And this is also how A P Is bill you: per token, input plus output.
+Back to strawberry. It might be split as, say, S T R, A W, berry.
+So the model gets three token I Ds. Not the ten letters inside them.
+So when you ask it to count the Rs, it can't look. It guesses.
+A fix that usually helps: have it spell the word out, or use code.
+Next: how does it know which words go together? Attention.
+Take this sentence. What does "it" mean here? The dog, or the road?
+Here's how: each token can look back at every token before it.
+By "tired", the model links "it" to "dog". Roads don't get tired.
+This happens in every layer, and it sharpens the next-token guess.
+So how does a text predictor become an assistant? Three steps.
+Step one, pretraining: predict the next token on huge amounts of text.
+Now it knows language and facts. But it only continues text.
+Ask it a question, and it might just write more questions.
+Step two, S F T, supervised fine-tuning: it learns from example requests with good answers.
+Step three, preference tuning, like R L H F: people compare answers,
 and the model is pushed toward the answers people prefer.
-The context window is how many tokens it can see at once.
-Instructions, history, documents, question and answer all share it.
-Whatever does not fit, the model simply cannot see.
-So apps commonly trim, summarize, or pick only the relevant parts.
-Training rewards text that sounds plausible, not text that is checked.
+Now, how much can it read at once? That's the context window.
+It's measured in tokens. And everything has to fit inside it:
+instructions, history, documents, your question, and the answer.
+Whatever doesn't fit, the model simply can't see.
+So apps commonly trim old turns, summarize, or pick what's relevant.
+Why does it make things up? People say it's lying. It isn't.
+Here's why: training rewards text that sounds right, not checked text.
 So ask about an obscure paper, and it may still answer fluently.
 You can reduce it: sources in the context, "I don't know", checks.
 But you can't remove it: generating likely text is what it does.
-Reasoning models write out steps before the final answer.
-That thinking is output tokens too: you usually pay, and you wait.
-It is worth it for math, code and multi-step problems,
-and often wasted on a simple lookup.
-To read an image, a model first cuts it into small square patches.
+That's a big reason evals exist: to catch confident wrong answers.
+Some models think first: they write out steps, then the final answer.
+But that thinking is output tokens too. You usually pay, and you wait.
+So is it worth it? For math, code and multi-step problems, yes.
+For a simple lookup, like a capital city, it's often wasted.
+How does a model "see" an image? It cuts it into small square patches.
 Each patch becomes a list of numbers, like a text token does.
 Those sit next to your text tokens, and it predicts the answer.
 So images take up context space too, and usually cost tokens.
-In one picture: text and images become tokens in the context window,
+Let's put it together. Text and images become tokens in the window,
 attention mixes them, and it predicts the next token, over and over.
 Pretraining, S F T and preference tuning shaped what it predicts.
-And three traps to remember. Save this picture for later.
-Quick quiz: your prompt fills almost the whole context window.
+And three traps: letters hide in tokens, plausible isn't true,
+and thinking costs extra tokens. Save this picture for later.
+Quick quiz. Your prompt fills almost the whole context window.
 Can the model still write a long answer?
-A, yes, it gets its own space. B, no, they share it. Comment below.
+Option ay: yes, the answer gets its own space. Or option bee: no, they share it.
+Drop your answer in the comments.
+Next, part three: how to actually call an L L M A P I from your code.

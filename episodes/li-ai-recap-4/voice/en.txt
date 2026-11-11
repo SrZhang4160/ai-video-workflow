@@ -1,39 +1,61 @@
-Same report, two prompts: a wall of text, or three bullets to send.
-Prompt two names task, reader, limit and format: three clean bullets.
-Better wording helps. But what goes into the window matters more.
+When an AI answer is bad, what do most people do? Reword the prompt.
+Say you paste in a long report, and type just: "Summarize this."
+You get a wall of text back. Around four hundred words nobody asked for.
+Now name the task, the reader, a limit and a format. Three bullets.
+Wording helps. But here's the thing: what goes in often matters more.
+This is part four of Road to Agent Evals.
+Today: how prompt engineering is turning into context engineering.
+So what actually makes a good prompt? There are five basic parts.
 One: the task. Say exactly what you want done.
-Two: context. Who is it for, and why do they need it?
-Three: constraints. Length, tone, and what to avoid.
-Four: the output format. Bullets, a table, or jay-son.
-Five: examples. Show what a good answer looks like.
-Describe a style, "be friendly but brief", and it can mean anything.
-Instead, show two or three examples: an input, then the ideal output.
-Careful: it copies quirks too. So vary your examples.
-In a long prompt, a line in the document can look like an instruction.
+Two: context. Who's it for, and why do they need it?
+Three: constraints. How long, what tone, and what to avoid.
+Four: the format. Bullets, a table, or jay-son.
+Five: examples. Show it what a good answer looks like.
+Why do examples matter so much? Tell a bot: "Be friendly but brief."
+One reply says "ok." Another gushes. That style can mean anything.
+So don't tell it. Show it: a few inputs, each with the ideal reply.
+Now it copies the length, the tone and the format. That's few-shot.
+But careful: it copies quirks too. So vary your examples.
+Next problem. A long prompt: instructions, an email, an example.
+The email says "ignore the old plan." Is that an order for the model?
 So wrap each part in a tag, like instructions, email and example.
-Now each part has a clear boundary and a name.
-Ask a multi-step question cold, and the model may guess.
-Ask it to think step by step first, then give the answer.
-Many models now have a built-in thinking mode for this.
-The cost: more tokens and more waiting. Skip it for simple lookups.
-In the twenty twenty-three "Lost in the Middle" study, models used middle facts least.
-Newer models do better, so treat this as a safe default, not a law.
-Key rules up front, long documents next, your question last.
-In a real app, your prompt is only one part of what the model sees.
-It also holds retrieved docs, tool results, chat history and memory.
-Context engineering means choosing what goes in, on every call.
-The window is a budget: irrelevant text costs tokens and can distract.
-So select: keep only the documents that help with this question.
-Trim: swap a long chat history for a short summary.
-Ask not "how do I word it?" but "what must it see?"
-One changed word can change behavior everywhere. So version prompts.
-Keep a test set: real inputs, each with a check.
+Now every part has a clear boundary, and a name you can point to.
+And the tag names aren't magic. Just keep them clear and consistent.
+Try this one: three boxes of twelve eggs, five broken. How many are good?
+Ask a model cold, and it may jump straight to a guess. Like thirty-five.
+Now ask it to think step by step first: thirty-six, minus five. So thirty-one.
+Many models now have a built-in thinking mode that does this.
+The cost? More tokens and more waiting. So skip it for simple lookups.
+Now, what if your input is really long? Where should the key facts go?
+A twenty twenty-three study called "Lost in the Middle" looked at exactly this.
+Models used facts at the start and the end best. The middle, least.
+Newer models do better. So treat this as a safe default, not a law.
+So: key rules up front, long documents next, and your question last.
+So far, we've talked about the prompt. In a real app, that's one part.
+The model also sees retrieved docs, tool results, the chat and memory.
+Somebody has to decide what goes in there. On every single call.
+That's context engineering: choosing what the model gets to see.
+So why not just put everything in? Because the window is a budget.
+Off-topic text still costs tokens. And it can distract the model.
+First, select. Keep only the documents that help with this question.
+Then trim. Swap a long chat history for a short summary.
+The question changes. Not "how do I word it?" but "what must it see?"
+Last piece. Say you change "Summarize" to "Briefly summarize."
+One word, and answers can change everywhere. So version your prompts.
+So did the change help? Here's the thing: one answer won't tell you.
+You need a test set: real inputs, each with a check. Those are evals.
 Before you ship version two, run it on the whole set.
 Old passes now fail? Don't ship. Already shipped? Roll back.
-Log the prompt version with every answer.
+Same for context. Change one thing, rerun the evals, then compare.
+And log the prompt version with every answer.
+So let's put it all together. Three steps.
 Write the prompt: five fundamentals, examples, tags, room to think.
-Fill the window: only what helps, key info at the start or end.
-Ship it like code: versioned, tested, easy to roll back. Save this one.
-Quick quiz: this prompt has a task, a reader, a limit and a format.
-Which of the five fundamentals is missing?
-Examples, or constraints? Tell me in the comments.
+Fill the window: only what helps, key info at the start or the end.
+Ship it like code: versioned, tested with evals, easy to roll back.
+That's the shift, from prompt engineering to context engineering.
+Quick quiz. Here's a prompt for that report summary.
+It has a task, who it's for and why, a length limit, and a format.
+So which of the five fundamentals is missing?
+Is it examples? That's option ay. Or constraints? That's option bee.
+Drop your answer in the comments.
+Next, part five: rag, end to end, from your documents to the answer.

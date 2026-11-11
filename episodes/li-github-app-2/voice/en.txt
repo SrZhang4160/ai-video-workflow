@@ -1,59 +1,88 @@
-In part one, we designed a GitHub App that evaluates every pull request:
-a webhook arrives, the API saves a run, and a sandbox runs the tests,
+In part one, we designed a GitHub App that evaluates every pull request.
+A webhook arrives, we save a run, a sandbox runs the tests,
 and the result comes back as a check on the commit.
-Now, the details that make it reliable, starting with webhooks.
-First, webhooks: GitHub sends one for every new commit.
-Verify the signature over the raw bytes, before parsing.
-A valid signature proves the message came from GitHub,
-not that this customer may use this repo. Check that separately.
-Record each delivery ID to drop repeats,
-then store the event and reply quickly.
-Second, linking an installation to a customer.
-The installation ID in the setup URL can be forged. It's not proof.
-We bind the flow to a single-use link that expires in ten minutes,
-and GitHub authorization proves access.
-If the app is uninstalled mid-flow, the link is invalidated.
-Third, what counts as one run:
-one repository, pull request, commit and evaluation version.
-We run the exact commit, never the branch, because branches move.
+That's the happy path. This video is about everything else.
+Let's start where everything starts: the webhook.
+Anyone on the internet can send a request to your webhook URL.
+So before you even parse it,
+check GitHub's signature over the raw bytes.
+But be clear about what that signature proves.
+It proves the message came from GitHub.
+It doesn't prove that this customer may use this repository.
+That's a separate check.
+GitHub may also deliver the same event twice.
+So we record each delivery ID, ignore repeats,
+store the event, and reply right away.
+The next trap is in the install flow.
+After someone installs the app, GitHub sends them back to us
+with an installation ID in the URL.
+It's tempting to trust it, but anyone can edit a URL.
+So we treat it as a hint, not as proof.
+The flow is tied to a single-use link that expires in ten minutes,
+and GitHub's own authorization confirms
+that the user really has access to that installation.
+If the app is uninstalled halfway through, the link stops working.
+Next, we have to define what one run actually is.
+For us, it's one repository, one pull request, one commit,
+and one version of the evaluation.
+We always run the exact commit, never the branch name,
+because a branch can move while the tests are running,
+and then the result would describe code nobody tested.
 Pull requests from forks are skipped,
-and the app's private key never leaves the backend.
-Fourth, lost and late messages.
-We save the run before handing it off,
-and submit it with an idempotency key,
-so a lost response can't start a second evaluation.
-Each update carries an attempt ID and a growing sequence number,
-so a late result can't overwrite a newer one.
-The check carries the run ID, so we find it instead of duplicating it.
-Now, retries and reruns, which are easy to confuse.
+because that's outside code asking to run on our infrastructure.
+And the app's private key never leaves the backend.
+Now, the network. Messages get lost, and messages arrive late.
+Imagine we start an evaluation, and the response gets lost.
+Did it start or not? If we simply try again, we might run it twice.
+So we save the run first, and send it with an idempotency key,
+which is the run ID.
+However many times it arrives, it's one evaluation.
+Late messages are the opposite problem:
+an old attempt finishes after a newer one, and overwrites its result.
+So every update carries an attempt ID
+and a sequence number that only goes up,
+and anything older than what we have is ignored.
+The GitHub check carries the run ID too,
+so we update it instead of creating a duplicate.
+This leads to a distinction people often blur: retries and reruns.
 A retry repeats an infrastructure step,
-like resending a request or re-posting a check.
-It continues the same run, with its own retry budget.
-A rerun executes the tests again. That's a new measurement,
-so we keep the first result, and label it:
+like resending a request or posting the check again.
+It's the same run, and the result doesn't change.
+A rerun executes the tests again, and that's a new measurement.
+So we keep the first result, and label the outcome honestly:
 passed the first time, or passed only on rerun.
-One eventual pass doesn't prove the test is reliable.
-And if our infrastructure fails, the check says "action required",
-not "failed", and nothing is scored.
-When we compare a pull request against its baseline,
-both must use the same test and evaluator versions,
-the same model settings, and the same runtime.
-We record that configuration with every result,
-and refuse to compare when it doesn't match.
-A missing score stays missing.
-Zero means it was measured and failed.
-Missing means it wasn't measured, and we report coverage separately.
-A few more design points.
-Ship behind feature flags. With the app disabled, it runs health-only,
-and when enabled, it refuses to start with incomplete configuration.
-Keep the three secrets separate:
-the private key, the OAuth secret and the webhook secret
-each prove something different.
-Another organization's run returns "not found", not "forbidden".
-And the same reserve-once idea powers our usage alerts:
-one alert per account per week, sent by exactly one sender.
-So, to wrap up: verify every input before you trust it,
-pin every run to one commit,
-make every step safe to repeat,
-and keep retries, reruns and missing data honest.
-Which of these has caused you trouble?
+A test that only passes on the third try isn't reliable. It's flaky.
+And when our own infrastructure fails,
+the check says "action required", not "failed",
+and nothing gets scored.
+Your code shouldn't be blamed for our outage.
+Then there's comparison.
+Every result is compared with a baseline,
+and that's only fair if everything else is the same:
+the test version, the evaluator version,
+the model settings, and the runtime.
+So we record that configuration with every result,
+and we refuse to compare when it doesn't match.
+Be careful with missing data, too.
+Zero means we measured it, and it failed.
+Missing means we didn't measure it at all.
+If you turn missing into zero, your average drops for no reason.
+So missing stays missing, and we report coverage separately.
+A few smaller habits made a big difference.
+We ship behind a feature flag.
+Turned off, the app only answers health checks.
+Turned on with incomplete configuration, it refuses to start,
+instead of failing later.
+We keep three secrets separate:
+the private key, the OAuth secret, and the webhook secret,
+so one leak doesn't unlock everything.
+Another organization's run returns "not found", not "forbidden",
+so we don't even confirm it exists.
+And the same do-it-exactly-once idea powers our usage alerts:
+one alert per account per week, no matter how many workers notice.
+So, if you build something like this, remember four things.
+Verify every input before you trust it.
+Pin every run to one exact commit.
+Make every step safe to repeat.
+And keep retries, reruns, and missing data honest.
+Which of these has caused you the most trouble?

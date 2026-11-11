@@ -1,36 +1,61 @@
-At turn twenty, you resend turns one to nineteen. The model remembers nothing.
-That's one of nine things to know before you call an L L M A P I.
-One: each message has a role. System sets the rules.
+Say you're chatting with a support bot. You're on turn twenty.
+You ask: "What's my name?" Does the model remember turn one?
+Most people think so. But here's the thing: it remembers nothing.
+Your app resends turns one to nineteen, every single time.
+This is part three of Road to Agent Evals.
+Today: nine things to know before you call an L L M A P I.
+Let's start with what you actually send: a list of messages.
+Each message has a role. The system message sets the rules.
 User is what the person asks. Assistant is what the model said.
-Two: stateless. At turn three, you resend turns one and two, plus the new one.
-Requests grow: long chats cost more, get slower, must fit the window.
-Some APIs can store the chat for you, but it's still sent and billed.
-Three: each next token is sampled; temperature sets how random.
+So why did our bot forget your name? Because the model is stateless.
+At turn three, you send turns one and two again, plus the new message.
+So the request grows every turn. Long chats cost more and run slower.
+And at some point, they won't fit in the context window.
+Some APIs can store the chat for you. But it's still sent and billed.
+Next question: ask the bot the same thing twice. Same answer?
+Not always. The model picks each next token by sampling.
+And temperature sets how random that pick is.
 Low means focused and predictable. High means more varied.
-Temperature zero is more repeatable, but not guaranteed identical.
+Now, a lot of people think temperature zero means identical.
+It's more repeatable, but it's not guaranteed to be identical.
 Top P cuts unlikely tokens. Tune one, not both; some models lock them.
-Four: max tokens caps the answer. Hit it, and it stops mid-sentence.
-So check the stop reason. Providers name it differently.
-A max-tokens stop means cut off. Raise the limit, or ask for less.
-Five: streaming. Without it, you wait for the whole answer.
+That matters for evals: if answers vary, one run won't tell you much.
+Now, what if the answer just stops, right in the middle of a sentence?
+Usually that's max tokens. It caps how long the answer can be.
+So don't guess. Check the stop reason that comes back with it.
+Each provider names it a bit differently, so check the docs.
+If it says max tokens, or length, the answer was cut off.
+So raise the limit, or ask for a shorter answer.
+You've seen chat apps type the answer out, word by word. How?
+That's streaming. Without it, you wait for the whole answer.
 With it, chunks arrive as they're made, over server-sent events.
-Your app shows each chunk at once. Same total time, feels faster.
-Six: JSON. Just asking for it usually works, until it doesn't.
-Better: give a JSON schema, with a structured-output or tool feature.
-Still validate: a cut-off or refused answer won't match the schema.
+Your app shows each chunk right away. Same total time, feels faster.
+Now say your code needs jay-son back. Most people just ask for it.
+And that usually works, until it doesn't, and your parser breaks.
+Better: give it a schema, using a structured-output or tool feature.
+But still validate. A cut-off or refused answer won't match it.
 If it fails, retry or fall back, instead of crashing.
-Seven: a four twenty-nine error means you hit a rate limit.
-Don't retry at once. Wait, doubling each time: one, two, four seconds.
+Remember this for evals: valid jay-son is something code can check.
+Next: your bot gets busy, and the API sends back a four twenty-nine error.
+That means you hit a rate limit. The instinct is: retry right away.
+Don't. Wait, and double the wait each time: one, two, four seconds.
 Add jitter, a bit of randomness, so clients don't retry together.
-If the response says how long to wait, respect it. Cap retries.
-Eight: output tokens usually cost more than input tokens. Why?
-Input is read in parallel. Output is made one token at a time.
-Each output token takes more hardware time. Check the pricing page.
-Nine: big or small model? Start capable, get the task working.
+If the response says how long to wait, respect it.
+Many S D Ks retry for you. Either way, cap the retries.
+Here's one people miss: output tokens usually cost more. Why?
+The input is read in parallel, all at once.
+But the output is made one token at a time, step by step.
+So each output token takes more hardware time.
+Exact prices vary by model, so check the pricing page.
+Last one: should your bot use a big model, or a small one?
+Start with a capable model, and get the task working first.
 Then write evals: test cases with checks you can rerun.
-Move simple steps to a smaller model; keep it if evals still pass.
-The whole chapter in one picture: roles, resend, temperature.
-Check the stop reason, stream the chunks, validate the JSON.
-Back off on four twenty-nines, watch output tokens, let evals pick the model.
-Quick quiz: your JSON ends halfway. Stop reason: max tokens.
-A: temperature zero, or B: raise max tokens? Comment below.
+Now move the simple steps to a smaller model.
+Evals still pass? Keep it. Smaller is usually cheaper and faster.
+So, all nine in one picture. Roles, resend the chat, temperature.
+Then: check the stop reason, stream the chunks, validate the jay-son.
+Back off on four twenty-nines, watch output tokens, and let evals pick the model.
+Quick quiz. Your jay-son ends halfway. The stop reason says max tokens.
+What fixes it? Option ay: set temperature to zero. Or option bee: raise max tokens.
+Drop your answer in the comments.
+Next, part four: from prompt engineering, to context engineering.
