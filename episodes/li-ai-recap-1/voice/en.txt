@@ -52,5 +52,5 @@ They build products on top of a model. They mostly don't train it.
 They wire up the stack: context, retrieval, tools, evals, production.
 And under all of it is one call: tokens in, tokens out, paid for both.
 Quick quiz. Your prompt is one thousand tokens, and the reply is two hundred.
-Do you pay for just the two hundred reply tokens, A? Or for both, B?
+Do you pay for just the two hundred reply tokens? That's option ay. Or for both? That's option bee.
 Drop your answer in the comments.
