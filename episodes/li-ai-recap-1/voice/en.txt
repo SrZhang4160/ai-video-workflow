@@ -1,38 +1,56 @@
-Training a big model: months on GPU clusters.
-Building on one: one API request.
-Most AI engineers do the second, and build the product around it.
-An ML or research engineer usually trains and improves the model.
-A backend engineer builds and runs servers, databases and APIs.
-AI engineers build on top: they mostly call the model, not train it.
-Building a support assistant? First, you write the prompt.
-You add retrieval, so it answers from your real help articles.
-You give it tools, like a function that looks up an order.
-You write evals, so a change doesn't quietly break old answers.
-And you run it in production: cost, speed, errors and safety.
-As a stack: the model at the bottom, and the context you send it.
-Retrieval adds the right documents. Tools let it ask your code to act.
-Evals check the whole stack. Production keeps it fast, cheap, safe.
-Why this stack? Because the model only sees what is in the request.
-It has never seen your private docs, or today's orders.
-Retrieval and tools pull those facts into the request, every call.
-Ask a model the same question twice, and the wording can change.
-So you test with evals: real questions, with checks on each answer.
-Run them after every prompt or model change, to catch regressions.
-Now zoom into one API call. Everything above is built on it.
-You send instructions, plus messages: past turns and the question.
-Plus settings, like which model to use and a maximum output length.
-First, your text is split into tokens: words or pieces of words.
-Each token becomes a number. The model only ever sees numbers.
-In English, a token is roughly three quarters of a word, on average.
-Then the model predicts the next token. Just one.
-That token is added to the input, then it predicts the next one.
-It stops at an end-of-reply token, or when it hits your length limit.
-Streaming sends the reply piece by piece; without it, all at once.
-The response also reports usage: input tokens and output tokens.
-You pay for both, usually at different rates. Check the pricing page.
-The job: mostly build products on top of a model, not train it.
-The stack: model, context, retrieval, tools, evals, production.
-One call: messages, tokens, one token at a time, billed both ways.
-Quick quiz: your prompt is one thousand tokens, and the reply is two hundred.
-Option A: you pay only for the two hundred reply tokens. Option B: you pay for both.
-A or B? Tell me in the comments.
+Ask people what an AI engineer does, and most will say: train models.
+And training a big model is a huge job. GPUs, data, months of work.
+But here's the thing: most AI engineers never train one.
+They take a model someone else trained, and call it with a request.
+Then they build the whole product around that call.
+So let's unpack it: the job, the stack, and one API call.
+So where do AI engineers fit? Picture three kinds of engineers.
+One trains the model itself. That's the ML or research engineer.
+Another builds servers, databases and APIs. That's backend.
+And the AI engineer? They build the product on top of both.
+They call the model all day long. They rarely train it.
+Let's make it concrete. Say you're building a support assistant.
+A customer asks: "Where is my order?" So what do you actually build?
+First, a prompt: instructions that tell the model how to behave.
+Then retrieval, so it answers from your real help articles.
+Then tools, like a function that actually looks up the order.
+Then evals, so next week's change doesn't quietly break it.
+And then you run it for real: cost, speed, errors, safety.
+Notice how little of that is the model. It's mostly software.
+Now stack those pieces up. The model sits at the bottom.
+Right above it: the prompt and context you send it.
+Retrieval and tools feed that context, from your data and your code.
+Evals sit off to the side, and test the whole thing.
+And production wraps around all of it: speed, cost, monitoring.
+Why so many layers? Because the model only knows what you send it.
+It's never seen your company's docs, or the orders placed today.
+If it's not in the request, the model simply can't see it.
+So retrieval and tools fetch those facts, and put them in. Every call.
+Another catch: ask the same question twice, and the wording changes.
+So you can't just check for one exact string, like a normal test.
+Instead you build evals: real questions, and a check for each answer.
+Change the prompt, run the evals, and you see what broke.
+Think of evals as tests for answers that never come out the same.
+OK, let's zoom all the way in, to a single API call.
+Everything we just talked about is built on this one request.
+What's in it? Instructions, the chat so far, and the new question.
+Plus a few settings, like which model, and how long the reply can be.
+First thing that happens: your text gets chopped into tokens.
+A token is a word, or a piece of one. Here, each word is one token.
+Each token turns into a number. Numbers are all the model ever sees.
+Rule of thumb in English: a token is about three quarters of a word.
+Then the model does one thing: it guesses the next token. Just one.
+That token gets added on, and it guesses again. And again.
+Until it outputs a special 'end' token, or hits your length limit.
+That's why long answers take longer. Every token is another step.
+With streaming, you see the words show up as they're made.
+Without it, you wait, and then get the whole reply at once.
+And every response tells you how many tokens went in, and came out.
+Why care? Because you pay for both, often at different rates.
+So next time someone asks you what an AI engineer does, here you go.
+They build products on top of a model. They mostly don't train it.
+They wire up the stack: context, retrieval, tools, evals, production.
+And under all of it is one call: tokens in, tokens out, paid for both.
+Quick quiz. Your prompt is one thousand tokens, and the reply is two hundred.
+Do you pay for just the two hundred reply tokens, A? Or for both, B?
+Drop your answer in the comments.
