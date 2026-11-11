@@ -3,13 +3,18 @@ A webhook arrives, we save a run, a sandbox runs the tests,
 and the result comes back as a check on the commit.
 That's the happy path. This video is about everything else.
 Let's start where everything starts: the webhook.
-Anyone on the internet can send a request to your webhook URL.
-So before you even parse it,
-check GitHub's signature over the raw bytes.
-But be clear about what that signature proves.
-It proves the message came from GitHub.
+We run on every new commit, so we need to know the moment one lands.
+A webhook is how GitHub tells us.
+We give GitHub a URL in advance: our webhook URL.
+Every time someone pushes to a pull request, GitHub sends a request to it,
+saying which repository, which pull request, and which commit.
+The catch: that URL is public, so anyone can send a request to it.
+So the first thing we do is check GitHub's signature.
+GitHub signs every message with a secret only we and GitHub know.
+We recompute it with the same secret, and only go on if it matches.
+But the signature only proves the message came from GitHub.
 It doesn't prove that this customer may use this repository.
-That's a separate check.
+That needs a separate check: is this installation linked to this customer's account?
 GitHub may also deliver the same event twice.
 So we record each delivery ID, ignore repeats,
 store the event, and reply right away.
