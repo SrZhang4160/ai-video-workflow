@@ -1,0 +1,22 @@
+How does a skill get loaded into an agent?
+A skill is a folder that teaches the model one kind of task.
+The context is everything sent to the model on each turn.
+Say our travel assistant has twenty skills, and every full text goes in.
+The context fills up fast, and most of those skills aren't needed this turn.
+So the harness loads skills progressively.
+The harness is the program around the model that does the actual work.
+When a session starts, it scans every skill folder,
+and puts only each one's name, description and path into the context.
+The user says: plan my weekend in Boston.
+The model reads that list and decides the itinerary skill fits.
+Only then does it read that skill's full skill dot md.
+Files it points to, like a template, are also read only when needed.
+One: name collisions. Two folders are both called itinerary.
+You decide which one wins, or prefix each name with where it came from.
+Two: loading twice. The same skill gets read a second time,
+so its text takes up space twice. The harness tracks what's loaded.
+Three: when the context fills up, it gets compacted into a summary,
+and the skill's text can get dropped, so put it back after compacting.
+The core idea: names and descriptions up front, full text only when used.
+The hard parts: name collisions, loading twice, and re-injecting after compaction.
+Next: how does an agent connect to outside services? That's MCP.

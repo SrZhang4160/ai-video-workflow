@@ -1,0 +1,22 @@
+What is MCP, and why does an agent need it?
+Our travel assistant needs weather, sights and routes.
+Those are three outside services, each with a different API.
+Without a standard, you write an adapter for every one.
+An adapter is custom code that talks to one specific API.
+Switch to another AI app, and you write them all again.
+MCP stands for Model Context Protocol.
+It's a standard for how AI apps and outside services talk.
+A service implements it once,
+and any AI app that supports MCP can connect to it directly.
+The host is the AI app itself, like our travel assistant.
+A server is an outside service that offers its capabilities per the spec,
+like the weather service.
+A client is the part inside the host that handles one connection.
+Each client connects to exactly one server.
+So three servers means three clients inside the host.
+A server can offer three kinds of capability.
+One: tools. The model can call them, like getting the weather.
+Two: resources. Data that can be read, like a page about a sight.
+Three: prompts. Ready-made templates the user can pick.
+The core idea: MCP is one shared protocol between AI apps and outside services.
+Next: how does MCP relate to function calling?

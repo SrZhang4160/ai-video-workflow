@@ -1,0 +1,22 @@
+Everything the harness sends the model each turn is the context.
+So what's actually in it?
+Two kinds: parts given at the start, and parts that keep growing.
+First, the parts given at the start. Eight are common.
+One: base rules, how the model should work and reply.
+Two: project rule files like Claude dot md, with the project's conventions.
+Three: your preferences and memory, like 'no red-eye flights'.
+Four: tool descriptions, how to call weather, sights and routes.
+Five: the skill list, the name and purpose of each instruction pack.
+Six: environment info, today's date and the machine it runs on.
+Seven: permission limits, which actions need your OK first.
+Eight: the current task and attachments, like a screenshot you sent.
+Most go in the system prompt: the part placed first on every turn.
+The other kind keeps growing. First, the conversation history.
+Every question and every answer gets added.
+Second, tool results: what the weather and route tools return.
+Tool results are often the longest, like a full page on a sight.
+The start-up part barely changes. The other two are what grow.
+When it nears the context window limit, the harness compacts it.
+Compaction replaces old content with a shorter summary.
+So compaction mostly targets those two.
+Next: the skills on that list. What exactly is one?

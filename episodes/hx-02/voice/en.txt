@@ -1,0 +1,22 @@
+Last time: in an agent, the model picks the next step from results.
+But the model itself can't actually run anything.
+So who runs the tools and the loop for it? The harness.
+First, the model. It does one thing: reads text, writes text.
+Ask about a Boston weekend, and it writes: check the weather first.
+It can even write a tool call in a fixed format,
+like: weather tool, city Boston, day Saturday.
+But that's only text. Nobody has checked the weather yet.
+Some program has to read it and actually call the weather service.
+That program is the harness. It wraps around the model.
+First, it gathers the task and history and sends them to the model.
+Second, it reads the tool call and actually runs it.
+Third, it hands the result back and asks for the next step.
+Fourth, it sets limits: how many steps, how many retries on errors.
+Fifth, it stops risky actions and asks you first.
+Tools like Claude Code and Codex are built around exactly this.
+So an agent is roughly three things added together.
+The model thinks: it decides what to do next.
+Tools and the environment do the work, like the weather service.
+The harness sits in between, turning decisions into real actions.
+Same model, different harness, and the results can differ a lot.
+Next: the six parts a harness is made of.

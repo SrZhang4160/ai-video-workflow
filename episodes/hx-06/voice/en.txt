@@ -1,0 +1,22 @@
+Last time: the context includes a skill list.
+So what exactly is a skill?
+Two questions: what it's made of, and how to write one.
+Say you want the travel assistant to write plans in a fixed format.
+Without a skill, you'd explain it again in every conversation.
+Write it once as a skill, and the model reads it when it's needed.
+So a skill is a written set of instructions, read when needed.
+On disk, a skill is just a folder.
+Inside, there must be a file called skill dot M D.
+Part one, at the top: a name and a description.
+The description says what it does and when to use it.
+Because the model decides from that description whether to read it.
+Part two, the body: the actual steps and rules.
+Three, optional: scripts and reference files, opened only when needed.
+How should you write one? It depends on how the harness loads it.
+If only names and descriptions load first, the description must be precise.
+If the full text rides along every turn, the body has to be short.
+Because it takes up context on every turn.
+On someone else's platform, follow their published spec.
+Because their harness decides how skills get loaded.
+A skill is a folder with a skill dot M D, written for how it's loaded.
+Next: how does the harness actually load a skill?

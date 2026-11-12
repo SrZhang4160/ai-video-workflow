@@ -1,0 +1,22 @@
+Say you ask an AI to plan your weekend in Boston.
+You can build it as a workflow, or as an agent.
+The difference comes down to one thing: who decides the next step.
+First, a workflow. An engineer writes the steps in advance.
+Check the weather, then find sights, then plan the route.
+The model handles just one step, like writing it up as a plan.
+The upside: it takes the same path every time, so it is easy to test.
+The downside: it can't adapt to a case nobody wrote down.
+Say it finds a storm on Saturday, but no one wrote a rain branch.
+So it still sends you to the park.
+Now an agent. The model decides the next step itself.
+It reasons it needs the weather first, so it calls the weather tool.
+The tool says storm on Saturday; the result goes back to the model.
+Seeing rain, it switches to looking up indoor museums.
+Think, act, read the result, think again: this loop is called ReAct.
+Once the model decides it has enough, it writes the plan.
+The cost: the path differs each time, so it is harder to predict.
+So the real difference is who decides the next step.
+In a workflow, a person fixes the steps in advance.
+In an agent, the model decides after seeing each result.
+Fixed steps? Use a workflow. Need to adapt? Use an agent.
+Next: the harness, the program that runs this loop.

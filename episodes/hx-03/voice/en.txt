@@ -1,0 +1,22 @@
+Last time: the harness is the program wrapped around the model.
+Today we take it apart. It has six parts.
+Each part answers one engineering question.
+One: task and session management.
+Its question: what do we save, so the next chat can pick up?
+Say you told it you hate malls. Will it remember next time?
+Two: context management.
+Its question: what does the model see on each turn?
+The model remembers nothing, so everything must be resent each turn.
+Three: the loop. Its question: when does it stop?
+Say the weather tool keeps failing: how many retries before giving up?
+Four: tool management. Where do the tools come from?
+Written locally, or plugged in through MCP, a standard tool protocol?
+Five: permissions and sandbox. Which actions need a human's OK?
+Booking a hotel costs money, so it must ask you first.
+A sandbox is isolated, so a mistake there can't touch your computer.
+Six: state and recovery. If it stops, how does it resume?
+If the network drops halfway, it shouldn't redo every search.
+So a harness isn't one feature. It's six parts.
+Each answers one question. Together, they make the agent reliable.
+In later episodes, we go into each part, one at a time.
+Next: context. Why does everything get resent every turn?

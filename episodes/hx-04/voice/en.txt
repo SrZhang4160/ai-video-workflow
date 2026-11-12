@@ -1,0 +1,22 @@
+Build an agent, and one word keeps coming up: context.
+Context is everything the model is sent on one turn.
+Question one: why can't the model remember the last turn?
+Question two: what should the model see on each turn?
+Say you tell a travel assistant: plan my weekend in Boston.
+It makes a plan. Then you ask: will it rain that day?
+If only that line is sent, the model doesn't know which day, or where.
+That's because the model's API is stateless.
+Every call starts from zero. Nothing from the last call is kept.
+So keeping track of the conversation falls to the harness.
+The harness is the program around the model that calls it.
+On every turn, it puts together what the model needs, again.
+So turn two sends turn one's conversation, plus the new question.
+Seeing that, the model knows you mean the Boston weekend.
+But resending every turn means each turn sends more than the last.
+A model reads only so much at once: that's the context window.
+It's counted in tokens: the small pieces of text a model reads.
+Go over the window, and that turn can't be sent at all.
+Even under it, more tokens cost more and run slower.
+So context management means deciding what the model sees each turn.
+Keep what it needs, and stop sending what it doesn't.
+Next: what's actually inside each turn?

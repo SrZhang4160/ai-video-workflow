@@ -1,0 +1,22 @@
+MCP, the harness, and function calling:
+how do they actually fit together?
+Many people think the model calls MCP services by itself.
+In fact, the model executes nothing. It only outputs text.
+Function calling is an ability of the model:
+give it a set of tool descriptions,
+and it can output a structured tool call.
+A tool call is a tool name plus arguments.
+For example: get weather, city Boston, day Saturday.
+The one that actually runs that call is the harness.
+The harness is the program around the model that does the actual work.
+It parses the tool call and finds the get-weather tool,
+runs it, and sends the result back to the model.
+The model reads the result and decides what to do next.
+So where is MCP? Behind the tool.
+The harness connects to the weather server through an MCP client,
+and wraps that server's tool as one of its own tools.
+To the model, it's just another tool.
+It can't tell whether a tool is local or comes from MCP.
+Without MCP you could still call it; you'd write an adapter for each service.
+The core idea: the model only writes the call, and the harness runs it.
+MCP is just one way a tool gets connected.
