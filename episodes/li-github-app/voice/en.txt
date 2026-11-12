@@ -1,49 +1,53 @@
 Every pull request can quietly make your product worse.
-We wanted to catch that before merge, on every single commit.
+Say someone changes one line of a prompt: the tests pass, but the answers get worse.
+We wanted to catch that before merge, on every commit, without running every test every time.
 So we built a GitHub App that does exactly that.
-In this video, I'll explain what it does, what the user sees,
-and how we chose each piece of the architecture.
+In this video: what it does, what the user sees, and how we chose each piece of the architecture.
 In part two, we'll make it reliable.
 The goal is simple.
-When a pull request gets a new commit,
-we run our evaluations on that exact commit,
-and show the result on the commit as a GitHub check.
-So GitHub has to tell us every time a commit arrives.
-A personal access token could do that,
-but it acts as one person, with all of that person's access,
-and it often never expires.
+When a pull request gets a new commit, we run our evaluations on that exact commit.
+An evaluation is a set of test cases that checks whether the answers got worse.
+But running the full test suite on every commit takes too long, and burns too many tokens.
+So we use smart selection: we only run the tests this commit could affect.
+That still catches regressions: things that used to work, and now don't.
+And it saves time on every commit, and saves the user's tokens.
+The result shows up next to the commit as a GitHub check: the green tick or the red cross.
+For that, GitHub has to tell us about every commit, and we need permission to post the result.
+One way is a personal access token.
+But it acts as one person, with all of that person's access, and it often never expires.
+If that person leaves, everything breaks.
 A GitHub App is built for this.
-It gets an event for every commit,
-it has its own identity and only the permissions you ask for,
+It gets an event for every commit, it has its own identity, and only the permissions you ask for,
 and its tokens expire after an hour.
+So even a leaked token is only useful for a short time.
 From the user's side, it's a few clicks.
-They sign in to our dashboard, click "Connect GitHub",
-pick their repositories, and authorize,
-which proves the install is really theirs.
-After that, they work as usual,
-and every new commit gets a check, with a link to the details.
+First, they sign in to our dashboard and click "Connect GitHub".
+Second, on GitHub, they pick their repositories and install the app.
+Third, they authorize, which proves to us that the install is really theirs.
+After that, they work as usual and open pull requests.
+Every new commit gets a check, with a link to the details.
 Behind those clicks are four parts.
-An API service receives GitHub's webhooks and handles sign-in.
-Postgres stores every installation and every run.
-A workflow engine starts each run in an isolated sandbox.
-And the result goes back to the API, which updates the check.
+One: an API service. It receives GitHub's webhooks and handles sign-in.
+Two: a Postgres database. It stores every installation and every run.
+Three: a workflow engine. It starts each run in an isolated sandbox.
+Four: the result goes back to the API, which updates the check on GitHub.
+So: a commit arrives, we save it, run the evaluation, and post the result.
 Each of these parts was a real decision.
-For each one, we asked the same questions.
-Does it fit the job? What does it cost to run, and to maintain?
-How hard is it to leave? And does the team already know it?
+For each one, we asked the same four questions.
+Does it fit the job?
+What does it cost to run, and to maintain?
+How hard is it to leave later?
+And does the team already know it?
 That last one matters more than people admit.
-Let's start with the API framework.
-Our main backend is Django,
-so the obvious move was to add this service to it.
-Django is great when you want an admin panel, a database layer,
-and user accounts out of the box.
-But this service is small. It mostly receives webhooks,
-and it needs the raw bytes of each request
-to check GitHub's signature.
-Express is the usual default for that,
-but you put validation together yourself.
-NestJS suits large teams that want a strict structure,
-and Go suits services where raw speed matters most.
+Let's start with the API framework: what we write this webhook service in.
+Our main backend is Django, so the obvious move was to add this service to it.
+Django is great when you want an admin panel, a database layer, and user accounts out of the box.
+But this service is small. It mostly receives webhooks.
+And to check GitHub's signature, it needs the request exactly as it arrived, byte for byte.
+Many frameworks parse the body for you first, and then the signature no longer matches.
+Express is the usual default, but you put validation together yourself.
+NestJS suits large teams that want a strict structure.
+Go suits services where raw speed matters most.
 We chose Fastify with TypeScript.
 Validation is built in, the raw body is easy to get,
 and strict types catch mistakes before they ship.
@@ -51,63 +55,59 @@ The price: our permission logic lives in Django,
 so this service has to do its own access checks.
 Next, sign-in.
 Building it yourself only makes sense when identity is your product,
-because passwords, resets and two-factor are then yours forever.
+because storing passwords, resets, and two-factor are then yours to maintain forever.
 Firebase or Supabase Auth fit if you already build on their platform.
 Cognito fits teams that live in AWS.
 And Clerk fits when you want polished sign-in screens in a day.
-We chose Auth0, for Google login, organizations,
-and tokens that carry permissions, without ever storing a password.
-The trade-off is a bill that grows with users,
-and real work if we ever leave.
-So we keep one rule. Auth0 tells us who someone is.
+We chose Auth0.
+It gives us Google login, organizations, and tokens that carry permissions, without ever storing a password.
+The trade-off: a bill that grows with users, and real work if we ever leave.
+So we keep one rule.
+Auth0 tells us who someone is.
 What they may see stays in our own database.
-That keeps the exit door open.
-Then, where it runs.
-A plain virtual machine is the cheapest,
-if someone is happy to handle patching and backups.
-Kubernetes makes sense when you already have a platform team.
-Render and Railway are for small teams
-that want to push code and have it run.
+So if we ever replace Auth0, none of the permission data has to move.
+Next, where it runs.
+The cheapest option is renting a plain virtual machine,
+but then someone has to handle patching and backups themselves.
+Kubernetes is powerful, but only worth it with a platform team to run it.
+Render and Railway are for small teams:
+you push code, and they build it and run it for you.
 We chose Render.
-It deploys from main only after the checks pass,
+It deploys only when code is merged to main and every check passes,
 and the whole setup lives in one file in the repo.
-One caveat, though: more copies of the app
-don't make the database any more available.
-Plan for that separately.
+One caveat: you can run several copies of the service, so if one dies, the others take over.
+But they all use the same database, and if the database goes down, they all stop.
+So plan the database's reliability separately.
 The most interesting decision was how to run long jobs.
 An evaluation takes minutes,
-but GitHub wants a webhook reply within ten seconds,
-so the work has to happen somewhere else.
-Our first prototype saved the run in Postgres,
-and then pushed a job onto Redis.
+but GitHub wants a reply to each webhook within ten seconds, or it counts as failed.
+So we record the job, reply right away, and run the evaluation somewhere else.
+That needs a queue: one side puts jobs in, and workers on the other side take them out and run them.
+Our first prototype saved the run in Postgres, then pushed a job onto a Redis queue.
 It's fast, it's familiar, and it works most of the time.
 But those are two separate writes.
 If the process crashes in between,
-the run exists, and nobody ever picks it up.
-Using Postgres itself as the queue fixes that,
-and it's a good fit for short, simple jobs.
-Ours aren't simple.
-They wait on sandboxes, they time out, and they need retries.
-So we chose Temporal.
-Postgres stays the source of truth,
-and Temporal makes sure every saved run actually finishes.
+the run is in the database, but there's no job in the queue, and nobody ever runs it.
+One fix is to use Postgres itself as the queue, so it's a single write.
+That's a good fit for short, simple jobs.
+Ours aren't simple. They wait for sandboxes, they time out, and they need retries.
+So we chose Temporal, a workflow engine.
+It remembers how far each job got, so after a crash, it carries on where it stopped.
+Postgres stays the source of truth, and Temporal makes sure every saved run actually finishes.
 The cost is one more system to run.
 For us, never losing a run was worth it.
 The last decision is where the code runs.
-Pull-request code is untrusted, so it needs a sandbox.
-Your own containers fit when you need full control,
-but isolation and cleanup are then on you.
+An evaluation runs the code in the pull request, and we can't trust that code.
+It may have bugs, or it may even try to read someone else's data.
+So it runs in a sandbox: an isolated environment that's thrown away afterwards.
+Your own containers give you full control, but isolation and cleanup are then on you.
 E2B and Daytona are built for AI agents that run code.
-Modal fits Python work that runs in short bursts,
-charged by the second.
+Modal fits Python work that runs in short bursts, charged by the second.
 Here's the lesson: you can't compare them from their pricing pages.
-Run the same evaluation on each one, and measure cold starts,
-timeouts, cleanup, and the real cost.
-We started with Modal as a trial,
-because our evaluators are written in Python, and each run is short.
-So every choice came with a cost,
-and we picked the cost we could live with.
+Run the same evaluation on each one,
+and measure how long it takes to start, how it handles timeouts, how well it cleans up, and what it really costs.
+We started with Modal as a trial, because our evaluators are written in Python, and each run is short.
+So every choice came with a cost, and we picked the cost we could live with.
 In part two, we'll make it reliable:
-duplicate webhooks, lost messages, retries versus reruns,
-and fair comparisons.
+duplicate webhooks, lost messages, retries versus reruns, and fair comparisons.
 Which of these choices would you have made differently?

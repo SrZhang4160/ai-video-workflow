@@ -1,7 +1,8 @@
 In part one, we designed a GitHub App that evaluates every pull request.
-A webhook arrives, we save a run, a sandbox runs the tests,
-and the result comes back as a check on the commit.
-That's the happy path. This video is about everything else.
+A webhook arrives, and we save a run.
+A sandbox runs the tests, and the result comes back as a check on the commit.
+That's the happy path.
+This video is about everything that can go wrong.
 Let's start where everything starts: the webhook.
 We run on every new commit, so we need to know the moment one lands.
 A webhook is how GitHub tells us.
@@ -19,71 +20,69 @@ GitHub may also deliver the same event twice.
 So we record each delivery ID, ignore repeats,
 store the event, and reply right away.
 The next trap is in the install flow.
-After someone installs the app, GitHub sends them back to us
-with an installation ID in the URL.
+After someone installs the app, GitHub sends them back to our site,
+with an installation ID in the URL: the number of that install.
+We use it to link that install to the user's account.
 It's tempting to trust it, but anyone can edit a URL.
+Someone could change it to another company's install, and link those repositories to their own account.
 So we treat it as a hint, not as proof.
-The flow is tied to a single-use link that expires in ten minutes,
-and GitHub's own authorization confirms
-that the user really has access to that installation.
-If the app is uninstalled halfway through, the link stops working.
+First, the flow is tied to a single-use link that expires in ten minutes.
+Second, the user authorizes on GitHub, and we ask GitHub to confirm that this user really has access to that install.
+Only when both match do we link the install.
+And if the app is uninstalled halfway through, the link stops working.
 Next, we have to define what one run actually is.
-For us, it's one repository, one pull request, one commit,
-and one version of the evaluation.
-We always run the exact commit, never the branch name,
-because a branch can move while the tests are running,
-and then the result would describe code nobody tested.
-Pull requests from forks are skipped,
-because that's outside code asking to run on our infrastructure.
-And the app's private key never leaves the backend.
-Now, the network. Messages get lost, and messages arrive late.
-Imagine we start an evaluation, and the response gets lost.
-Did it start or not? If we simply try again, we might run it twice.
-So we save the run first, and send it with an idempotency key,
-which is the run ID.
-However many times it arrives, it's one evaluation.
-Late messages are the opposite problem:
-an old attempt finishes after a newer one, and overwrites its result.
-So every update carries an attempt ID
-and a sequence number that only goes up,
-and anything older than what we have is ignored.
-The GitHub check carries the run ID too,
-so we update it instead of creating a duplicate.
+For us, it's one repository, one pull request, one commit, and one version of the evaluation.
+We always run the exact commit, never the branch name.
+Because a branch can move: while the tests are running, someone may push new code.
+Then the result would describe code nobody tested.
+Pull requests from forks are skipped.
+A fork is someone else's copy of the repository, so that's outside code asking to run on our machines.
+And the app's private key never leaves the backend. It never goes into a sandbox.
+Now, the network.
+Messages get lost, and messages arrive late.
+First, lost ones.
+Say we send a request to start an evaluation, and the reply gets lost.
+Did it start or not? We don't know.
+If we simply try again, we might run it twice.
+So we save the run first, which gives it a run ID,
+and send the request with that ID. It's called an idempotency key.
+When the other side sees the same ID again, it knows it's the same job. However many times it arrives, it runs once.
+Late messages are the opposite problem.
+An old attempt finishes after a newer one, and overwrites its result.
+So every update carries an attempt ID, and a sequence number that only goes up.
+Anything older than what we already have is ignored.
+The GitHub check carries the run ID too, so we update it instead of creating a duplicate.
 This leads to a distinction people often blur: retries and reruns.
 A retry repeats an infrastructure step,
-like resending a request or posting the check again.
+like resending a request, or posting the check again.
 It's the same run, and the result doesn't change.
 A rerun executes the tests again, and that's a new measurement.
 So we keep the first result, and label the outcome honestly:
 passed the first time, or passed only on rerun.
 A test that only passes on the third try isn't reliable. It's flaky.
 And when our own infrastructure fails,
-the check says "action required", not "failed",
-and nothing gets scored.
+the check says "action required", not "failed", and nothing gets scored.
 Your code shouldn't be blamed for our outage.
 Then there's comparison.
-Every result is compared with a baseline,
-and that's only fair if everything else is the same:
-the test version, the evaluator version,
-the model settings, and the runtime.
-So we record that configuration with every result,
-and we refuse to compare when it doesn't match.
+Every result is compared with a baseline, to see if things got better or worse.
+That's only fair if everything else is the same:
+the test version, the evaluator version, the model settings, and the runtime.
+So we record that configuration with every result, and refuse to compare when it doesn't match.
 Be careful with missing data, too.
 Zero means we measured it, and it failed.
 Missing means we didn't measure it at all.
+With smart selection, we only run some of the tests, so the ones we skip are missing, not zero.
 If you turn missing into zero, your average drops for no reason.
-So missing stays missing, and we report coverage separately.
+So missing stays missing, and we report coverage, how much we measured, separately.
 A few smaller habits made a big difference.
-We ship behind a feature flag.
+First, we ship behind a feature flag: a switch that turns the feature on or off.
 Turned off, the app only answers health checks.
-Turned on with incomplete configuration, it refuses to start,
-instead of failing later.
-We keep three secrets separate:
-the private key, the OAuth secret, and the webhook secret,
+Turned on with incomplete configuration, it refuses to start, instead of failing later.
+Second, we keep three secrets separate: the private key, the OAuth secret, and the webhook secret,
 so one leak doesn't unlock everything.
-Another organization's run returns "not found", not "forbidden",
-so we don't even confirm it exists.
-And the same do-it-exactly-once idea powers our usage alerts:
+Third, asking for another organization's run returns "not found", not "forbidden",
+because "forbidden" would confirm that it exists.
+Fourth, the same do-it-exactly-once idea powers our usage alerts:
 one alert per account per week, no matter how many workers notice.
 So, if you build something like this, remember four things.
 Verify every input before you trust it.
