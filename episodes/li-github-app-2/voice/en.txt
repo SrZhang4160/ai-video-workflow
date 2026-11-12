@@ -26,7 +26,7 @@ So how does that link get created? That's coming up.
 There's one more problem: GitHub may send the same event twice.
 For example, when a failed delivery is sent again, the same message arrives a second time.
 If we accepted every copy, the same commit would be evaluated twice.
-Luckily, every message has an ID, the delivery ID, and a resent message keeps the same ID.
+Luckily, every message has an ID, the delivery ID, and a message that's sent again keeps the same ID.
 So for each message, we first check: have we seen this delivery ID before?
 If we have, it's a duplicate, and we ignore it.
 If not, we record the ID, and store the event in our database.
@@ -74,7 +74,7 @@ So however many times the request is sent, the evaluation runs only once.
 Late messages are the opposite problem.
 One run can have several attempts. If an older attempt finishes after a newer one, its result overwrites the newer result.
 So every update carries an attempt ID, and a sequence number that only goes up.
-We only accept results newer than what we have, and ignore anything older, so a late, old result can't overwrite a new one.
+We only accept results newer than what we have, and ignore anything older, so an old result that arrives late can't overwrite a new one.
 For the same reason, the GitHub check carries the run ID too, so when a message is resent, we update the existing check instead of creating a duplicate.
 This leads to a distinction people often blur: retries and reruns.
 A retry repeats an infrastructure step that didn't go through: resending a request, or posting the check again.
