@@ -120,7 +120,7 @@ And alerts on how long startup and cleanup take, not just logs.
 So, to build a playground, here's what it takes:
 Give every user their own micro V M.
 Treat the database record as the truth, and keep reconciling until reality matches it.
-Never create a billed resource twice.
+Never create a paid resource twice.
 Clean up with independent clocks.
 Keep real keys out of the sandbox, always.
 Reserve the budget before you spend it.

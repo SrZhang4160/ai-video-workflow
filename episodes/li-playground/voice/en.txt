@@ -140,4 +140,4 @@ When the service starts, Cloud Run fetches the keys and hands them to it.
 And only the service's own account is allowed to read them.
 To rotate a key, add a new version and update the version number.
 In the next video, I'll introduce where the user's code runs and how it calls the AI,
-and then how a change goes live.
+and then how a code change goes live.
