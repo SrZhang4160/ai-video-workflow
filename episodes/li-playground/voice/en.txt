@@ -73,7 +73,7 @@ When the user clicks in the dashboard,
 the request goes to a Cloudflare Worker.
 A Worker is a small piece of code that runs on Cloudflare's network.
 It's the only way into the playground.
-The service itself isn't public.
+The service itself is not public.
 Anyone who tries to reach it directly gets turned away.
 So how does the Worker get in? It calls the service with its own identity.
 That identity has one permission, calling this service, and nothing else.
@@ -125,11 +125,11 @@ several service accounts and their permissions, and the entry setup on Cloudflar
 If you click all of that together by hand in a console,
 after a while nobody can say what's actually running in production.
 And staging and production slowly drift apart.
-So I wrote every resource as code with Terraform, kept in the repo.
+So I wrote every resource as code in Terraform, and keep that code in the repo.
 To change anything, Terraform first makes a plan that shows exactly what will change,
 and it runs only after review.
 Staging and production each have their own copy, kept apart.
-Then the secrets. The service needs two keys:
+Now the secrets. Our service needs two keys:
 one for calling E two B, and one for reaching our backend.
 Neither key can go in the code or in Terraform,
 because both live in the repo, and anyone who can read the repo would see the keys.
