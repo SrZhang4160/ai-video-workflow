@@ -94,7 +94,7 @@ One more vendor, for real isolation.
 A heavier editor, for a real experience.
 One more hop through a gateway, so a real key never sits in a sandbox.
 One more approval before release, so every change is clear before it goes live.
-Next time: making it robust.
+In the next video, I'll show how to make it reliable:
 What if a create call times out? What if the user double-clicks?
 What if they close the tab mid-launch? And how do you keep the bill under control?
 Which of these would you have chosen differently?

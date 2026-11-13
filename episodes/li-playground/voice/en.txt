@@ -6,13 +6,14 @@ That loop is the most exciting part of the product.
 But before a new user could see it run, they had to do several things:
 get an API token, bring an agent of their own to test, and set up an environment.
 Only then would the loop start. That's a lot to ask.
-So I designed and built a playground, from scratch, on my own.
+So I designed and built a playground to solve this problem.
 One click, and a real code editor opens in your browser.
 A sample agent, a terminal and an AI coding assistant are already there,
 plus a full step-by-step tutorial on using an AI coding agent with our product.
 No token to request, nothing to set up.
-In this video: what it does, its four blocks, and the first two up close.
-Next: the sandbox, the AI calls, and how a change goes live. Then: making it robust.
+In this video, I will introduce what it does, its four blocks, and the first two up close.
+In the next video, I'll introduce where the user's code runs and how it calls the AI,
+and how a change goes live. After that, I'll show how to make it all reliable.
 First, what the user does once they're in.
 The sample agent is an airline support agent.
 It looks up bookings, answers baggage questions, and sells seat upgrades.
@@ -138,4 +139,5 @@ Terraform only records each key's name and version.
 When the service starts, Cloud Run fetches the keys and hands them to it.
 And only the service's own account is allowed to read them.
 To rotate a key, add a new version and update the version number.
-Next video: where the user's code runs, how it calls the AI, and how it all goes live.
+In the next video, I'll introduce where the user's code runs and how it calls the AI,
+and then how a change goes live.
