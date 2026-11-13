@@ -1,0 +1,141 @@
+Our Relay product helps AI agents keep getting better.
+It works as a loop. You test the agent and find where it fails.
+Then you improve it, and verify that the fix really works.
+Then you test the next round.
+That loop is the most exciting part of the product.
+But before a new user could see it run, they had to do several things:
+get an API token, bring an agent of their own to test, and set up an environment.
+Only then would the loop start. That's a lot to ask.
+So I designed and built a playground, from scratch, on my own.
+One click, and a real code editor opens in your browser.
+A sample agent, a terminal and an AI coding assistant are already there,
+plus a full step-by-step tutorial on using an AI coding agent with our product.
+No token to request, nothing to set up.
+In this video: what it does, its four blocks, and the first two up close.
+Next: the sandbox, the AI calls, and how a change goes live. Then: making it robust.
+First, what the user does once they're in.
+The sample agent is an airline support agent.
+It looks up bookings, answers baggage questions, and sells seat upgrades.
+The user has never seen this agent before, so they have no idea what it does.
+That's why a guided walkthrough starts right away.
+First, the evals wiki finds the risks.
+It lists what the agent is supposed to do,
+then checks which behaviors no test covers yet. Those are the risks.
+For example, the agent charges for a seat before the customer agrees.
+Once a risk is found, it becomes a test.
+You run it, and you watch the agent actually fail.
+Then you optimize the agent, and finally apply the fix that's been verified.
+After the guide, it's the user's turn.
+They pick one of the agent's behaviors, like cancellations or refunds,
+and go through the same steps with the AI assistant:
+find the risk, write the test, fix it.
+Along the way, the assistant has to ask before it runs any command.
+Nothing runs until the user approves.
+So in one sitting, on real code, the user goes through the whole loop.
+You might think: it's just a web page. It's not that simple.
+Because every user is really running code on our machines,
+and we have no idea in advance what that code will be.
+So the first worry is safety. Many users are in at the same time.
+Nobody can see anyone else's code or files, let alone change them.
+And nobody can use this environment to reach our own systems.
+Then there's money. Users call an AI model in there,
+and every call costs real money.
+Those calls use our key, so the key must never leak,
+and we have to know how much is being spent.
+And finally, cleanup. When a user leaves,
+the machine we started for them has to be shut down and cleaned up.
+If we forget, it keeps billing even with nobody using it.
+Before each choice, let's look at the whole thing.
+The playground is really just four blocks.
+At the front is the entry.
+The user clicks in our dashboard, and the request goes through Cloudflare first.
+Behind the entry is the playground service, running on Google Cloud.
+It owns every session.
+A session is one use of the playground, from opening it to closing it.
+The service starts a sandbox for each user.
+A sandbox is an isolated environment that's destroyed after use.
+The editor and the user's code both run inside it.
+The last block is our existing backend.
+It handles permissions, and it holds the keys for calling the model.
+Here's how they connect. The user clicks,
+and the request goes through the entry to the service.
+The service starts a sandbox.
+When the AI in the sandbox calls the model,
+the request goes back to the service, and the service passes it on to the backend.
+Every block involved choices, and I judged each option on three things:
+how strong the isolation is, how fast it starts,
+and what it costs while nobody's using it.
+Start time matters most.
+If the user waits too long after clicking, they leave.
+Now let's zoom in, one block at a time.
+First, the block at the front: the entry.
+When the user clicks in the dashboard,
+the request goes to a Cloudflare Worker.
+A Worker is a small piece of code that runs on Cloudflare's network.
+It's the only way into the playground.
+The service itself isn't public.
+Anyone who tries to reach it directly gets turned away.
+So how does the Worker get in? It calls the service with its own identity.
+That identity has one permission, calling this service, and nothing else.
+So even if something goes wrong with it, it can't do much.
+The Worker also cleans each request first.
+Any "who I am" information that came in from outside, it deletes,
+because anything from outside could be forged.
+The service only trusts an identity the Worker has confirmed.
+And the internal reconcile endpoint can't be called from outside at all.
+Each session also gets its own subdomain,
+and the entry routes it to the right session.
+Why each session needs its own subdomain, I'll explain when we get to robustness.
+Next in line is the playground service.
+The easiest option was to put all this logic into our main backend. I didn't.
+For one, the editor stays connected to the service over a WebSocket,
+a two-way connection that stays open for a long time.
+The main backend handles short request-and-response calls.
+They're very different.
+For another, its traffic rises and falls on a different schedule from the main product,
+so it has to scale on its own.
+Most important, if it breaks, it mustn't take the main product down with it.
+So I made it a separate small service,
+written in TypeScript with the Hono framework, deployed on Google Cloud Run.
+You give Cloud Run a container, and it runs and scales it,
+so I don't manage any machines.
+The trade-off: it can't reuse the backend's permission code,
+so every time, it has to ask the backend: is this user allowed?
+Inside the service block are two more pieces: a database and a scheduled job.
+My first design used a queue,
+plus a separate worker service just for background jobs.
+Later I removed both.
+Now the work is done right inside the request.
+And a scheduled job calls the service's reconcile endpoint every minute.
+Reconcile means checking the books:
+any work that got interrupted halfway, it finishes or cleans up.
+The database is Firestore.
+The service runs several copies at once, and they all read and write the same data.
+Firestore gives transactions across those copies, and I don't have to operate it.
+For local development, the same interface runs on sequel light.
+That leaves far fewer moving parts. The cost is slower requests.
+My fix was to split launch into two steps:
+first quickly reserve a spot, then send a separate request to prepare the environment.
+More on that in the robustness video.
+Two more things in the service block:
+how these cloud resources get created, and where the secrets live.
+Behind the playground service there's a lot:
+the Cloud Run service, the database, the scheduled job,
+several service accounts and their permissions, and the entry setup on Cloudflare.
+If you click all of that together by hand in a console,
+after a while nobody can say what's actually running in production.
+And staging and production slowly drift apart.
+So I wrote every resource as code with Terraform, kept in the repo.
+To change anything, Terraform first makes a plan that shows exactly what will change,
+and it runs only after review.
+Staging and production each have their own copy, kept apart.
+Then the secrets. The service needs two keys:
+one for calling E two B, and one for reaching our backend.
+Neither key can go in the code or in Terraform,
+because both live in the repo, and anyone who can read the repo would see the keys.
+So the keys live in Google Secret Manager.
+Terraform only records each key's name and version.
+When the service starts, Cloud Run fetches the keys and hands them to it.
+And only the service's own account is allowed to read them.
+To rotate a key, add a new version and update the version number.
+Next video: where the user's code runs, how it calls the AI, and how it all goes live.

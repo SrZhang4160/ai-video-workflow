@@ -1,0 +1,100 @@
+Last time: the four blocks, the entry and the service. Now, the sandbox.
+The biggest question: where does the user's code actually run?
+The simplest answer is the user's own computer.
+But then they have to install things, which is exactly the step we're removing.
+What about one shared server? No good either.
+On one machine, one user can see another user's files.
+Our own Docker containers? They're easy to set up, and I use them for local development.
+But there's a catch: our workflow needs Docker inside the sandbox.
+Finding risks with the evals wiki doesn't,
+but every agent test runs in its own Docker containers,
+once during simulation and again during optimization.
+Running Docker inside a container means a privileged container,
+which hands over most of the host's power.
+Worse, all containers share the host's kernel, the lowest layer of the operating system.
+If one container is broken into, the host and every other user can be at risk.
+So containers are not a security boundary.
+One step up is Kubernetes with gee visor.
+Gee visor gives each container its own simulated kernel, so the isolation is strong.
+The problem is that I'd have to run a cluster myself.
+Compared with all that, a managed sandbox fits well:
+strong isolation, and I don't manage the machines.
+The common three are Daytona, Modal and E two B.
+Daytona grew out of development environments, and fits workspaces that stick around.
+Modal is mainly for Python and GPU jobs, and runs containers on gee visor.
+E two B is built for AI agents that run code.
+I chose E two B, because its design matches a playground.
+Each sandbox is its own Firecracker micro V M,
+with its own kernel that it shares with no one.
+It starts from a prebuilt template, so it starts fast.
+Docker runs inside it, it destroys itself when time is up,
+and its ports are private by default. That's exactly what a playground needs.
+The trade-off: one more vendor, billed by the second.
+So I wrapped it in a thin interface with just three operations: create, find and destroy.
+For local development, the same three run on Docker.
+If I ever switch vendors, only that layer changes.
+Inside the sandbox, what does the user actually see?
+My first version was a page I wrote myself, with a few buttons.
+It was simple, but it looked like a demo, not a real product, so I removed it.
+What about just a terminal in the browser?
+It's lighter, but most people don't want to stare at a command line the whole time.
+I went with code server, open source V S Code running in the browser.
+The files are real, the terminal is real,
+and the AI coding assistant is installed as an extension.
+Besides the editor, the template comes with our command-line tool,
+the sample agent and its tests, and Docker, all preinstalled.
+The user can start the moment it opens.
+The cost is a big download the first time it opens.
+And for safety, every session has its own subdomain,
+so the browser can't share its cache between sessions.
+Every new session downloads it all again.
+The last block is the backend:
+how the AI coding assistant in the sandbox calls the model.
+Calling a model takes a key.
+The easy way is to put an API key in the sandbox.
+But anything in the sandbox can be printed out, by the user or by the AI.
+What about the user's own login token? Even worse.
+With it, you can do anything the user can do, as them.
+So the sandbox only gets a playground-only token.
+It's valid for this one session, and only for the few calls the playground allows.
+When the assistant calls the model,
+it sends the request with that token back to the playground service.
+Inside the service is a token gateway.
+It checks the token, swaps it on the server for a real backend credential,
+and forwards only the allowlisted kinds of requests to the backend.
+The backend then calls the model.
+On its side, the backend creates a separate, isolated team for each session.
+So nothing done in the playground can touch the user's real data.
+The backend also controls how much each session can spend.
+More on that in the robustness video.
+That's all four blocks.
+Now the full picture: after a code change, how do all four get updated and go live?
+Every change I make goes up as a pull request on GitHub.
+As soon as it's opened, GitHub Actions runs checks automatically.
+The checks are: type checks and unit tests;
+smoke tests, a quick run through the main flows to catch anything obviously broken;
+building the service's Docker image and actually starting it;
+and checking that the Terraform config is valid.
+Only when all of those pass can the code be merged.
+Merging doesn't put it live right away. Going live is one more step.
+First, the new versions get built: the service's Docker image, and the sandbox template.
+The template is the system a sandbox starts from, with everything preinstalled.
+Right now I build both of these myself.
+Then I update the version numbers in Terraform.
+Terraform first makes a plan that lists exactly what will change.
+Only after I review and approve it does it run:
+the service switches to the new image, any entry changes go out too,
+and new sandboxes start from the new template.
+So the whole path is: automatic checks on every P R, a human approval,
+and then Terraform updates the entry, the service and the sandbox together.
+So every block on this chart is a trade-off.
+One more service, so the main product stays safe.
+Learning Terraform, so production config is always clear.
+One more vendor, for real isolation.
+A heavier editor, for a real experience.
+One more hop through a gateway, so a real key never sits in a sandbox.
+One more approval before release, so every change is clear before it goes live.
+Next time: making it robust.
+What if a create call times out? What if the user double-clicks?
+What if they close the tab mid-launch? And how do you keep the bill under control?
+Which of these would you have chosen differently?

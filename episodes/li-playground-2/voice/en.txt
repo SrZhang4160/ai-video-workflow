@@ -1,0 +1,127 @@
+Over the last two videos, we built the playground from one chart:
+Cloudflare as the entry, a small playground service, and a database for sessions,
+a micro V M sandbox for each user, and a backend that holds the model keys.
+This time: the part that took me the most time, making it robust.
+Almost everything here is a system design problem
+that every playground or sandbox platform has to solve.
+First, the core idea.
+Each session is a record in the database.
+The record has a state, one of four: preparing, ready, ending, ended.
+To know where a session stands, we look only at the record, not at the sandbox itself.
+Why? Because a sandbox can fail halfway through starting,
+it can be destroyed early, and our own service can crash in the middle.
+The machine side can change at any moment. Only the record is reliable.
+So I wrote a reconciler. Every minute it checks:
+according to the records, what should exist? What actually exists?
+Wherever they don't match, it fixes things.
+That's exactly how a Kubernetes controller works.
+Only one reconciler can run at a time. If two change things at once, they fight each other.
+So before it starts, it has to take a short lease.
+Whoever holds the lease gets to run.
+One more rule: once a session is ending, it can never go back to ready.
+A slow, old step might only finish after the session has started shutting down.
+If it could flip the state back to ready,
+the user would connect to an environment that's about to be destroyed.
+Before creating anything, reserve a spot.
+The reservation happens in one database transaction.
+A transaction means the steps inside either all succeed, or none of them count.
+Inside it, three limits are checked:
+one active session per user, a cap on sessions running across the whole site,
+and a cap on how many start each day.
+Only if all three pass is the spot reserved.
+What if the user double-clicks, or the network retries on its own?
+Every launch request carries an idempotency key, a unique ID for that one action.
+If the same ID comes in again, it gets back the same session,
+and no second sandbox is started.
+Also, an expired session doesn't give up its spot right away.
+It waits until cleanup is confirmed.
+Cleanup can fail, and the sandbox might still be running and costing money.
+While it holds the spot, no new session can take its place,
+so costs can't quietly pile up in the background.
+The hardest case is when the request to create a sandbox times out.
+At that point, you have no idea whether the sandbox was created.
+Maybe the request never arrived.
+Or maybe it was created, and only the reply got lost.
+If you just retry, you may well start a second machine,
+and every machine costs money.
+My fix: every sandbox is tagged with its session ID when it's created.
+So before each create, we search by that tag first, and if we find it, we use it.
+If a create was already attempted and we don't know whether it worked,
+we never create again.
+We keep searching until that sandbox's lifetime would have run out.
+Even if it was created, by then it has destroyed itself.
+Only then is it safe to release the spot.
+And if a search ever finds two, the session is ended right away.
+Cleanup can't depend on any single thing working.
+So there are three clocks that don't depend on each other.
+One is the reconciler.
+Every minute it checks, and ends any session that has expired.
+Another is the sandbox's own timeout.
+Even if our service is down, when time is up the sandbox destroys itself.
+The third is the credential the backend hands out.
+It has its own expiry, and stops working on time.
+When a session ends, the order matters too:
+revoke access first, then destroy the sandbox.
+If you destroy first, new requests could still come in during cleanup and start new work.
+Next, how to keep secrets only where they belong.
+First, tokens. For the token given to a sandbox, the database stores only its hash.
+A hash only works one way: you can't get the token back from it.
+So even if the database leaks, nobody gets a working token.
+And every request is checked again:
+whose token is this, is the session in the right state, has it expired?
+Then the browser. Every sandbox has its own subdomain.
+Browsers have a rule: pages from different origins
+can't read each other's cookies or local storage.
+So code running in the editor can't read the dashboard's login.
+One more detail when the editor opens:
+the credential reaches the browser in a POST request, never in the URL.
+URLs end up in browser history, and in all kinds of logs.
+The browser stores the credential as an H T T P only cookie.
+That cookie only works on this one subdomain, and scripts on the page can't read it.
+Finally, open WebSockets check again every so often: is this session still allowed?
+So the moment a session ends, those connections drop.
+Then there's money.
+Every user spends real money on model tokens,
+so each session has a fixed dollar budget.
+Before each model call, the backend reserves for the worst case:
+the length of the input, plus the most the output could be.
+After the call, it settles on what was actually used, and returns the rest.
+If the usage is missing, or the call fails, the reservation is kept.
+When in doubt, count it as spent.
+That way the budget is never exceeded.
+The AI assistant can run commands,
+so the rule is: the AI proposes, the user approves.
+Once approved, the command runs as a background job in the sandbox.
+So even if the user closes the tab, the output isn't lost.
+Before each job runs, it claims a folder on disk.
+If the same approval is sent twice, the second claim fails,
+so the same command can never run twice.
+To cancel a job, you write a file.
+The job keeps watching for that file, and stops as soon as it appears.
+And saved demo results are always labeled as recorded, never passed off as live.
+Last, the speed of the first click.
+Whether a playground feels good comes down to how fast it responds after that click.
+The reservation request returns right away.
+The slow preparation is moved into a separate request, with its own timeout.
+The new tab opens at the very moment of the click,
+because browsers only allow a new window during a user's click.
+If we waited until the environment was ready, the popup blocker would stop it.
+If the user refreshes the page halfway through launch,
+it finds the existing session instead of starting a new one.
+And the service always keeps one instance running, to avoid a cold start.
+A cold start is when the service has to start from zero,
+and the user waits several extra seconds.
+There are a few common practices I plan to add next.
+One is a warm pool: a batch of sandboxes started ahead of time,
+ready the moment a user arrives, so startup is even faster.
+Another is stricter outbound network rules,
+so nobody can use a sandbox to attack anyone else.
+And alerts on how long startup and cleanup take, not just logs.
+So, to build a playground, here's what it takes:
+Give every user their own micro V M.
+Treat the database record as the truth, and keep reconciling until reality matches it.
+Never create a billed resource twice.
+Clean up with independent clocks.
+Keep real keys out of the sandbox, always.
+Reserve the budget before you spend it.
+Which of these has bitten you before?
