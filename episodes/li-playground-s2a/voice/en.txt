@@ -31,7 +31,7 @@ Where does it run?
 Cloud Functions limit how long one request can last,
 so long WebSockets don't fit.
 A VM or a Kubernetes cluster means managing machines myself.
-Cloud Run fits. I hand it a container,
+Cloud Run fits. I give it a container,
 and it runs and scales it, WebSockets included.
 The cost: starting from zero can add seconds to the first click,
 so I keep one instance always running, and pay for it even when idle.
@@ -41,7 +41,7 @@ For the language, I used TypeScript with Hono.
 Hono is a small web framework, like Express but lighter,
 and the same code runs on Node or on Cloudflare Workers.
 TypeScript also matches the tools around it:
-the Worker, E two B's SDK, and V S Code.
+the Worker, the E two B S D K, and V S Code.
 Next, state. Several copies of the service share the same sessions,
 and "check the limits, then reserve a spot" must happen in one transaction.
 Postgres on Cloud S Q L has strong transactions and queries,

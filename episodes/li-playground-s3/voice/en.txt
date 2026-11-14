@@ -1,0 +1,52 @@
+In this video, I'll show how the blocks work together,
+from the first click to the cleanup, and how a change goes live.
+Launch is split into two steps.
+First, reserve. In one database transaction,
+the service checks the limits, like one active session per user,
+and reserves a spot.
+Every launch carries an idempotency key, a unique ID for that click.
+So a double-click gets back the same session, not a second sandbox.
+That call returns right away.
+The slow part, preparing the sandbox, is a separate request with its own timeout.
+The trickiest case: the call to create a sandbox times out.
+Now we don't know if the machine exists.
+Maybe the request never arrived, or maybe only the reply got lost.
+A blind retry could start a second machine, and every machine costs money.
+So every sandbox is tagged with its session ID,
+and before any create, the service searches by that tag.
+If the outcome is unknown, it never creates again.
+It keeps searching until that sandbox would have expired on its own.
+The cost: in that rare case, the user's spot is held longer.
+I'd rather block a spot than pay for a machine nobody can see.
+While the user works, every AI call goes through the gateway to the backend.
+Each session has a fixed budget.
+Before each call, the backend reserves the worst-case cost.
+After the call, it settles on what was really used.
+The assistant can only propose commands.
+The user approves each one before it runs.
+Cleanup can't depend on any one part, so there are three independent clocks.
+First, a reconcile job every minute.
+My first design used a queue and a separate worker for this.
+I removed both, so there are fewer moving parts.
+The cost is slower requests, which is why launch has two steps.
+Second, the sandbox's own timeout.
+Third, an expiry on the credential.
+When a session ends, access is revoked first, then the sandbox is destroyed.
+So nothing new can start during cleanup.
+Finally, how a change goes live.
+Every pull request runs automatic checks:
+type checks, unit tests, smoke tests,
+building and starting the service image, and validating the Terraform config.
+To release, I build the new service image and sandbox template,
+and update their versions in Terraform.
+Terraform shows a plan of exactly what will change.
+After I approve it, it updates the entry, the service and the sandbox together.
+The cost: releases are slower.
+Next, I'd make staging release automatically,
+and keep the manual approval only for production.
+I'd also add a warm pool of sandboxes started ahead of time,
+stricter outbound network rules, and alerts on startup and cleanup time.
+The biggest lesson: when you create resources that cost money
+through an API that can fail, "retry on failure" is the dangerous default.
+Design for the case where you don't know what happened.
+Which of these choices would you have made differently?
