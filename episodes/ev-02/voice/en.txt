@@ -1,40 +1,41 @@
-Last time: an eval is test cases plus a grader.
+Last time, we said an eval is test cases plus a grader.
 Grading a single model call isn't that hard.
-But grading our refund agent is much harder.
-Why? Let's compare the two side by side.
-Let's start with one model call, say a classifier.
-Is this message a refund request?
-"My headphones from last week broke. Refund, please."
-The model says yes, and the answer key says yes too.
-Compare the two, and grading is done.
+With our refund agent, it's much harder.
+Why? Let's put the two side by side.
+Start with a single model call, say a classifier.
+We ask if a message is a refund request,
+like "My headphones broke last week. Refund, please."
+The model says yes, and so does the answer key.
+Compare the two, and you're done in one step.
 Here, the grader is one line of code.
 With an agent, three things get harder.
-First, an agent takes many steps, not just one reply.
+The first is that it takes many steps, not just one.
 It looks up the order, checks who bought it,
 checks the date and amount, then refunds,
 and finally emails the customer.
-Any step can fail, and errors carry forward.
+Any step can go wrong, and a mistake carries forward.
 If it grabs the wrong order, every later step is wrong.
 Or say it skips the buyer check and refunds anyway,
-and the final email still sounds polite.
-If you only judge the last message, you never see it.
-Second, it acts, and it changes real data.
+while the final email still sounds polite.
+Judge only that last message, and you'll never see it.
+The second is that it acts, and changes real data.
 A plain model call only produces text.
-But once it calls the refund tool, real money goes out.
-Changes like that are called side effects.
-A reply can be rewritten, but a refund can't be taken back.
-So don't just read the reply. Check the database:
+But when it calls the refund tool, real money goes out.
+A change to outside data is called a side effect.
+A reply can be rewritten; a refund can't be taken back.
+So grading has to check the database, not just the reply:
 is there a refund record, and is the amount right?
 And tests can't move real money, so they run in a sandbox.
-A sandbox is an isolated test setup you can reset after a run.
-Third, it can take a different path every run.
-Model output has randomness, so given the same message,
-it may look up the order first, or ask for the order number.
+A sandbox is an isolated setup you reset after each run.
+The third is that it can take a different path each run.
+Model output is random, so for the same message,
+it may look up the order, or ask for the number first.
 It's mostly right, but now and then it skips the check.
 So passing once doesn't mean passing every time.
-So run each case several times.
-Many steps, side effects, and a different path each run:
-A single model call has none of these.
-The core: judging the final reply alone isn't enough.
-So should you grade the end result, or every step?
-Next: grade the outcome, or the process?
+Run each case several times to see if it's stable.
+Many steps, side effects, a different path each run:
+a single model call has none of these.
+So this episode comes down to one point:
+the final reply alone is nowhere near enough.
+Should you grade the end result, or every step?
+That's what we'll look at in the next episode.

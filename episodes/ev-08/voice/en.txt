@@ -1,40 +1,42 @@
-Now the Environment block: where evals run.
+Now we reach the map's second block, the environment.
+That is, where your evals actually run.
 Our refund agent looks up orders, refunds, and emails.
 Lookups only read data, so repeating them is harmless.
 But refunds and emails change the outside world.
 So what if evals run against the real systems?
-Two problems: it's unsafe, and it's not repeatable.
-Safety first. Evals run the same task over and over,
+It's unsafe, and the results can't be repeated.
+Start with safety. Evals rerun the same task many times,
 and every run issues another real refund.
-And real customers get confusing emails.
+Real customers also get confusing emails.
 The more evals run, the more this happens.
 And if it makes a mistake, the money doesn't come back.
-Then repeatability. The first run refunds the order.
+Repeatability breaks too. The first run refunds the order.
 The second run is told it's already refunded.
-The task didn't change, the environment did, so results differ.
-You can't tell if the agent got worse or the data changed.
-So evals run in a sandbox, isolated from real systems.
-A sandbox is an isolated environment you can reset after use.
-First, swap the tools for mock tools.
+The task is the same, but the environment isn't,
+and you can't tell if the agent or the data changed.
+So evals run in a sandbox, cut off from real systems.
+A sandbox is an isolated setup you reset after use.
+Inside it, the tools are replaced by mocks.
 A mock is a fake tool with the same interface,
-so the agent can't tell the difference.
-But a refund only goes into a test database.
-Emails are only recorded, never actually sent.
-Records also let the grader check what happened.
-For example, checking the email log for the confirmation.
-Next, give the sandbox a fixed set of starting data.
+so the agent uses it as usual and can't tell.
+But a refund only goes into a test database; no money moves.
+Emails are only recorded, never sent.
+The records also let the grader check.
+For example, did the confirmation email go out?
+The sandbox also needs a fixed set of starting data.
 Say this customer has headphones bought ten days ago,
 and a twelve hundred dollar monitor order that needs approval.
 Before every task, the data resets to this.
-So every run starts from the same place.
-Only then can scores from two runs be compared.
-If the result changes, you can't blame the data.
+So every run starts from the same place,
+and scores from two runs can be compared.
+If results change, the data isn't the cause.
 And the sandbox can't reach the real order system,
 so even a mistake can't touch real money.
-But what if the mock behaves differently from the real system?
-Then evals all pass, and it still fails in production.
-So mock responses should copy the real A P I,
-including errors, like an order number that doesn't exist.
+But what if the mock differs from the real system?
+Then evals pass, but it still fails in production.
+So the mock's responses should copy the real A P I's,
+errors included, like an unknown order number.
 When the real A P I changes, update the mock too.
-The core: a resettable sandbox makes evals safe and repeatable.
-Next: how many tasks does your first eval set need?
+In short, evals belong in a sandbox you can reset;
+that's what makes them safe and repeatable.
+In the next episode, we'll see how many tasks a first eval set needs.

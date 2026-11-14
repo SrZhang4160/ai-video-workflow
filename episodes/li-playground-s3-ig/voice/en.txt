@@ -1,0 +1,47 @@
+In this video, I'll show how the blocks work together,
+from the first click to the cleanup, and how a change goes live.
+Launch is split into two steps.
+First, reserve. In one database transaction,
+the service checks the limits, like one active session per user,
+and reserves a spot.
+Every launch carries an idempotency key, a unique ID for that click.
+So a double-click gets back the same session, not a second sandbox.
+That call returns right away.
+The slow part, preparing the sandbox, is a separate request with its own timeout.
+The trickiest case: the call to create a sandbox times out.
+Now we don't know if the machine exists.
+Maybe the request never arrived, or maybe only the reply got lost.
+A blind retry could start a second machine, and every machine costs money.
+So every sandbox is tagged with its session ID,
+and before any create, the service searches by that tag.
+If the outcome is unknown, it never creates again.
+It keeps searching until that sandbox would have expired on its own.
+The cost: in that rare case, the user's spot is held longer.
+I'd rather block a spot than pay for a machine nobody can see.
+Cleanup can't depend on any one part, so there are three independent clocks.
+First, a reconcile job every minute.
+My first design used a queue and a separate worker for this.
+I removed both, so there are fewer moving parts.
+The cost is slower requests, which is why launch has two steps.
+Second, the sandbox's own timeout.
+Third, an expiry on the credential.
+When a session ends, access is revoked first, then the sandbox is destroyed.
+So nothing new can start during cleanup.
+What if a dependency fails, like E two B or the backend?
+The session's state lives in Firestore, not in memory.
+So if a request fails, the user gets a clear error,
+and can retry safely with the same idempotency key.
+If a step breaks halfway, the reconcile job picks it up a minute later,
+from the saved state. One broken session doesn't block the others.
+If the backend is down, the gateway says "try again later", instead of hanging.
+How do I know it's healthy? Every failure is logged as a structured event,
+and the reconcile run is marked as failed.
+But today, there's no alert. Someone has to go and look.
+If I started again, I'd add alerts from day one,
+because a cleanup that keeps failing costs money, and nobody notices.
+Next, I'd add a warm pool of sandboxes started ahead of time,
+and stricter outbound network rules.
+The biggest lesson: when you create resources that cost money
+through an API that can fail, "retry on failure" is the dangerous default.
+Design for the case where you don't know what happened.
+Which of these choices would you have made differently?

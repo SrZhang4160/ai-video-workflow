@@ -1,40 +1,42 @@
-Last time: the final reply alone isn't enough.
+Last time we saw the final reply alone isn't enough.
 So how do you grade a refund once it's done?
-Check only the end result, or every step?
-Today: how to grade each one.
-On our map, both belong to the Grading block.
+Do you check only the end result, or every step?
+Today we'll see how to grade each.
+On our series map, both belong to the grading part.
 Grading the outcome means checking the final state.
-That's what the database holds at the end.
-In the headphones case: is there a refund record,
-is it three hundred dollars, and was the email sent?
+That's what the database looks like at the end.
+In the headphones case, you check for a refund record,
+whether it's three hundred dollars, and if the email went out.
 Code can check all of that, quickly and reliably.
 And it doesn't care which path the agent took.
-Look up the order or ask for its number first: both count.
-That matters: there's often more than one right way.
-But outcome checks alone let two errors slip through.
-In one, it never checks the customer owns the order,
-and refunds right away. This time it happens to be them,
+Looking up the order or asking for its number first both count.
+That matters, because there's often more than one right way.
+But if you only check the outcome, two errors slip through.
+In the first, it never checks the customer owns the order
+and just refunds. This time it happens to be the buyer,
 so the final state looks exactly right.
 Every outcome check passes. But if an impostor asks,
 it refunds someone else's order just the same.
-In the other, it also looks up another customer's orders.
-Lookups change no data, so the final state can't show it.
+In the second, it also looks up another customer's orders.
+A lookup changes no data, so the final state shows nothing.
 You only catch these by looking at every step.
 So you also grade the process, meaning its trajectory.
 The trajectory is every tool call it made,
 with the arguments it passed, in order.
-Like: look up the order, refund three hundred dollars, send the email.
-Then you check a few rules on it.
-Before refunding, did it verify the buyer?
+For example, it looks up the order, refunds three hundred dollars, then emails.
+Grading the process means checking a few rules on it.
+Did it verify the buyer before refunding?
 Did it touch orders that aren't this customer's?
-If it's over five hundred dollars, did it get a human's approval first?
-But don't script one exact path to match step by step.
-Then another valid path would be marked wrong.
-Just check what must happen, and what must never happen.
-So give each case both kinds of checks.
-Outcome checks confirm the job got done.
+If it's over five hundred dollars, did a human approve it first?
+But don't script one exact path to match step by step,
+because then another valid path gets marked wrong.
+Just check what must happen and what must never happen.
+So each case should get both kinds of checks.
+Outcome checks confirm the job really got done.
 Process checks confirm no skipped steps and no overreach.
-Overreach means doing something it isn't allowed to.
-The core: outcome is the final state; process is the trajectory.
-You need both; either one alone misses a kind of error.
-Next: how do capability and regression evals differ?
+Overreach means doing what it isn't allowed to.
+Put simply, outcome means the final state,
+and process means the trajectory.
+You need both, because either alone misses a kind of error.
+In the next episode, we'll look at
+how capability and regression evals differ.

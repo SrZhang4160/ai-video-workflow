@@ -1,40 +1,42 @@
-Back to test cases: where do your own tasks come from?
+Now, where do your own test cases come from?
 The easy way is to make them up yourself.
 Say, ask a model for a hundred refund requests.
-But you mostly imagine the smooth cases.
-And the agent rarely gets those wrong anyway.
-Scores look great, but it still fails live.
+But you mostly imagine the smooth cases,
+and the agent rarely gets those wrong anyway.
+So scores look great, but it still fails live.
 That's why eval tasks should start from real failures.
-The most valuable source: chats that went wrong live.
-A customer writes: my headphones broke, refund please.
-The agent refunded without checking the order was theirs.
-Turn that failed chat into an eval task.
+There are four good places to find them.
+The first source, and the most valuable, is chats that went wrong.
+Say a customer writes that their headphones broke,
+and the agent refunds without checking the order is theirs.
+That chat can become an eval task.
 First remove names, phone numbers and other private data,
-keep the customer's words and the order data,
-and note the right move: verify first, then refund.
-It failed once, so recheck it after every fix.
-Otherwise the next prompt change may break it again.
-Next, user logs: the real requests that come in daily.
-Sample them, so tasks sound like real customers.
+but keep the customer's words and the order data.
+Then note the right move: verify first, then refund.
+It failed once, so recheck it after every change.
+Otherwise the next prompt change might break it again.
+The second source is user logs, your real requests.
+Sample them, and tasks sound like real customers.
 Cover every kind of request when you sample.
-Real customers make typos and forget order numbers.
-Invented tasks rarely do, but logs are full of it.
-So tasks from logs give scores closer to live traffic.
-Then edge cases, sitting right on a policy line.
-An order exactly thirty days old: refund or not?
-Or exactly five hundred dollars: does it need a human's approval?
+Real customers make typos and forget their order numbers.
+Invented tasks rarely do; logs are full of it.
+So tasks from logs give results closer to live traffic.
+The third source is edge cases,
+requests that sit right on a policy line.
+Can an order exactly thirty days old be refunded?
+Does exactly five hundred dollars need a human's approval?
 One day or one dollar flips the answer.
-So write a task on each side of every rule.
-Last, requests it should refuse, called negative cases.
-Like asking to refund an order that isn't theirs,
-or a full refund two months after purchase.
+So write one task on each side of every rule.
+The last source is requests it should refuse: negative cases.
+Like a refund on someone else's order,
+or a full refund two months after buying.
 The right answer is no refund, with the reason why.
 Saying yes oversteps, and refunds money it shouldn't.
-Test only valid refunds, and wrong ones go unnoticed.
-These four sources make your first task set.
-Failed chats show where it already broke;
+If you only test valid refunds, wrong ones go unnoticed.
+Together, these four sources make your first task set.
+Failed chats show where it has already broken;
 user logs show what real requests look like;
-edge and negative cases test whether it keeps the rules.
+edge and negative cases check whether it keeps the rules.
 Invented tasks can fill gaps, but don't build on them.
-The core: eval tasks start from real failures.
-Next: what does a good eval task look like?
+In short, eval tasks should start from real failures.
+In the next episode, we'll look at what makes a good eval task.

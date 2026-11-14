@@ -1,39 +1,42 @@
-Still on grading. Last time we wrote the email rubric.
-Now a model uses it to judge each email.
-But can we trust its verdicts?
+We're still on grading. Last time we wrote the email rubric,
+and now a model uses it to judge each email.
+But can we actually trust its verdicts?
 If the judge is wrong, every score is wrong.
-Many people just skim a few results.
-They look right, so the judge must be fine.
-But the few you skim are often the easy ones.
-And the hard cases you may never see at all.
+What many people do is skim a few results,
+and if they look right, assume the judge is fine.
+But the ones you skim tend to be the easy ones,
+and you may never see the hard cases at all.
 So you don't really know how accurate it is.
-So compare it carefully against human judgment.
-First, sample reply emails from past runs.
-Include good ones, bad ones, and hard ones.
+So check it carefully against human judgment.
+How? First, sample some reply emails,
+with good ones, bad ones, and hard ones too.
 Then people who know the refund policy use the same rubric
 to mark each item yes or no. Those are human labels.
-The judge grades the same batch, and we compare the two.
-The share where both agree is the agreement rate.
-It's simply matching answers divided by all answers.
+The judge grades the same batch, and we compare.
+The share that match is the agreement rate.
+You just divide matching answers by all answers.
 The higher it is, the closer the judge is to people.
-Don't stop at one overall rate; check each rubric item.
-Because if most emails are fine anyway,
-a judge that passes everything still scores well.
+But don't stop at one total; look at each rubric item.
+Why? Suppose most emails are fine to begin with.
+Then a judge that passes everything still scores well.
 So check whether it catches the ones people failed.
-Even more useful is reading the emails where they disagree.
-Sometimes the item is vague, and the two read it differently.
+Even more useful is reading where they disagree.
+Disagreements usually come from one of three causes.
+One is a vague item, read two different ways.
 Does "refunded soon" count as stating a time?
-Then fix the item: it must name the number of days.
-Other times the judge lacks the facts to decide.
-Say it can't see whether approval happened; give it that.
-And sometimes the human was wrong; fix the label.
-After each fix, rerun and compare again.
-If an item still disagrees after several fixes,
-try a stronger model, or keep that item human.
+Then fix the item to ask for the number of days.
+Another is a judge missing the facts,
+like whether approval happened. Then give it that.
+And sometimes the human was wrong, so fix the label.
+After each fix, rerun the judge and compare again.
+If an item still disagrees after several rounds,
+try a stronger model, or leave that item to people.
 And whenever the judge model or rubric changes,
 recheck it against the same human labels.
-Core: calibrate the judge against human labels first.
+So this episode comes down to one idea.
+Calibrate the judge against human labels before you trust it.
 Measure agreement, read the disagreements, fix, and compare again.
-Only a calibrated judge can be trusted to grade at scale.
-Even then, the judge can have built-in biases.
-Next: what biases does an L L M judge have?
+Only then can it grade at scale.
+Even then, a judge can have biases.
+In the next episode, we'll look at
+what biases an L L M judge can have.

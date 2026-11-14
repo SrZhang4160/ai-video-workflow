@@ -1,40 +1,42 @@
-Still in the Process block of our series map.
+This time, we're still in the Process block.
 A new refund agent version scores much higher.
-But after launch, complaints and handoffs to humans don't drop.
-The score isn't miscalculated; the eval set itself is the problem.
+But after launch, complaints and handoffs don't drop.
+The math is fine; the eval set itself is the problem.
 Offline eval cases are ones we wrote in advance.
 Real traffic is what users send every day.
-The two drift apart in three ways.
-First, request types. Our cases are mostly broken headphones.
-But real users ask for partial refunds, or exchanges.
+Over time, the two drift apart in three places.
+The first is the kinds of requests.
+Most of our cases are about broken headphones,
+but real users ask for partial refunds, or exchanges.
 We never tested those, so the score can't reflect them.
-Then, phrasing. Our cases are written neatly,
-with the order number, item and reason all there.
-Real users write "that thing broke, where's my money?"
-With no order number and some anger, it easily goes off track.
-Finally, things change. Say the shop changes its policy,
-some products now get fifteen days for refunds,
-but the cases still say thirty days, so they're out of date.
+The second is how users actually talk.
+Our cases neatly list the order number, item and reason,
+but real users write "that thing broke, where's my money?"
+No order number, some anger, and it goes off track.
+The third is that the world keeps changing.
+Say some products now have a fifteen-day refund window,
+but our cases still say thirty days.
 So offline scores aren't enough. Watch production too.
-Start by sampling random real conversations daily,
+One way is to sample random real conversations every day,
 strip out personal data first,
 then check them with graders or by hand.
 Random samples show requests you never imagined.
-Pick only what you care about, and you only see old problems.
-Then user feedback, like conversations with a thumbs-down,
+If you hand-pick, you only see old problems.
+Another is user feedback, like thumbs-down conversations,
 and ones where users asked for a human agent.
 Asking for a human usually means the agent didn't help.
 These signals point straight at real failures.
-Once you find a real failure, the key step is
-to turn it into an eval case and add it to the set.
+Once you find a real failure, the key step
+is turning it into an eval case for the set.
 Take "that thing broke, where's my money?"
-The case: with no order number, ask first.
+In the case, with no order number, it must ask first.
 When policy changes, update the expected answers too.
 So the eval set keeps up with real traffic.
-On the next prompt change, these run in the regression eval,
+The next prompt change runs them in the regression eval,
 so the same failure can't slip out again.
 So use offline evals and production data together.
-Offline evals guard old problems; production finds new ones.
-The core: keep feeding real failures into your eval set.
-But what if you keep tuning on the same cases?
-Next: how can an eval get gamed?
+Offline evals guard old problems, and production finds new ones.
+Put simply, an eval set isn't done once it's written.
+It has to keep growing with cases from real traffic.
+But what if we keep tuning on the same cases?
+In the next episode, we'll look at how an eval can get gamed.
