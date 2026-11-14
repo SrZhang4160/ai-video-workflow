@@ -1,6 +1,5 @@
-In this video, I'll explain how I chose the tech stack for each block,
-the way you'd walk through a system design question.
-Step one: the requirements.
+In this video, I'll explain how I chose the tech stack for each block.
+First, let's clarify what we need.
 Functionally, one click opens a real editor, ready to use.
 The user's code must really run, including Docker,
 because every agent test runs in its own containers.
@@ -12,7 +11,7 @@ Low cost while nobody's using it, because most of the time, nobody is.
 And real keys must never reach the sandbox.
 Every choice below comes back to these requirements,
 and every choice has a cost.
-Step two: choose block by block.
+Next, let's choose block by block.
 The entry needs one controlled way in, with the service kept private.
 A Cloudflare Worker does that.
 It's a small piece of code on Cloudflare's network,
