@@ -1,0 +1,40 @@
+This episode covers test set versions and held-out sets.
+The test set for our refund agent never stays the same.
+When a new failure shows up, new tasks get added.
+When a task's answer turns out wrong, it gets fixed.
+With the set always changing, can scores still be compared?
+Say the agent scored eighty last month.
+This month, after a prompt change, it only scores seventy.
+It looks like it got worse, but over the same month
+twenty hard tasks needing human approval were added.
+The drop could mean the agent got worse,
+or just that the tasks got harder. You can't tell.
+So every change to the test set gets a version number.
+Each score is stored with its version.
+Only scores on the same version can be compared.
+To compare old and new agents, rerun both on one version.
+Now held-out sets. First, split the test set in two.
+One part is the dev set, which you tune against daily.
+Every prompt or tool-description change is checked on it.
+But when you keep tuning against the same tasks,
+your changes slowly fit the quirks of those tasks.
+Even if you never copy a task into the prompt,
+the score climbs faster than the real ability does.
+That's overfitting: the changes only help on those tasks.
+The other part is the held-out set, untouched while tuning.
+You don't look at its tasks or its score.
+You run it once, only when you're about to ship.
+If the dev score went up but the held-out score didn't,
+the gain only came from fitting the dev set.
+So the held-out set is only for the final check.
+Once you start making fixes based on its failures,
+it has turned into a second dev set.
+Then you need to set aside a fresh held-out set.
+The held-out set should be as broad as the dev set,
+with small refunds, large ones, and ones past thirty days.
+So whenever the test set changes, give it a new version,
+because scores on different versions can't be compared directly.
+And the held-out set is only for the final check,
+so its score reflects how good the agent really is.
+In the next episode, we'll look at
+what to do when the agent aces the test set.

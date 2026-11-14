@@ -1,0 +1,41 @@
+This episode is about what to do when the agent aces the test set.
+When our refund agent was first built,
+it got a lot of refund tasks wrong at first.
+Say it skipped checking whether the buyer owned the order.
+Tasks that test what it can't do yet form a capability eval.
+After months of work, the score keeps climbing,
+until it gets every task right, every single time.
+A perfect score sounds great, but it brings a problem.
+Once it passes everything, however much you improve it,
+the score has nowhere left to go.
+This set can't tell you whether a new version is better.
+This has a name: eval saturation.
+Anthropic's article on agent evals puts it plainly:
+an eval at a hundred percent catches regressions but shows no improvement.
+And as it nears a hundred percent, only the hardest tasks remain,
+so the score rises more and more slowly.
+So is the set useless now? Not at all.
+It can't show progress, but it can still guard the baseline.
+So we graduate it into the regression suite.
+A regression eval checks that what used to work still works.
+From now on, it runs automatically on every change.
+Here the goal isn't a rising score; it's staying near a hundred percent.
+If a change breaks it and it forgets to verify the order,
+some task will flip from pass to fail.
+That change gets held back until it's fixed.
+Once it graduates, the capability side is empty,
+so you write a new batch of tasks it still can't do.
+Where from? The best source is still real failures.
+For example, an order with several items,
+where the customer wants to return just one.
+Or the amount the customer claims doesn't match the order.
+If it still often gets tasks like these wrong,
+the new capability eval has room to climb again.
+But a perfect score can also mean the tasks are too easy.
+If it scored a hundred percent easily right from the start,
+go back and check whether the tasks were hard enough.
+So a capability eval at a hundred percent can't show progress.
+Graduate it into the regression suite to guard the baseline,
+and write harder tasks to keep pushing forward.
+In the next episode, we'll look at
+how to grow the refund test set from twenty tasks to two hundred.

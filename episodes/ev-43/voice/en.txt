@@ -1,0 +1,42 @@
+Hands-on: growing the refund test set from twenty tasks to two hundred.
+The first twenty came from the earliest real failures.
+Twenty is enough to start, but it covers too few cases.
+With twenty tasks, each one is worth five percentage points,
+so a single miss drops the score a lot.
+So we expand, and here's an example plan.
+The numbers are only examples; adjust them to your case.
+Start with the most important source, real failures.
+Dig up complaints and chats that got passed to a human,
+and read them to find which step the agent got wrong.
+Each kind of mistake you find becomes a task.
+Say this source gives us sixty tasks.
+These matter most, because each mistake really happened.
+The second source is random sampling from production.
+Failures alone would leave only hard, unusual cases.
+So randomly sample a batch of real conversations,
+so the set also has plenty of ordinary refund requests.
+When you sample, make sure different situations show up:
+small refunds, large ones, and ones past thirty days.
+Say this gives us eighty tasks.
+Last come synthetic tasks, written to cover edge cases.
+Some cases are rare in production but costly when they happen.
+Like exactly five hundred: does that need approval?
+Or someone asks for a refund on another person's order.
+A model can bulk-draft these from a list of cases,
+then a person screens each one and cuts the unrealistic ones.
+Say we keep sixty of these in the end.
+But synthetic tasks only fill gaps. They can't tell you
+how common a mistake really is in production.
+With the tasks gathered, each one needs an answer key.
+Like the refund amount, and whether a human must approve.
+At least two people label separately, then check agreement.
+Where they differ, go back and make the rules clearer.
+Once labeled, add them and give the set a new version.
+Its scores aren't compared directly with the old twenty.
+And set part of the two hundred aside as a held-out set,
+untouched while tuning, used only right before shipping.
+So growing a test set draws on three sources:
+real failures, production samples, and synthetic edge cases.
+Label them, add them, then give the set a new version.
+In the next episode, we'll look at
+how realistic your mock tools need to be.
