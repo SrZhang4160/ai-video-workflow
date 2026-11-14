@@ -1,0 +1,40 @@
+Now the Environment block: where evals run.
+Our refund agent looks up orders, refunds, and emails.
+Lookups only read data, so repeating them is harmless.
+But refunds and emails change the outside world.
+So what if evals run against the real systems?
+Two problems: it's unsafe, and it's not repeatable.
+Safety first. Evals run the same task over and over,
+and every run issues another real refund.
+And real customers get confusing emails.
+The more evals run, the more this happens.
+And if it makes a mistake, the money doesn't come back.
+Then repeatability. The first run refunds the order.
+The second run is told it's already refunded.
+The task didn't change, the environment did, so results differ.
+You can't tell if the agent got worse or the data changed.
+So evals run in a sandbox, isolated from real systems.
+A sandbox is an isolated environment you can reset after use.
+First, swap the tools for mock tools.
+A mock is a fake tool with the same interface,
+so the agent can't tell the difference.
+But a refund only goes into a test database.
+Emails are only recorded, never actually sent.
+Records also let the grader check what happened.
+For example, checking the email log for the confirmation.
+Next, give the sandbox a fixed set of starting data.
+Say this customer has headphones bought ten days ago,
+and a twelve hundred dollar monitor order that needs approval.
+Before every task, the data resets to this.
+So every run starts from the same place.
+Only then can scores from two runs be compared.
+If the result changes, you can't blame the data.
+And the sandbox can't reach the real order system,
+so even a mistake can't touch real money.
+But what if the mock behaves differently from the real system?
+Then evals all pass, and it still fails in production.
+So mock responses should copy the real A P I,
+including errors, like an order number that doesn't exist.
+When the real A P I changes, update the mock too.
+The core: a resettable sandbox makes evals safe and repeatable.
+Next: how many tasks does your first eval set need?

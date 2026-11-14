@@ -1,0 +1,40 @@
+Still on test cases: what does a good task look like?
+First, a common task that's badly written.
+Input: "My headphones from last week broke, refund please."
+Expected: the agent handles it well.
+Looks fine, but what does handling it well mean?
+It actually has three problems; let's go through them.
+First, it's ambiguous: there's no order number.
+It could look it up, or ask the customer.
+Both are reasonable; the task doesn't say which passes.
+So a correct run might be marked as failing.
+Next, it can't be graded: who decides what "well" means?
+One reviewer passes it today; another fails it tomorrow.
+Scores shift with the grader, so runs can't be compared.
+Last, it can't be repeated: order data keeps changing.
+It's refundable today, but past thirty days next month.
+The task is unchanged, but the right answer changed,
+so you can't tell if the agent changed or the data did.
+So rewrite the task and fix all three.
+Pin the input: the same message, plus the customer's account.
+Pin the order data: headphones bought ten days ago,
+costing two hundred ninety-nine dollars, bought by this customer.
+So whatever day it runs, it faces the same order.
+And for the ambiguous step, say looking up or asking both pass.
+So neither path gets marked wrong by mistake.
+Then split "handles it well" into checkable conditions.
+A two hundred ninety-nine dollar refund was issued, exactly once;
+before refunding, it looked up the order and checked ownership;
+and then emailed the customer a confirmation.
+You can check all three from the database and the call log.
+Each answer is yes or no, not anyone's gut feeling.
+The task passes only if all three hold.
+So to judge a task, ask three questions.
+Is it unambiguous? Would someone else read it the same way?
+Is it gradable? Can every condition be checked?
+Is it repeatable? Does every run start from the same place?
+Only with three yeses does it go into the eval set.
+A simple test: have two colleagues grade it separately.
+If they disagree, the task isn't clear yet.
+The core: write success as conditions you can check.
+Next: why should evals run in a sandbox?

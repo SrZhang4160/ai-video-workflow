@@ -1,0 +1,40 @@
+Back to test cases: where do your own tasks come from?
+The easy way is to make them up yourself.
+Say, ask a model for a hundred refund requests.
+But you mostly imagine the smooth cases.
+And the agent rarely gets those wrong anyway.
+Scores look great, but it still fails live.
+That's why eval tasks should start from real failures.
+The most valuable source: chats that went wrong live.
+A customer writes: my headphones broke, refund please.
+The agent refunded without checking the order was theirs.
+Turn that failed chat into an eval task.
+First remove names, phone numbers and other private data,
+keep the customer's words and the order data,
+and note the right move: verify first, then refund.
+It failed once, so recheck it after every fix.
+Otherwise the next prompt change may break it again.
+Next, user logs: the real requests that come in daily.
+Sample them, so tasks sound like real customers.
+Cover every kind of request when you sample.
+Real customers make typos and forget order numbers.
+Invented tasks rarely do, but logs are full of it.
+So tasks from logs give scores closer to live traffic.
+Then edge cases, sitting right on a policy line.
+An order exactly thirty days old: refund or not?
+Or exactly five hundred dollars: does it need a human's approval?
+One day or one dollar flips the answer.
+So write a task on each side of every rule.
+Last, requests it should refuse, called negative cases.
+Like asking to refund an order that isn't theirs,
+or a full refund two months after purchase.
+The right answer is no refund, with the reason why.
+Saying yes oversteps, and refunds money it shouldn't.
+Test only valid refunds, and wrong ones go unnoticed.
+These four sources make your first task set.
+Failed chats show where it already broke;
+user logs show what real requests look like;
+edge and negative cases test whether it keeps the rules.
+Invented tasks can fill gaps, but don't build on them.
+The core: eval tasks start from real failures.
+Next: what does a good eval task look like?

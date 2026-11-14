@@ -1,0 +1,40 @@
+Still on Metrics: how much scores vary from run to run.
+Say you change the refund agent's prompt and rerun,
+and success goes from seventy to seventy-four percent.
+Did it really improve, or was that luck?
+First, learn how much the score moves on its own.
+First, why does the same eval give different scores?
+The model samples its output, so each run varies.
+Take the same "my headphones broke" request.
+One run looks up the order first; another asks for an email.
+Different paths can lead to different outcomes.
+And if a model plays the customer, its wording varies too.
+So one run's score is just one sample.
+So run each task several times.
+Say the old version runs the whole set five times,
+For example: sixty-eight, seventy-two, seventy, seventy-four, sixty-six.
+That averages seventy, ranging from sixty-six to seventy-four.
+That eight-point range is its own natural spread.
+Now look again at the new version's seventy-four percent.
+It sits inside the old version's own range.
+The unchanged old version also scored seventy-four once.
+The new version may just have gotten lucky.
+So that four-point gap isn't progress yet.
+Run the new version five times too, then compare.
+The gap between averages must clearly beat the spread
+before you can say the prompt change helped.
+If the ranges mostly overlap, you can't tell yet.
+Can the spread shrink? Yes, with more data.
+With few tasks, each one moves the score a lot.
+With twenty tasks, one miss is five points.
+With two hundred tasks, one miss is half a point.
+Running each task more times also steadies the average.
+But halving the uncertainty takes about four times the data.
+The smaller the gap, the more runs you need to see it.
+Spotting a two-point gain takes a lot of runs.
+So use enough tasks, and several runs for each.
+The core: a gap within the spread isn't progress.
+So report each score with its run count and range.
+For example: seventy percent, five runs, range sixty-six to seventy-four.
+These are example numbers; measure your own.
+Next: beyond success rate, what else should you measure?

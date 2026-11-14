@@ -1,0 +1,40 @@
+Now the last block of our map: Pitfalls.
+Scores keep rising, but the refund agent isn't better.
+A rising score can be fake progress.
+Usually for two reasons: overfitting and reward hacking.
+Overfitting first. Say your eval set has fifty cases.
+After each prompt edit, you check only their score.
+When one fails, you add a rule just for it.
+Dozens of rounds later, the prompt is all special cases.
+The score nears perfect, but it just memorized these cases.
+A user phrases it differently, and it gets it wrong.
+Those rules only match those cases' exact wording.
+That's overfitting: it only works on tuned cases.
+Now reward hacking: finding a way past the grader.
+The agent finds a way to pass the grader
+without actually doing what the customer needed.
+Say the grader only checks the customer email,
+passing it if it says "refund issued".
+The agent may learn to write just that,
+never call the refund tool, and still pass.
+The customer gets the email, but no money arrives.
+The grader checked the words, not the result.
+Training with the score as a reward makes it likelier.
+To prevent it, check the real state.
+Not the email text, but the refund records:
+was it refunded, the right amount, to the right person?
+Only if all three match does it pass.
+Also keep a private, held-out test set.
+Nobody may tune the prompt against it.
+Since nobody tuned on it, its score is honest.
+Run it only before release, to see if the score holds.
+If your usual score is high but this one is much lower,
+then you've over-tuned to your eval set.
+And swap in fresh cases regularly.
+Pull new failures from recent production conversations.
+When cases keep changing, memorizing them can't win.
+In the end, the score only exists to check the task.
+Chase the score, and it stops meaning anything.
+The core: check real results; keep a set nobody tunes on.
+But when a score drops, which step went wrong?
+Finale next: how do evals make your agent keep improving?

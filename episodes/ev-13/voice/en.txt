@@ -1,0 +1,40 @@
+We're still on grading, now the biases of L L M judges.
+Last time, we checked judges against human scores.
+But even a good judge has fixed leanings.
+They don't track quality, yet they move scores.
+Research has measured three well-known ones.
+Take our refund agent: a customer's headphones broke.
+The judge compares two versions of the reply.
+Position bias: it leans to one slot, often the first.
+Swap the order, and the verdict can flip.
+So when A wins, was it better, or just better placed?
+Then verbosity bias: it often favors the longer reply.
+One reply explains the refund in three sentences.
+The other says the same in three polite paragraphs.
+The judge tends to score the long one higher anyway.
+Last, self-preference: it favors its own model family.
+If the judge and the agent come from the same family,
+it may score the agent too high.
+And it can't fairly compare its own family with another.
+How do we reduce these? Start with position.
+Use pairwise comparison: two replies at a time.
+It picks the better one, and we run both orders.
+Once with A first, once with B first.
+Now each reply gets the first slot once.
+A only wins if the judge picks it both times.
+If the two verdicts differ, the order made the call.
+Count it as a tie, or leave it out.
+What's left are verdicts that don't change with order.
+For verbosity, the fix goes into the rubric.
+The rubric says the same information gets no points for length.
+You can also add that padding and repetition lose points.
+So the judge checks completeness, not word count.
+For self-preference, use a judge from another family.
+To compare two families, let a third family judge.
+Then spot-check some verdicts against human scores.
+So an L L M judge isn't neutral.
+It leans to a slot, to longer replies, and to its own family.
+The core: swap the order, fix the rubric, switch the judge.
+That wraps up grading. Next we move on to metrics.
+Next: what's the difference between two look-alike metrics,
+pass at k and pass hat k?

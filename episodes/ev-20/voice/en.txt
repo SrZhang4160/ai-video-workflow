@@ -1,0 +1,39 @@
+This final episode ties everything into one loop.
+It's in the Process block, but it uses all six.
+An eval case fails. What do you do next?
+Say the "broken headphones" case fails.
+The usual move is to guess a cause and edit the prompt.
+Because the score says it failed, not why.
+Guess wrong, and you may break something else.
+So don't change anything yet; read the transcript.
+A transcript records every step the agent took:
+which tool it called, with what arguments,
+what came back, and what it told the customer.
+Step by step, you find the step that really failed.
+Sometimes you find the agent did nothing wrong.
+The eval itself is wrong, say its expected answer:
+a forty-day-old order, yet the case expects a refund.
+Policy says refuse. It refused, and was marked wrong.
+Or the mock order-lookup tool itself is broken,
+returning an empty order, so of course it finds nothing.
+Then you fix the eval, not the agent.
+Otherwise you'd break good behavior for a bad case.
+If the agent really erred, say it skipped the owner check,
+don't fix it yet. First add a case
+that checks whether it verified the owner before refunding.
+Run it. Right now, the new case should fail.
+If it fails, the case really does capture the problem.
+Only then fix the agent, say with a new prompt rule.
+Rerun: the new case must pass, and no old case may regress.
+If an old case regresses, C I still blocks the change.
+The new case stays in the set and runs on every change.
+Finally, let's redraw the series map.
+Cases come from real failures and run in a sandbox.
+Grading checks the real state; metrics track success and cost.
+The process runs evals on every change,
+and pitfalls warn against tuning for the score.
+The core: case first, then fix, then check nothing regressed.
+Each loop adds a case, and the agent gets steadier.
+And the set looks more and more like real traffic.
+Try it with one recent failure from your own agent.
+That's the series. Thanks for watching to the end.

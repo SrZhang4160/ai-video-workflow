@@ -1,0 +1,39 @@
+Still on test cases, with a very practical question.
+For our refund agent's first eval set,
+how many tasks do you need before it's useful?
+Many people think they need thousands, so they never start.
+But without one, each time you edit the prompt,
+you can only type a few requests by hand.
+It looks fine, so you assume it improved.
+But handling late refunds may have quietly broken,
+and you only find out when customers complain.
+So a small set now beats a big set someday.
+Twenty to fifty real tasks are enough to start.
+Why so few? Because early on, the problems are obvious.
+A new agent gets many tasks wrong,
+so one prompt change flips many results.
+Shifts that big show up in just a few dozen tasks.
+As it improves, versions differ less and less,
+and only then do you need more tasks to tell them apart.
+So don't wait; start running with a few dozen.
+So which tasks? Pick them from real requests.
+Start with the most common one: broken headphones, refund please.
+Then the policy edges, like an order thirty-one days old,
+or a refund over five hundred dollars that needs a human's approval.
+And ones it should refuse, like an order that isn't theirs.
+With only should-do tasks, wrong refunds go unnoticed.
+Each task spells out what result counts as a pass.
+That way, a few dozen tasks cover the main risks.
+The set isn't written once; it keeps growing.
+After launch, users always hit new failures.
+Say a rewording makes it skip the ownership check.
+We read that conversation and find the mistake.
+We turn it into a task, with the right behavior.
+Once it's in the set, we first confirm it fails.
+Then we fix the agent until that task passes.
+After that, it reruns on every change.
+So the same mistake can't quietly return.
+The core: start with dozens of real tasks; failures become new ones.
+So the set grows as you use it; it's never written once.
+With tasks in hand, the next question is who decides pass or fail.
+Next: when should code do the grading?

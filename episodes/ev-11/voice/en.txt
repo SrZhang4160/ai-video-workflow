@@ -1,0 +1,39 @@
+Still grading, but now the part code can't check.
+After the refund, the agent emails the customer.
+Code can check it was sent, not how it reads.
+That part goes to a language model as the judge.
+That's an L L M judge. So how do you write its rubric?
+The lazy way is to just ask it to score the email.
+"From one to ten, how good is this reply?"
+But what counts as good? The prompt never says.
+The same email gets a seven, then an eight.
+And a low score doesn't say what was wrong.
+So the score is unstable and doesn't tell you what to fix.
+So split the rubric into specific questions.
+Each item asks one thing, answered yes or no.
+For the refund email, it could look like this.
+First, does the email state the refund amount,
+and does it match the order?
+Does it say roughly when the money arrives?
+Customers care about those two the most.
+The most important one: does it promise anything off-policy?
+For example, promising a refund after thirty days.
+Or promising a refund over five hundred dollars before approval.
+Once said, the shop must honor it or apologize.
+And last, is the tone polite and friendly?
+"Polite" is vague, so spell out what it means,
+like apologizing first and never blaming the customer.
+Each of these is a clear yes or no.
+Items alone aren't enough; the judge needs facts.
+So give it the order amount and refund policy.
+Otherwise it can't tell if the amount is right.
+Have it write a reason before each yes or no.
+If it gets one wrong, you can see why.
+If facts are missing, let it say "unknown,"
+so it doesn't guess just to give an answer.
+It passes only if every item is yes.
+And any no tells you exactly what to fix.
+Core: break the rubric into concrete yes or no items.
+And only open-ended replies go to the model judge.
+But how do you know the judge itself is right?
+Next: how do you know your L L M judge is reliable?

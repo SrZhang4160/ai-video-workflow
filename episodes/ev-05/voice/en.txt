@@ -1,0 +1,40 @@
+We're still on test cases, now ones other people wrote.
+Every new model launches with a table of scores.
+Those scores come from public benchmarks.
+A benchmark is a public set of tasks plus grading rules.
+Since the tasks are public, anyone can run them and compare.
+With a high score, will your refund agent work well?
+Not necessarily. Let's first see what each one tests.
+S W E bench tests fixing code.
+Its tasks are real bugs from open-source projects.
+A fix counts only if the project's tests pass.
+A human-checked subset is called Verified.
+tau bench tests customer service, closest to ours.
+A model plays the customer, with a mock database behind it.
+At the end, it checks whether the database ended up right.
+Web Arena tests doing tasks on websites,
+O S World tests using apps on a computer,
+Gaia tests answering questions with search and tools,
+and B F C L tests whether function calls are correct.
+Each has its own focus, but they all test general skills.
+So why doesn't a high score carry over?
+First, data contamination. Benchmark tasks are public,
+and models are trained on huge amounts of web text.
+So tasks and answers can leak into training data.
+The fixes for those coding tasks, for example, are online.
+The model may have memorized answers, not learned the skill.
+So the score comes out higher than its real ability.
+Then distribution mismatch: their tasks don't look like yours.
+Your policy allows refunds only within thirty days,
+over five hundred dollars needs a human's approval,
+and you verify the customer owns the order.
+Those are your own rules, and no benchmark tests them.
+Yet they're exactly what your agent deals with every day.
+Even tau bench's retail tasks use a different policy.
+So what are benchmark scores for? Shortlisting models.
+Models that score clearly lower can be dropped early.
+But to pick one, or to check whether a change helped,
+you have to measure on your own eval set, case by case.
+Its tasks come from your refund chats, graded by your rules.
+The core: benchmarks show general skill; your tests show fit.
+Next: where do your own eval tasks come from?

@@ -1,0 +1,40 @@
+This one is from the Process block of our series map.
+First question: when should your evals run?
+Many teams run them by hand, when someone remembers.
+So when something breaks, users notice first.
+Say someone edits the refund agent's prompt
+to make its replies more polite.
+Two quick tries look fine, so it goes live.
+But the edit dropped the rule about verifying the buyer.
+So it stops checking whose order it is.
+Quote anyone's order number, and you get a refund.
+A couple of test messages won't catch a regression like that.
+Programmers solved this long ago with unit tests.
+Submit code, and C I runs every test automatically.
+C I is the system that runs checks after every submission.
+Evals can plug into C I the same way.
+Editing a prompt, swapping the model, changing a tool's interface,
+each changes its behavior, so each should trigger a run.
+It runs the regression eval, the cases that used to pass.
+Its job: what worked before must keep working.
+Then each case is compared with the last version.
+A case that passed before but fails now is a regression.
+Results vary, so rerun it before deciding.
+Once confirmed, the change is held back.
+The prompt that dropped the verification rule
+fails the case "verify who owns the order",
+so it can't merge, and never goes live.
+The failing case tells the author what to fix.
+But evals are slower than unit tests, and cost money.
+That's because each case really calls the model, over several steps.
+Nobody can wait for hundreds of cases on every edit.
+So a common practice is to split evals into two tiers.
+On every change, run a small core set,
+like verifying the customer, or approval over five hundred dollars.
+Results come back in minutes, so people will wait.
+The full set runs nightly, or before a release.
+Slow is fine there, because nobody's waiting.
+How you split them depends on your case count and budget.
+The core: every change is re-checked; regressions get blocked.
+But if every case passes, is production fine?
+Next: offline scores went up. Why didn't production?

@@ -1,0 +1,40 @@
+This wraps up the Metrics block.
+Say the refund agent has versions A and B.
+Both pass ninety percent of the same eval.
+They look equal, but in production they can differ a lot.
+So watch four more things beyond success rate.
+They decide how well it works once it's live.
+First, cost, meaning how many tokens it uses.
+Models charge per token, so more tokens cost more.
+Say A uses three thousand tokens per refund,
+and B uses twelve thousand, four times the cost.
+At high volume, that gap is real money.
+Next, latency: how long the customer waits for a reply.
+Say A answers in ten seconds; B takes forty.
+Wait too long, and the customer may just leave.
+Then come steps and tool calls.
+Each time the model thinks or calls a tool, that's one step.
+A normal refund needs three tool calls:
+look up the order, refund, then send an email.
+But B looked up the same order four times.
+More steps mean more tokens and more time.
+Extra steps often mean it's looping or retrying.
+Then read its step-by-step log to find out why.
+Last, and most important: safety violations.
+The rule says refunds over five hundred dollars need a human's approval.
+If it refunds eight hundred dollars without that approval,
+that's a violation, even if the customer is happy.
+Not checking the buyer owns the order counts too.
+Count these separately, not inside the success rate.
+Otherwise a ninety percent success rate hides it.
+Yet that one case can mean real money lost.
+Aim for zero; your team can even block release on one.
+Back to A and B: put the five numbers side by side.
+Same success, but A is cheaper, faster, with fewer steps.
+If A also has zero violations, pick A.
+The core: at equal success, pick the cheaper, faster, safer one.
+Success rate is the bar; past it, compare the rest.
+After every change, measure them all again.
+Done by hand, sooner or later it gets skipped.
+Next: how do you run evals like unit tests,
+in C I, automatically on every change?

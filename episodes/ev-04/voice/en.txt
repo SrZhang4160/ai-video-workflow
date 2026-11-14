@@ -1,0 +1,40 @@
+Last time we graded one case. Today, the whole set.
+Eval cases can serve very different purposes.
+Some test whether it can learn to do new things.
+Others check that it still does what it already could.
+These are capability and regression evals. How do they differ?
+First, capability evals: what it can't do well yet.
+Say someone buys three items and returns one.
+The refund must cover only that item.
+If that item is over five hundred dollars, it also needs approval first.
+Today's version gets most of these wrong.
+The pass rate is the share of cases it gets right.
+A low rate is normal, since these cases are hard on purpose.
+What matters is whether it rises after each change.
+If every case passes, the set is too easy; add harder ones.
+Next, regression evals: what it already does well.
+Like the headphones bought seven days ago, for three hundred dollars.
+These already pass, and should keep passing.
+A regression is when something that used to work now fails.
+It usually comes from changing something else.
+Say you edit the prompt for single-item returns,
+and now it stops asking for approval over five hundred dollars.
+Run the regression evals, and that old case fails.
+So run them on every change, and don't let a single one drop.
+If even one fails, fix it before you ship.
+Side by side, the difference is clear.
+Capability evals start low; you watch them rise.
+Regression evals sit near a hundred percent; you watch for drops.
+So keep the sets and scores separate.
+If you mix them into one pass rate,
+two hard cases start passing while two old ones fail,
+the total doesn't move, and the problem stays hidden.
+Do capability cases stay there forever?
+No. Once single-item returns pass reliably,
+they move to the regression set for good.
+The regression set grows, and the floor rises.
+The core: capability evals climb; regression evals hold the floor.
+One tests what it can't do yet; the other guards what it can.
+Both sets come from your own real cases.
+So why not just test it on public benchmarks?
+Next: does a high benchmark score mean your agent works?

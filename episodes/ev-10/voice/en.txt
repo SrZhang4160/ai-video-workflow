@@ -1,0 +1,39 @@
+Now grading: the tasks have run, so who grades them?
+The program that decides pass or fail is a grader.
+A person can grade, or a language model can,
+or code can check it. Today is about code.
+Bottom line: if code can check it, use code.
+Why? A person needs several minutes to read each run,
+and people judge differently, even day to day.
+A model judge costs money, and it can be wrong too.
+Code always gives the same result the same verdict,
+costs almost nothing, and runs the whole set in seconds.
+Take the task: "My headphones broke, I want a refund."
+It runs in a sandbox, on a mock order database,
+reset to the same state before every run.
+After the run, the grader first queries that database:
+was a refund record created for this order?
+Does the refund amount match the order price?
+Too little hurts the customer, and too much costs the shop.
+These check the final state, meaning the outcome.
+The outcome alone isn't enough; check how it got there.
+The grader reads the tool-call log, starting with order:
+looking up the order must come before the refund.
+Without that lookup, it can't verify the order is theirs.
+Then the parameters: did the refund use the right order number?
+One wrong digit refunds someone else's order.
+Most important: did it overstep its authority?
+Any refund over five hundred dollars needs an approval first.
+If it refunded without approval, the task fails outright.
+One caution: don't hard-code every step.
+Say it looks up the order twice; that's not wrong.
+Fixed steps would mark that correct run as failing.
+So check only what must hold, and leave the rest open.
+And some things code can't check, like the reply email.
+It can check it was sent, to the right person,
+but not whether it's clearly written or polite.
+Open-ended replies like this go to a model judge.
+The core: if code can check it, let code check it.
+It's cheap, stable and repeatable: same input, same verdict.
+So how should a model judge the email?
+Next: how do you write a rubric for an L L M judge?

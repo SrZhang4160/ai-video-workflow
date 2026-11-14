@@ -1,0 +1,40 @@
+From here on we're in block four of the map, Metrics.
+Say the agent tries one refund task three times
+and succeeds twice. Does that count as a pass?
+That depends on which metric you use:
+pass at k, or pass hat k? That's today's topic.
+First, k is the number of tries on one task.
+pass at k: one success in k tries is a pass.
+It's common in code generation benchmarks.
+The model writes several programs, and one passing is enough.
+That's because running the tests picks out the right one.
+pass hat k is stricter: all k tries must succeed.
+It was introduced with tau bench in twenty twenty-four,
+a benchmark that tests customer-service agents.
+Let's work it out for our refund agent, with two assumptions.
+First, each try succeeds seventy percent of the time.
+Second, the tries are independent, and k is three.
+pass at three is the chance that not all three fail.
+The chance all three fail is zero point three cubed,
+just two point seven percent. Flip it, and you get ninety-seven point three percent.
+That's pass at three, and it looks great.
+pass hat three needs all three to succeed,
+which is zero point seven cubed, just thirty-four point three percent.
+The first number is almost three times the second.
+And as k grows, they drift further apart.
+A refund agent should watch pass hat k.
+That's because each customer talks to it just once.
+Nobody retries three times for them and keeps the best one.
+So every single conversation has to go right.
+A low pass hat k means it's inconsistent.
+Say it verifies the order this time, then forgets next time.
+And pass at k can't show that kind of inconsistency.
+One caveat: independence is just an assumption.
+In reality, similar requests can fail together, one after another.
+So measure pass hat k by really running the task many times,
+not by plugging a single success rate into the formula.
+The core: pass at k asks, can it do this?
+pass hat k asks, does it do it every time?
+For customer-facing agents, watch pass hat k.
+But the success rate itself changes from run to run,
+Next: how many runs before a result counts?

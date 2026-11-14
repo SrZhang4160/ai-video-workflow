@@ -1,0 +1,40 @@
+Last time: an eval is test cases plus a grader.
+Grading a single model call isn't that hard.
+But grading our refund agent is much harder.
+Why? Let's compare the two side by side.
+Let's start with one model call, say a classifier.
+Is this message a refund request?
+"My headphones from last week broke. Refund, please."
+The model says yes, and the answer key says yes too.
+Compare the two, and grading is done.
+Here, the grader is one line of code.
+With an agent, three things get harder.
+First, an agent takes many steps, not just one reply.
+It looks up the order, checks who bought it,
+checks the date and amount, then refunds,
+and finally emails the customer.
+Any step can fail, and errors carry forward.
+If it grabs the wrong order, every later step is wrong.
+Or say it skips the buyer check and refunds anyway,
+and the final email still sounds polite.
+If you only judge the last message, you never see it.
+Second, it acts, and it changes real data.
+A plain model call only produces text.
+But once it calls the refund tool, real money goes out.
+Changes like that are called side effects.
+A reply can be rewritten, but a refund can't be taken back.
+So don't just read the reply. Check the database:
+is there a refund record, and is the amount right?
+And tests can't move real money, so they run in a sandbox.
+A sandbox is an isolated test setup you can reset after a run.
+Third, it can take a different path every run.
+Model output has randomness, so given the same message,
+it may look up the order first, or ask for the order number.
+It's mostly right, but now and then it skips the check.
+So passing once doesn't mean passing every time.
+So run each case several times.
+Many steps, side effects, and a different path each run:
+A single model call has none of these.
+The core: judging the final reply alone isn't enough.
+So should you grade the end result, or every step?
+Next: grade the outcome, or the process?

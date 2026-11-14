@@ -1,0 +1,40 @@
+Last time: the final reply alone isn't enough.
+So how do you grade a refund once it's done?
+Check only the end result, or every step?
+Today: how to grade each one.
+On our map, both belong to the Grading block.
+Grading the outcome means checking the final state.
+That's what the database holds at the end.
+In the headphones case: is there a refund record,
+is it three hundred dollars, and was the email sent?
+Code can check all of that, quickly and reliably.
+And it doesn't care which path the agent took.
+Look up the order or ask for its number first: both count.
+That matters: there's often more than one right way.
+But outcome checks alone let two errors slip through.
+In one, it never checks the customer owns the order,
+and refunds right away. This time it happens to be them,
+so the final state looks exactly right.
+Every outcome check passes. But if an impostor asks,
+it refunds someone else's order just the same.
+In the other, it also looks up another customer's orders.
+Lookups change no data, so the final state can't show it.
+You only catch these by looking at every step.
+So you also grade the process, meaning its trajectory.
+The trajectory is every tool call it made,
+with the arguments it passed, in order.
+Like: look up the order, refund three hundred dollars, send the email.
+Then you check a few rules on it.
+Before refunding, did it verify the buyer?
+Did it touch orders that aren't this customer's?
+If it's over five hundred dollars, did it get a human's approval first?
+But don't script one exact path to match step by step.
+Then another valid path would be marked wrong.
+Just check what must happen, and what must never happen.
+So give each case both kinds of checks.
+Outcome checks confirm the job got done.
+Process checks confirm no skipped steps and no overreach.
+Overreach means doing something it isn't allowed to.
+The core: outcome is the final state; process is the trajectory.
+You need both; either one alone misses a kind of error.
+Next: how do capability and regression evals differ?

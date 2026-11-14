@@ -1,0 +1,40 @@
+Say you built a customer-service agent for refunds.
+It looks up orders, refunds, and emails customers.
+How do you know it actually works?
+You run evals. But what does an eval check?
+Today we draw the map, then one part per episode.
+Most people tweak the prompt and try a few messages.
+Like: "My headphones from last week broke,
+I want a refund." The reply looks fine, so they ship.
+But that's one way of asking, tried only once.
+What if the order is forty days old?
+If it's over five hundred dollars, does it wait for approval?
+And if it isn't even their order, does it check?
+What you didn't test, your customers will find.
+And each change means testing by hand again.
+An eval turns that into a fixed exam.
+It has two parts. First, the test cases.
+Each states the customer's message and the order details.
+Say, headphones bought seven days ago, for three hundred dollars.
+Second, a grader decides whether each case passed.
+Was a refund issued, and was it exactly three hundred dollars?
+The rules are written down, so verdicts stay consistent.
+Save both, and you can rerun them anytime.
+Every prompt change reruns the whole set.
+You see which case went from pass to fail.
+Doing evals well means thinking through six things.
+First, test cases: where from, what makes them good?
+Test only small refunds, and you'll miss those over five hundred dollars.
+Next, environment: where can it run without refunding real money?
+Because even in a test, it calls the refund tool.
+Then grading: who judges, code or an L L M?
+Code checks the refund; a model judges the tone.
+Then metrics: how do you score a case?
+Because one case, run three times, can give different results.
+Then process: when should evals run?
+On every prompt change; if it got worse, don't ship.
+Last, pitfalls: the score rose, but is it better?
+Tune too long on one test set, and new cases fail.
+The core: rerunnable test cases plus grading rules.
+The six parts around it map the whole series.
+Next: why is an agent harder to evaluate than one model call?

@@ -1,4 +1,4 @@
-Our Relay product helps AI agents keep getting better.
+Our product helps AI agents keep getting better.
 It works as a loop. It builds an evals wiki, and finds where the agent fails.
 Then it generates tests, optimizes the agent, and verifies the fix.
 But before a new user could see that loop,
