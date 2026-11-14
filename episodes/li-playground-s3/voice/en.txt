@@ -44,8 +44,20 @@ After I approve it, it updates the entry, the service and the sandbox together.
 The cost: releases are slower.
 Next, I'd make staging release automatically,
 and keep the manual approval only for production.
-I'd also add a warm pool of sandboxes started ahead of time,
-stricter outbound network rules, and alerts on startup and cleanup time.
+What if a dependency fails, like E two B or the backend?
+The session's state lives in Firestore, not in memory.
+So if a request fails, the user gets a clear error,
+and can retry safely with the same idempotency key.
+If a step breaks halfway, the reconcile job picks it up a minute later,
+from the saved state. One broken session doesn't block the others.
+If the backend is down, the gateway says "try again later", instead of hanging.
+How do I know it's healthy? Every failure is logged as a structured event,
+and the reconcile run is marked as failed.
+But today, there's no alert. Someone has to go and look.
+If I started again, I'd add alerts from day one,
+because a cleanup that keeps failing costs money, and nobody notices.
+Next, I'd add a warm pool of sandboxes started ahead of time,
+and stricter outbound network rules.
 The biggest lesson: when you create resources that cost money
 through an API that can fail, "retry on failure" is the dangerous default.
 Design for the case where you don't know what happened.
