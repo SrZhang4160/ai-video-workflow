@@ -5,7 +5,7 @@ Then the next round starts.
 That loop is the most exciting part of the product.
 But before a new user could see it run, they had to do several things:
 get an API token, bring an agent of their own to test, and set up an environment.
-Because it needed all that, it was hard for new users to ever see the best part of our product.
+It was hard for new users to ever see the most valuable part of our product.
 So I designed and built a playground to solve this problem.
 One click, and a real code editor opens in your browser.
 A sample agent, a terminal and an AI coding assistant are already there,
