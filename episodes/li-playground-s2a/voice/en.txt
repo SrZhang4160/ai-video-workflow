@@ -1,0 +1,61 @@
+In this video, I'll explain how I chose the tech stack for each block,
+the way you'd walk through a system design question.
+Step one: the requirements.
+Functionally, one click opens a real editor, ready to use.
+The user's code must really run, including Docker,
+because every agent test runs in its own containers.
+And when the user leaves, everything we started must be cleaned up.
+Then the non-functional ones.
+Strong isolation, because strangers run code we've never seen.
+Fast start, because if a user waits too long after clicking, they leave.
+Low cost while nobody's using it, because most of the time, nobody is.
+And real keys must never reach the sandbox.
+Every choice below comes back to these requirements,
+and every choice has a cost.
+Step two: choose block by block.
+The entry needs one controlled way in, with the service kept private.
+A Cloudflare Worker does that.
+It's a small piece of code on Cloudflare's network,
+and the service only trusts users the Worker has confirmed.
+Our domain and dashboard already run on Cloudflare, too.
+The cost: two clouds, so two places to configure,
+and two sets of logs to read when something breaks.
+Next, the service. The first question:
+build it into the main backend, or keep it separate?
+Separate. It holds long WebSocket connections,
+its traffic scales differently,
+and if it breaks, the main product must keep running.
+The cost: it can't reuse the backend's permission code,
+so it asks the backend every time.
+Where does it run?
+Cloud Functions limit how long one request can last,
+so long WebSockets don't fit.
+A VM or a Kubernetes cluster means managing machines myself.
+Cloud Run fits. I hand it a container,
+and it runs and scales it, WebSockets included.
+The cost: starting from zero can add seconds to the first click,
+so I keep one instance always running, and pay for it even when idle.
+And a WebSocket counts as one request,
+so a very long session gets cut, and the editor has to reconnect.
+For the language, I used TypeScript with Hono.
+Hono is a small web framework, like Express but lighter,
+and the same code runs on Node or on Cloudflare Workers.
+TypeScript also matches the tools around it:
+the Worker, E two B's SDK, and V S Code.
+Next, state. Several copies of the service share the same sessions,
+and "check the limits, then reserve a spot" must happen in one transaction.
+Postgres on Cloud S Q L has strong transactions and queries,
+but the database runs all day, even when nobody's using it.
+Redis is fast, but it mostly lives in memory,
+so it's a poor place for the one true record.
+Firestore has transactions, and there's nothing to operate.
+You pay per read and write, so it costs almost nothing when idle.
+So I chose Firestore.
+The cost: weaker queries, and being tied to Google Cloud.
+So it sits behind an interface, and locally that interface runs on sequel light.
+And if every launch updates one shared counter, like the global cap,
+that document becomes a hot spot under heavy load.
+At ten times today's traffic, I'd split it.
+So now we have the requirements, and the whole service side.
+In the next video, I'll do the same for the sandbox side:
+where the user's code runs, which editor they see, and how the AI calls the model.

@@ -1,0 +1,40 @@
+Our Relay product helps AI agents keep getting better.
+It works as a loop. It builds an evals wiki, and finds where the agent fails.
+Then it generates tests, optimizes the agent, and verifies the fix.
+But before a new user could see that loop,
+they needed an API token, an agent of their own, and a local setup.
+It was hard for new users to ever see the most valuable part of our product.
+So I designed and built a playground to solve this problem.
+One click, and a real code editor opens in the browser,
+with a sample agent, a terminal and an AI coding assistant ready,
+plus a guided tutorial.
+It looks like a web page, but it isn't simple.
+Every user runs code on our machines,
+and we don't know in advance what that code will be.
+So users must not see each other's files,
+and nobody can use it to reach our own systems.
+Every AI call costs real money, and it uses our key,
+so the key must never leak.
+And when a user leaves, the machine we started for them must be cleaned up,
+or it keeps billing.
+The whole system is four blocks.
+The entry, on Cloudflare. It's the only way in.
+The playground service, on Google Cloud.
+It owns every session, from open to close.
+One sandbox per user: an isolated machine, thrown away after use.
+The editor and the user's code run inside it.
+And our existing backend.
+It checks permissions, and it holds the keys for calling the model.
+Here's one launch, start to finish.
+The user clicks. The request goes through the entry to the service.
+The service reserves a spot for this user,
+then starts a sandbox from a prebuilt template.
+The editor opens in a new tab, already connected to that sandbox.
+When the AI assistant calls the model,
+the request goes back to the service, and the service passes it to the backend.
+When the user leaves or time runs out,
+the service ends the session and destroys the sandbox.
+So now we know what the playground does, why it's hard to build,
+and the four blocks it's made of.
+In the next video, I'll share how I chose the tech stack for each block,
+and what I compared it against.
