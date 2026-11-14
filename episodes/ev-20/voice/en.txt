@@ -1,5 +1,5 @@
-This last episode ties everything into one loop.
-It's part of Process, but it uses all six blocks.
+This episode turns evals into an improvement loop.
+This loop uses all six parts of evaluation.
 Say a case fails. What should you do next?
 Say the "broken headphones" case fails.
 Most people guess a cause and edit the prompt.
@@ -39,4 +39,4 @@ then check again that nothing regressed.
 Each loop adds one more real case to your eval set,
 closer to real traffic, and the agent gets steadier.
 Try it with one recent failure from your own agent.
-That's the end of the series. Thanks for staying to the end.
+From the next episode on, we go deeper into each part.

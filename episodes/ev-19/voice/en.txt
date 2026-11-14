@@ -1,4 +1,4 @@
-Now we reach the last block of our map, Pitfalls.
+This episode is about the most common eval pitfalls.
 Scores keep rising, but the refund agent isn't better.
 A rising score can be fake progress.
 There are usually two reasons, overfitting and reward hacking.

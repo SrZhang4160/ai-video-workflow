@@ -1,4 +1,4 @@
-We're still on grading. Last time we wrote the email rubric,
+We have a rubric for judging refund emails,
 and now a model uses it to judge each email.
 But can we actually trust its verdicts?
 If the judge is wrong, every score is wrong.

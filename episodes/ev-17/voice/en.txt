@@ -1,4 +1,4 @@
-This time, we're in the Process block of our map.
+This episode is about the eval process.
 Let's start by asking when evals should actually run.
 Many teams only run them by hand, when someone remembers.
 So when something breaks, users usually notice first.

@@ -1,4 +1,4 @@
-We're still on test cases, with a practical question.
+Today, a very practical question.
 For our refund agent's first eval set,
 how many tasks do you really need?
 Many think they need thousands, so they never start.

@@ -1,4 +1,4 @@
-Last time, we said an eval is test cases plus a grader.
+An eval is a set of test cases plus grading rules.
 Grading a single model call isn't that hard.
 With our refund agent, it's much harder.
 Why? Let's put the two side by side.

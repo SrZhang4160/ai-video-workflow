@@ -1,4 +1,4 @@
-Now we reach the map's second block, the environment.
+This episode is about the eval environment,
 That is, where your evals actually run.
 Our refund agent looks up orders, refunds, and emails.
 Lookups only read data, so repeating them is harmless.

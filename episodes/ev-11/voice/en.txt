@@ -1,4 +1,4 @@
-We're still on grading, now the part code can't check.
+This episode covers the grading code can't do.
 After a refund, the agent emails the customer.
 Code can check it was sent, not how it reads.
 That part goes to a model as the judge.

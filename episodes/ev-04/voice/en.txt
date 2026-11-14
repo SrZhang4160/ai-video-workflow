@@ -1,4 +1,4 @@
-Last time we graded one case. Today we look at the whole set.
+This episode is about two kinds of eval cases.
 Eval cases can serve very different purposes.
 Some check whether it can learn something new.
 Others check it can still do what it already could.
@@ -30,8 +30,8 @@ If you mix them into one pass rate,
 two hard cases start passing while two old ones fail,
 the total doesn't move, and the problem stays hidden.
 So do capability cases stay there forever?
-No. Once single-item returns pass reliably,
-they move into the regression set, and must never fail again.
+No. Once a capability case passes reliably, it moves.
+It joins the regression set and must never fail again.
 So the regression set grows, and the floor keeps rising.
 So this episode comes down to one idea:
 capability evals push upward; regression evals hold the floor.

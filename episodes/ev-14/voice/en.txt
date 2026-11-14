@@ -1,4 +1,4 @@
-This episode takes us into block four of the map, metrics.
+This episode is about metrics, meaning how you score.
 Say the agent tries the same refund task three times,
 succeeds twice and fails once. Does that count as a pass?
 It depends on which metric you use,

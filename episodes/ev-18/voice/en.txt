@@ -1,4 +1,4 @@
-This time, we're still in the Process block.
+This episode is about offline evals versus production.
 A new refund agent version scores much higher.
 But after launch, complaints and handoffs don't drop.
 The math is fine; the eval set itself is the problem.

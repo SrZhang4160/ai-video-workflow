@@ -1,6 +1,6 @@
 In this episode we're still on grading,
 looking at the biases of L L M judges.
-Last time, we checked judges against human scores.
+First, a judge should be checked against human scores.
 But even a judge that matches has fixed leanings.
 They don't track quality, yet they change scores.
 Research has measured three well-known ones.
