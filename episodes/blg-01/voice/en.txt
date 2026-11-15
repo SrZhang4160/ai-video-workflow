@@ -11,7 +11,7 @@ That's called a long-lived connection.
 Bilibili's engineers have said publicly
 that hot events reach ten million viewers at once.
 Ten million viewers means ten million connections.
-When one comment comes in,
+When a single comment arrives,
 the server has to make ten million copies
 and send one down each connection.
 But there's never just one comment.
@@ -25,5 +25,5 @@ pack them into one bundle, and send it once.
 This is called message aggregation.
 Bilibili says that after this went live,
 calls for delivering messages dropped by about sixty percent.
-So a hot live room stays smooth
+That's how a busy live stream stays smooth:
 by turning many messages into one send.

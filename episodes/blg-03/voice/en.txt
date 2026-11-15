@@ -21,4 +21,4 @@ A simple method used for comparison is called a baseline.
 The model beats the baseline by twelve points,
 and those twelve points are what the model adds.
 So whenever you see an A I accuracy number,
-ask first: what's the baseline?
+first ask what the baseline is.

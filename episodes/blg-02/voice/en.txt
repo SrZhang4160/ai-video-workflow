@@ -14,7 +14,7 @@ Step two is making sure important messages arrive.
 Every important message carries an ID.
 When the phone receives it, it sends back an ack.
 If the server gets no ack, it sends the message again.
-A resend can make the phone receive it twice,
+Resending can make the phone receive it twice,
 so the phone uses the ID to drop the duplicate.
 How much does this help?
 Say one attempt gets through ninety-seven percent of the time.
