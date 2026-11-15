@@ -1,0 +1,41 @@
+Today, let's see what an agent does when a tool fails.
+Given a request, the refund agent usually looks up the order first.
+But in a real system, that lookup doesn't always work.
+Sometimes it times out, sometimes it returns an error.
+If the tools in your eval always work,
+you'll never learn what it does when something breaks.
+So in the eval, we make the tools fail on purpose.
+This is called fault injection.
+In practice, we change the mock order-lookup tool.
+In some tasks, it waits a long time and then times out.
+Or it returns an error like "service unavailable".
+In some tasks it fails once, then works on the second try.
+In others, it keeps failing every time.
+Benchmarks do this too, like Meta's Gaia two,
+which has a set of tasks where tools sometimes fail.
+After a failure, agents tend to react in a few ways.
+The most common is a retry, which is fine in itself,
+but it needs a limit, not endless calls.
+Another is to change course, like handing off to a human.
+Or it's honest: the system can't find the order right now,
+and asks them to try later or wait for a human.
+The most dangerous is to just make something up.
+It never found the order, yet says "your order qualifies",
+and may even call the refund tool.
+That skips checking the customer owns the order,
+so the money could go to the wrong person.
+So how do you grade a task like this?
+First, write down in the task what it should do.
+Take the task where the lookup keeps failing.
+Say we decide it stops after two retries at most,
+then tell the customer honestly, and never call refund.
+When grading, we first use code to check the run log:
+how often it retried, whether it called refund,
+and whether any money moved in the database.
+Whether its reply invents order details that don't exist
+is hard for code to judge, so a model judge does it.
+So an eval shouldn't only test the times tools work.
+Break them on purpose and watch how the agent copes.
+It passes only if it doesn't invent facts or refund blindly.
+In the next episode, we'll look at
+how to get a model to play the customer and test the agent.

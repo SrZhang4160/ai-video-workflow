@@ -1,0 +1,42 @@
+This episode: how to pull a ground-truth set from production.
+A ground-truth set is a batch of real conversations,
+each labeled by experts with what doing it right means.
+With it, you can check whether automated grading is accurate.
+So why take it from production?
+Because cases you write cover only what you can imagine,
+and real customers ask in far more ways than that.
+Shopify's assistant for merchants, Sidekick,
+moved away from carefully curated "golden" datasets
+toward ground-truth sets that match real production traffic.
+So can you just pick a hundred at random?
+The trouble is, random picks miss rare but important cases.
+Suppose nine in ten refunds are small orders.
+In a random hundred, few will be over five hundred dollars.
+Yet the big ones that need approval matter most.
+So you use a method called stratified sampling.
+First split traffic into layers by customer, amount, and problem,
+then sample some from each layer.
+That way big, late, and someone else's orders all show up.
+Keep some purely random picks in each batch too,
+so you don't miss a kind you never thought to split out.
+Once sampled, the business experts label them.
+One labeler alone brings their own leanings.
+Shopify's advice is at least three product experts
+labeling the same conversations on several criteria.
+Then you measure how much they agree,
+often with a metric called Cohen's kappa.
+It discounts the agreement you'd get by chance.
+One means full agreement; zero is about as good as guessing.
+Where even experts disagree, the standard isn't clear,
+so settle it together before you move on.
+With this set, you can test your model judge.
+Have it grade the same set, and compare with the experts.
+Shopify has shared their own numbers.
+At first, their judge's kappa with humans was only zero point zero two,
+barely better than random.
+After many rounds of work, it reached zero point six one,
+against a human baseline of zero point six nine.
+Only then was the judge close to human level.
+So sample by layers, then have several experts label.
+In the next episode, we'll look at
+whether a model can write test cases for you in bulk.

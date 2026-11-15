@@ -1,0 +1,42 @@
+What does an agent-eval engineer actually do all day?
+Let's follow one problem through.
+An online shop uses an agent for refunds.
+It looks up orders, issues refunds, and emails customers.
+One day, a customer complains.
+Her headphones came three weeks ago; the agent says thirty days passed.
+First, the engineer pins down what counts as correct.
+Do the thirty days start at the order, or at delivery?
+The business decides, and it's written as a checkable rule.
+Next, they read the record of that conversation.
+It shows every step the agent took.
+The agent used the order date as the delivery date.
+One record isn't enough, so they read a hundred more.
+They group the failures and rank them by frequency and harm.
+Then this failure becomes a test case.
+They add edge cases, like day twenty-nine and day thirty-one.
+The cases run in a sandbox, an isolated, resettable environment.
+Its refund tool is a mock, so no real money moves.
+For grading, code checks the database for a refund.
+Another model judges whether the reply is clear.
+That judge is first checked against human scores.
+After the fix, each case runs several times.
+The agent varies each run, so one run proves little.
+Old and new run the same cases; compare success and cost.
+Is the gain real progress, or just random noise?
+Once it's truly better, the cases join the release pipeline.
+Every prompt change then runs them automatically.
+If a passing case now fails, that change can't ship.
+After launch, real conversations are sampled and scored.
+New failures there become new test cases.
+They also guard against the eval itself going wrong.
+Tuning only to these cases makes a higher score meaningless.
+So a hidden set of cases is kept back for checking.
+They test safety too, like a stranger posing as the buyer.
+Finally, they present the results to the team.
+How big is the gain, where are the risks, and can it ship?
+So this job is really a loop.
+Start from a real problem and turn it into rerunnable tests.
+Scores decide what ships, and production brings new problems.
+The advanced course walks this loop, one part at a time.
+In the next episode, we'll look at
+the background knowledge this job takes.

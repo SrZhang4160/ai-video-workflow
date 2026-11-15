@@ -1,0 +1,41 @@
+What do eval platforms like LangSmith and Braintrust solve?
+First, why use a platform if you already have a framework?
+A framework runs on your machine, and results end up in files.
+Say you change the refund agent's prompt and compare versions.
+You'd have to dig out both runs and compare them by hand.
+After launch, nobody scores real customer conversations.
+And it's hard for a team to review and label results together.
+A platform puts all of that in one shared place.
+First, traces: every step the agent took is saved.
+Then datasets: conversations worth testing become test cases.
+Each eval run becomes an experiment.
+Side by side, you see at once which cases got worse.
+Annotation lets people grade the agent's replies.
+And online evaluation scores real conversations automatically.
+First, LangSmith, the platform from the LangChain team.
+You can use it whether or not you build with LangChain.
+Hook up the refund agent's tracing, and every conversation is saved.
+Pick the ones that refunded wrongly and add them to a dataset.
+Evaluators can be code or an L L M judge.
+For example, code checks that the refund was exactly three hundred.
+Annotation queues line up conversations for people to review.
+What people label can go straight back into a dataset.
+It can also grade a whole multi-turn conversation.
+Say the customer asked three times. Was it resolved in the end?
+Its strength: tracing, datasets and evals connect end to end.
+But it's a commercial platform, not open source.
+Next, Braintrust, a commercial platform built around evals.
+An eval in code needs just three things.
+They're test data, the task function under test, and scorers.
+Scorers can come from autoevals, its open-source library.
+Each run is an experiment, compared side by side on the web.
+It runs in C I too, so every commit gets evaluated.
+It can also score a sample of live conversations by rules.
+The platform also has an AI assistant called Loop.
+It helps improve prompts and scorers, then compares results.
+It shines at comparing experiments, for teams tuning prompts daily.
+So platforms add traces, experiments and teamwork to frameworks.
+If you already build with LangChain, start with LangSmith.
+If evals and experiments are your focus, start with Braintrust.
+In the next episode, we'll look at
+how to choose among Langfuse, Phoenix, Weave and MLflow.

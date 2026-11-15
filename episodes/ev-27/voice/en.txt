@@ -1,0 +1,41 @@
+Langfuse, Phoenix, Weave, M L flow: how do you pick one?
+All four record each agent step, and all four run evals.
+They differ in licensing and in whether you can self-host,
+and in how well they fit the tools you already use.
+First, why self-hosting matters.
+The refund agent's traces hold customers' orders and emails.
+Some companies forbid that data from leaving the company.
+Then you need a platform you can host yourself.
+First, Langfuse. It's open source, and you can self-host it.
+With Docker, it runs on your own machine.
+It traces every step and manages prompt versions.
+For evals, it has L L M judges, datasets, experiments and labeling.
+As of November twenty twenty-six, it's owned by ClickHouse,
+and the core stays open source under the M I T license.
+Next, Phoenix from Arize, built on Open Telemetry.
+Open Telemetry is an open standard for this kind of data,
+so agents built with any framework can plug in.
+It runs right on your laptop, with datasets and experiments.
+Note that its license is the Elastic License two point oh.
+The code is public, but it isn't a standard open-source license.
+You may self-host it, but not sell it to others as a hosted service.
+Then Weave, from Weights and Biases.
+W and B was acquired by CoreWeave in twenty twenty-five.
+Add a decorator to a Python function, and its calls get traced.
+For evals, you provide a dataset plus scoring functions.
+Its monitors use L L M judges to score live traffic.
+It suits teams already tracking training runs in W and B.
+Finally, M L flow, a long-standing open-source M L platform.
+It now evaluates L L M apps and agents too.
+You call an evaluate function with data, the agent, and scorers.
+Scorers include ready-made judges, like one for correctness.
+You can also write a judge that reads the whole trace.
+Say, did the refund agent skip the order lookup?
+Teams already managing models in M L flow get the easiest start.
+So, to choose a platform, ask three questions.
+Can your data leave the company? If not, pick one you can self-host.
+Do you need true open source? Langfuse and M L flow are.
+What do you build and track with now? Start with the matching one.
+W and B users can try Weave; M L flow users, M L flow.
+In the next episode, we'll look at
+the evals built into agent frameworks, and red-team tools.

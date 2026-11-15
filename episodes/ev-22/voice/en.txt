@@ -1,0 +1,42 @@
+What background knowledge do agent evals take?
+The job spans data, statistics, and engineering.
+So the knowledge falls into four groups.
+We'll use a refund support agent as the example.
+First, data and labeling, because test cases come from data.
+You learn to sample real conversations.
+Grab at random, and you mostly get small, ordinary refunds.
+So you sample in groups, by amount and by issue type.
+That way rare cases, like refunds over five hundred, get in too.
+Then people label each conversation right or wrong.
+Several people label one batch, and you measure agreement.
+When they disagree, the rule usually isn't written clearly.
+Say the customer is still angry. Is that solved?
+Next, grading and statistics, so you can trust the scores.
+Code can check the database for a refund.
+Whether the reply's tone is right goes to an L L M judge.
+So you write rubrics, and you know the judge's biases.
+Statistics matter too, since the agent's results vary each run.
+Say a new version passes two more cases out of a hundred.
+That may just be noise; error bars tell you.
+Better still, compare old and new case by case, in pairs.
+That cancels out how hard each case is, so real gaps show.
+Then engineering and environments, which make evals run at all.
+You trace the agent, recording what each step did.
+You build a sandbox with a mock refund tool.
+Run it a thousand times, and not a cent really moves.
+You also hook the evals into C I.
+C I is the check that runs automatically on every change.
+And you track cost, because every run costs money.
+Each L L M judge verdict is another model call, too.
+Last, the industry landscape, so you don't reinvent everything.
+You read public benchmarks and know what they measure.
+Leaderboards compare models, run in a standard harness.
+Your evals test the model plus your prompt, tools, and rules.
+And you know the tools, and how leading teams work.
+So each of the four groups does one job.
+Data and labeling let you write good test cases.
+Grading and statistics let you trust the scores.
+Engineering and environments make the evals run.
+The landscape shows what you can use off the shelf.
+In the next episode, we'll look at
+which tools the industry uses for agent evals.

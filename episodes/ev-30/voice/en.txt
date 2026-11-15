@@ -1,0 +1,42 @@
+Today we'll build a refund eval and run it end to end.
+We'll use Inspect, an open-source eval framework.
+Cases, the agent, and grading are all written in Python.
+We'll take one case to a score, then run the set and read results.
+First we write the test case, which Inspect calls a sample.
+Its input is what the customer says,
+like "My headphones from last week broke. I want a refund."
+Its target is the result we expect,
+which is a refund of three hundred.
+That's not enough, since the agent will look up the order.
+So we give the case a fake order database too.
+In it, this order is a week old and cost three hundred,
+and it really was placed by this customer.
+That file gets copied into this case's sandbox.
+Next is the solver, the agent under test.
+We use Inspect's built-in react agent
+and give it three tools: look up, refund, and email.
+All three only touch the fake database in the sandbox.
+Once it runs, it reads the customer's message,
+looks up the order, confirms the owner and the thirty-day window,
+then calls the refund tool and sends an email.
+When the agent stops, the scorer takes over.
+Our scorer ignores what the agent claims.
+Instead, it opens the order database in the sandbox
+and checks the refund happened, for exactly three hundred.
+If both hold, it passes. Otherwise, it fails.
+It also writes a short explanation of why.
+Once one case works, we run the whole set.
+A single inspect eval command does it.
+First, check the accuracy, the share of cases that passed.
+But one number won't tell you where it went wrong.
+So we open the log with inspect view
+and filter by score to keep only the failed cases.
+Say a six-hundred order got refunded right away.
+Open its message history and read it step by step.
+You'll see it never sent the order for human approval.
+Now you know which rule needs strengthening.
+So to run an eval, write the case and add fake data.
+Let the agent work in a sandbox, and the scorer check the result.
+Then open the log and read the cases that failed.
+In the next episode, we'll look at
+using LangSmith to compare two versions of the refund agent.

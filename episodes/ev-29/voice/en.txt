@@ -1,0 +1,42 @@
+There are so many agent eval tools. How do you choose?
+No tool is best. It depends on your team.
+So instead of a ranking, let's ask a few real questions.
+Each answer narrows down your options.
+First, ask what framework your agent is built on.
+If you're on LangChain, LangSmith is the easiest fit,
+since the same company makes both.
+On Google's A D K, start with its built-in eval command.
+That said, LangSmith isn't only for LangChain users.
+It works with many other frameworks and model providers.
+Next, can your trace data leave the company?
+Traces hold customers' words, orders, even email addresses.
+If they can't leave, you need tools you can host yourself.
+Inspect and promptfoo are open source and run on your machines.
+Among tracing platforms, Langfuse and Phoenix can be self-hosted.
+LangSmith can be too, but only on its Enterprise plan.
+Then think about how your team works: code or config.
+In Inspect, you write cases and scorers in Python,
+so any logic is possible, like checking a database.
+promptfoo is mostly a single config file,
+so people who rarely code can add cases and compare models.
+Also decide whether to score real conversations after launch.
+Pre-release test cases can't cover every real situation.
+For pre-release only, a free open-source framework is enough.
+To score live traffic, you need a tracing platform,
+like LangSmith, which can score production traces automatically.
+Finally, guard against getting locked into one vendor.
+As of November twenty twenty-six, there's been a wave of acquisitions.
+OpenAI bought promptfoo, and ClickHouse bought Langfuse.
+Both say the open-source versions will carry on.
+And OpenAI's hosted Evals platform shut down on November thirtieth.
+So make sure your test cases and traces can be exported.
+If a tool is bought or shut down, your eval set survives.
+For example, a small team is already on LangChain.
+Their data can go to the cloud, so LangSmith is a simple pick.
+Or a finance company whose data can't leave the building.
+It could self-host Langfuse and run test cases with Inspect.
+A team just starting on A D K can begin with the built-in evals,
+then add promptfoo's red-teaming to find weak spots.
+These are just suggestions. Start from your own needs.
+In the next episode, we'll look at
+how to run a refund eval end to end with Inspect.

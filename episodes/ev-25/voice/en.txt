@@ -1,0 +1,40 @@
+DeepEval, openevals and Ragas: who is each one for?
+All three are open-source eval tools for Python.
+We'll compare them on a refund support agent.
+It looks up orders, issues refunds, and emails the customer.
+The big difference is how you write an eval.
+First, DeepEval. It feels like py test.
+py test is a common tool for unit tests in Python.
+You write a test function with a test case in it.
+It holds the customer's words and the tools the agent called.
+You pick built-in metrics and assert the scores pass.
+It has ready-made agent metrics.
+Tool correctness compares the tools called with those expected.
+If it refunds without looking up the order, that score drops.
+Task completion has a model read the whole trace and judge it.
+The upside: if you can write unit tests, you can use it.
+The catch: many metrics use a model judge, so check its accuracy.
+Next, openevals and agentevals from the LangChain team.
+These two libraries do one job: ready-made evaluators.
+openevals comes with judge prompts already written.
+Is the answer correct? Does it make things up?
+Pick one, hand it a model, and it grades like a judge.
+agentevals compares the steps an agent took.
+You write the reference: which tools it should call.
+Strict mode needs the same calls in the same order.
+Unordered mode needs the same calls, in any order.
+Subset mode forbids extra calls; superset mode allows them.
+The catch: you only get evaluators; datasets and runs are on you.
+Finally, Ragas, which is a library of metrics.
+It began with rag: look up documents, then answer.
+Faithfulness checks that the answer is backed by the documents.
+Later it added agent metrics, like tool call accuracy.
+By default, tools, arguments and order must all match.
+Agent goal accuracy asks whether the customer's goal was met.
+It suits teams that want ready metrics, especially for rag.
+The catch: agent traces must be converted to its format first.
+So, to test like unit tests, use DeepEval.
+For ready judges and step matching, use LangChain's two libraries.
+For ready-made metrics, use Ragas.
+In the next episode, we'll look at
+what eval platforms like LangSmith and Braintrust solve.

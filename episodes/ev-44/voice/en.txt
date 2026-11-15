@@ -1,0 +1,42 @@
+This episode asks how realistic mock tools need to be.
+When testing the refund agent, no real money can move.
+So tools like order lookup and refunds
+get swapped for simulated versions, called mocks.
+A mock is a piece of stand-in code
+that answers each call by rules you wrote in advance.
+But what if it doesn't behave like the real tool?
+Many mocks return very tidy data.
+Every order has every field, and dates share one format.
+But a real order system is often messier than that.
+For example, some old orders have no delivery date,
+and some amounts come back as text, with a currency.
+The agent might ace every task on the clean mock,
+then miscount days on a real order with no date.
+Then a high eval score tells you very little,
+because it never saw the data it will really get.
+Those mistakes first show up in front of customers.
+So where exactly must a mock match the real thing?
+First, the response format must match the real A P I.
+Field names, types and empty values follow the real one.
+Next, errors. The real A P I returns errors like "order not found"
+or "no permission," so the mock should return the same codes.
+Only then can you test if it invents answers on errors.
+Then latency. A real refund call may take seconds.
+If the mock answers instantly, you'll never find out
+whether the agent gets impatient and issues a second refund.
+Finally, edge-case data has to be prepared too.
+For example, an order on exactly day thirty,
+or an order that has already been refunded once.
+One way to make mocks realistic is record and replay.
+First, call the real order lookup using a test account,
+and save the requests and responses to a file, unchanged.
+Later, in evals, the mock serves responses from that file.
+So the format and odd data come from the real A P I.
+V C R dot py, a Python library, records and replays exactly this way.
+But real APIs change, so re-record regularly.
+Otherwise the mock slowly drifts away from the real thing.
+So a mock should match the real tool in format, errors,
+latency, and edge-case data.
+With a too-clean mock, even a high score can't be trusted.
+In the next episode, we'll look at setting up data
+before each task and resetting it afterward.

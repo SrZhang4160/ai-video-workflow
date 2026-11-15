@@ -1,0 +1,41 @@
+How do an agent's steps link into one complete record?
+A refund agent takes several steps for one request,
+and each step is logged on its own, as a span.
+But in production, many customers ask for refunds at once,
+so huge numbers of spans pile up together.
+How do you know which ones belong to the same request?
+The fix is to give each request an I D, called a trace I D.
+Every span in that request carries the same I D.
+Together, the spans with that I D make up one trace,
+the full record of the task from start to finish.
+When something breaks, search that I D and the whole run comes up.
+Sharing an I D isn't enough. You also need to know what contains what.
+So each span also records its parent,
+by storing that parent span's I D.
+The outermost one has no parent. It's called the root span,
+and it runs from the customer's request to the final reply.
+That way, all the spans form a tree.
+Here's what that tree looks like for a refund request.
+At the top is one full run of the agent.
+In OpenTelemetry's conventions, that layer is called invoke agent.
+Underneath it hang the model calls,
+plus three tool calls: look up, refund, and email.
+Tool-call spans are called execute tool.
+These conventions are still in development, so names may change.
+Lay the whole tree out by time, and if a step is slow or fails,
+you can see at a glance which one to look into.
+Now multi-turn chats. Customers rarely finish in one message.
+Say he reports broken headphones, and the agent asks for his order.
+A few minutes later, he sends it.
+If each message he sends gets its own trace,
+you add one more I D, a conversation I D,
+and every trace in that conversation carries it.
+The conventions have a field reserved for it too.
+To check whether the agent remembers what was said earlier,
+you need those turns linked and read in order.
+So that's how one complete record fits together.
+Spans from one request share a trace I D,
+and parent span I Ds link them into a tree.
+A conversation I D then ties the turns of a chat together.
+In the next episode, we'll look at
+why you should read a hundred traces before writing evals.

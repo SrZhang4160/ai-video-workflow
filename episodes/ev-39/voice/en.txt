@@ -1,0 +1,42 @@
+This episode: can a model write test cases for you in bulk?
+Say you're testing a customer-service agent for refunds.
+It looks up orders, issues refunds, and emails customers.
+It's new, so there aren't enough real conversations to test on.
+Many people just ask a model for a hundred refund questions.
+What comes back mostly looks the same,
+ordinary cases like "my headphones broke, I want a refund."
+With no direction, the model writes the most common case.
+So you define dimensions first, then let the model work.
+A dimension is one way a test case can vary.
+For refunds, we might pick four.
+One is the customer: the real buyer, or someone using another's order.
+One is the problem: the item broke, or never arrived.
+One is the amount: under or over five hundred dollars.
+And one is emotion: calm, or angry.
+Pick one value from each, and you get a combination.
+Like "real buyer, never arrived, six hundred dollars, angry."
+First write about twenty combinations yourself,
+and make sure each one makes sense in real life.
+Then have the model produce more in the same pattern.
+Then, in a separate step, have the model turn each one
+into what a customer would actually say.
+You split it in two because doing it in one go
+tends to make the sentences all sound alike.
+Once generated, a person goes through them one by one.
+Combinations that wouldn't happen in real life get deleted.
+Lines that don't sound like a real person go too.
+The ones you keep get labeled with answers, like real cases.
+So can synthetic cases replace real conversations?
+No. They're mainly for two situations.
+One is early on, before there's enough real traffic.
+The other is covering edge cases, the rare ones.
+Like an order that's over thirty days old and over five hundred dollars.
+Rare in production, but costly when it goes wrong.
+Synthetic cases have a limit, too. They can't tell you
+how common a failure really is in production.
+Hamel Husain even calls them a last resort,
+and once real data arrives, compare against it.
+In the end, model-written cases help you start and fill gaps,
+but real performance is measured on real conversations.
+In the next episode, we'll look at human labeling:
+when several people label, how do you keep them consistent?

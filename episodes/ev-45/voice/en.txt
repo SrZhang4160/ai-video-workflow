@@ -1,0 +1,42 @@
+This episode is about how to set up eval data before a run,
+and how to restore it afterwards.
+Take our refund agent. It looks up orders
+and issues refunds, and both touch the order database.
+So before each task, the database needs the right data in it,
+and after the run, it has to go back to how it was.
+First, what happens if you don't restore it?
+Say one task has a customer asking to return headphones.
+On the first run, the agent issues the refund,
+and the order's status changes to "refunded".
+Run the same task again without a reset,
+and when it looks up the order, it's already refunded,
+so it has to say this order can't be refunded again.
+That failure comes from the data, not the agent.
+It works the other way too: leftovers can inflate scores.
+Anthropic described one such case,
+where the model read the git history left by earlier trials
+and gained an unfair edge on those tasks.
+So before every task starts, we seed the data.
+Seeding means taking the orders this task needs
+and writing them into the database ahead of time.
+For the headphones, the order was placed ten days ago,
+it cost three hundred yuan, and the buyer is the customer asking.
+Now the right answer is fixed: refund it.
+Add someone else's order too, to test if it checks the buyer.
+This fixed starting data is called a fixture.
+It's stored with the task and travels with it.
+Now, how do we restore things after a run?
+The simplest way is to never run on the original database.
+Before each trial, make a copy of the clean database.
+The agent changes only that copy, and we throw it away after.
+If the environment is bigger, with files and services,
+start a brand-new container for every trial.
+A container is a small isolated environment, deleted after use.
+So every trial starts from exactly the same state,
+and nothing from one run leaks into the next.
+So setting up and restoring the data
+makes every trial start the same and stay separate.
+With the same start, a score change is the agent's doing;
+otherwise you might just be measuring your leftover data.
+In the next episode, we'll look at
+what the agent does when a tool errors or times out.

@@ -1,0 +1,40 @@
+Which tools does the industry use for agent evals?
+There are so many tool names, it looks like a mess.
+But sorted by the problem they solve, there are four kinds.
+Once you know the kinds, you can see which piece you're missing.
+Let's see what each kind does for a refund support agent.
+The first kind is open-source eval frameworks.
+They help you write cases, run the agent, and grade it.
+Inspect comes from the UK AI Security Institute and Meridian Labs.
+In Python, you combine a dataset, a solver, and a scorer.
+It also has sandboxes, so the agent runs in isolation.
+Then there's promptfoo, where you write one config file.
+List prompts, models, and test cases, and it compares them all.
+It plugs into C I, too, so every change gets tested.
+And DeepEval makes evals look like py test unit tests.
+The second kind is platforms for evals plus tracing.
+With a framework alone, traces and results end up scattered.
+A platform stores traces, datasets, and scores in one place.
+So old and new versions can be compared side by side.
+It can also score real production conversations automatically.
+Like LangSmith, or Langfuse, which is open source and self-hostable.
+The third kind is evals built into agent frameworks.
+Some frameworks for building agents come with evals included.
+Google's A D K, for example, checks the agent's tool-call order.
+It compares that to the expected order, and checks the final reply.
+OpenAI's Agents S D K records every step by default.
+The traces go to OpenAI's dashboard, where you can grade them.
+The fourth kind is red-team tools, built to attack your agent.
+Red-teaming means playing the attacker to find security holes.
+NVIDIA's garak, for example, fires off batches of attack prompts.
+It sees whether the agent falls for injection or leaks data.
+Microsoft's PyRIT and promptfoo's red-teaming do this too.
+So how do the four kinds fit together?
+The framework writes the cases, runs them, and grades them.
+The platform stores traces and results, and scores live traffic.
+Built-in evals come with whichever agent framework you pick.
+Red-team tools attack it before it goes live.
+So it's not a choice of one; each kind covers its own part.
+A refund agent can use all four at once.
+In the next episode, we'll look at
+how the open-source frameworks Inspect and promptfoo differ.

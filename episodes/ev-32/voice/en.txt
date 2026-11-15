@@ -1,0 +1,40 @@
+What should you record at each step of an agent?
+First, why record every step at all?
+A refund agent takes several steps for one request.
+It calls the model, looks up the order, refunds, and emails.
+If you only log the question and the final answer,
+then when it refunds wrongly, you can't tell which step failed.
+So every step gets its own record.
+In the industry, a record like that is called a span.
+It stands for one operation, with a start and an end.
+There's an open standard for this kind of data, OpenTelemetry.
+It even has a set of conventions just for generative AI,
+which fix what each field should be called.
+Those conventions are still in development and may change.
+Start with model calls. Record which model you called,
+the messages you sent it, and what it replied.
+With those, you can see why it decided to refund.
+Also record how many tokens the call used,
+input and output separately, since that's what you pay for.
+The conventions give each of those numbers a fixed name.
+But by default, the message content isn't recorded,
+because it can hold customers' sensitive information.
+To read it, you have to switch that option on yourself.
+For tool calls, record the tool name, arguments, and result.
+Say the refund tool was called with three hundred.
+But the order lookup returned only two hundred.
+Put the two records side by side, and you see it overpaid.
+Each step also records when it started and ended.
+The gap between them is that step's latency.
+When customers say replies are slow, you can find the slow step.
+Last come errors. Say the order lookup times out.
+That step gets marked as failed, with the error type.
+Otherwise, the agent might answer without the order,
+and the final reply looks normal, so you'd never notice.
+So each step of an agent gets its own span.
+It says what the step did, what went in, and what came out,
+how long it took, how many tokens it used,
+and whether anything went wrong.
+Then, when the agent fails, you can find the step that broke.
+In the next episode, we'll look at
+how these step records link into one complete record.

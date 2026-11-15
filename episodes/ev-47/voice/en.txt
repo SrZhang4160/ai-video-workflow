@@ -1,0 +1,41 @@
+Let's see how to get a model to play the customer.
+A refund agent chats with a customer over several turns.
+It asks for the order number, gets it, then looks it up.
+If a task only contains the customer's first message,
+nobody answers the follow-ups, and the task stalls.
+Real human testers are too slow and costly to run daily.
+So we let another language model play the customer.
+That's called a user simulator.
+It talks with the agent one message at a time,
+until the issue is solved or the conversation goes nowhere.
+To play the part well, its prompt has to spell things out.
+First, who they are: say, someone who bought headphones last week,
+who keeps it short and is a bit impatient.
+Then the goal: they want a refund.
+Next, facts only the customer knows, like the order number,
+which they reveal only when the agent asks.
+That shows whether the agent checks on its own.
+Last, the limits: say, no exchange, only a refund,
+and never inventing facts that aren't in the script.
+That's exactly how tau bench tests customer-service agents.
+It was built by the research team at Sierra,
+and it started with two domains, retail and airline.
+The agent has tools to look up and change orders,
+and it has to follow a written policy.
+A language model plays the customer, following task instructions.
+Each task's instructions are written in detail,
+so that under the policy, only one outcome is correct.
+Grading ignores how nice the agent sounded.
+What matters is the database when the conversation ends.
+It's compared with the database in the reference answer,
+and only an exact match passes.
+Its replies must also give the customer the key facts.
+For our refund agent, that means checking whether it refunded,
+for how much, and whether it went to the wrong person.
+So a user simulator is a model playing a scripted customer.
+Then multi-turn chats can run automatically, again and again.
+The script sets the persona, goal, hidden facts and limits,
+and grading looks at the final state of the database.
+But a customer played by a model isn't quite a real person.
+In the next episode, we'll look at
+why simulated customers are too easy to deal with.

@@ -1,0 +1,42 @@
+This one's hands-on: an error analysis of a refund agent.
+Error analysis means reading its real conversation logs,
+finding its real mistakes, and deciding what to fix first.
+This agent looks up orders, issues refunds, and sends emails.
+Refunds are allowed within thirty days, after verifying the buyer,
+and anything over five hundred dollars waits for a human's approval.
+The numbers below are made up, just to show the steps.
+First, pull about a hundred logs from production.
+Besides complaints, pick some at random,
+because many problems never get reported by customers.
+Then read them yourself. Don't hand the first pass to a model,
+because its suggestions can bias your judgment.
+For each failure, write the problem in one sentence.
+If a log has several mistakes, note only the earliest,
+because the later ones usually follow from it.
+Once new logs stop turning up new problems, you can stop.
+Suppose that out of the hundred, twenty-four had problems.
+Merging notes that say the same thing gives four types.
+The most common is a cold, stiff tone, in eleven logs.
+Next, not checking who owns the order, in six.
+Then a wrong amount in the email, in five.
+Fewest, refunds over five hundred dollars without approval, just two.
+By count alone, tone looks like the first thing to fix.
+But you also have to ask what each failure leads to.
+A stiff tone just makes a customer uncomfortable.
+Skipping approval means the money has really gone out.
+Skipping verification may send the money to someone else.
+So you weigh frequency and severity together.
+The two unapproved refunds rank first, verification second,
+wrong amounts third, and tone goes last.
+Now you know which test cases to add first.
+For example, a few refund requests for around six hundred dollars,
+to see whether it hands them to a human for approval.
+And a few asking to refund someone else's order,
+to see whether it checks, and refuses if it doesn't match.
+Some mistakes have an obvious fix, so just fix them.
+Only ones that keep coming back get a dedicated grader.
+Each grader checks one failure type and says pass or fail.
+So what error analysis hands you in the end
+is a ranked list of which tests to add first.
+In the next episode, we'll look at
+how to pull a ground-truth set out of production traffic.

@@ -1,0 +1,41 @@
+This episode: how to group a pile of failures, and what to fix first.
+Say you built a customer-service agent for refunds.
+It looks up orders, issues refunds, and emails customers.
+You read a hundred of its recent conversation logs,
+and find plenty went wrong, in all sorts of ways.
+If you fix each problem the moment you see it,
+you keep patching small things and never reach the big ones.
+So group them first, then rank them, and only then fix.
+The first step is called open coding.
+You go through the logs one by one, taking notes.
+The notes don't follow any categories set in advance.
+Whatever goes wrong, you write it in plain words.
+For example, "didn't check the order was really theirs,"
+or "the email gave the wrong refund amount."
+Why not set the categories first and sort into them?
+Because then you only look for mistakes you expected,
+and the new ones it really makes slip past you.
+If one conversation goes wrong in several places,
+note only the first place it went wrong,
+because later mistakes often follow from that one.
+With the notes done, step two is axial coding.
+You put notes about the same problem into one group.
+Take "didn't check who owns the order"
+and "no order number." Both mean "didn't verify the buyer."
+After grouping, you're left with just a few failure types.
+Then you count how often each type shows up.
+So do you fix the most common one first?
+Not always. You also ask how bad each failure is.
+Suppose a cold, stiff tone shows up ten times,
+and an unauthorized refund only once.
+A stiff tone at worst leaves a customer a bit unhappy.
+But a refund over five hundred dollars paid without approval
+means real money is gone, and hard to get back.
+So rank by frequency and severity together,
+and that one unauthorized refund goes to the top.
+Some mistakes have an obvious fix, so just fix them.
+The ones that keep coming back each get a judge.
+Each judge checks one type and says pass or fail.
+That keeps its verdicts clear and easy to check.
+In the next episode, we'll ask a basic question:
+who actually decides whether the agent did well.

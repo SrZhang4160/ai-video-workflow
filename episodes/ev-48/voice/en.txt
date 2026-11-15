@@ -1,0 +1,42 @@
+Today, let's see why simulated customers are too easy to deal with.
+Having a model play the customer is fast and cheap.
+But the customer it plays is quite different from a real one.
+Let's see where they differ, and how that skews the scores.
+The first difference is that it's far too patient.
+A Google research team pointed out in a blog post
+that simulated users are often unnaturally patient,
+and much more polite than real people.
+That's because language models are trained
+to be helpful, good-natured assistants.
+So playing an impatient, difficult customer doesn't come naturally.
+Picture this with our refund agent.
+The agent asks the same question over and over,
+and the simulated customer politely answers every time.
+A real customer might have lost patience and left.
+So the simulator quietly forgives the agent's flaws,
+and the score comes out higher than it really is.
+The second problem is which model plays the customer.
+A paper at I C L R twenty twenty-six called Lost in Simulation
+ran experiments on tau bench's retail tasks.
+With the same agent and different models playing the user,
+success rates differed by up to nine percentage points.
+The paper also compared against real people in four countries,
+and found the simulated users misjudged difficulty too.
+On hard tasks, they underestimated how well the agent did,
+and on medium tasks, they overestimated it.
+So part of the score really measures the actor.
+So what can we do? There are three main fixes.
+The first is to calibrate the simulator against real conversations.
+Sample real conversations between customers and the agent,
+compare the simulator's patience and when it gives up,
+and if they differ a lot, fix its prompt.
+Next, keep the model that plays the customer fixed.
+Because if you swap the actor and the score moves,
+you can't tell whether the agent changed or the actor did.
+Finally, add a few difficult customers on purpose,
+like one who's vague about the order, or insists after a no.
+So by default, simulated customers are too easy, and scores run high.
+Calibrate them on real people, fix the actor, add tough roles,
+and simulated scores get closer to reality.
+In the next episode, we'll look at
+how to build a resettable sandbox for the refund agent.

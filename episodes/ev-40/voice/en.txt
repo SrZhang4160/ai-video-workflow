@@ -1,0 +1,42 @@
+This episode is about human labeling: people judging pass or fail.
+Our refund agent finishes a conversation with a customer,
+and someone has to decide whether it got it right.
+The verdicts people give are called labels.
+Your test set's answer key and your judge model's calibration
+both depend on these human labels.
+But would a different person give the same labels?
+Say a customer bought something thirty-two days ago,
+and the agent said it's past thirty days, so no refund.
+Wang thinks it followed the rule, so he marks it a pass.
+Li thinks it should have offered to pass it to a human,
+so she marks it a fail. They disagree.
+If only one person labels, you'd never notice
+that the standard exists only in that person's head.
+So have two or three people label the same batch,
+each on their own, without talking it over first.
+Then count how many items they labeled the same.
+That share is called the agreement rate.
+But raw agreement has a flaw: chance can inflate it.
+Suppose both people mark almost everything as a pass.
+Even without reading closely, they'd mostly match.
+Cohen's kappa is designed to correct for that.
+It first looks at how often each person marks a pass,
+and works out how much they'd agree by chance alone.
+Then it measures how far real agreement goes beyond that.
+A kappa of one means they agree completely.
+A kappa of zero means no better than chance.
+When agreement is low, don't blame the labelers first.
+Pull out the items they disagreed on and review them together.
+Often you'll find the rule itself was never written clearly.
+For example, past thirty days, should it offer a human?
+The guide didn't say, so everyone had to guess.
+So write that case into the labeling guide,
+with a clear rule and an example to go with it.
+If they still can't agree, a domain expert makes the call,
+and the reason gets written into the guide.
+Then everyone labels a fresh batch, separately again.
+So human labeling means several people labeling separately,
+and using kappa to see how much they agree beyond chance.
+Wherever they disagree is where the rules need work.
+In the next episode, we'll look at
+why a test set needs versions and a held-out set.

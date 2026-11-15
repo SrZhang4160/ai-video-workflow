@@ -1,0 +1,41 @@
+Inspect and promptfoo are open-source eval tools. How do they differ?
+Let's compare them on a refund support agent.
+It looks up orders, issues refunds, and emails customers.
+Refunds within thirty days; over five hundred dollars needs a human's OK.
+Both can test it, but they work very differently.
+First, Inspect, from the UK AI Security Institute.
+You write evals in Python, and each one is called a task.
+A task has a dataset, which holds your test cases.
+It has a solver, which is the agent under test.
+It even ships a ready-made agent called react.
+Then a scorer grades each test case.
+Say it checks that exactly three hundred was really refunded.
+Last, the sandbox: an isolated container thrown away after use.
+A fake order database lives inside, so no real money moves.
+Afterwards, its built-in web viewer shows every step.
+So Inspect is best at testing agents that take real actions.
+Every case runs in a sandbox, so it's safe and repeatable.
+It also implements over two hundred public benchmarks.
+That suits research and large-scale evals.
+The downside: everything is code, so it's harder to start.
+For a quick prompt comparison, it's too heavy.
+Now promptfoo, a command-line tool.
+Instead of a program, you write a Y A M L config file.
+It lists the prompts and models to compare.
+Then a test: a customer's headphones broke, they want a refund.
+Then an assertion: the refund amount must be three hundred.
+An assertion is a rule that's checked automatically.
+It can look for text in a reply, or have a model grade it.
+It can check which tools the agent called, and in what order.
+Results land in one table, so you can compare at a glance.
+So promptfoo is quick to start and easy to put in C I.
+C I means checks run automatically on every commit.
+Its red-teaming features generate attacks to test safety.
+In March twenty twenty-six, OpenAI announced it was acquiring promptfoo,
+and said it would stay open source.
+Its weakness is that it has no built-in sandbox.
+For an agent that changes data, you build that yourself.
+So to test an acting agent in a sandbox, pick Inspect.
+To compare prompts and models fast, in C I, pick promptfoo.
+In the next episode, we'll look at
+who DeepEval, openevals and Ragas are each best for.

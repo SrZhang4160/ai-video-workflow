@@ -1,0 +1,42 @@
+This episode: who decides whether an agent did a good job.
+Take a customer-service agent that handles refunds.
+It looks up orders, issues refunds, and emails customers.
+An engineer reads a conversation and thinks it went fine.
+The head of support reads it and says that refund was wrong.
+With two different standards, you can't grade anything,
+because the same conversation gets two opposite scores.
+So who should set that standard?
+The person who knows the business best, like the head of support.
+Because whether a refund is right or wrong
+comes from business rules, not from an engineer's guess.
+Eval consultant Hamel Husain has a name for this person.
+He calls them the "benevolent dictator."
+They hear everyone out, but they make the final call.
+With one person deciding, the labels don't contradict each other.
+He recommends this for most small and mid-sized companies.
+Only big teams across many areas need several labelers,
+and then you have to measure how often they agree.
+Once the expert sets the standard, you write it down clearly.
+A product requirement is often just one sentence,
+like "refunds should be fast and safe."
+You can't grade that, because "safe" is too vague.
+So you break it into conditions you can check one by one.
+Safe means, first, it looked up the order before refunding,
+and confirmed this customer really bought it.
+Next, for anything over five hundred dollars, it didn't refund on its own,
+but passed it to a human for approval first.
+Also, for orders older than thirty days, it declines,
+and explains the reason to the customer.
+Each of these can be checked in the logs as a yes or a no.
+How do you know the conditions are clear enough?
+Anthropic's engineering blog gives a simple test.
+Have two experts judge the same conversation separately.
+For a good task, they should reach the same verdict.
+If they don't, the condition is still ambiguous,
+and the expert needs to rewrite it more clearly.
+The more real conversations experts read, the sharper it gets,
+so the list of conditions keeps getting updated.
+In the end, the person who knows the business decides,
+and the standard becomes conditions you can check.
+In the next episode, we'll get hands-on
+and run a full error analysis on the refund agent.

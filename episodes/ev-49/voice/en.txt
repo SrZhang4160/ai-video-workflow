@@ -1,0 +1,41 @@
+Today we'll build a resettable sandbox for the refund agent.
+A sandbox is an isolated environment.
+Whatever the agent does inside, it can't touch real data,
+and after use it's thrown away and a clean one starts next time.
+We'll use Inspect, an open-source eval framework
+developed by the U K A I Security Institute.
+The sandbox is made of four parts.
+First, the mock tools: look up order, refund, and send email.
+They're plain functions that only touch the sandbox's database,
+never the real payment or email systems.
+In Inspect, a tool can raise a tool error when it fails,
+and that error goes back to the model to handle.
+That's handy for testing how it copes with failures.
+Next, the seeded data: each task brings its own orders.
+Say, headphones bought ten days ago for three hundred yuan,
+plus someone else's order, to test if it checks the buyer.
+In Inspect, every task sample can carry some files,
+plus a setup script.
+When the sandbox starts, the script loads those orders.
+Now the reset. Inspect can run the sandbox in Docker.
+Docker packs the whole environment into a container.
+Inspect gives every task its own sandbox,
+and tasks share nothing with each other.
+When the run finishes, it cleans up those containers itself.
+So we don't write the reset ourselves; next time is brand new.
+Also, the containers it generates have no network by default,
+so the agent can't reach real outside services.
+Last, we plug in a simulated customer.
+Another model plays it, following the script's persona,
+goal, hidden facts and limits, turn by turn with the agent.
+When the chat ends, the scorer checks the sandbox database.
+Was the right refund made, for the right amount,
+and was the other person's order left alone?
+So a resettable sandbox comes down to these four parts.
+Mock tools keep it away from real systems.
+Seeded data makes every run start the same way.
+A simulated customer lets multi-turn chats run on their own.
+And a fresh container per task keeps every trial separate.
+Once it's built, you can run a task as many times as you like.
+In the next episode, we'll look at
+when to grade an agent as a whole, and when to split it up.

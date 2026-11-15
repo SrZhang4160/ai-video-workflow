@@ -1,0 +1,40 @@
+Today we'll evaluate the refund agent with LangSmith.
+LangSmith is a platform for tracing and evaluation.
+We want to know if the revised version is really better.
+There are four steps. Let's take them one by one.
+First, connect the agent to tracing.
+Put the traceable decorator on the agent's main function
+and wrap the client that calls the model.
+Now every request leaves a complete trace,
+showing each model call and each tool call.
+Next, build a dataset, a set of test cases.
+You can pick cases from traces. Select a few runs,
+click "Add to Dataset," and they become test cases.
+Or do it in code. First create a dataset,
+then add examples, each with an input and expected output.
+Say the input is "My headphones from last week broke."
+The expected output is a three hundred refund and a confirmation email.
+Then write evaluators, the rules that grade each run.
+For the refund itself, code is the most reliable judge.
+A function gets the agent's output and the expected one.
+It checks the refund was exactly three hundred, and scores it.
+But code can't tell whether the email is any good.
+So a second evaluator uses another model as judge.
+We give it a few rules, each judged yes or no.
+Does the email state the amount? Is it polite?
+Finally, run an experiment: one version works the whole set.
+In code, that's one call to the evaluate function,
+passing in the agent, the dataset, and the evaluators.
+We run the old version, then the new one with a revised prompt.
+Both experiments sit under the same dataset.
+Select both and click Compare to see each case side by side.
+Cases that improved show in green, and regressions in red.
+Say the new emails score higher, but one case refunds wrongly.
+Open that case, and both versions' traces sit side by side,
+so you can see the exact step where the new one went wrong.
+Unsure cases can go to an annotation queue for human review.
+So judging a new version comes down to the same cases.
+Run old and new once each, graded by the same evaluators.
+Then compare case by case to know if it really got better.
+In the next episode, we'll look at
+what to record at each step of an agent.

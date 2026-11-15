@@ -1,0 +1,40 @@
+Why read a hundred traces before you write any evals?
+A trace is the full record of one request:
+what the customer said, which tools it called, how it replied.
+Many people start by listing everything they want to test,
+like a polite tone or a helpful answer.
+The problem is, those are only guesses about where it fails.
+But the mistakes it really makes are often ones you didn't expect.
+Say you read traces and find customers giving two order numbers,
+and it checks only the first, then refunds the second too.
+You'd never come up with that one sitting at your desk.
+Hamel Husain and Shreya Shankar teach a course on AI evals.
+Their advice is to write evals for errors you discover,
+not for errors you imagine.
+Write evals without reading traces, and they test your guesses.
+A high score then says little about what real customers hit.
+So why a hundred?
+They suggest at least a hundred, and to keep reading
+until new traces stop turning up new kinds of failure.
+A hundred is the floor. If you're still learning, keep reading.
+As you read, note what went wrong in each one.
+If a trace has several problems, note the first one.
+That's because later errors are often caused by earlier ones.
+Say it looked up the wrong order. The refund amount will be wrong too.
+Then group similar notes into a few categories
+and count how often each one shows up.
+Only then do you know which failure to write evals for first.
+And reading traces isn't only for before you write evals.
+Anthropic's guide to agent evals makes the same point.
+After the evals run, read the transcripts and the grades.
+Only then can you tell if the agent really made a mistake,
+or the grader rejected a correct answer.
+They once found a public benchmark with grading so rigid
+that an answer with fewer decimal places was marked wrong.
+Without reading traces, you'd blame the agent.
+Reading traces also catches bugs in the eval itself.
+So writing evals starts with reading traces.
+Read at least a hundred, find out where it really fails,
+and then write evals for those real failures.
+In the next episode, we'll look at
+how to sort a pile of failures and decide which to fix first.

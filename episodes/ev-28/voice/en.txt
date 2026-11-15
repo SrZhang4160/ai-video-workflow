@@ -1,0 +1,42 @@
+What can an agent framework's built-in evals do for you?
+Many teams build agents on a ready-made framework.
+Its makers often ship an eval command with it.
+Write your agent, and you can test it right there.
+Standalone tools fit any framework, but need extra wiring.
+Take Google's A D K. It has a command called A D K eval.
+Test cases live in an eval set file.
+Each holds the customer's words and the tools you expect.
+For a refund, we expect a lookup, then the refund.
+Grading compares that with the tools the agent really called.
+There are three levels of strictness. The default is exact.
+One extra or missing call, and it fails.
+A looser mode just needs those calls in order.
+The loosest ignores order and just needs them all.
+The final reply is checked for word overlap with a reference.
+A D K can also have a model play the customer.
+You write only the opening line and the customer's goal.
+The model makes up every later turn on the fly.
+That tests multi-turn chats without scripting every line.
+Now OpenAI's Agents S D K. Tracing is on by default.
+Tracing records every step the agent takes,
+so each model call and tool call shows up in the dashboard.
+You can attach a grader to a trace to score it,
+say, checking it looked up the order before refunding.
+That's trace grading: scoring the whole trace.
+Don't build on OpenAI's own hosted Evals platform.
+OpenAI announced it would shut down on November thirtieth, twenty twenty-six.
+OpenAI points users to promptfoo, so export your test cases.
+Red-team tools don't test the job. They test if it can be fooled.
+Red-teaming means playing the attacker to find weak spots.
+Microsoft's PyRIT runs multi-turn attacks on your agent,
+probing to see if it'll refund someone else's order.
+NVIDIA's garak is a vulnerability scanner.
+It fires batches of prompt injections and jailbreaks,
+then detectors flag which replies fell for them.
+promptfoo's red-teaming writes attacks by vulnerability type.
+One type tests overreach by posing as a support rep.
+It asks for another customer's orders. Will the agent comply?
+So built-in evals are the easiest to set up,
+but only test agents built on that framework.
+In the next episode, we'll look at
+how to choose among all these tools.
