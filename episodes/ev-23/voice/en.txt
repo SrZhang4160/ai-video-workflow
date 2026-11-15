@@ -11,7 +11,7 @@ It also has sandboxes, so the agent runs in isolation.
 Then there's promptfoo, where you write one config file.
 List prompts, models, and test cases, and it compares them all.
 It plugs into C I, too, so every change gets tested.
-And DeepEval makes evals look like py test unit tests.
+And Deep Eval makes evals look like py test unit tests.
 The second kind is platforms for evals plus tracing.
 With a framework alone, traces and results end up scattered.
 A platform stores traces, datasets, and scores in one place.

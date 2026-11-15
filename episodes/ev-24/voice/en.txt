@@ -38,4 +38,4 @@ For an agent that changes data, you build that yourself.
 So to test an acting agent in a sandbox, pick Inspect.
 To compare prompts and models fast, in C I, pick promptfoo.
 In the next episode, we'll look at
-who DeepEval, openevals and Ragas are each best for.
+who Deep Eval, open evals and Ragas are each best for.
