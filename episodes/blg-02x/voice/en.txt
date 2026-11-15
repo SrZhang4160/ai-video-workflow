@@ -1,0 +1,24 @@
+During the final, live comments flew past.
+If a few never showed up, you wouldn't notice.
+The platform's public tech talk says the same thing:
+losing a few comments barely hurts the experience.
+But some messages must never be lost.
+Take a P K battle invitation between two streamers.
+If it's lost, the battle never starts.
+So step one is to split messages into two kinds.
+Important messages take a high-priority channel,
+and ordinary comments take a low-priority channel.
+The two channels run on separate machines,
+so a flood of comments can't crowd out important ones.
+Step two is making sure important messages arrive.
+Every important message carries an ID.
+When the phone receives it, it sends back an ack.
+If the server gets no ack, it sends the message again.
+Resending can make the phone receive it twice,
+so the phone uses the ID to drop the duplicate.
+How much does this help?
+Say one attempt gets through ninety-seven percent of the time.
+Resend when it fails, at most twice,
+and delivery goes above ninety-nine point nine nine percent.
+So even a huge system doesn't protect everything.
+It first decides what can be lost and what can't.

@@ -1,0 +1,24 @@
+Before a League of Legends match starts,
+the two teams take turns banning and picking champions.
+This phase is called the draft.
+Can A I guess what the other team picks next?
+An open-source project tried it.
+It trained on nearly eighteen hundred pro games,
+then tested on about five hundred games from the next four months.
+The model never saw the test games during training.
+For each move, the model names five candidates.
+If the team's real choice is among those five,
+that counts as one hit.
+This way of scoring is called top five accuracy.
+Its score is sixty-two percent.
+Is that high or low?
+You can't tell from that number alone.
+You need a very simple method to compare against.
+The simplest one trains no model at all.
+It just guesses the most popular champions on the patch.
+That alone gets fifty percent.
+A simple method used for comparison is called a baseline.
+The model beats the baseline by twelve points,
+and those twelve points are what the model adds.
+So whenever you see an A I accuracy number,
+first ask what the baseline is.
