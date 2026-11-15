@@ -1,0 +1,29 @@
+The night B L G won the world championship,
+over twenty million people watched the final on Bilibili.
+One live comment that you send
+has to show up on everyone's screen.
+So what makes that hard?
+On a normal web page, your phone asks the server.
+Live comments go the other way: the server pushes to you.
+So between your phone and the server,
+a connection has to stay open the whole time.
+That's called a long-lived connection.
+Bilibili's engineers have said publicly
+that hot events reach ten million viewers at once.
+Ten million viewers means ten million connections.
+When one comment comes in,
+the server has to make ten million copies
+and send one down each connection.
+But there's never just one comment.
+Say a thousand comments arrive every second.
+That's ten billion pushes in one second.
+Sent one by one, no machine can keep up.
+You can't shrink the audience,
+so you cut the number of sends.
+Collect the comments from a short window,
+pack them into one bundle, and send it once.
+This is called message aggregation.
+Bilibili says that after this went live,
+calls for delivering messages dropped by about sixty percent.
+So a hot live room stays smooth
+by turning many messages into one send.

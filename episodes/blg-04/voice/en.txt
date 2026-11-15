@@ -1,0 +1,25 @@
+People often ask: can A I predict who wins a match?
+One open-source project that analyzes drafts
+has an answer: it gives no win rate.
+It's not that it didn't try.
+It scored each team's draft from several angles.
+How common the champions are in pro play,
+how much the players have used them,
+and whether they are strong in lane.
+Then it checked those scores against finished games,
+to see if the higher-scoring side really won.
+The measure it used is called A U C.
+An A U C of zero point five is the same as flipping a coin.
+Every angle came out close to zero point five.
+No single angle could tell winners from losers.
+The project offers two likely reasons.
+One: the gap in strength between the two teams
+matters far more than the draft does.
+Two: both sides pick to counter each other,
+so most of the effects cancel out.
+Forcing out a win rate at this point
+gives a number that looks precise but has nothing behind it.
+So it only lays out the comparison for each angle.
+No combined score, and no win rate.
+A model that admits it can't tell
+is more trustworthy than one that hands you a number.
