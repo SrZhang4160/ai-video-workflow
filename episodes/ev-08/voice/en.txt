@@ -1,10 +1,9 @@
-This episode is about the eval environment,
-That is, where your evals actually run.
-Our refund agent looks up orders, refunds, and emails.
-Lookups only read data, so repeating them is harmless.
-But refunds and emails change the outside world.
-So what if evals run against the real systems?
-It's unsafe, and the results can't be repeated.
+Every eval run issues a real refund,
+and a real customer gets a confusing email.
+That's what happens when evals hit real systems.
+And on the second run, the system says "already refunded,"
+so the same case gives two different results.
+So evals have to run in a sandbox.
 Start with safety. Evals rerun the same task many times,
 and every run issues another real refund.
 Real customers also get confusing emails.

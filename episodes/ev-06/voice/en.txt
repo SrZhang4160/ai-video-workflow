@@ -1,11 +1,9 @@
-Now, where do your own test cases come from?
-The easy way is to make them up yourself.
-Say, ask a model for a hundred refund requests.
-But you mostly imagine the smooth cases,
+Ask a model to write a hundred eval cases,
+and scores look great, but it still fails in production.
+Because invented cases are mostly the smooth ones,
 and the agent rarely gets those wrong anyway.
-So scores look great, but it still fails live.
-That's why eval tasks should start from real failures.
-There are four good places to find them.
+Good eval cases come from real failures.
+There are four places to look.
 The first source, and the most valuable, is chats that went wrong.
 Say a customer writes that their headphones broke,
 and the agent refunds without checking the order is theirs.

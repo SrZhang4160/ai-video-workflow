@@ -1,10 +1,9 @@
-We're still on test cases. What does a good one look like?
-First, a common task that's badly written.
-The input is a message from a customer:
+An eval case says "the agent should handle it well."
+That case can't actually be graded.
+What counts as "well"? A different grader, a different result.
+Here's a common bad case. The input is one message:
 "My headphones from last week broke, I want a refund."
-It expects the agent to handle it well.
-Looks fine, but what does handling it well mean?
-It actually has three problems. Let's take them in turn.
+It has three problems. Let's take them in turn.
 The first problem is ambiguity. There's no order number,
 so the agent could look it up or ask.
 Both make sense; the task doesn't say which passes.

@@ -1,8 +1,8 @@
-This episode is about two kinds of eval cases.
-Eval cases can serve very different purposes.
-Some check whether it can learn something new.
-Others check it can still do what it already could.
-These are capability evals and regression evals.
+You change the prompt, and the total score doesn't move,
+but two cases it used to pass are now failing.
+Two hard ones newly pass, which hides it exactly.
+So split eval cases into two kinds, scored separately.
+One is capability evals, the other regression evals.
 Capability evals test what the agent can't do well yet.
 Say a customer buys three items and returns one.
 The refund has to cover only that item.

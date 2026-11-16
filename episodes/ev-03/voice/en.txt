@@ -1,8 +1,7 @@
-To grade an agent, the final reply alone isn't enough.
-So how do you grade a refund once it's done?
-Do you check only the end result, or every step?
-Today we'll see how to grade each.
-Both are part of how an eval grades.
+The refund went through, for the right amount. Is that correct?
+Not always. It may never have checked you're the buyer.
+Check only the end result and you'll never catch that.
+So you grade an agent on both outcome and process.
 Grading the outcome means checking the final state.
 That's what the database looks like at the end.
 In the headphones case, you check for a refund record,

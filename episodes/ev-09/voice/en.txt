@@ -1,6 +1,5 @@
-Today, a very practical question.
-For our refund agent's first eval set,
-how many tasks do you really need?
+You don't need a thousand cases in your eval set.
+Twenty or thirty real ones are enough to start.
 Many think they need thousands, so they never start.
 Without an eval set, each time you edit the prompt,
 you can only try a few requests by hand.

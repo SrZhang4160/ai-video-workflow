@@ -1,10 +1,9 @@
-This episode is about public industry benchmarks.
-Every new model launches with a table of scores.
-Those scores come from public benchmarks.
-A benchmark is a public set of tasks plus grading rules.
-Since anyone can run them, scores can be compared side by side.
-So with a high score, will your refund agent work well?
-To answer that, first ask what exactly is being tested.
+A new model tops the leaderboard.
+Will it work well in your agent?
+Not necessarily. Leaderboards test general ability,
+and none of your own business rules.
+Behind a leaderboard is a benchmark: public tasks plus grading rules.
+First, let's see what these benchmarks actually test.
 A score table actually compares models.
 The tasks are agent tasks,
 so each model is wrapped in a ready-made agent harness.
