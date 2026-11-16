@@ -8,8 +8,13 @@ Usage (needs pypinyin, jieba; --audio also needs whisper — all in the voice ve
 Reads voice/zh.txt (what the voice actually says, one line per clip) and reports per line:
   ERR  English words the cloned voice is known to mispronounce (say them in Chinese instead)
   WARN other bare English words, Arabic digits or symbols (spell them out in say_zh), lines too long to say in one breath
-  多音  polyphonic characters with the reading chosen in context, so a human can confirm it (行 xíng/háng, 长 cháng/zhǎng …)
-  AUDIO (--audio) Whisper transcript whose pinyin+tones differ from the script: wrong word, wrong tone, or a clipped ending
+  多音  polyphonic characters with the reading the voice will be told to use (engine/zh_reading.py: your word list
+        engine/tts/lexicon-zh-readings.txt, then pypinyin's phrase dictionary, then g2pW). Confirm each; a wrong one is
+        fixed by adding the word to the list, not by rewording. 「?」 = g2pW and pypinyin disagree: look at these first.
+  读音  the text the voice gets, when readings are written into it (银行 → 银[h][áng])
+  AUDIO (--audio) Whisper transcript whose syllables differ from the script: wrong word or a clipped ending. Tones are
+        not compared (Whisper guesses characters from context), so a tone-only misreading (为 wéi/wèi) is caught by the
+        written-in reading, not by this check.
 Exit code 1 if there is any ERR or AUDIO mismatch.
 """
 import difflib, json, os, re, sys
@@ -18,6 +23,10 @@ import jieba
 from pypinyin import Style, pinyin
 
 jieba.setLogLevel(60)
+try:
+    import zh_reading
+except Exception:                                   # noqa: BLE001
+    zh_reading = None
 
 # Bare English keywords the cloned zh voice gets wrong; the fix that worked before.
 BAD_EN = {'if': '条件判断', 'match': '模式匹配', 'option': '可选类型', 'result': '结果类型', 'unwrap': '解包',
@@ -25,7 +34,7 @@ BAD_EN = {'if': '条件判断', 'match': '模式匹配', 'option': '可选类型
 # English words that are fine inside Chinese speech (spoken clearly in earlier episodes).
 OK_EN = {'a', 'i', 'b', 'c', 'e', 'p', 'm', 'agent', 'agents', 'cargo', 'rust', 'api', 'doordash'}
 # Characters whose reading depends on the word; the tool prints the chosen reading for these.
-POLY = set('行长重还得为处发便量数调传降藏种差干结空解少乐更将相应分正朝参系角假难省曾称缝背薄')
+POLY = set('行长重还得为处发便量数调传降藏种差干结空解少乐更将相应分正朝参系角假难省曾称缝背薄好中当载率')
 MAX_CHARS = 20          # one clip should be one breath
 MAX_RUN = 13            # characters between pauses (，。、：；？！)
 
@@ -59,11 +68,21 @@ def check_line(i, s):
         if n > MAX_RUN:
             msgs.append(('WARN', f'no pause for {n} characters in "{run.strip()}": add a comma'))
     hits = []
-    for w in jieba.cut(s):
-        if any(ch in POLY for ch in w):
-            hits.append(f'{w}({" ".join(py(w))})')
+    if zh_reading:
+        rs = zh_reading.readings(s)
+        for k, (ch, p, src) in enumerate(rs):
+            if ch in POLY and p:
+                near = ''.join(c for c, _, _ in rs[max(0, k - 1):k + 2])
+                hits.append(f'{near}({ch} {p}{"?" if src.endswith("?") else ""}{" 词表" if src == "lex" else ""})')
+        said = zh_reading.tag(s, 1)
+        if said != s:
+            msgs.append(('读音', said))
+    else:
+        for w in jieba.cut(s):
+            if any(ch in POLY for ch in w):
+                hits.append(f'{w}({" ".join(py(w))})')
     if hits:
-        msgs.append(('多音', ' '.join(hits)))
+        msgs.insert(len(msgs) - (1 if zh_reading and said != s else 0), ('多音', ' '.join(hits)))
     return msgs
 
 
@@ -123,6 +142,8 @@ def main():
     own = os.path.exists(meta) and json.load(open(meta, encoding='utf-8')).get('voice') == 'own'
     if own:
         print('voice: you record this episode, so English / digit / symbol warnings are skipped')
+    if zh_reading:
+        zh_reading.prime(lines)
     for i, s in enumerate(lines, 1):
         for kind, m in check_line(i, s):
             if own and kind == 'WARN' and not m.startswith(('no pause', '多音')) and 'Chinese characters' not in m:

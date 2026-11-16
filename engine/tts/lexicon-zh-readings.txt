@@ -1,0 +1,22 @@
+# Readings the cloned Chinese voice must use. One word per line: the word, then one pinyin syllable per character
+# with a tone number (1-4, 5 = neutral, v = ü). Used by engine/zh_reading.py; these beat every automatic guess.
+# Add a line whenever a word was misread (review board, zh_check). The lines containing it are voiced again.
+# Bind the reading to a WORD, not a single character.
+行长 hang2 zhang3
+一行 yi4 hang2
+几行 ji3 hang2
+每行 mei3 hang2
+多行 duo1 hang2
+单行 dan1 hang2
+逐行 zhu2 hang2
+调用 diao4 yong4
+调度 diao4 du4
+重载 chong2 zai4
+重写 chong2 xie3
+重试 chong2 shi4
+重构 chong2 gou4
+重排 chong2 pai2
+命中率 ming4 zhong4 lv4
+还得 hai2 dei3
+数一数 shu3 yi4 shu3
+括号 kuo4 hao4

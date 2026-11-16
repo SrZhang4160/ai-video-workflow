@@ -1,7 +1,8 @@
 """Voice every scene that needs it, in your cloned voice (Fun-CosyVoice3 + my_voice.wav).
 
 Run with the CosyVoice environment's Python (local/voice_job.sh does this):
-  ~/cosyvoice3/.venv/bin/python local/voice_daemon.py [repo_root]
+  ~/cosyvoice3/.venv/bin/python local/voice_daemon.py [repo_root] [episode_id ...]
+Named episodes (e.g. interview-1-saas, which have no air date in the folder name) are voiced now, whatever their date.
 
 Voice samples: ~/cosyvoice3/my_voice_<lang>.wav + .txt (exact transcript), falling back to my_voice.wav/.txt.
 Changing a sample re-voices that language for upcoming episodes.
@@ -11,16 +12,33 @@ past episodes are skipped. A hand-recorded voice/<lang>/sNN.wav with no manifest
 Lines that end mid-sentence (comma, colon, no punctuation) are voiced together with the lines that finish the sentence,
 then cut at the pauses between them, so the voice keeps one natural intonation across caption pages. The manifest's
 _groups records which lines were voiced together; when the cut can't be found, those lines are voiced one by one.
+Chinese readings: engine/zh_reading.py writes the reading of polyphonic characters into the text the model gets
+(银行 → 银[h][áng]; your word list engine/tts/lexicon-zh-readings.txt wins). Each Chinese take is then listened to with
+Whisper; a take with wrong or missing syllables is voiced again (up to TAKES takes, the later ones with more readings
+written in) and the best take is kept. Lines still wrong after that are printed as CHECK and listed in the manifest's
+_check, for a human to hear. Adding a word to the list re-voices the lines that contain it (manifest _lex).
 Loads the model only when there is work. Prints one line per clip.
 """
 import datetime, hashlib, json, os, re, sys, time
 import numpy as np
 
 REPO = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(__file__), ".."))
+ONLY = sys.argv[2:]           # episode ids to voice now (default: every dated episode from today on)
 CV = os.environ.get("COSYVOICE_DIR", os.path.expanduser("~/cosyvoice3"))
 LANGS = os.environ.get("VOICE_LANGS", "zh,en").split(",")
 SPEED = {"en": 0.92}          # English a little slower so viewers can follow
 SOFT_END = "，,、；;—-：:"      # a line ending like this continues into the next one
+TAKES = int(os.environ.get("VOICE_TAKES", "3"))    # takes per Chinese sentence before giving up
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "engine"))
+try:
+    import zh_reading
+except Exception as e:                              # noqa: BLE001  (pypinyin/jieba missing: voice as before)
+    print(f"zh_reading unavailable ({type(e).__name__}: {e}); Chinese readings are left to the model")
+    zh_reading = None
+
+
+def lex_sig(lang, line):
+    return zh_reading.lexicon_sig(line) if zh_reading and lang == "zh" else ""
 
 
 def key(lang, line):
@@ -68,7 +86,7 @@ def joined(lang, parts):
 def pending():
     today = datetime.date.today().isoformat()
     jobs = []
-    eps = sorted(d for d in os.listdir(os.path.join(REPO, "episodes")) if d[:2] == "20" and d >= today)
+    eps = ONLY or sorted(d for d in os.listdir(os.path.join(REPO, "episodes")) if d[:2] == "20" and d >= today)
     for ep in eps:
         for lang in LANGS:
             txt = os.path.join(REPO, "episodes", ep, "voice", f"{lang}.txt")
@@ -86,12 +104,15 @@ def pending():
                 if any(mine(i) for i in g):                 # your own recording wins; voice the rest line by line
                     for i in g:
                         if not mine(i) and not (man.get(f"s{i:02d}") == key(lang, lines[i - 1])
-                                                and os.path.exists(os.path.join(vdir, f"s{i:02d}.ogg"))):
+                                                and os.path.exists(os.path.join(vdir, f"s{i:02d}.ogg"))
+                                                and man.get("_lex", {}).get(f"s{i:02d}", lex_sig(lang, lines[i - 1]))
+                                                == lex_sig(lang, lines[i - 1])):
                             jobs.append((ep, lang, [f"s{i:02d}"], [lines[i - 1].strip()], vdir, mpath))
                     continue
                 sids, text = [f"s{i:02d}" for i in g], [lines[i - 1].strip() for i in g]
+                lex = man.get("_lex", {})               # clips made before _lex existed are left as they are
                 fresh = all(man.get(sid) == key(lang, t) and os.path.exists(os.path.join(vdir, sid + ".ogg"))
-                            for sid, t in zip(sids, text))
+                            and lex.get(sid, lex_sig(lang, t)) == lex_sig(lang, t) for sid, t in zip(sids, text))
                 together = len(g) == 1 or groups.get(sids[0]) in (key(lang, joined(lang, text)), "solo")
                 if fresh and together:
                     continue
@@ -153,13 +174,50 @@ def main():
                                for c in m.inference_zero_shot(line, say.PREFIX + vtext, voice, stream=False,
                                                               speed=SPEED.get(lang, 1.0))])
 
+    def take(text, lang, level, solo):
+        """One take of a sentence: its clips (one per line) and how they were made."""
+        say_ = [zh_reading.tag(t, level) for t in text] if zh_reading and lang == "zh" else text
+        clips = None if solo or len(text) == 1 else split(synth(joined(lang, say_), lang), m.sample_rate, text)
+        if clips is None:
+            return [synth(line, lang) for line in say_], ("solo" if len(text) > 1 else "")
+        return clips, "together"
+
+    if zh_reading:
+        zh_reading.prime([t for _, lang, _, text, _, _ in jobs if lang == "zh" for t in text])
+    ear = []
+
+    def misheard(wav, line):
+        """Script syllables Whisper did not hear in a clip: [(wanted, heard)]. Tones are not compared."""
+        import difflib, zh_check
+        if not ear:
+            import whisper
+            ear.append(whisper.load_model("small"))
+        x = np.interp(np.arange(0, len(wav), m.sample_rate / 16000), np.arange(len(wav)), wav).astype(np.float32)
+        heard = ear[0].transcribe(x, language="zh", initial_prompt="以下是普通话的句子。", fp16=False)["text"]
+        want, got = zh_check.norm_py(line), zh_check.norm_py(heard)
+        return [(" ".join(want[a1:a2]), " ".join(got[b1:b2]) or "(missing)") for op, a1, a2, b1, b2 in
+                difflib.SequenceMatcher(None, want, got, autojunk=False).get_opcodes() if op in ("replace", "delete")]
+
     for ep, lang, sids, text, vdir, mpath in jobs:
         t = time.time()
         sig = sample(lang)[2]
-        clips = split(synth(joined(lang, text), lang), m.sample_rate, text) if len(text) > 1 else None
-        how = "together" if clips else ("solo" if len(text) > 1 else "")
-        if clips is None:
-            clips = [synth(line, lang) for line in text]
+        clips, how = take(text, lang, 1, False)
+        wrong, takes = {}, 1
+        if zh_reading and lang == "zh" and TAKES > 1:
+            try:
+                best = None
+                while True:
+                    wrong = {sid: d for sid, w, line in zip(sids, clips, text) if (d := misheard(w, line))}
+                    n = sum(len(d) for d in wrong.values())
+                    if best is None or n < best[0]:
+                        best = (n, clips, how, wrong)
+                    if not n or takes >= TAKES:
+                        break
+                    takes += 1                       # 2nd take: more readings written in; 3rd: line by line
+                    clips, how = take(text, lang, 2, takes >= 3)
+                _, clips, how, wrong = best
+            except Exception as e:                   # noqa: BLE001  (Whisper missing or failed: keep the take)
+                print(f"listening check skipped ({type(e).__name__}: {e})", flush=True)
         os.makedirs(vdir, exist_ok=True)
         for sid, wav in zip(sids, clips):
             sf.write(os.path.join(vdir, sid + ".ogg"), wav, m.sample_rate, format="OGG", subtype="VORBIS")
@@ -168,6 +226,13 @@ def main():
             man = {}
         for sid, line in zip(sids, text):
             man[sid] = key(lang, line)
+            if zh_reading and lang == "zh":
+                man.setdefault("_lex", {})[sid] = lex_sig(lang, line)
+                man.setdefault("_check", {}).pop(sid, None)
+                if sid in wrong:
+                    man["_check"][sid] = "; ".join(f"{w} → {g}" for w, g in wrong[sid])
+        if not man.get("_check"):
+            man.pop("_check", None)
         groups = man.setdefault("_groups", {})
         for sid in sids:
             groups.pop(sid, None)
@@ -175,7 +240,11 @@ def main():
             groups[sids[0]] = key(lang, joined(lang, text)) if how == "together" else "solo"
         man["_sample"] = sig; json.dump(man, open(mpath, "w"), indent=1, sort_keys=True)
         secs = " ".join(f"{len(w) / m.sample_rate:.1f}" for w in clips)
-        print(f"{ep} {lang} {'+'.join(sids)}  {secs}s audio in {time.time() - t:5.1f}s {how}".rstrip(), flush=True)
+        note = f" take {takes}" if takes > 1 else ""
+        print(f"{ep} {lang} {'+'.join(sids)}  {secs}s audio in {time.time() - t:5.1f}s {how}{note}".rstrip(), flush=True)
+        for sid, line in zip(sids, text):
+            if sid in wrong:
+                print(f"  CHECK {sid} 「{line}」 {man['_check'][sid]}", flush=True)
 
 
 if __name__ == "__main__":

@@ -44,7 +44,7 @@ style, keep it and put the points in `review_notes`.
 ## 4. Hand off for voicing
 1. `python3 engine/export.py episodes/<id>`.
 2. Append the story to `series/news/log.md` (with its pool letter).
-   Before committing, run the Mandarin check `~/cosyvoice3/.venv/bin/python engine/zh_check.py episodes/<id>` and fix every ERR / WARN / wrong 多音 reading (re-export after).
+   Before committing, run the Mandarin check `~/cosyvoice3/.venv/bin/python engine/zh_check.py episodes/<id>` and fix every ERR / WARN (re-export after); a wrong 多音 reading is fixed by adding the word to `engine/tts/lexicon-zh-readings.txt`.
 3. `git add episodes/<id> series/news && git commit -m "<id>: AI 快讯 #<n> <headline>" && git push`. Only those paths; never `build/`.
 4. `ArtifactData set` collection `episodes`, doc_id `<id>`: `build/<id>/doc.json` + `status: "voicing"`, `updated` (ISO time),
    `review_notes`: any reviewer notes, then 「录音：照下面逐句读一遍（中文；英文可选），存到 ~/Desktop/AI/recordings/<id>.m4a（英文 <id>-en.m4a）」 and the
