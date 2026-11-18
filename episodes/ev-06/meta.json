@@ -1,0 +1,95 @@
+{
+  "date": "TBD",
+  "style": "whiteboard",
+  "track": "ev",
+  "lesson": 6,
+  "platforms": [
+    "xhs",
+    "douyin",
+    "tiktok"
+  ],
+  "topic_zh": "评测题从真实失败开始：线上出错的对话、用户日志、边界情况、本该拒绝的请求",
+  "topic_en": "Eval tasks start from real failures: failed chats, user logs, edge cases, requests to refuse",
+  "title_zh": "评测题从哪来？",
+  "title_en": "Where do eval tasks come from?",
+  "captions": {
+    "xhs": {
+      "title": "Agent评测06｜评测题别靠瞎编",
+      "body": "让模型一口气编一百道评测题，分数很好看，一上线照样出问题。评测集怎么建？第一版题库从这 4 个来源开始。评测题要从真实的失败开始找：\n· 线上出错的对话：去掉姓名电话等隐私，留下原话和订单数据，写清正确做法（先核实再退款）。错过一次的，改完最该复查\n· 用户日志：随机抽、各类请求都抽到，真客户会写错字、忘给订单号\n· 边界情况：正好 30 天、正好 ¥500，每条规则线的两边各出一道题\n· 本该拒绝的请求（负面题）：退别人的订单、两个月前买的。只考该退的，退错了没人发现\n编出来的题可以补空缺，但别拿来打底。\n本质：评测题，从真实的失败开始找。\n你的第一道评测题，是从哪来的？\n评论区说说你线上遇到过最离谱的一次失败，后面可能就拿它出题。\nAgent评测系统课第 6 集，合集里可以按顺序看。\n每天1分钟学习AI工程，做不被 AI 淘汰的程序员。",
+      "tags": [
+        "每天1分钟学习AI工程",
+        "AI工程师",
+        "Agent",
+        "Agent评测",
+        "大模型",
+        "碎片时间学AI工程师"
+      ]
+    },
+    "douyin": {
+      "title": "评测题从哪来？",
+      "body": "自己编的题大多是顺当情况。评测题要从真实失败开始找：线上出错的对话、用户日志、边界情况、本该拒绝的请求。你的第一道评测题从哪来？\n每天1分钟学习AI工程，做不被 AI 淘汰的程序员。",
+      "tags": [
+        "每天1分钟学习AI工程",
+        "AI工程师",
+        "Agent",
+        "Agent评测",
+        "大模型",
+        "碎片时间学AI工程师"
+      ]
+    },
+    "shipinhao": {
+      "title": "评测题从哪来？",
+      "body": "自己编的题大多是顺当情况。评测题要从真实失败开始找：线上出错的对话、用户日志、边界情况、本该拒绝的请求。你的第一道评测题从哪来？\n每天1分钟学习AI工程，做不被 AI 淘汰的程序员。",
+      "tags": [
+        "每天1分钟学习AI工程",
+        "AI工程师",
+        "Agent",
+        "Agent评测",
+        "大模型",
+        "碎片时间学AI工程师"
+      ]
+    },
+    "tiktok": {
+      "title": "Where do eval tasks come from?",
+      "body": "Invented tasks are mostly the smooth cases your agent already passes. Start from real failures: chats that went wrong, sampled user logs, edge cases on each side of a policy line, and requests it should refuse. Where did your first eval task come from?\nLearn AI engineering one minute a day. Be the engineer AI can't replace.",
+      "tags": [
+        "1MinAIEngineering",
+        "aiagents",
+        "llmevals",
+        "aiengineering",
+        "llm"
+      ]
+    },
+    "instagram": {
+      "title": "Where do eval tasks come from?",
+      "body": "Invented tasks are mostly the smooth cases your agent already passes. Start from real failures: chats that went wrong, sampled user logs, edge cases on each side of a policy line, and requests it should refuse. Where did your first eval task come from?\nLearn AI engineering one minute a day. Be the engineer AI can't replace.",
+      "tags": [
+        "1MinAIEngineering",
+        "aiagents",
+        "llmevals",
+        "aiengineering",
+        "llm"
+      ]
+    }
+  },
+  "xhs_old": {
+    "title": "Agent评测题从哪来？",
+    "body": "自己坐下来编题，想到的大多是顺当的情况，agent 本来就会，分数好看、上线照样出错。评测题要从真实的失败开始找：\n· 线上出错的对话：去掉姓名电话等隐私，留下原话和订单数据，写清正确做法（先核实再退款）。错过一次的，改完最该复查\n· 用户日志：随机抽、各类请求都抽到，真客户会写错字、忘给订单号\n· 边界情况：正好 30 天、正好 ¥500，每条规则线的两边各出一道题\n· 本该拒绝的请求（负面题）：退别人的订单、两个月前买的。只考该退的，退错了没人发现\n编出来的题可以补空缺，但别拿来打底。\n本质：评测题，从真实的失败开始找。\n你的第一道评测题，是从哪来的？\n每天1分钟学习AI工程，做不被 AI 淘汰的程序员。"
+  },
+  "cover": {
+    "zh": {
+      "hook": [
+        "评测题别靠编",
+        "要从真实失败里找"
+      ],
+      "sub": "从 4 个地方找"
+    },
+    "en": {
+      "hook": [
+        "Stop inventing",
+        "eval cases"
+      ],
+      "sub": "4 places to find real failures"
+    }
+  }
+}
