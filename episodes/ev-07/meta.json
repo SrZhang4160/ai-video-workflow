@@ -1,0 +1,96 @@
+{
+  "date": "TBD",
+  "style": "whiteboard",
+  "track": "ev",
+  "lesson": 7,
+  "platforms": [
+    "xhs",
+    "douyin",
+    "tiktok"
+  ],
+  "topic_zh": "好的评测题：没歧义、能判对错、能复现，成功标准写成可检查的条件",
+  "topic_en": "A good eval task is unambiguous, gradable and repeatable, with success written as checkable conditions",
+  "title_zh": "一道好的评测题长什么样？",
+  "title_en": "What does a good eval task look like?",
+  "captions": {
+    "xhs": {
+      "title": "Agent评测07｜妥善处理不算评测标准",
+      "body": "评测题里写「agent 妥善处理」，这道题其实判不了对错。\n坏题：输入「我上周买的耳机坏了，想退款」，期望「agent 妥善处理」。它有三个毛病：\n· 有歧义：没订单号，先查还是先问都说得通，题没说哪种算过\n· 判不了对错：「处理得好」谁说了算？换个人判，结果就变\n· 没法复现：订单数据每天在变，今天能退的单下个月就过期\n改写：输入写死（原话加上客户账号）；订单数据写死（十天前买的耳机，¥299，属于这位客户）；写明先查、先问都算过；成功条件拆成能查的三条：退了 ¥299 且只退一次、退之前核实了归属、发了确认邮件。三条全满足才算通过。\n小测法：找两个同事各判一遍，结论不同就说明题没写清。\n本质：成功标准，要写成能检查的条件。\n你的评测题里，有没有「处理得好」这种写法？\n评论区贴一句你写过的“期望结果”，大家一起判判能不能判对错。\nAgent评测系统课第 7 集，合集里可以按顺序看。\n每天1分钟学习AI工程，做不被 AI 淘汰的程序员。",
+      "tags": [
+        "Agent评测",
+        "大模型评测",
+        "评测集",
+        "AI工程师",
+        "Agent",
+        "大模型",
+        "每天1分钟学习AI工程"
+      ]
+    },
+    "douyin": {
+      "title": "一道好的评测题长什么样？",
+      "body": "好的评测题：没歧义、能判对错、能复现。把「处理得好」拆成能检查的条件，每条只有是或否。你的题里有「处理得好」这种写法吗？\n每天1分钟学习AI工程，做不被 AI 淘汰的程序员。",
+      "tags": [
+        "每天1分钟学习AI工程",
+        "AI工程师",
+        "Agent",
+        "Agent评测",
+        "大模型",
+        "碎片时间学AI工程师"
+      ]
+    },
+    "shipinhao": {
+      "title": "一道好的评测题长什么样？",
+      "body": "好的评测题：没歧义、能判对错、能复现。把「处理得好」拆成能检查的条件，每条只有是或否。你的题里有「处理得好」这种写法吗？\n每天1分钟学习AI工程，做不被 AI 淘汰的程序员。",
+      "tags": [
+        "每天1分钟学习AI工程",
+        "AI工程师",
+        "Agent",
+        "Agent评测",
+        "大模型",
+        "碎片时间学AI工程师"
+      ]
+    },
+    "tiktok": {
+      "title": "What does a good eval task look like?",
+      "body": "\"Handle it well\" is not a success criterion. A good eval task is unambiguous, gradable and repeatable: pin the input and the order data, say which paths pass, and split success into yes/no checks. Quick test: two colleagues grade it separately. Do they agree?\nLearn AI engineering one minute a day. Be the engineer AI can't replace.",
+      "tags": [
+        "1MinAIEngineering",
+        "aiagents",
+        "llmevals",
+        "aiengineering",
+        "llm"
+      ]
+    },
+    "instagram": {
+      "title": "What does a good eval task look like?",
+      "body": "\"Handle it well\" is not a success criterion. A good eval task is unambiguous, gradable and repeatable: pin the input and the order data, say which paths pass, and split success into yes/no checks. Quick test: two colleagues grade it separately. Do they agree?\nLearn AI engineering one minute a day. Be the engineer AI can't replace.",
+      "tags": [
+        "1MinAIEngineering",
+        "aiagents",
+        "llmevals",
+        "aiengineering",
+        "llm"
+      ]
+    }
+  },
+  "xhs_old": {
+    "title": "一道好的评测题长什么样？",
+    "body": "坏题：输入「我上周买的耳机坏了，想退款」，期望「agent 妥善处理」。它有三个毛病：\n· 有歧义：没订单号，先查还是先问都说得通，题没说哪种算过\n· 判不了对错：「处理得好」谁说了算？换个人判，结果就变\n· 没法复现：订单数据每天在变，今天能退的单下个月就过期\n改写：输入写死（原话加上客户账号）；订单数据写死（十天前买的耳机，¥299，属于这位客户）；写明先查、先问都算过；成功条件拆成能查的三条：退了 ¥299 且只退一次、退之前核实了归属、发了确认邮件。三条全满足才算通过。\n小测法：找两个同事各判一遍，结论不同就说明题没写清。\n本质：成功标准，要写成能检查的条件。\n你的评测题里，有没有「处理得好」这种写法？\n每天1分钟学习AI工程，做不被 AI 淘汰的程序员。"
+  },
+  "cover": {
+    "zh": {
+      "hook": [
+        "“妥善处理”",
+        "不算评测标准"
+      ],
+      "sub": "成功条件要拆成能检查的 3 条"
+    },
+    "en": {
+      "hook": [
+        "“Handle it well”",
+        "is not a test"
+      ],
+      "sub": "Turn success into 3 checkable conditions"
+    }
+  }
+}
