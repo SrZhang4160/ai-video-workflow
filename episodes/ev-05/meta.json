@@ -1,0 +1,95 @@
+{
+  "date": "TBD",
+  "style": "whiteboard",
+  "track": "ev",
+  "lesson": 5,
+  "platforms": [
+    "xhs",
+    "douyin",
+    "tiktok"
+  ],
+  "topic_zh": "行业基准只说明通用能力：数据泄漏、分布不同，要有自己的评测集",
+  "topic_en": "Benchmarks show general skill; contamination and distribution mismatch mean you need your own eval set",
+  "title_zh": "行业基准分数高，你的 agent 就好用吗？",
+  "title_en": "High benchmark score, so your agent works?",
+  "captions": {
+    "xhs": {
+      "title": "Agent评测05｜榜单分高不等于好用",
+      "body": "新模型发布都附一张基准分数表，可分数高，不等于你的 agent 好用。\n各基准考什么：SWE-bench 改开源项目里真实的 bug，跑项目自带测试判分；τ-bench 考客服，模型扮演用户、后台是模拟数据库；WebArena 在网站上办事；OSWorld 操作电脑上的软件；GAIA 查资料、用工具答题；BFCL 考函数调用。考的都是通用能力。\n为什么分数不能直接搬过来：\n· 数据泄漏：题目公开，可能混进训练数据，模型是背过而不是会做，分数偏高\n· 分布不同：你的规矩（30 天内退、超过 ¥500 要人审批、先核实订单归属）基准不会考\n本质：基准测通用，好不好用自己测。基准用来初选模型，最后选谁、改完有没有变好，拿自己的评测集量。\n你选模型时看哪个榜单？有没有榜单第一、用起来却不行的？评论区说说。\nAgent评测系统课第 5 集，合集里可以按顺序看。\n每天1分钟学习AI工程，做不被 AI 淘汰的程序员。",
+      "tags": [
+        "Agent评测",
+        "大模型评测",
+        "AI工程师",
+        "Agent",
+        "基准测试",
+        "每天1分钟学习AI工程"
+      ]
+    },
+    "douyin": {
+      "title": "行业基准分数高，你的 agent 就好用吗？",
+      "body": "基准分数只说明通用能力：题目公开可能混进训练数据，题也和你的业务不一样。基准用来初选模型，好不好用要拿自己的评测集测。你选模型看哪个基准？\n每天1分钟学习AI工程，做不被 AI 淘汰的程序员。",
+      "tags": [
+        "每天1分钟学习AI工程",
+        "AI工程师",
+        "Agent",
+        "Agent评测",
+        "大模型",
+        "碎片时间学AI工程师"
+      ]
+    },
+    "shipinhao": {
+      "title": "行业基准分数高，你的 agent 就好用吗？",
+      "body": "基准分数只说明通用能力：题目公开可能混进训练数据，题也和你的业务不一样。基准用来初选模型，好不好用要拿自己的评测集测。你选模型看哪个基准？\n每天1分钟学习AI工程，做不被 AI 淘汰的程序员。",
+      "tags": [
+        "每天1分钟学习AI工程",
+        "AI工程师",
+        "Agent",
+        "Agent评测",
+        "大模型",
+        "碎片时间学AI工程师"
+      ]
+    },
+    "tiktok": {
+      "title": "High benchmark score, so your agent works?",
+      "body": "SWE-bench, τ-bench, WebArena, OSWorld, GAIA, BFCL all test general skills. Public tasks can leak into training data, and none of them test your own rules. Use benchmarks to shortlist models; use your own eval set to decide. Which benchmark do you check first?\nLearn AI engineering one minute a day. Be the engineer AI can't replace.",
+      "tags": [
+        "1MinAIEngineering",
+        "aiagents",
+        "llmevals",
+        "aiengineering",
+        "llm"
+      ]
+    },
+    "instagram": {
+      "title": "High benchmark score, so your agent works?",
+      "body": "SWE-bench, τ-bench, WebArena, OSWorld, GAIA, BFCL all test general skills. Public tasks can leak into training data, and none of them test your own rules. Use benchmarks to shortlist models; use your own eval set to decide. Which benchmark do you check first?\nLearn AI engineering one minute a day. Be the engineer AI can't replace.",
+      "tags": [
+        "1MinAIEngineering",
+        "aiagents",
+        "llmevals",
+        "aiengineering",
+        "llm"
+      ]
+    }
+  },
+  "xhs_old": {
+    "title": "基准分数高，agent就好用吗？",
+    "body": "新模型发布都附一张基准分数表，可分数高，不等于你的 agent 好用。\n各基准考什么：SWE-bench 改开源项目里真实的 bug，跑项目自带测试判分；τ-bench 考客服，模型扮演用户、后台是模拟数据库；WebArena 在网站上办事；OSWorld 操作电脑上的软件；GAIA 查资料、用工具答题；BFCL 考函数调用。考的都是通用能力。\n为什么分数不能直接搬过来：\n· 数据泄漏：题目公开，可能混进训练数据，模型是背过而不是会做，分数偏高\n· 分布不同：你的规矩（30 天内退、超过 ¥500 要人审批、先核实订单归属）基准不会考\n本质：基准测通用，好不好用自己测。基准用来初选模型，最后选谁、改完有没有变好，拿自己的评测集量。\n你选模型时，会看哪个基准？\n每天1分钟学习AI工程，做不被 AI 淘汰的程序员。"
+  },
+  "cover": {
+    "zh": {
+      "hook": [
+        "榜单分数高，",
+        "不等于好用"
+      ],
+      "sub": "基准只测通用能力，你的规矩它不考"
+    },
+    "en": {
+      "hook": [
+        "Top of the leaderboard",
+        "≠ good for you"
+      ],
+      "sub": "Benchmarks never test your own rules"
+    }
+  }
+}
