@@ -6,7 +6,7 @@
   "platforms": [
     "douyin"
   ],
-  "status": "script-draft",
+  "status": "built",
   "topic_zh": "付款转圈又点一次，为什么只扣一次钱？",
   "title_zh": "付款时转圈又点一次，会扣两次钱吗？",
   "why_follow": "人人都有过付款转圈的慌；答案里带一个马上能用、能省钱的动作（转圈先查账单，别退出去重扫），还有一个能拿去问程序员朋友的词：幂等。",
@@ -46,5 +46,5 @@
       87
     ]
   },
-  "review_notes": "脚本草稿（成段口播，未拆字幕行）。等 Shuran 审过再拆行、写 episode.js、配音、渲染。未加入 series/schedule.json，未上审核台。"
+  "review_notes": "脚本 Shuran 2026-11-19 批准（口播一字未改）。已拆行、克隆声配音（Paraformer 核对）、渲染 douyin 9:16 给视频号；成片在 ~/Desktop/AI/videos/life/。date 仍 TBD（发布时间由 Shuran 定），未加入 series/schedule.json，未上审核台。"
 }

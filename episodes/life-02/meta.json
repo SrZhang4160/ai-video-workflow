@@ -6,7 +6,7 @@
   "platforms": [
     "douyin"
   ],
-  "status": "script-draft",
+  "status": "built",
   "topic_zh": "一百万人抢一万张票，那一秒发生了什么？",
   "title_zh": "演唱会抢票，那一秒服务器在干什么？",
   "why_follow": "抢过票的人都想知道那一秒自己输在哪；看完带走一个能用的结论（没抢到别马上走，没付款的票会回流），会转给一起抢票的朋友。",
@@ -46,5 +46,5 @@
       80
     ]
   },
-  "review_notes": "脚本草稿（成段口播，未拆字幕行）。等 Shuran 审过再拆行、写 episode.js、配音、渲染。未加入 series/schedule.json，未上审核台。"
+  "review_notes": "脚本 Shuran 2026-11-19 批准（口播一字未改）。已拆行、克隆声配音（Paraformer 核对）、渲染 douyin 9:16 给视频号；成片在 ~/Desktop/AI/videos/life/。date 仍 TBD（发布时间由 Shuran 定），未加入 series/schedule.json，未上审核台。"
 }

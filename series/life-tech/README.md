@@ -2,8 +2,9 @@
 
 一分钟讲清"你每天在用、从没想过的东西"背后是怎么做到的：扫码付款、抢票、刷视频不卡。
 Started 2026-11-18 as a 视频号 trial (方向 01, approved by Shuran 2026-11-18 12:59; analysis in
-`~/.openclaw/workspace-wxch/directions/01-生活里的技术.md`). **Trial status: 3 scripts drafted, not approved, not voiced,
-not rendered, not in `series/schedule.json`, not on either review board.** Shuran reviews the scripts first.
+`~/.openclaw/workspace-wxch/directions/01-生活里的技术.md`). **Trial status: 脚本已获 Shuran 2026-11-19 批准，已出片，未排期。** 3 episodes voiced (cloned voice,
+Chinese only) and rendered as the 9:16 douyin cut for 视频号; finals in `~/Desktop/AI/videos/life/`. Not in
+`series/schedule.json`, not on either review board.
 
 ## Who it's for and the goal
 - Viewers: people who don't write code, plus the ones who forward it to a friend who does ("你们每天干的就是这个？").
@@ -34,8 +35,10 @@ not rendered, not in `series/schedule.json`, not on either review board.** Shura
    no slogans, no progress bar, no pointers to other platforms.
 7. **Accurate or cut.** Say "很多/通常/有时候" where it is practice, not a rule; no invented numbers.
 8. **Length**: 60–90 s spoken at 305–330 字/分钟 ≈ 300–450 字.
-9. **Look** (when it gets built): one visual system for the whole series, cover headline large enough for a thumbnail, colours
-   matching the video. Not decided yet; reuse the whiteboard style unless Shuran picks otherwise.
+9. **Look**: the whiteboard style (`styles/whiteboard/board.html`) with one series colour, teal `#0F8B8D` (`LIFE_C` in each
+   `episode.js`: the system side, order numbers, key terms). Scene 1 is drawn with `at(-1)`, so the scene is on screen at
+   t = 0, before the first word. Covers: `python3 series/life-tech/cover.py <out_dir> life-01 …` (the shared whiteboard
+   cover template, series mark 生活里的技术 + 第 N 集, the `cover.zh` words on two lines, no slogan).
 
 ## Judging the trial (from directions/01)
 Read 72 h and 7 days after each post. Pass if at least 2 of 3 episodes have average watch ≥ 10 s and 完播 ≥ 5%, plus ≥ 2 new

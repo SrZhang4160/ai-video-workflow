@@ -6,7 +6,7 @@
   "platforms": [
     "douyin"
   ],
-  "status": "script-draft",
+  "status": "built",
   "topic_zh": "刷视频为什么不卡？",
   "title_zh": "刷视频为什么不卡？它早就被放在你家附近了",
   "why_follow": "开头反直觉（你正在看的视频就在你家附近），结尾落到每个人都在意的流量（没点开的视频也可能耗流量），会转给总说流量不够用的家里人。",
@@ -46,5 +46,5 @@
       81
     ]
   },
-  "review_notes": "脚本草稿（成段口播，未拆字幕行）。等 Shuran 审过再拆行、写 episode.js、配音、渲染。未加入 series/schedule.json，未上审核台。"
+  "review_notes": "脚本 Shuran 2026-11-19 批准（口播一字未改）。已拆行、克隆声配音（Paraformer 核对）、渲染 douyin 9:16 给视频号；成片在 ~/Desktop/AI/videos/life/。date 仍 TBD（发布时间由 Shuran 定），未加入 series/schedule.json，未上审核台。"
 }

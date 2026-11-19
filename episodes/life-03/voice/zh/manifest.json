@@ -1,21 +1,18 @@
 {
- "_check": {
-  "s35": "hai shi yong \u2192 (missing)"
- },
  "_groups": {
   "s01": "a41348253a61a2db",
   "s03": "66830069cb1e51fa",
   "s05": "81c4bb5bacbc6058",
   "s07": "a22681ea1afe9b2f",
-  "s09": "0430de4aa3cbdd4c",
-  "s13": "cf15f1b4062f2c7b",
+  "s09": "solo",
+  "s13": "solo",
   "s17": "solo",
   "s20": "03503b713ee1075b",
   "s22": "solo",
   "s27": "367c5728833b9d62",
   "s30": "74fd6123b534da3f",
-  "s32": "cc0eb16d87e998dc",
-  "s34": "f0b52360e3a53cdf"
+  "s32": "solo",
+  "s34": "solo"
  },
  "_lex": {
   "s01": "",
