@@ -37,8 +37,9 @@ Chinese only) and rendered as the 9:16 douyin cut for 视频号; finals in `~/De
 8. **Length**: 60–90 s spoken at 305–330 字/分钟 ≈ 300–450 字.
 9. **Look**: the whiteboard style (`styles/whiteboard/board.html`) with one series colour, teal `#0F8B8D` (`LIFE_C` in each
    `episode.js`: the system side, order numbers, key terms). Scene 1 is drawn with `at(-1)`, so the scene is on screen at
-   t = 0, before the first word. Covers: `python3 series/life-tech/cover.py <out_dir> life-01 …` (the shared whiteboard
-   cover template, series mark 生活里的技术 + 第 N 集, the `cover.zh` words on two lines, no slogan).
+   t = 0, before the first word. Covers (视频号): `python3 series/life-tech/cover.py [--desktop] life-01 …` → `build/<id>/cover.png`:
+   one big drawing of the episode's own example (same helpers and colours as the video) + the `cover.zh` hook on one line;
+   no 第 N 集, no series mark (视频号 is a feed, Shuran 2026-11-19). All of it inside the centre 3:4 band (y 240–1680).
 
 ## Judging the trial (from directions/01)
 Read 72 h and 7 days after each post. Pass if at least 2 of 3 episodes have average watch ≥ 10 s and 完播 ≥ 5%, plus ≥ 2 new
