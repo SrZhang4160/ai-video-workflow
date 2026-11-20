@@ -1,45 +1,30 @@
-Now we're in grading. Once tasks run, who grades them?
+If code can grade it, don't hand it to a person or a model.
 The program that decides pass or fail is a grader.
-There are a few kinds. A person can grade,
-a language model can, or code can check directly.
-Today we start with the simplest kind, code.
-My advice is, if code can check it, use code.
-Why? Let's compare the three.
-A person needs minutes for every run,
-and people judge differently, even day to day.
-A model judge costs money, and it can be wrong too.
-Code always gives the same result the same verdict,
-costs almost nothing, and runs the whole set in seconds.
-Take the task "My headphones broke, I want a refund."
-It runs in a sandbox on a mock order database,
-reset to the same state before every run.
-After the run, the grader queries that database
-to see if a refund record was created.
-Then it checks the amount equals the order price,
-since too little hurts the customer, and too much the shop.
-Both check the final state, meaning the outcome.
-The outcome alone isn't enough; check how it got there.
-The grader reads the tool-call log for three things.
-One is order. The lookup must come before the refund,
-or it can't verify the order is theirs.
-Another is parameters. Is the refund on the right order?
-One wrong digit refunds someone else's order.
-The most important is whether it overstepped its authority.
-Any refund over five hundred dollars needs an approval first.
-Refund without approval, and the task fails outright.
-One caution, though. Don't hard-code every step.
-Looking up the order twice isn't wrong.
-But fixed steps would mark that correct run as failing.
+A person takes minutes per task, and their standard shifts.
+A model costs money, and it can be wrong.
+Code gives the same result the same verdict every time,
+runs the whole set in seconds, almost for free.
+Headphones broke, and a customer asks a refund agent for five ninety-nine.
+The task runs in a sandbox, a fake order database,
+reset before every run, so runs can be compared.
+First check the outcome: is there a refund record,
+and is it exactly five ninety-nine? Too much or too little fails.
+Then check its call log,
+which lists every tool it called and the arguments.
+Look up the order before refunding, or money goes out unverified.
+The order number must match. One wrong digit refunds a stranger.
+Then authority: over five hundred dollars needs approval first,
+so refunding this five ninety-nine without approval fails outright.
+But don't hard-code steps. Looking up the order twice
+isn't wrong, yet fixed steps would fail it.
 So check only what must hold, and leave the rest open.
-And code can't check everything, like the reply email.
-It can check it was sent to the right person,
-but not whether it's clear or polite.
-Open-ended replies like this go to a model judge.
-So if code can check it, let code check it.
-Asked in an interview how you'd design graders? Say this.
-Code checks the final state and the tool-call log first.
-It checks only what must hold, not every fixed step.
-Only open-ended replies go to a model judge.
-To start, take your agent's most important task,
-and write three assertions that code can check.
-Next time, we'll write a rubric for an L L M judge.
+Code can check the reply email was sent,
+but politeness has no fixed answer, so that goes to a model.
+Asked in an interview how to design graders? Say:
+Code checks the outcome and the call log first.
+Check only what must hold; don't fix the steps.
+Only what has no fixed answer goes to a model.
+First step at work: take your most important task
+and write three assertions, checks code can call true or false,
+like, amount equals five ninety-nine.
+Next: how to write the rubric for a model judge.
