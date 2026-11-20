@@ -1,44 +1,28 @@
-This episode covers the grading code can't do.
-After a refund, the agent emails the customer.
-Code can check it was sent, not how it reads.
-That part goes to a model as the judge.
-That's an L L M judge. How do you write its rubric?
-The lazy way is to ask it to score the email,
-like "From one to ten, how good is this reply?"
-But the prompt never says what counts as good.
-So the same email gets a seven, then an eight.
-And a low score doesn't say what's wrong.
-That score is unstable and can't guide a fix.
-So split the rubric into specific questions,
-each asking one thing, answered yes or no.
-For the refund email, there could be four items.
-They spell out what a good email must do.
-First is the amount. The email must state it,
-and that number has to match the order.
-The next is timing, roughly when the money arrives.
-Those two are what customers care about most.
-The third matters most. No off-policy promises.
-Like agreeing to a refund after thirty days,
-or calling a refund over five hundred dollars instant, before approval.
+Just asking a model for a score doesn't work.
+Take the email a refund agent sends the customer.
+Code can't tell whether it's well written,
+so a model judges it. That's an L L M judge.
+Ask it for a score from one to ten, and "good" is never defined,
+so the same email gets a seven, then an eight,
+and a low score doesn't say what's wrong.
+The fix is a rubric, a checklist for the judge,
+each item asking one thing, answered yes or no.
+Is the amount right? It must match the five ninety-nine order.
+Does it say when the money arrives? Customers care most about these two.
+Any off-policy promise, like a refund after thirty days?
 Once said, the shop must honor it or apologize.
-The last is tone. It should be polite and friendly.
-"Polite" is vague, so define it,
-like apologizing first and never blaming the customer.
-So every item gets a clear yes or no.
-But the items alone aren't enough. The judge needs facts.
-So give it the order amount and refund policy.
-Otherwise it can't tell if the amount is right.
-Have it write a reason before each yes or no.
-If it's wrong, you can see why.
-If facts are missing, let it say "unknown,"
-so it doesn't just guess.
-The email passes only if every item is yes.
-And any no shows what to fix.
-So break the rubric into small, concrete questions.
-Asked in an interview how you'd write a judge's rubric? Say this.
-No overall score. Each item asks one thing, yes or no.
-Give it the order amount and policy, and have it reason first.
+Is it polite? "Polite" is vague, so make it checkable:
+did it apologize first, did it blame the customer?
+Give the judge the order amount and the refund policy too,
+or it can't tell whether the amount is right.
+Have it write a reason before each yes or no,
+so when it gets one wrong, you can see why.
 If facts are missing, let it say "unknown" instead of guessing.
-To start, take one reply your agent has written,
+The email passes only if all four are yes; any no shows what to fix.
+Asked in an interview how you'd write a judge's rubric? Say:
+No overall score; each item is yes or no.
+Give it the facts, and have it reason first.
+If facts are missing, allow "unknown."
+First step at work: take one reply your agent wrote,
 and write four yes-or-no checks for it.
-Next time: how to check if an L L M judge is reliable.
+Next: is your L L M judge reliable?
