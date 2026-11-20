@@ -33,10 +33,11 @@ If an item still disagrees after several rounds,
 try a stronger model, or leave that item to people.
 And whenever the judge model or rubric changes,
 recheck it against the same human labels.
-So this episode comes down to one idea.
-Calibrate the judge against human labels before you trust it.
-Measure agreement, read the disagreements, fix, and compare again.
-Only then can it grade at scale.
-Even then, a judge can have biases.
-In the next episode, we'll look at
-what biases an L L M judge can have.
+So trust a judge only after checking it against people.
+Asked in an interview how you'd calibrate a judge? Say this.
+Use human labels as the standard and compare the judge with them.
+Measure agreement per rubric item, then read the disagreements.
+Change the judge model or the rubric, and recheck.
+To start, pull thirty replies,
+and have someone who knows the policy label them by the rubric.
+Next time: what biases an L L M judge can have.
