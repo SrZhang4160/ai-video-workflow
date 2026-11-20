@@ -1,0 +1,68 @@
+<!doctype html><meta charset="utf-8">
+<!-- 小红书 question cover (experiment 003, 2026-11-20): the episode number shrinks to a small badge, each episode is one
+     standalone question, more information on the cover. xhs (1080×1440) only; douyin/tiktok keep cover.html.
+     Same paper + dot grid, ink and series colour as cover.html.
+     Layout top → bottom: badge (series · NN), question (largest, ≤2 lines), answer (one red line), three numbered points, account line. -->
+<link rel="stylesheet" href="../../engine/node_modules/@fontsource/noto-sans-sc/900.css">
+<link rel="stylesheet" href="../../engine/node_modules/@fontsource/noto-sans-sc/700.css">
+<link rel="stylesheet" href="../../engine/node_modules/@fontsource/noto-sans-sc/500.css">
+<style>
+*{margin:0;box-sizing:border-box}
+html,body{width:100%;height:100%}
+body{font-family:"Noto Sans SC",sans-serif;font-weight:900;color:#1E2226;overflow:hidden;display:flex;flex-direction:column;
+  padding:72px 72px 64px;background:#FBF8F0 radial-gradient(#d9d3c4 2px,transparent 2px) 0 0/36px 36px}
+#badge{flex:none;align-self:flex-start;background:var(--c);color:#fff;font-size:38px;line-height:1;padding:14px 24px;border-radius:12px;white-space:nowrap}
+#mid{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+#hook{font-size:120px;line-height:1.18;white-space:nowrap}
+#ans{margin-top:36px;font-size:64px;line-height:1.2;color:var(--c);white-space:nowrap}
+#pts{margin-top:64px;display:flex;flex-direction:column;gap:28px}
+.pt{display:flex;align-items:center;gap:26px;background:#EFE8D8;border-radius:20px;padding:24px 28px}
+.pt i{flex:none;width:64px;height:64px;border-radius:50%;background:var(--c);color:#fff;font-style:normal;font-size:40px;
+  display:flex;align-items:center;justify-content:center;line-height:1}
+.pt span{font-size:44px;font-weight:700;line-height:1.3;white-space:nowrap}
+#foot{flex:none;font-size:30px;font-weight:500;color:#888;white-space:nowrap}
+</style>
+<body>
+<div id="badge"></div>
+<div id="mid">
+  <div id="hook"></div>
+  <div id="ans"></div>
+  <div id="pts"></div>
+</div>
+<div id="foot"></div>
+<script>
+// fill(d): d = {color, badge, hook:[l1,l2?], answer, points:[p1,p2,p3], foot}
+// Each text block starts at its spec size and shrinks to fit the width, never below 85% of spec.
+// Returns {sizes, ok}: ok = false when something still overflows at 85% (the caller refuses the cover).
+window.fill = d => {
+  const q = s => document.querySelector(s);
+  document.body.style.setProperty('--c', d.color);
+  q('#badge').textContent = d.badge;
+  const h = q('#hook'); h.innerHTML = '';
+  d.hook.slice(0, 2).forEach(t => { const e = document.createElement('div'); e.textContent = t; h.appendChild(e); });
+  q('#ans').textContent = d.answer;
+  const p = q('#pts'); p.innerHTML = '';
+  d.points.slice(0, 3).forEach((t, i) => {
+    const e = document.createElement('div'); e.className = 'pt';
+    e.innerHTML = '<i></i><span></span>'; e.querySelector('i').textContent = i + 1; e.querySelector('span').textContent = t;
+    p.appendChild(e);
+  });
+  q('#foot').textContent = d.foot;
+  const W = document.body.clientWidth - 144;
+  const fit = (els, spec, maxW) => {
+    let s = spec; const min = Math.ceil(spec * 0.85);
+    const set = () => els.forEach(e => e.style.fontSize = s + 'px');
+    set(); while (els.some(e => e.scrollWidth > maxW(e)) && s > min) { s -= 2; set(); }
+    return {size: s, ok: !els.some(e => e.scrollWidth > maxW(e))};
+  };
+  const spans = [...document.querySelectorAll('.pt span')];
+  const r = {
+    hook: fit([h], 120, () => W),
+    answer: fit([q('#ans')], 64, () => W),
+    points: fit(spans, 44, e => e.parentElement.clientWidth - 56 - 64 - 26),
+  };
+  // nothing may run off the page vertically either
+  const m = q('#mid'); r.height = {ok: m.scrollHeight <= m.clientHeight};
+  return document.fonts.ready.then(() => ({sizes: r, ok: Object.values(r).every(x => x.ok)}));
+};
+</script>
