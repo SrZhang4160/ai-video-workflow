@@ -34,9 +34,11 @@ If facts are missing, let it say "unknown,"
 so it doesn't just guess.
 The email passes only if every item is yes.
 And any no shows what to fix.
-Put simply, a rubric shouldn't just ask for a score.
-Break it into concrete yes-or-no items.
-And only open-ended replies go to the model judge.
-But is the judge itself right?
-In the next episode, we'll look at
-how to check whether an L L M judge is reliable.
+So break the rubric into small, concrete questions.
+Asked in an interview how you'd write a judge's rubric? Say this.
+No overall score. Each item asks one thing, yes or no.
+Give it the order amount and policy, and have it reason first.
+If facts are missing, let it say "unknown" instead of guessing.
+To start, take one reply your agent has written,
+and write four yes-or-no checks for it.
+Next time: how to check if an L L M judge is reliable.
