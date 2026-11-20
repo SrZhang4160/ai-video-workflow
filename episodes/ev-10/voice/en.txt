@@ -35,8 +35,11 @@ And code can't check everything, like the reply email.
 It can check it was sent to the right person,
 but not whether it's clear or polite.
 Open-ended replies like this go to a model judge.
-So it all comes down to one sentence.
-If code can check it, let code check it.
-It's cheap, stable, and gives the same verdict every time.
-But how should a model judge the email?
+So if code can check it, let code check it.
+Asked in an interview how you'd design graders? Say this.
+Code checks the final state and the tool-call log first.
+It checks only what must hold, not every fixed step.
+Only open-ended replies go to a model judge.
+To start, take your agent's most important task,
+and write three assertions that code can check.
 Next time, we'll write a rubric for an L L M judge.
