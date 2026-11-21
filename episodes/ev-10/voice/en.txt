@@ -4,8 +4,7 @@ This episode: when to let code do the grading.
 In short: if code can check it, don't hand it to a person or a model.
 A person takes minutes per task, and their standard shifts.
 A model costs money, and it can be wrong.
-Code gives the same result the same verdict every time,
-runs the whole set in seconds, almost for free.
+Code gives the same result the same verdict every time, in seconds, almost for free.
 One task: headphones broke, and the customer wants five ninety-nine back.
 The task runs in a sandbox, a fake order database,
 reset before every run, so runs can be compared.
