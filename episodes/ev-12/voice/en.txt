@@ -1,4 +1,5 @@
-A model grading a refund agent's emails item by item against a rubric is an L L M judge.
+A model grading refund emails item by item against a rubric
+is an L L M judge.
 This episode: how to check whether its verdicts are right.
 In short: skimming a few doesn't count. Compare it with people's judgment.
 Skimming mostly shows you easy ones and misses the hard ones.

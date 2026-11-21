@@ -1,7 +1,8 @@
 Take the email a refund support agent sends the customer.
 Code can't tell whether it's well written,
 so a model judges it. That's an L L M judge.
-This episode: how to write the rubric, the checklist the judge grades by.
+This episode: how to write the rubric for the judge.
+A rubric is the checklist the judge grades by.
 In short: a single overall score can't be trusted.
 Ask it for a score from one to ten, and "good" is never defined,
 so the same email gets a seven, then an eight,
