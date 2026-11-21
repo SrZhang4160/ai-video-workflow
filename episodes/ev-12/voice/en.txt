@@ -1,8 +1,7 @@
-If the judge is wrong, every score is wrong.
-A model grading refund emails by a rubric is an L L M judge.
-Skimming a few that look right doesn't count,
-because you mostly see easy ones and miss the hard ones.
-The fix: use people's judgment as the standard and compare.
+A model grading a refund agent's emails item by item against a rubric is an L L M judge.
+This episode: how to check whether its verdicts are right.
+In short: skimming a few doesn't count. Compare it with people's judgment.
+Skimming mostly shows you easy ones and misses the hard ones.
 Pull a batch of replies: good, bad and hard ones,
 and have people who know the refund policy use the same rubric
 to mark each item yes or no. Those are human labels.

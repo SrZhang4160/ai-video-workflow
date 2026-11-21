@@ -1,23 +1,24 @@
-If code can grade it, don't hand it to a person or a model.
-The program that decides pass or fail is a grader.
+We wrote a set of test tasks for a refund support agent.
+Once they run, who decides pass or fail? That program is a grader.
+This episode: when to let code do the grading.
+In short: if code can check it, don't hand it to a person or a model.
 A person takes minutes per task, and their standard shifts.
 A model costs money, and it can be wrong.
 Code gives the same result the same verdict every time,
 runs the whole set in seconds, almost for free.
-Headphones broke, and a customer asks a refund agent for five ninety-nine.
+One task: headphones broke, and the customer wants five ninety-nine back.
 The task runs in a sandbox, a fake order database,
 reset before every run, so runs can be compared.
 First check the outcome: is there a refund record,
-and is it exactly five ninety-nine? Too much or too little fails.
+and is it exactly five ninety-nine?
 Then check its call log,
 which lists every tool it called and the arguments.
 Look up the order before refunding, or money goes out unverified.
 The order number must match. One wrong digit refunds a stranger.
 Then authority: over five hundred dollars needs approval first,
 so refunding this five ninety-nine without approval fails outright.
-But don't hard-code steps. Looking up the order twice
-isn't wrong, yet fixed steps would fail it.
-So check only what must hold, and leave the rest open.
+But don't hard-code steps. Looking up the order twice isn't wrong;
+fixed steps would fail it, so check only what must hold.
 Code can check the reply email was sent,
 but politeness has no fixed answer, so that goes to a model.
 Asked in an interview how to design graders? Say:

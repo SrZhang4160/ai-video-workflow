@@ -1,12 +1,12 @@
-Just asking a model for a score doesn't work.
-Take the email a refund agent sends the customer.
+Take the email a refund support agent sends the customer.
 Code can't tell whether it's well written,
 so a model judges it. That's an L L M judge.
+This episode: how to write the rubric, the checklist the judge grades by.
+In short: a single overall score can't be trusted.
 Ask it for a score from one to ten, and "good" is never defined,
 so the same email gets a seven, then an eight,
 and a low score doesn't say what's wrong.
-The fix is a rubric, a checklist for the judge,
-each item asking one thing, answered yes or no.
+So split the rubric into small items, each asking one thing, answered yes or no.
 Is the amount right? It must match the five ninety-nine order.
 Does it say when the money arrives? Customers care most about these two.
 Any off-policy promise, like a refund after thirty days?
